@@ -2,3 +2,22 @@
 //in Hardware Design Language
 //using only these chips: 
 //Mux16, Or16, And16, Not16, DMux, Mux, Xor, Or, And, Not, Nand
+/**
+ * out = (in[0] or in[1] or ... or in[7])
+ */
+
+CHIP Or8Way {
+    IN in[8];
+    OUT out;
+
+    PARTS:
+  		Or(a=in[0],b=in[1],out=firstOr);
+  		Or(a=in[2],b=in[3],out=secondOr);
+  		Or(a=in[4],b=in[5],out=thirdOr);
+  		Or(a=in[6],b=in[7],out=fourthOr);
+  		
+  		Or(a=firstOr,b=secondOr,out=lowerOr);
+  		Or(a=thirdOr,b=fourthOr,out=upperOr);
+  		
+  		Or(a=lowerOr,b=upperOr,out=out);
+}
