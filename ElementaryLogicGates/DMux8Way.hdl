@@ -2,3 +2,36 @@
 //in Hardware Design Language
 //using only these chips: 
 //DMux4Way, Mux8Way16, Mux4Way16, Or8Way, Mux16, Or16, And16, Not16, DMux, Mux, Xor, Or, And, Not, Nand
+/**
+ * {a, b, c, d, e, f, g, h} = {in, 0, 0, 0, 0, 0, 0, 0} if sel == 000
+ *                            {0, in, 0, 0, 0, 0, 0, 0} if sel == 001
+ *                            etc.
+ *                            {0, 0, 0, 0, 0, 0, 0, in} if sel == 111
+ */
+
+CHIP DMux8Way {
+    IN in, sel[3];
+    OUT a, b, c, d, e, f, g, h;
+
+    PARTS:
+  		Not(in=sel[2],out=notsel2);
+  		Not(in=sel[1],out=notsel1);
+  		Not(in=sel[0],out=notsel0);
+  		
+  		And(a=in,b=notsel2,out=inAndNotsel2);
+  		And(a=in,b=sel[2],out=inAndsel2);
+  		
+  		And(a=notsel1,b=notsel0,out=notsel1AndNotsel0);
+  		And(a=notsel1,b=sel[0],out=notsel1Andsel0);
+  		And(a=sel[1],b=notsel0,out=sel1AndNotsel0);
+  		And(a=sel[1],b=sel[0],out=sel1Andsel0);
+  		
+  		And(a=inAndNotsel2,b=notsel1AndNotsel0,out=a);
+  		And(a=inAndNotsel2,b=notsel1Andsel0,out=b);
+  		And(a=inAndNotsel2,b=sel1AndNotsel0,out=c);
+  		And(a=inAndNotsel2,b=sel1Andsel0,out=d);
+  		And(a=inAndsel2,b=notsel1AndNotsel0,out=e);
+  		And(a=inAndsel2,b=notsel1Andsel0,out=f);
+  		And(a=inAndsel2,b=sel1AndNotsel0,out=g);
+  		And(a=inAndsel2,b=sel1Andsel0,out=h);
+}
