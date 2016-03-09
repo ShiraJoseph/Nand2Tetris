@@ -2,3 +2,19 @@
 //in Hardware Design Language
 //using only these chips: 
 //Or8Way, Mux16, Or16, And16, Not16, DMux, Mux, Xor, Or, And, Not, Nand
+/**
+ * out = a if sel == 00
+ *       b if sel == 01
+ *       c if sel == 10
+ *       d if sel == 11
+ */
+
+CHIP Mux4Way16 {
+    IN a[16], b[16], c[16], d[16], sel[2];
+    OUT out[16];
+
+    PARTS:
+		Mux16(a=a,b=b,sel=sel[0],out=firstMux);
+		Mux16(a=c,b=d,sel=sel[0],out=secondMux);
+		Mux16(a=firstMux,b=secondMux,sel=sel[1],out=out);
+}
