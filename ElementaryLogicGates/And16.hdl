@@ -1,1 +1,4 @@
-
+//Design a 16-bit AND gate
+//in Hardware Design Language
+//using only these chips: 
+//Not16, DMux, Mux, Xor, Or, And, Not, Nand
