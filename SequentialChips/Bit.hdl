@@ -1,5 +1,5 @@
 //Design a 1-bit register
-//in Hardware Design Language
+//in Hardware Description Language
 //using only given, primitive DFF (data flip-flop) chips and these chips:
 //ALU, Inc16, Add16, FullAdder, HalfAdder
 //DMux8Way, DMux4Way, Mux8Way16, Mux4Way16, Or8Way, Mux16, Or16, And16, Not16, DMux, Mux, Xor, Or, And, Not, Nand
