@@ -2,3 +2,16 @@
 //in Hardware Design Language
 //using only these chips: 
 //Or, And, Not, Nand
+/**
+ * out = not (a == b)
+ */
+
+CHIP Xor {
+    IN a, b;
+    OUT out;
+
+    PARTS:
+  		Nand(a=a,b=b,out=aNandb);
+  		Or(a=a,b=b,out=aOrb);
+  		And(a=aNandb,b=aOrb,out=out);
+}
