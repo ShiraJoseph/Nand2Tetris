@@ -1,1 +1,4 @@
-
+//Design a multiplexor
+//in Hardware Design Language
+//using only these chips: 
+//Xor, Or, And, Not, Nand
