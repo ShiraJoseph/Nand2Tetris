@@ -1,1 +1,17 @@
+//Design a 16-bit Incrementer
+//in Hardware Design Language
+//using only these chips: 
+//Add16, FullAdder, HalfAdder
+//DMux8Way, DMux4Way, Mux8Way16, Mux4Way16, Or8Way, Mux16, Or16, And16, Not16, DMux, Mux, Xor, Or, And, Not, Nand
+/**
+ * 16-bit incrementer:
+ * out = in + 1 (arithmetic addition)
+ */
 
+CHIP Inc16 {
+    IN in[16];
+    OUT out[16];
+
+    PARTS:
+		  Add16(a=in,b[0]=true,b[1..15]=false,out=out);
+}
