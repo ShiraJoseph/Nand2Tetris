@@ -1,4 +1,4 @@
 //Design a 16-bit multiplexor
 //in Hardware Design Language
 //using only these chips: 
-//Or16, And16, Not16, DMux, Mux, Xor, Or, And, Not
+//Or16, And16, Not16, DMux, Mux, Xor, Or, And, Not, Nand
