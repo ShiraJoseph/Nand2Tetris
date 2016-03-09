@@ -1,4 +1,4 @@
-//Design a 16-bit, 8-register memory chip
+//Design a 16-bit, 64-register memory chip
 //in Hardware Description Language
 //using only these chips:
 //RAM8, Register, Bit, DFF
