@@ -1,1 +1,4 @@
-
+//Design a demultiplexor
+//in Hardware Design Language
+//using only these chips: 
+//Mux, Xor, Or, And, Not, Nand
