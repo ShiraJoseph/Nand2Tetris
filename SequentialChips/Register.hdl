@@ -1,0 +1,49 @@
+//Design a 16-bit register
+//in Hardware Design Language
+//using only these chips:
+//Bit, DFF
+//ALU, Inc16, Add16, FullAdder, HalfAdder
+//DMux8Way, DMux4Way, Mux8Way16, Mux4Way16, Or8Way, Mux16, Or16, And16, Not16, DMux, Mux, Xor, Or, And, Not, Nand
+/**
+ * If load[t] == 1 then out[t+1] = in[t]
+ * else out does not change
+ */
+
+CHIP Register {
+    IN in[16], load;
+    OUT out[16];
+
+    PARTS:
+  		Mux(a=dffout0,b=in[0],sel=load,out=dffin0);
+  		DFF(in=dffin0,out=dffout0,out=out[0]);
+  		Mux(a=dffout1,b=in[1],sel=load,out=dffin1);
+  		DFF(in=dffin1,out=dffout1,out=out[1]);
+  		Mux(a=dffout2,b=in[2],sel=load,out=dffin2);
+  		DFF(in=dffin2,out=dffout2,out=out[2]);
+  		Mux(a=dffout3,b=in[3],sel=load,out=dffin3);
+  		DFF(in=dffin3,out=dffout3,out=out[3]);
+  		Mux(a=dffout4,b=in[4],sel=load,out=dffin4);
+  		DFF(in=dffin4,out=dffout4,out=out[4]);
+  		Mux(a=dffout5,b=in[5],sel=load,out=dffin5);
+  		DFF(in=dffin5,out=dffout5,out=out[5]);
+  		Mux(a=dffout6,b=in[6],sel=load,out=dffin6);
+  		DFF(in=dffin6,out=dffout6,out=out[6]);
+  		Mux(a=dffout7,b=in[7],sel=load,out=dffin7);
+  		DFF(in=dffin7,out=dffout7,out=out[7]);
+  		Mux(a=dffout8,b=in[8],sel=load,out=dffin8);
+  		DFF(in=dffin8,out=dffout8,out=out[8]);
+  		Mux(a=dffout9,b=in[9],sel=load,out=dffin9);
+  		DFF(in=dffin9,out=dffout9,out=out[9]);
+  		Mux(a=dffout10,b=in[10],sel=load,out=dffin10);
+  		DFF(in=dffin10,out=dffout10,out=out[10]);
+  		Mux(a=dffout11,b=in[11],sel=load,out=dffin11);
+  		DFF(in=dffin11,out=dffout11,out=out[11]);
+  		Mux(a=dffout12,b=in[12],sel=load,out=dffin12);
+  		DFF(in=dffin12,out=dffout12,out=out[12]);
+  		Mux(a=dffout13,b=in[13],sel=load,out=dffin13);
+  		DFF(in=dffin13,out=dffout13,out=out[13]);
+  		Mux(a=dffout14,b=in[14],sel=load,out=dffin14);
+  		DFF(in=dffin14,out=dffout14,out=out[14]);
+  		Mux(a=dffout15,b=in[15],sel=load,out=dffin15);
+  		DFF(in=dffin15,out=dffout15,out=out[15]);
+}
