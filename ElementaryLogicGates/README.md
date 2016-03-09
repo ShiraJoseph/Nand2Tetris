@@ -1,16 +1,31 @@
- Create the following chip set, in order.  Use only Nand gates and the gates you have already created.
+--Build all the logic gates listed below, yielding a basic chip-set. The only building blocks that you can use in this project are primitive Nand gates and the composite gates that you will gradually build on top of them.--
+
   Not
+  
   And
+  
   Or
+  
   Xor
+  
   Mux
+  
   DMux
+  
   Not16
+  
   And16
+  
   Or16
+  
   Mux16
+  
   Or8Way
+  
   Mux4Way16
+  
   Mux8Way16
+  
   DMux4Way
+  
   DMux8Way
