@@ -1,0 +1,31 @@
+//Design a Full Adder
+//in Hardware Design Language
+//using only these chips: 
+//HalfAdder
+//DMux8Way, DMux4Way, Mux8Way16, Mux4Way16, Or8Way, Mux16, Or16, And16, Not16, DMux, Mux, Xor, Or, And, Not, Nand
+/**
+ * Computes the sum of three bits.
+ */
+
+CHIP FullAdder {
+    IN a, b, c;  // 1-bit inputs
+    OUT sum,     // Right bit of a + b + c
+        carry;   // Left bit of a + b + c
+
+    PARTS:
+		  Xor(a=a,b=b,out=aXorb);
+		  Xor(a=aXorb,b=c,out=sum);
+		
+		  Not(in=b,out=notb);
+		  And(a=a,b=notb,out=aAndNotb);
+		  And(a=aAndNotb,b=c,out=aAndNotbAndc);
+		
+		  Not(in=c,out=notc);
+		  And(a=a,b=b,out=aAndb);
+		  And(a=aAndb,b=notc,out=aAndbAndNotc);
+				
+		  And(a=b,b=c,out=bAndc);
+    
+		  Or(a=aAndbAndNotc,b=aAndNotbAndc,out=firstOr);
+		  Or(a=firstOr,b=bAndc,out=carry);
+	}
