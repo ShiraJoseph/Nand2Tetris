@@ -1,3 +1,9 @@
+//Design a program counter
+//in Hardware Description Language
+//using only these chips:
+//RAM16K, RAM4K, RAM512, RAM64, RAM8, Register, Bit, DFF
+//ALU, Inc16, Add16, FullAdder, HalfAdder
+//DMux8Way, DMux4Way, Mux8Way16, Mux4Way16, Or8Way, Mux16, Or16, And16, Not16, DMux, Mux, Xor, Or, And, Not, Nand
 /**
  * A 16-bit counter with load and reset control bits.
  * if      (reset[t] == 1) out[t+1] = 0
