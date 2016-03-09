@@ -2,4 +2,8 @@
 Projects created for the Hebrew University of Jerusalem course "Nand2Tetris"
 
 Project 1: Elementary Logic Gates
-    Build a basic chip-set. The only building blocks that you can use in this project are primitive Nand gates and the composite gates that you will gradually build on top of them.
+Project 2: Combinational Chips
+Project 3: Sequential Chips
+Project 4: Machine Language Programming
+Project 5: Computer Architecture
+Project 6: The Assembler
