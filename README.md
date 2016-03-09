@@ -1,5 +1,7 @@
-# Nand2Tetris
---Projects created for the Hebrew University of Jerusalem course "Nand2Tetris" hosted on Coursera--
+# Nand2Tetris Projects
+Ellen Friedman
+
+Projects completed for the Hebrew University of Jerusalem course "Nand2Tetris" hosted on Coursera
 
 Project 1: Elementary Logic Gates
 
