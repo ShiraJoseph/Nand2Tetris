@@ -1,5 +1,5 @@
 //Design a 16-bit register
-//in Hardware Design Language
+//in Hardware Description Language
 //using only these chips:
 //Bit, DFF
 //ALU, Inc16, Add16, FullAdder, HalfAdder
