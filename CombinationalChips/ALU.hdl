@@ -42,27 +42,27 @@ CHIP ALU {
         ng; // 1 if (out < 0),  0 otherwise
 
     PARTS:
-	    Mux16(a=x,b=false,sel=zx,out=tempx1);//zx
+	Mux16(a=x,b=false,sel=zx,out=tempx1);//zx
 		
-		  Not16(in=tempx1,out=notx);
-		  Mux16(a=tempx1,b=notx,sel=nx,out=tempx2);//nx
+	Not16(in=tempx1,out=notx);
+	Mux16(a=tempx1,b=notx,sel=nx,out=tempx2);//nx
 
-		  Mux16(a=y,b=false,sel=zy,out=tempy1);//zy
+	Mux16(a=y,b=false,sel=zy,out=tempy1);//zy
 		
-		  Not16(in=tempy1,out=noty);
-	  	Mux16(a=tempy1,b=noty,sel=ny, out=tempy2);//ny
+	Not16(in=tempy1,out=noty);
+	Mux16(a=tempy1,b=noty,sel=ny, out=tempy2);//ny
 		
-		  And16(a=tempx2,b=tempy2,out=xAndy);//f=0
-		  Add16(a=tempx2,b=tempy2,out=addxy);//f=1
-		  Mux16(a=xAndy,b=addxy,sel=f,out=tempout1);//f
+	And16(a=tempx2,b=tempy2,out=xAndy);//f=0
+	Add16(a=tempx2,b=tempy2,out=addxy);//f=1
+	Mux16(a=xAndy,b=addxy,sel=f,out=tempout1);//f
 		
-		  Not16(in=tempout1,out=notout);
-		  Mux16(a=tempout1,b=notout,sel=no,out=out,out[0..7]=firsthalf, out[8..15]=secondhalf,out[15]=firstbit);//no
+	Not16(in=tempout1,out=notout);
+	Mux16(a=tempout1,b=notout,sel=no,out=out,out[0..7]=firsthalf, out[8..15]=secondhalf,out[15]=firstbit);//no
 		
-		  Or8Way(in=firsthalf,out=firstor);
-		  Or8Way(in=secondhalf,out=secondor);
-		  Or(a=firstor,b=secondor,out=outor);
-		  Xor(a=outor, b=true, out=zr);//zr
+	Or8Way(in=firsthalf,out=firstor);
+	Or8Way(in=secondhalf,out=secondor);
+	Or(a=firstor,b=secondor,out=outor);
+	Xor(a=outor, b=true, out=zr);//zr
 		
-		  And(a=firstbit,b=true,out=ng);//ng
-		}
+	And(a=firstbit,b=true,out=ng);//ng
+}
