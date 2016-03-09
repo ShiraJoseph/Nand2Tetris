@@ -1,1 +1,17 @@
+//Design a Half Adder
+//in Hardware Design Language
+//using only these chips: 
+//DMux8Way, DMux4Way, Mux8Way16, Mux4Way16, Or8Way, Mux16, Or16, And16, Not16, DMux, Mux, Xor, Or, And, Not, Nand
+/**
+ * Computes the sum of two bits.
+ */
 
+CHIP HalfAdder {
+    IN a, b;    // 1-bit inputs
+    OUT sum,    // Right bit of a + b 
+        carry;  // Left bit of a + b
+
+    PARTS:
+		  Xor(a=a,b=b,out=sum);
+		  And(a=a,b=b,out=carry);
+}
