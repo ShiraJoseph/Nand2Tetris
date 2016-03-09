@@ -1,1 +1,68 @@
+//Design an Arithmetic Logic Unit
+//in Hardware Design Language
+//using only these chips: 
+//Inc16, Add16, FullAdder, HalfAdder
+//DMux8Way, DMux4Way, Mux8Way16, Mux4Way16, Or8Way, Mux16, Or16, And16, Not16, DMux, Mux, Xor, Or, And, Not, Nand
+/**
+ * The ALU (Arithmetic Logic Unit).
+ * Computes one of the following functions:
+ * x+y, x-y, y-x, 0, 1, -1, x, y, -x, -y, !x, !y,
+ * x+1, y+1, x-1, y-1, x&y, x|y on two 16-bit inputs, 
+ * according to 6 input bits denoted zx,nx,zy,ny,f,no.
+ * In addition, the ALU computes two 1-bit outputs:
+ * if the ALU output == 0, zr is set to 1; otherwise zr is set to 0;
+ * if the ALU output < 0, ng is set to 1; otherwise ng is set to 0.
+ */
 
+// Implementation: the ALU manipulates the x and y inputs
+// and operates on the resulting values, as follows:
+// if (zx == 1) set x = 0        // 16-bit constant
+// if (nx == 1) set x = !x       // bitwise not
+// if (zy == 1) set y = 0        // 16-bit constant
+// if (ny == 1) set y = !y       // bitwise not
+// if (f == 1)  set out = x + y  // integer 2's complement addition
+// if (f == 0)  set out = x & y  // bitwise and
+// if (no == 1) set out = !out   // bitwise not
+// if (out == 0) set zr = 1
+// if (out < 0) set ng = 1
+
+CHIP ALU {
+    IN  
+        x[16], y[16],  // 16-bit inputs        
+        zx, // zero the x input?
+        nx, // negate the x input?
+        zy, // zero the y input?
+        ny, // negate the y input?
+        f,  // compute out = x + y (if 1) or x & y (if 0)
+        no; // negate the out output?
+
+    OUT 
+        out[16], // 16-bit output
+        zr, // 1 if (out == 0), 0 otherwise
+        ng; // 1 if (out < 0),  0 otherwise
+
+    PARTS:
+	    Mux16(a=x,b=false,sel=zx,out=tempx1);//zx
+		
+		  Not16(in=tempx1,out=notx);
+		  Mux16(a=tempx1,b=notx,sel=nx,out=tempx2);//nx
+
+		  Mux16(a=y,b=false,sel=zy,out=tempy1);//zy
+		
+		  Not16(in=tempy1,out=noty);
+	  	Mux16(a=tempy1,b=noty,sel=ny, out=tempy2);//ny
+		
+		  And16(a=tempx2,b=tempy2,out=xAndy);//f=0
+		  Add16(a=tempx2,b=tempy2,out=addxy);//f=1
+		  Mux16(a=xAndy,b=addxy,sel=f,out=tempout1);//f
+		
+		  Not16(in=tempout1,out=notout);
+		  Mux16(a=tempout1,b=notout,sel=no,out=out,out[0..7]=firsthalf, out[8..15]=secondhalf,out[15]=firstbit);//no
+		
+		  Or8Way(in=firsthalf,out=firstor);
+		  Or8Way(in=secondhalf,out=secondor);
+		  Or(a=firstor,b=secondor,out=outor);
+		  Xor(a=outor, b=true, out=zr);//zr
+		
+		  And(a=firstbit,b=true,out=ng);//ng
+		}
