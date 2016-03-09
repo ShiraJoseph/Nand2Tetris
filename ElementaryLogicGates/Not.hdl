@@ -1,5 +1,8 @@
+//Design a NOT gate
+//in Hardware Design Language
+//using only given, primitive Nand chips
+
 /**
- * Not gate:
  * out = not in
  */
 
