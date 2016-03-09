@@ -2,3 +2,18 @@
 //in Hardware Design Language
 //using only these chips: 
 //Xor, Or, And, Not, Nand
+/** 
+ * out = a if sel == 0
+ *       b otherwise
+ */
+
+CHIP Mux {
+    IN a, b, sel;
+    OUT out;
+
+    PARTS:
+  		Not(in=sel,out=notsel);
+  		And(a=a,b=notsel,out=aAndNotsel);
+  		And(a=b,b=sel,out=bAndsel);
+  		Or(a=aAndNotsel,b=bAndsel,out=out);
+}
