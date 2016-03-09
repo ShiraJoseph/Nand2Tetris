@@ -1,4 +1,4 @@
 //Design a 16-bit, 8-way multiplexor
 //in Hardware Design Language
 //using only these chips: 
-//Mux4Way16, Or8Way, Mux16, Or16, And16, Not16, DMux, Mux, Xor, Or, And, Not
+//Mux4Way16, Or8Way, Mux16, Or16, And16, Not16, DMux, Mux, Xor, Or, And, Not, Nand
