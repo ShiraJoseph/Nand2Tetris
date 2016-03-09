@@ -2,3 +2,17 @@
 //in Hardware Design Language
 //using only these chips: 
 //And16, Not16, DMux, Mux, Xor, Or, And, Not, Nand
+/**
+ * for i = 0..15 out[i] = (a[i] or b[i])
+ */
+
+CHIP Or16 {
+    IN a[16], b[16];
+    OUT out[16];
+
+    PARTS:
+  		Not16(in=a,out=nota);
+  		Not16(in=b,out=notb);
+  		And16(a=nota,b=notb,out=notaAndNotb);
+  		Not16(in=notaAndNotb, out=out);
+}
