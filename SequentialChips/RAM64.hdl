@@ -1,3 +1,9 @@
+//Design a 16-bit, 8-register memory chip
+//in Hardware Description Language
+//using only these chips:
+//RAM8, Register, Bit, DFF
+//ALU, Inc16, Add16, FullAdder, HalfAdder
+//DMux8Way, DMux4Way, Mux8Way16, Mux4Way16, Or8Way, Mux16, Or16, And16, Not16, DMux, Mux, Xor, Or, And, Not, Nand
 /**
  * Memory of 64 registers, each 16 bit-wide. Out holds the value
  * stored at the memory location specified by address. If load==1, then 
