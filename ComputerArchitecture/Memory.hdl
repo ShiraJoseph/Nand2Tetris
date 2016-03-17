@@ -1,0 +1,47 @@
+ // This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/05/Memory.hdl
+
+/**
+ * The complete address space of the Hack computer's memory,
+ * including RAM and memory-mapped I/O. 
+ * The chip facilitates read and write operations, as follows:
+ *     Read:  out(t) = Memory[address(t)](t)
+ *     Write: if load(t-1) then Memory[address(t-1)](t) = in(t-1)
+ * In words: the chip always outputs the value stored at the memory 
+ * location specified by address. If load==1, the in value is loaded 
+ * into the memory location specified by address. This value becomes 
+ * available through the out output from the next time step onward.
+ * Address space rules:
+ * Only the upper 16K+8K+1 words of the Memory chip are used. 
+ * Access to address>0x6000 is invalid. Access to any address in 
+ * the range 0x4000-0x5FFF results in accessing the screen memory 
+ * map. Access to address 0x6000 results in accessing the keyboard 
+ * memory map. The behavior in these addresses is described in the 
+ * Screen and Keyboard chip specifications given in the book.
+ */
+//   [14] [13] [12]    [11] [10] [9] [8]    [7] [6][5][4]  [3][2][1][0]
+//	16384 8192 4096	   2048 1024 512 256 	128 64 32 16	8  4  2  1
+//	0		0 	0         0    0   0   0    0	 0  0  0	0 0 0 0
+//ram16k 000 0000 0000 0000 to 011 1111 1111 1111
+//screen 100 0000 0000 0000 to 101 1111 1111 1111
+//kbd	 110 0000 0000 0000
+CHIP Memory {
+    IN in[16], load, address[15];
+    OUT out[16];
+
+    PARTS:
+    
+	DMux(in=load,sel=address[14], a=loadRAM, b=IOAndothermem);
+	DMux(in=IOAndothermem, sel=address[13], a=loadScreen, b=kbdAndothermem);
+	Or8Way(in=address[0..7],out=or0to7);
+	Or8Way(in[0..4]=address[8..12], in[5]=or0to7,in[6..7]=false, out=invalid);
+	Not(in=invalid, out=loadKbd);
+	RAM16K(in=in, load=loadRAM, address=address[0..13], out=ramout);
+	Screen(in=in, load=loadScreen, address=address[0..12], out=screenout);
+	Keyboard(out=kbdout);
+	Mux4Way16(a=ramout, b=ramout, c=screenout, d=kbdout, sel=address[13..14],out=out);
+	
+	
+}
