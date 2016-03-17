@@ -1,5 +1,4 @@
 CHIP Nand {
-
     IN  a, b;
     OUT out;
 
@@ -301,7 +300,6 @@ CHIP ALU {
 }
 
 CHIP DFF {
-
     IN  in;
     OUT out;
 
@@ -433,4 +431,52 @@ CHIP PC {
   	Mux16(a=incflag,b=in,sel=load,out=resetflag);
   	Mux16(a=resetflag,b=false,sel=reset,out=loadflag);
   	Register(in=loadflag,load=true,out=out,out=regout);
+}
+
+CHIP Memory {
+    IN in[16], load, address[15];
+    OUT out[16];
+
+    PARTS:
+	DMux(in=load,sel=address[14], a=loadRAM, b=IOAndothermem);
+	DMux(in=IOAndothermem, sel=address[13], a=loadScreen, b=invalid);
+	RAM16K(in=in, load=loadRAM, address=address[0..13], out=ramout);
+	Screen(in=in, load=loadScreen, address=address[0..12], out=screenout);
+	Keyboard(out=kbdout);
+	Mux4Way16(a=ramout, b=ramout, c=screenout, d=kbdout, sel=address[13..14],out=out);
+}
+
+CHIP CPU {
+    IN  inM[16], instruction[16], reset;   
+    OUT outM[16], writeM, addressM[15], pc[15];         
+
+    PARTS:
+	Mux16(a=instruction, b=ALUoutput, sel=instruction[15], out=inA);
+	Not(in=instruction[15], out=notc);
+	Or(a=notc, b=instruction[5], out=writeA);
+	ARegister(in=inA, load=writeA, out=outA, out[0..14]=addressM);
+	And(a=instruction[15], b=instruction[4], out=writeD);
+	DRegister(in=inD, load=writeD, out=outD);
+	And(a=instruction[15], b=instruction[3], out=writeM);
+	Mux16(a=outA, b=inM, sel=instruction[12], out=outAM);
+	And(a=instruction[2],b=ng,out=jumpcond1);
+	And(a=instruction[1],b=zr,out=jumpcond2);
+	Or(a=zr, b=ng, out=zrOrng);
+	Not(in=zrOrng, out=notzrAndNotng);
+	And(a=notzrAndNotng, b=instruction[0], out=jumpcond3);
+	Or(a=jumpcond1,b=jumpcond2,out=jumpcond1Or2);
+	Or(a=jumpcond1Or2,b=jumpcond3,out=jump);
+	And(a=instruction[15],b=jump,out=loadjump);
+	PC(in=outA, load=loadjump, inc=true, reset=reset, out[0..14]=pc);
+	ALU(x=outD, y=outAM, zx=instruction[11], nx=instruction[10], zy=instruction[9], 
+	    ny=instruction[8], f=instruction[7], no=instruction[6], out=outM, out=inD, out=ALUoutput, zr=zr, ng=ng);	
+}
+
+CHIP Computer {
+    IN reset;
+
+    PARTS:
+	CPU(inM=inM ,instruction=instruction ,reset=reset ,outM=outM, writeM=writeM ,addressM=addressM ,pc=pc);
+	ROM32K(address=pc ,out=instruction);
+	Memory(in=outM ,load=writeM ,address=addressM,out=inM );
 }
