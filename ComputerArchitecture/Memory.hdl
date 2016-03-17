@@ -1,10 +1,5 @@
- // This file is part of www.nand2tetris.org
-// and the book "The Elements of Computing Systems"
-// by Nisan and Schocken, MIT Press.
-// File name: projects/05/Memory.hdl
-
 /**
- * The complete address space of the Hack computer's memory,
+ * Design the complete address space of the Hack computer's memory,
  * including RAM and memory-mapped I/O. 
  * The chip facilitates read and write operations, as follows:
  *     Read:  out(t) = Memory[address(t)](t)
