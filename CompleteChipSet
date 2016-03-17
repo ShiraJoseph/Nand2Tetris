@@ -1,1 +1,35 @@
+CHIP Nand {
 
+    IN  a, b;
+    OUT out;
+
+    BUILTIN Nand;
+}
+
+CHIP Not {
+    IN in;
+    OUT out;
+
+    PARTS:
+      Nand(a=in,b=in,out=out);
+}
+
+CHIP And {
+    IN a, b;
+    OUT out;
+
+    PARTS:
+	Nand(a=a,b=b,out=aNandb);
+	Not(in=aNandb,out=out);
+}
+
+CHIP Or {
+    IN a, b;
+    OUT out;
+
+    PARTS:
+  		Not(in=a,out=nota);
+  		Not(in=b,out=notb);
+  		And(a=nota,b=notb,out=notaAndNotb);
+  		Not(in=notaAndNotb,out=out);
+}
