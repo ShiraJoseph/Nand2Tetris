@@ -1,23 +1,20 @@
 CHIP Nand {
     IN  a, b;
     OUT out;
-    BUILTIN Nand;
-}
+    BUILTIN Nand;}
 
 CHIP Not {
     IN in;
     OUT out;
     PARTS:
-    	Nand(a=in,b=in,out=out);
-}
+    	Nand(a=in,b=in,out=out);}
 
 CHIP And {
     IN a, b;
     OUT out
     PARTS:
 	Nand(a=a,b=b,out=aNandb);
-	Not(in=aNandb,out=out);
-}
+	Not(in=aNandb,out=out);}
 
 CHIP Or {
     IN a, b;
