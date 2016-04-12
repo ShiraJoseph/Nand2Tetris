@@ -1,6 +1,6 @@
 package hackAssembler;
 
-public class Cinstruction extends Word {
+public class Cinstruction extends Instruction {
 	private String dest = "";
 	private String comp = "";
 	private String jump = "";
@@ -10,13 +10,13 @@ public class Cinstruction extends Word {
 	}
 
 	public void parse() {
-		int compBegin = 0;//if there is no dest, comp can be found at the beginning of the string
-		int compEnd = this.getAssemblyWord().length();//if there is no jump, comp ends at the end of the string
+		int compBegin = 0;//if there is no 'dest,' 'comp' can be found at the beginning of the string
+		int compEnd = this.getAssemblyWord().length();//if there is no 'jump,' 'comp' ends at the end of the string
 		if (this.getAssemblyWord().contains("=")) {//if the instruction has an equals sign, extract 'dest'
 			dest = this.getAssemblyWord().substring(0, this.getAssemblyWord().indexOf("="));
-			compBegin = dest.length() + 1;//where 'dest' ends and 'comp' should begin
+			compBegin = dest.length() + 1;//find where 'dest' ends and 'comp' should begin
 		}
-		if (this.getAssemblyWord().contains(";")) {//if the instruction as a semicolon, extract 'jump'
+		if (this.getAssemblyWord().contains(";")) {//if the instruction has a semicolon, extract 'jump'
 			jump = this.getAssemblyWord().substring(this.getAssemblyWord().indexOf(";") + 1,this.getAssemblyWord().length());
 			compEnd = this.getAssemblyWord().length() - jump.length() - 1;//where 'jump' begins and 'comp' should end
 		}
