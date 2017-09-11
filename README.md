@@ -12,3 +12,7 @@ Project 4: Machine Language Programming
 Project 5: Computer Architecture
 
 Project 6: The Assembler
+
+Project 7: Virtual Machine, part I
+
+Project 8: Virtual Machine, part II
