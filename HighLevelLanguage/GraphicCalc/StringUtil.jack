@@ -1,0 +1,70 @@
+class StringUtil {
+  // appends two strings together
+  function String append (String a, String b) {
+    var int aLength, bLength, i, abLength;
+    var String ab;
+    var char c;
+    var int temp;
+    do Output.printString("a: ");
+    do Output.printString(a);
+    do Output.println();
+    do Output.printString("b: ");
+    do Output.printString(b);
+    let aLength = a.length();
+    let bLength = b.length();
+    let abLength = aLength + bLength;
+    let ab = String.new(2);
+    do Output.println();
+    do Output.printString("aLength: ");
+    do Output.printInt(aLength);
+    do Output.println();
+    do Output.printString("bLength: ");
+    do Output.printInt(bLength);
+    do Output.println();
+    do Output.printString("abLength: ");
+    do Output.printInt(abLength);
+    do Output.println();
+
+    //let ab = a; //still need to work out how to get the chars appended.  Somehow it thinks the string is full?
+    let i = 0;
+    let ab = "";
+    //do Output.printString("ab: ");
+    //do output.printString(ab);
+    //while (i < aLength) {
+    while (i < 1) {
+      let c = a.charAt(i);
+      do Output.printInt(i);
+      do Output.printString("th char: ");
+      do Output.printChar(c);
+      do Output.println();
+      //let ab = ab.appendChar(c);
+      let i = i + 1;
+    }
+    let i = 0;
+    //while (i < bLength) {
+    while (i < 1) {
+      let c = b.charAt(i);
+      do Output.printInt(i);
+      do Output.printString("th char: ");
+      do Output.printChar(c);
+      do Output.println();
+      let temp = aLength + i;
+      let ab[temp] = c;
+      do Output.printString("ab[temp]: ");
+      do Output.printString(ab);
+      do Output.println();
+      do Output.printString("ab.charAt(temp): ");
+      do Output.printString(ab.charAt(temp));
+      do Output.println();
+      //let ab = ab.appendChar(c);
+      let i = i + 1;
+    }
+    do Output.printString("final ab: ");
+    do Output.printString(ab);
+    return ab;
+
+
+    //NEXT: maybe I'm not using chars in the right way - it might be treating them as their number values and vice versa
+    // do some tests to see what all the char to string related things actually do.
+  }
+}

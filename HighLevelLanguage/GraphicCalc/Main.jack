@@ -1,0 +1,72 @@
+class Main {
+  function void main() {
+    //var String x, y, b;
+    //var String equation;
+
+    //let equation = "_x + _y = _";
+    //do Output.moveCursor(0, 0);
+
+    //let equation = StringUtil.append(x, "x + _y = _");
+
+    //let equation = StringUtil.append(StringUtil.append(StringUtil.append(x, "x + "), y), "y = _");
+
+
+    //do equation.eraseLastChar();
+    //let equation = StringUtil.append(equation, b);
+
+    var String a;
+    let a = StringUtil.append("b", "c");
+
+
+
+    // PUT BACK IN AFTER
+    //var Array equation;
+    //let equation = Main.getEquation();
+    //do Output.printInt(equation[0]);
+    //do Output.printString("x + ");
+    //do Output.printInt(equation[1]);
+    //do Output.printString("y = ");
+    //do Output.printInt(equation[2]);
+    return;
+  }
+
+  function Array getEquation(){
+    var String x, y, b;
+    var Array equation;
+    do Output.printString("_x + _y = _");
+    do Output.println();
+    let x = Keyboard.readInt(" x ? ");
+
+    do Screen.clearScreen();
+    do Output.moveCursor(0, 0);
+
+    do Output.printInt(x);
+    do Output.printString("x + _y = _");
+    do Output.println();
+    let y = Keyboard.readInt(" y ? ");
+
+    do Screen.clearScreen();
+    do Output.moveCursor(0, 0);
+
+    do Output.printInt(x);
+    do Output.printString("x + ");
+    do Output.printInt(y);
+    do Output.printString("y = _");
+    do Output.println();
+    let b = Keyboard.readInt(" = ? ");
+
+    do Output.moveCursor(0, 0);
+    do Screen.clearScreen();
+
+  //  do Output.printInt(x);
+  //  do Output.printString("x + ");
+  //  do Output.printInt(y);
+  //  do Output.printString("y = ");
+  //  do Output.printInt(b);
+    let equation = Array.new(3);
+    let equation[0] = x;
+    let equation[1] = y;
+    let equation[2] = b;
+    return equation;
+  }
+}
