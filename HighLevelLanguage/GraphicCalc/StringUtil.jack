@@ -2,15 +2,15 @@ class StringUtil {
   // appends two strings together
   function String append (String a, String b) {
     var int aLength, bLength, i, abLength;
-    var String ab;
+    var Array ab;
     var char c;
     var int temp;
-    do Output.printString("a: ");
-    do Output.printString(a);
-    do Output.println();
-    do Output.printString("b: ");
-    do Output.printString(b);
-    let aLength = a.length();
+    //do Output.printString("a: ");
+    //do Output.printString(a);
+  //  do Output.println();
+  //  do Output.printString("b: ");
+  //  do Output.printString(b);
+  //  let aLength = a.length();
     let bLength = b.length();
     let abLength = aLength + bLength;
     let ab = String.new(2);
@@ -66,5 +66,77 @@ class StringUtil {
 
     //NEXT: maybe I'm not using chars in the right way - it might be treating them as their number values and vice versa
     // do some tests to see what all the char to string related things actually do.
+  }
+
+  function void charFun () {
+    var char c1;
+    var String s1, n1;
+    var int len, len2, MAX;
+
+    // I'm not sure which of these lines I would need,
+    // or what length I should declare the String if I'm planning to add a char to it.
+    let s1 = String.new(5);
+    let s1 = "nand";
+
+    let c1 = s1.charAt(0);
+
+    // log
+    do Output.printString("printChar: ");
+    do Output.printChar(c1);
+    do Output.println();
+
+    let len = s1.length() + 1;
+
+    // log
+    do Output.printString("nand.length + 1: ");
+    do Output.printInt(len);
+    do Output.println();
+
+    let n1 = String.new(len);
+
+    // log
+    do Output.printString("new string of that length: ");
+    do Output.printString(n1);
+    do Output.println();
+
+    let len2 = n1.length();
+
+    // log
+    do Output.printString("the new string's current length: ");
+    do Output.printInt(len2);
+    do Output.println();
+
+    let MAX = 64;
+
+    let s1 = String.new(MAX);
+
+    if (s1.length() < MAX) {
+
+    do s1.appendChar(65); // 'A'
+    do Output.printString("s1 should now be A.  It is: ");
+    do Output.printString(s1);
+    do Output.println();
+
+    } else {
+    do Output.printString("failed; string is full");
+    do Output.println();
+    // string is full so can't append
+
+    }
+    //here it gets stuck.
+    //do s1.appendChar(c1);
+    //I've also tried these, but I get the same error:
+    //let n1 = s1.appendChar(c1);
+    //do s1.appendChar("n");
+
+    // log
+    do Output.printString("string is now:");
+    do Output.printString(s1);
+    do Output.println();
+
+    do s1.dispose();
+    do n1.dispose();
+
+    return;
   }
 }

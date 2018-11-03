@@ -1,0 +1,81 @@
+class Equation {
+/** Constructs a new equation for graphing */
+  field int x, y, b, degree;
+  field Boolean xExists, yExists, bExists;
+  field String format;
+  constructor Equation new(int deg, String form) {
+    let xExists = false;
+    let yExists = false;
+    let bExists = false;
+    let degree = deg;
+    let format = form;
+    return this;
+  }
+
+  //method int solveForX(int y) {
+    //var Fraction x;
+  //}
+
+  //method int solveForY(int x) {
+//
+  //}
+
+  //method void plot() {
+//
+  //}
+
+  method String toString() {
+    var String xS, yS, bS, eS;
+    var Array eArray;
+    if (xExists = true){
+      //do I need a let new String here?
+      let xS = String.new(10);
+      do xS.setInt(x);
+    } else {
+      let xS = "_";
+    }
+    if (yExists = true){
+      //do I need a let new String here?
+let yS = String.new(10);
+      do yS.setInt(y);
+    } else {
+      let yS = "_";
+    }
+    if (bExists = true){
+      //do I need a let new String here?
+      let bS = String.new(10);
+      do bS.setInt(b);
+    } else {
+      let bS = "_";
+    }
+    let eArray = Array.new(5);
+    let eArray[0] = xS;
+    let eArray[1] = "x + ";
+    let eArray[2] = yS;
+    let eArray[3] = "y = ";
+    let eArray[4] = bS;
+    let eS = StringsUtil.concat(5, eArray);
+
+    do xS.dispose();
+    do yS.dispose();
+    do bS.dispose();
+    return eS;
+  }
+
+  method void inputVar(String variable) {
+    if (variable = "x"){
+      let x = Keyboard.readInt("Enter an x:");
+      let xExists = true;
+    }
+    if (variable = "y"){
+      let y = Keyboard.readInt("Enter a y:");
+      let yExists = true;
+    }
+    if (variable = "b"){
+      let b = Keyboard.readInt("Enter a b:");
+      let bExists = true;
+    }
+    do variable.dispose();
+    return;
+  }
+}

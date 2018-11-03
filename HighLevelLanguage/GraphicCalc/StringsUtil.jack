@@ -1,0 +1,61 @@
+class StringsUtil {
+  function String append (String a, String b){
+    var int aLength, bLength, abLength, i;
+    var String ab;
+    var char c;
+
+    let aLength = a.length();
+    let bLength = b.length();
+    let abLength = aLength + bLength;
+
+    let ab = String.new(abLength);
+
+    let i = 0;
+    while (i < aLength){
+      let c = a.charAt(i);
+      do ab.appendChar(c);
+      let i = i + 1;
+    }
+
+    let i = 0;
+    while (i < bLength){
+      let c = b.charAt(i);
+      do ab.appendChar(c);
+      let i = i + 1;
+    }
+
+    do a.dispose();
+    do b.dispose();
+
+    return ab;
+  }
+
+  function String concat (Array strings, int max) {
+    var int i, end;
+    var Array builder;
+    var String newStr;
+
+
+    let i = 1;
+    let end = max;
+    let builder = Array.new(end);
+    let builder[0] = strings[0];
+    while (i < end+1) {
+      let builder[i] = StringsUtil.append(builder[i-1], strings[i]);
+      do Output.printInt(i);
+      do Output.printString(": ");
+      do Output.printString(builder[i]);
+      do Output.println();
+      let i = i + 1;
+    }
+    let newStr = builder[i - 1];
+    do strings.dispose();
+    do builder.dispose();
+    return newStr;
+  }
+
+  function String copy (Array strings) {
+    return "copy";
+  }
+
+}

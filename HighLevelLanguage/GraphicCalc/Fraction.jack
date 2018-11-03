@@ -1,0 +1,95 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/09/Fraction/Fraction.jack
+
+/** Represents the Fraction type and related operations. */
+class Fraction {
+  field int numerator, denominator;  // field = property = member variable.
+
+  /** Constructs a (reduced) fraction from the given numerator and denominator. */
+  constructor Fraction new(int x, int y) {
+    let numerator = x;
+    let denominator = y;
+    do reduce();   // reduces the fraction
+    return this;   // a constructor is expected to return a reference to the new object
+  }
+
+  // Reduces this fraction.
+  method void reduce() {
+    var int g;
+    let g = Fraction.gcd(numerator, denominator);
+    if (g > 1) {
+       let numerator = numerator / g;
+       let denominator = denominator / g;
+    }
+    return;
+  }
+
+  /** Accessors. */
+  method int getNumerator() { return numerator; }
+  method int getDenominator() { return denominator; }
+
+  /** Returns the sum of this fraction and the other one. */
+  method Fraction plus(Fraction other) {
+    var int sum;
+    let sum = (numerator * other.getDenominator()) + (other.getNumerator() * denominator);
+    return Fraction.new(sum, denominator * other.getDenominator());
+  }
+
+  // More fraction-related methods (minus, times, div, etc.) can be added here.
+
+
+  /** -- The following written by Shira Joseph 2018. -- */
+
+  /** Subtracts one fraction from another. */
+  method Fraction minus(Fraction sub) {
+    var int minuend, subtrahend, difference;
+    let minuend = numerator * sub.getDenominator();
+    let subtrahend = sub.getNumerator() * denominator;
+    let difference = minuend - subtrahend;
+    return Fraction.new(difference, denominator * sub.getDenominator());
+  }
+
+  /** Multiplies two fractions */
+  method Fraction times(Fraction mult) {
+    var int numer, denom;
+    let numer = numerator * mult.getNumerator();
+    let denom = denominator * mult.getDenominator();
+    return Fraction.new(numer, denom);
+  }
+
+  /** Divides one fraction by another */
+  method Fraction dividedBy (Fraction divisor) {
+    var int numer, denom, quotient;
+    let numer = numerator * mult.getDenominator();
+    let denom = denominator * mult.getNumerator();
+    return Fraction.new (numer, denom);
+  }
+
+  /** -- End of lines written by Shira Joseph -- */
+
+  /** Disposes this fraction. */
+  method void dispose() {
+    do Memory.deAlloc(this);  // uses an OS routine to recycle the memory held by the object
+    return;
+  }
+
+  /** Prints this fraction in the format x/y. */
+  method void print() {
+    do Output.printInt(numerator);
+    do Output.printString("/");
+    do Output.printInt(denominator);
+    return;
+  }
+
+  // Computes the greatest common divisor of the given integers.
+  function int gcd(int a, int b) {
+    var int r;
+    while (~(b = 0)) {             // applies Euclid's algorithm
+       let r = a - (b * (a / b));  // r = remainder of the integer division a/b
+       let a = b; let b = r;
+    }
+    return a;
+  }
+}
