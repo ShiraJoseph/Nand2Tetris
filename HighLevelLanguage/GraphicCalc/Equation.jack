@@ -1,8 +1,9 @@
 class Equation {
 /** Constructs a new equation for graphing */
   field int x, y, b, degree;
-  field Boolean xExists, yExists, bExists;
+  field boolean xExists, yExists, bExists;
   field String format;
+
   constructor Equation new(int deg, String form) {
     let xExists = false;
     let yExists = false;
@@ -12,48 +13,62 @@ class Equation {
     return this;
   }
 
-  //method int solveForX(int y) {
-    //var Fraction x;
-  //}
+//  method int solveForX(int y) {
+//    var Fraction x;
+//  }
 
-  //method int solveForY(int x) {
+//  method int solveForY(int x) {
 //
-  //}
+//  }
 
-  //method void plot() {
+//  method void plot() {
 //
-  //}
+//  }
 
   method String toString() {
     var String xS, yS, bS, eS;
     var Array eArray;
-    if (xExists = true){
-      //do I need a let new String here?
+    do Out.ln("In toString...");
+
+    if (xExists){
       let xS = String.new(10);
       do xS.setInt(x);
     } else {
       let xS = "_";
     }
-    if (yExists = true){
-      //do I need a let new String here?
-let yS = String.new(10);
+    do Out.s("xS: ");
+    do Out.ln(xS);
+
+    if (yExists){
+      let yS = String.new(10);
       do yS.setInt(y);
     } else {
       let yS = "_";
     }
-    if (bExists = true){
-      //do I need a let new String here?
+    do Out.s("yS: ");
+    do Out.ln(yS);
+
+    if (bExists){
       let bS = String.new(10);
       do bS.setInt(b);
     } else {
       let bS = "_";
     }
+    do Out.s("bS: ");
+    do Out.ln(bS);
+
     let eArray = Array.new(5);
     let eArray[0] = xS;
     let eArray[1] = "x + ";
     let eArray[2] = yS;
     let eArray[3] = "y = ";
     let eArray[4] = bS;
+    do Out.ln(eArray[0]);
+    do Out.ln(eArray[1]);
+    do Out.ln(eArray[2]);
+    do Out.ln(eArray[3]);
+    do Out.ln(eArray[4]);
+
     let eS = StringsUtil.concat(5, eArray);
 
     do xS.dispose();
@@ -62,20 +77,27 @@ let yS = String.new(10);
     return eS;
   }
 
-  method void inputVar(String variable) {
-    if (variable = "x"){
+  method void inputVar(int v) {
+    //var char test, x1, y1, b1;
+    do Out.s("in inputVar, variable is: ");
+    do Out.lnI(v);
+
+    if (v = 0){
       let x = Keyboard.readInt("Enter an x:");
       let xExists = true;
+      do Out.lnI(x);
     }
-    if (variable = "y"){
+    if (v = 1){
       let y = Keyboard.readInt("Enter a y:");
       let yExists = true;
+      do Out.lnI(y);
     }
-    if (variable = "b"){
+    if (v = 2){
       let b = Keyboard.readInt("Enter a b:");
       let bExists = true;
+      do Out.lnI(b);
     }
-    do variable.dispose();
+
     return;
   }
 }

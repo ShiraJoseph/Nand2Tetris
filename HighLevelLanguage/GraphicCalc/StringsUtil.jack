@@ -30,17 +30,18 @@ class StringsUtil {
     return ab;
   }
 
-  function String concat (Array strings, int max) {
-    var int i, end;
+  function String concat (int end, Array strings) {
+    var int i;
+    //, end;
     var Array builder;
     var String newStr;
 
 
     let i = 1;
-    let end = max;
+    //let end = max;
     let builder = Array.new(end);
     let builder[0] = strings[0];
-    while (i < end+1) {
+    while (i < end) {
       let builder[i] = StringsUtil.append(builder[i-1], strings[i]);
       do Output.printInt(i);
       do Output.printString(": ");

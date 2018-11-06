@@ -1,77 +1,23 @@
 class Main {
   function void main() {
+    var Equation equation;
+    var String eq;
+    var int v;
+    let equation = Equation.new(1, "no form");
+//    0 = x, 1 = y, 2 = b
+    let v = 0;
+    do equation.inputVar(v);
+    let v = 1;
+    do equation.inputVar(v);
+    let v = 2;
+    do equation.inputVar(v);
 
-    var String b;
-    //a;
-    //let a = StringUtil.append("b", "c");
+    let eq = equation.toString();
+    do Out.ln(eq);
 
+    do eq.dispose();
 
-    var String hello, world;
-    var Array catter, equation;
-    var Equation
-
-    //let a = StringsUtil.append(hello, world);
-    let b = StringsUtil.concat(catter, 3);
-
-    //do Output.printString(a);
-    do Output.println();
-    do Output.printString(b);
-    do Output.println();
-
-    //do a.dispose();
-    do b.dispose();
-    do hello.dispose();
-    do world.dispose();
-    do catter.dispose();
-    // PUT BACK IN AFTER
-
-    let equation = Main.getEquation();
-    do Output.printInt(equation[0]);
-    do Output.printString("x + ");
-    do Output.printInt(equation[1]);
-    do Output.printString("y = ");
-    do Output.printInt(equation[2]);
-    do equation.dispose();
     return;
   }
 
-  function Array getEquation(){
-    var String x, y, b;
-    var Array equation;
-    do Output.printString("_x + _y = _");
-    do Output.println();
-    let x = Keyboard.readInt(" x ? ");
-
-    do Screen.clearScreen();
-    do Output.moveCursor(0, 0);
-
-    do Output.printInt(x);
-    do Output.printString("x + _y = _");
-    do Output.println();
-    let y = Keyboard.readInt(" y ? ");
-
-    do Screen.clearScreen();
-    do Output.moveCursor(0, 0);
-
-    do Output.printInt(x);
-    do Output.printString("x + ");
-    do Output.printInt(y);
-    do Output.printString("y = _");
-    do Output.println();
-    let b = Keyboard.readInt(" = ? ");
-
-    do Output.moveCursor(0, 0);
-    do Screen.clearScreen();
-
-  //  do Output.printInt(x);
-  //  do Output.printString("x + ");
-  //  do Output.printInt(y);
-  //  do Output.printString("y = ");
-  //  do Output.printInt(b);
-    let equation = Array.new(3);
-    let equation[0] = x;
-    let equation[1] = y;
-    let equation[2] = b;
-    return equation;
-  }
 }
