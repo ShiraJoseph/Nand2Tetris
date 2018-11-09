@@ -1,13 +1,14 @@
 class Equation {
 /** Constructs a new equation for graphing */
   field int x, y, b, degree;
-  field boolean xExists, yExists, bExists;
-  field String format;
+  field boolean xExists, yExists, bExists, mExists;
+  field String format, stringified;
 
   constructor Equation new(int deg, String form) {
     let xExists = false;
     let yExists = false;
     let bExists = false;
+    let mExists = false;
     let degree = deg;
     let format = form;
     return this;
@@ -24,11 +25,25 @@ class Equation {
 //  method void plot() {
 //
 //  }
+  method String getStringified(){
+    return stringified;
+  }
+  method void setStringified(int type) {
+    var String eq;
+    do Out.s("type: ");
+    do Out.lnI(type);
+//    if (type = 2){
+      do setOldString();
+//    }
+    do Out.ln(stringified);
+    return;
+  }
 
-  method String toString() {
-    var String xS, yS, bS, eS;
+
+
+  method void setOldString(){
+    var String xS, yS, bS;
     var Array eArray;
-    do Out.ln("In toString...");
 
     if (xExists){
       let xS = String.new(10);
@@ -36,26 +51,18 @@ class Equation {
     } else {
       let xS = "_";
     }
-    do Out.s("xS: ");
-    do Out.ln(xS);
-
     if (yExists){
       let yS = String.new(10);
       do yS.setInt(y);
     } else {
       let yS = "_";
     }
-    do Out.s("yS: ");
-    do Out.ln(yS);
-
     if (bExists){
       let bS = String.new(10);
       do bS.setInt(b);
     } else {
       let bS = "_";
     }
-    do Out.s("bS: ");
-    do Out.ln(bS);
 
     let eArray = Array.new(5);
     let eArray[0] = xS;
@@ -63,25 +70,16 @@ class Equation {
     let eArray[2] = yS;
     let eArray[3] = "y = ";
     let eArray[4] = bS;
-    do Out.ln(eArray[0]);
-    do Out.ln(eArray[1]);
-    do Out.ln(eArray[2]);
-    do Out.ln(eArray[3]);
-    do Out.ln(eArray[4]);
 
-    let eS = StringsUtil.concat(5, eArray);
+    let stringified = StringsUtil.concat(5, eArray);
 
     do xS.dispose();
     do yS.dispose();
     do bS.dispose();
-    return eS;
+    return;
   }
 
   method void inputVar(int v) {
-    //var char test, x1, y1, b1;
-    do Out.s("in inputVar, variable is: ");
-    do Out.lnI(v);
-
     if (v = 0){
       let x = Keyboard.readInt("Enter an x:");
       let xExists = true;
@@ -97,7 +95,6 @@ class Equation {
       let bExists = true;
       do Out.lnI(b);
     }
-
     return;
   }
 }

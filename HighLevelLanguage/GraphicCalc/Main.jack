@@ -1,21 +1,40 @@
 class Main {
   function void main() {
     var Equation equation;
-    var String eq;
+    var String eq, stringA, stringB, stringC, stringD;
     var int v;
-    let equation = Equation.new(1, "no form");
+    var boolean equal;
+//    let equation = Equation.new(1, "no form");
 //    0 = x, 1 = y, 2 = b
-    let v = 0;
-    do equation.inputVar(v);
-    let v = 1;
-    do equation.inputVar(v);
-    let v = 2;
-    do equation.inputVar(v);
+//    let v = 0;
+//    do equation.inputVar(v);
+//    let v = 1;
+//    do equation.inputVar(v);
+//    let v = 2;
+//    do equation.inputVar(v);
 
-    let eq = equation.toString();
-    do Out.ln(eq);
+//    let eq = equation.setStringified(2);
+//    do Out.ln(eq);
 
-    do eq.dispose();
+//    do eq.dispose();
+    let stringA = "goody";
+    let stringB = "goose";
+    let stringC = "mouse";
+    let equal = StringsUtil.equals(stringA, stringB);
+    do Out.s("goody ? goose: ");
+    do Out.lnB(equal);
+    let equal = StringsUtil.equals(stringA, stringA);
+    do Out.s("goody ? goody: ");
+    do Out.lnB(equal);
+    let stringD = StringsUtil.copy(stringC);
+    do Out.s("stringC: ");
+    do Out.ln(stringC);
+    do Out.s("stringD: ");
+    do Out.ln(stringD);
+    do stringA.dispose();
+    do stringB.dispose();
+    do stringC.dispose();
+    do stringD.dispose();
 
     return;
   }

@@ -32,21 +32,15 @@ class StringsUtil {
 
   function String concat (int end, Array strings) {
     var int i;
-    //, end;
     var Array builder;
     var String newStr;
 
-
-    let i = 1;
-    //let end = max;
     let builder = Array.new(end);
     let builder[0] = strings[0];
+
+    let i = 1;
     while (i < end) {
       let builder[i] = StringsUtil.append(builder[i-1], strings[i]);
-      do Output.printInt(i);
-      do Output.printString(": ");
-      do Output.printString(builder[i]);
-      do Output.println();
       let i = i + 1;
     }
     let newStr = builder[i - 1];
@@ -55,8 +49,32 @@ class StringsUtil {
     return newStr;
   }
 
-  function String copy (Array strings) {
-    return "copy";
+  function boolean equals (String first, String second){
+    var int i;
+    if (first.length() = second.length()){
+      let i = 0;
+      while ((i < (first.length()-1)) & (first.charAt(i) = second.charAt(i))){
+        do Out.lnI(i);
+        let i = i + 1;
+      }
+      do Out.s("last i: ");
+      do Out.lnI(i);
+      do Sys.wait(2000);
+      return ((i = first.length()-1) & (first.charAt(i) = second.charAt(i)));
+    }
+    return false;
+  }
+
+  function String copy (String oldStr) {
+    var String newStr;
+    var int i, length;
+    let length = oldStr.length();
+    while(i < length){
+      do newStr.setCharAt(i, oldStr.charAt(i));
+      do Out.lnC(newStr.charAt(i));
+      let i = i + 1;
+    }
+    return newStr;
   }
 
 }

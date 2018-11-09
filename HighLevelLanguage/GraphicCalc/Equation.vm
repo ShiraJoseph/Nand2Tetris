@@ -1,0 +1,307 @@
+function Equation.new 0
+push constant 10
+call Memory.alloc 1
+pop pointer 0
+push constant 0
+pop this 4
+push constant 0
+pop this 5
+push constant 0
+pop this 6
+push constant 0
+pop this 7
+push argument 0
+pop this 3
+push argument 1
+pop this 8
+push pointer 0
+return
+function Equation.getStringified 0
+push argument 0
+pop pointer 0
+push this 9
+return
+function Equation.setStringified 1
+push argument 0
+pop pointer 0
+push constant 6
+call String.new 1
+push constant 116
+call String.appendChar 2
+push constant 121
+call String.appendChar 2
+push constant 112
+call String.appendChar 2
+push constant 101
+call String.appendChar 2
+push constant 58
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+call Out.s 1
+pop temp 0
+push argument 1
+call Out.lnI 1
+pop temp 0
+push pointer 0
+call Equation.setOldString 1
+pop temp 0
+push this 9
+call Out.ln 1
+pop temp 0
+push constant 0
+return
+function Equation.setOldString 4
+push argument 0
+pop pointer 0
+push this 4
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 10
+call String.new 1
+pop local 0
+push local 0
+push this 0
+call String.setInt 2
+pop temp 0
+goto IF_END0
+label IF_FALSE0
+push constant 1
+call String.new 1
+push constant 95
+call String.appendChar 2
+pop local 0
+label IF_END0
+push this 5
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push constant 10
+call String.new 1
+pop local 1
+push local 1
+push this 1
+call String.setInt 2
+pop temp 0
+goto IF_END1
+label IF_FALSE1
+push constant 1
+call String.new 1
+push constant 95
+call String.appendChar 2
+pop local 1
+label IF_END1
+push this 6
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push constant 10
+call String.new 1
+pop local 2
+push local 2
+push this 2
+call String.setInt 2
+pop temp 0
+goto IF_END2
+label IF_FALSE2
+push constant 1
+call String.new 1
+push constant 95
+call String.appendChar 2
+pop local 2
+label IF_END2
+push constant 5
+call Array.new 1
+pop local 3
+push constant 0
+push local 3
+add
+push local 0
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 1
+push local 3
+add
+push constant 4
+call String.new 1
+push constant 120
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+push constant 43
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 2
+push local 3
+add
+push local 1
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 3
+push local 3
+add
+push constant 4
+call String.new 1
+push constant 121
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+push constant 61
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 4
+push local 3
+add
+push local 2
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push constant 5
+push local 3
+call StringsUtil.concat 2
+pop this 9
+push local 0
+call String.dispose 1
+pop temp 0
+push local 1
+call String.dispose 1
+pop temp 0
+push local 2
+call String.dispose 1
+pop temp 0
+push constant 0
+return
+function Equation.inputVar 0
+push argument 0
+pop pointer 0
+push argument 1
+push constant 0
+eq
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 11
+call String.new 1
+push constant 69
+call String.appendChar 2
+push constant 110
+call String.appendChar 2
+push constant 116
+call String.appendChar 2
+push constant 101
+call String.appendChar 2
+push constant 114
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+push constant 97
+call String.appendChar 2
+push constant 110
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+push constant 120
+call String.appendChar 2
+push constant 58
+call String.appendChar 2
+call Keyboard.readInt 1
+pop this 0
+push constant 0
+not
+pop this 4
+push this 0
+call Out.lnI 1
+pop temp 0
+label IF_FALSE0
+push argument 1
+push constant 1
+eq
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push constant 10
+call String.new 1
+push constant 69
+call String.appendChar 2
+push constant 110
+call String.appendChar 2
+push constant 116
+call String.appendChar 2
+push constant 101
+call String.appendChar 2
+push constant 114
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+push constant 97
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+push constant 121
+call String.appendChar 2
+push constant 58
+call String.appendChar 2
+call Keyboard.readInt 1
+pop this 1
+push constant 0
+not
+pop this 5
+push this 1
+call Out.lnI 1
+pop temp 0
+label IF_FALSE1
+push argument 1
+push constant 2
+eq
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push constant 10
+call String.new 1
+push constant 69
+call String.appendChar 2
+push constant 110
+call String.appendChar 2
+push constant 116
+call String.appendChar 2
+push constant 101
+call String.appendChar 2
+push constant 114
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+push constant 97
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+push constant 98
+call String.appendChar 2
+push constant 58
+call String.appendChar 2
+call Keyboard.readInt 1
+pop this 2
+push constant 0
+not
+pop this 6
+push this 2
+call Out.lnI 1
+pop temp 0
+label IF_FALSE2
+push constant 0
+return

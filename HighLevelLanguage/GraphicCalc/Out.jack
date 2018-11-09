@@ -1,5 +1,28 @@
 class Out {
   //shortcut class to print value and then print new line
+  function void s (String msg){
+    do Output.printString(msg);
+    return;
+  }
+
+  function void i (int msg){
+    do Output.printInt(msg);
+    return;
+  }
+
+  function void c (char msg){
+    do Output.printChar(msg);
+    return;
+  }
+
+  function void b (boolean msg){
+    if (msg) {
+      do Output.printString ("true");
+    } else {
+      do Output.printString ("false");
+    }
+    return;
+  }
 
   function void ln (String msg) {
     do Output.printString(msg);
@@ -12,11 +35,13 @@ class Out {
     do Output.println();
     return;
   }
+
   function void lnC (char msg) {
     do Output.printChar(msg);
     do Output.println();
     return;
   }
+
   function void lnB (boolean msg) {
     if (msg) {
       do Output.printString ("true");
@@ -26,24 +51,6 @@ class Out {
     do Output.println();
     return;
   }
-  function void s (String msg){
-    do Output.printString(msg);
-    return;
-  }
-  function void i (int msg){
-    do Output.printInt(msg);
-    return;
-  }
-  function void c (char msg){
-    do Output.printChar(msg);
-    return;
-  }
-  function void b (boolean msg){
-    if (msg) {
-      do Output.printString ("true");
-    } else {
-      do Output.printString ("false");
-    }
-    return;
-  }
+
+
 }
