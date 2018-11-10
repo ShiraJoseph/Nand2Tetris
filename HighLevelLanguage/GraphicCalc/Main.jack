@@ -17,20 +17,37 @@ class Main {
 //    do Out.ln(eq);
 
 //    do eq.dispose();
-    let stringA = "goody";
-    let stringB = "goose";
+		let stringA = "goose";
+		let stringB = stringA;
+		do Out.ln("stringB = to stringA:");
+		  do Out.s("stringA: ");
+         do Out.ln(stringA);
+         do Out.s("stringB: ");
+         do Out.ln(stringB);
+         		let stringA = "moose";
+         do Out.ln("then change stringA to moose:");
+      do Out.s("stringA: ");
+               do Out.ln(stringA);
+               do Out.s("stringB: ");
+               do Out.ln(stringB);
+		do Output.println();
+
     let stringC = "mouse";
-    let equal = StringsUtil.equals(stringA, stringB);
-    do Out.s("goody ? goose: ");
-    do Out.lnB(equal);
-    let equal = StringsUtil.equals(stringA, stringA);
-    do Out.s("goody ? goody: ");
-    do Out.lnB(equal);
+
     let stringD = StringsUtil.copy(stringC);
+    do Out.ln("stringD = copy(stringC):");
     do Out.s("stringC: ");
     do Out.ln(stringC);
     do Out.s("stringD: ");
     do Out.ln(stringD);
+
+    let stringD = "house";
+    do Out.ln(" Changing D to house and get...");
+    do Out.s("stringC: ");
+    do Out.ln(stringC);
+    do Out.s("stringD: ");
+    do Out.ln(stringD);
+
     do stringA.dispose();
     do stringB.dispose();
     do stringC.dispose();

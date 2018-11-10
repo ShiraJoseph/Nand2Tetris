@@ -49,29 +49,64 @@ class StringsUtil {
     return newStr;
   }
 
+	/**
+	* Returns whether two strings contain the same value
+	*/
   function boolean equals (String first, String second){
     var int i;
     if (first.length() = second.length()){
       let i = 0;
-      while ((i < (first.length()-1)) & (first.charAt(i) = second.charAt(i))){
-        do Out.lnI(i);
-        let i = i + 1;
+      while (i < first.length()){
+        if (first.charAt(i) = second.charAt(i)){
+          let i = i + 1;
+        } else {
+          return false;
+        }
       }
-      do Out.s("last i: ");
-      do Out.lnI(i);
-      do Sys.wait(2000);
-      return ((i = first.length()-1) & (first.charAt(i) = second.charAt(i)));
+//      do Out.s("last i: ");
+//      do Out.lnI(i);
+      return true;
+//      return ((i = first.length()-1) & (first.charAt(i) = second.charAt(i)));
     }
     return false;
   }
 
+	/**
+	* returns a new string with a copy of the original string
+	*/
   function String copy (String oldStr) {
     var String newStr;
     var int i, length;
+    var char c;
+
     let length = oldStr.length();
+    let newStr = String.new(length);
+//    do Out.s("in copy; length is: ");
+//    do Out.lnI(length);
+//
+//    do Out.s("newStr is: ");
+//    do Out.ln(newStr);
+//
+//    do Out.s("first char of oldStr is: ");
+//    do Out.c(oldStr.charAt(0));
+//    do Out.s(" or : ");
+//    do Out.i(oldStr.charAt(0));
+
+    let i = 0;
     while(i < length){
-      do newStr.setCharAt(i, oldStr.charAt(i));
-      do Out.lnC(newStr.charAt(i));
+//      do Out.s("i = ");
+//      do Out.lnI(i);
+
+      let c = oldStr.charAt(i);
+//
+//      do Out.s("char at i = ");
+//      do Out.lnC(c);
+
+      do newStr.appendChar(c);
+//
+//      do Out.s("char in new string = ");
+//      do Out.lnC(newStr.charAt(i));
+
       let i = i + 1;
     }
     return newStr;
