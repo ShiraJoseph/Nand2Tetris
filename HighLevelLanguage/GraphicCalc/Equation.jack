@@ -1,9 +1,10 @@
 class Equation {
-/** Constructs a new equation for graphing */
-  field int x, y, b, degree;
+  field Fraction x, y, m, b;
+  field int degree;
   field boolean xExists, yExists, bExists, mExists;
-  field String format, stringified;
+  field String format;
 
+	/** Constructs a new equation for graphing */
   constructor Equation new(int deg, String form) {
     let xExists = false;
     let yExists = false;
@@ -14,35 +15,187 @@ class Equation {
     return this;
   }
 
-//  method int solveForX(int y) {
-//    var Fraction x;
-//  }
+	/** Uses the value of x to solve for y */
+	method int solveForY(int xPoint) {
+		if (S.equals(format, "I")){
+			return (m * xPoint) + b;
+		}
+		if (S.equals(format, "P")){
+			return y - (m * (x - xPoint));
+    }
+    if (S.equals(format, "O")){
+      return (b - (x * xPoint)) / y;
+    }
+    return 0;
+	}
 
-//  method int solveForY(int x) {
-//
-//  }
+	/** Uses the value of y to solve for x */
+	method int solveForX(int yPoint) {
+		if (S.equals(format, "I")){
+			return (yPoint - b) / m;
+		}
+		if (S.equals(format, "P")){
+			return x - ((y - yPoint) / m);
+		}
+		if (S.equals(format, "O")){
+			return (b - (y * yPoint)) / x;
+		}
+		return 0;
+	}
 
-//  method void plot() {
-//
-//  }
-  method String getStringified(){
-    return stringified;
-  }
-  method void setStringified(int type) {
-    var String eq;
-    do Out.s("type: ");
-    do Out.lnI(type);
-//    if (type = 2){
-      do setOldString();
-//    }
-    do Out.ln(stringified);
+
+	/****************************************************
+	**  Methods to build the equation with user input  **
+	****************************************************/
+
+	/** Stores the appropriate values from the user based on the chosen equation format */
+	method void getValues(){
+		do Screen.clearScreen();
+		do Output.moveCursor(0,0);
+		if (S.equals(format, "P")){
+      do inputVar("y");
+      do inputVar("m");
+      do inputVar("x");
+      return;
+    }
+		if (S.equals(format, "I")){
+			do inputVar("m");
+			do inputVar("b");
+			return;
+		}
+		if (S.equals(format, "O")){
+      do inputVar("x");
+      do inputVar("y");
+      do inputVar("b");
+      return;
+		}
+    return;
+	}
+
+	/** Retrieves a single value from the user */
+  method void inputVar(String v) {
+    var xString, yString, bString, mString;
+    do Out.ln(toString());
+    if (S.equals(v, "x")){
+      let xString = Keyboard.readInt("Enter an x:");
+			let x = Fraction.new()
+      let xExists = true;
+    }
+    if (S.equals(v, "y")){
+      let y = Keyboard.readInt("Enter a y:");
+      let yExists = true;
+    }
+    if (S.equals(v, "b")){
+      let b = Keyboard.readInt("Enter an intercept:");
+      let bExists = true;
+    }
+    if (S.equals(v, "m")){
+      let m = Keyboard.readInt("Enter a slope:");
+      let mExists = true;
+     }
+     do Screen.clearScreen();
+     do Output.moveCursor(0,0);
     return;
   }
 
 
+	/************************************************************************************
+	**  Methods to create a string version of the equation for printing to the screen  **
+	************************************************************************************/
 
-  method void setOldString(){
-    var String xS, yS, bS;
+	/** Returns the current state of the equation as a string based on the chosen equation format */
+  method String toString() {
+    if (degree = 1){
+	    if (S.equals(format, "O")){
+	      return oldString();
+	    }
+	    if (S.equals(format, "I")){
+	      return slopeInterceptString();
+	    }
+	    if (S.equals(format, "P")){
+	      return pointSlopeString();
+	    }
+    }
+    return "x";
+  }
+
+  /** Returns a string version of the equation in slope-intercept form: y = mx + b */
+
+  method String slopeInterceptString(){
+    var String mS, bS, stringified;
+    var Array eArray;
+    if (mExists){
+      let mS = String.new(10);
+      do mS.setInt(m);
+    } else {
+      let mS = "_";
+    }
+    if (bExists){
+      let bS = String.new(10);
+      do bS.setInt(b);
+    } else {
+      let bS = "_";
+    }
+
+    let eArray = Array.new(4);
+    let eArray[0] = "y = ";
+    let eArray[1] = mS;
+    let eArray[2] = "x + ";
+    let eArray[3] = bS;
+
+    let stringified = S.concat(4, eArray);
+
+    do mS.dispose();
+    do bS.dispose();
+    do eArray.dispose();
+    return stringified;
+  }
+
+  /** Returns a string version of the equation in point-slope form: (y - y1) = m(x - x1) */
+  method String pointSlopeString(){
+    var String xS, yS, mS, stringified;
+    var Array eArray;
+
+    if (yExists){
+      let yS = String.new(10);
+      do yS.setInt(y);
+    } else {
+      let yS = "_";
+    }
+    if (mExists){
+      let mS = String.new(10);
+      do mS.setInt(m);
+    } else {
+      let mS = "_";
+    }
+    if (xExists){
+      let xS = String.new(10);
+      do xS.setInt(x);
+    } else {
+      let xS = "_";
+    }
+
+    let eArray = Array.new(7);
+    let eArray[0] = "(y - ";
+    let eArray[1] = yS;
+    let eArray[2] = ") = ";
+    let eArray[3] = mS;
+    let eArray[4] = "(x - ";
+    let eArray[5] = xS;
+    let eArray[6] = ")";
+
+    let stringified = S.concat(7, eArray);
+
+    do xS.dispose();
+    do yS.dispose();
+    do mS.dispose();
+    do eArray.dispose();
+    return stringified;
+  }
+
+	/** Returns a string version of the equation in the old format: cy + dx = b */
+  method String oldString(){
+    var String xS, yS, bS, stringified;
     var Array eArray;
 
     if (xExists){
@@ -71,30 +224,11 @@ class Equation {
     let eArray[3] = "y = ";
     let eArray[4] = bS;
 
-    let stringified = StringsUtil.concat(5, eArray);
+    let stringified = S.concat(5, eArray);
 
     do xS.dispose();
     do yS.dispose();
     do bS.dispose();
-    return;
-  }
-
-  method void inputVar(int v) {
-    if (v = 0){
-      let x = Keyboard.readInt("Enter an x:");
-      let xExists = true;
-      do Out.lnI(x);
-    }
-    if (v = 1){
-      let y = Keyboard.readInt("Enter a y:");
-      let yExists = true;
-      do Out.lnI(y);
-    }
-    if (v = 2){
-      let b = Keyboard.readInt("Enter a b:");
-      let bExists = true;
-      do Out.lnI(b);
-    }
-    return;
+    return stringified;
   }
 }

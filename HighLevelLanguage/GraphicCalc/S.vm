@@ -1,4 +1,4 @@
-function StringsUtil.append 6
+function S.append 6
 push argument 0
 call String.length 1
 pop local 0
@@ -64,7 +64,7 @@ call String.dispose 1
 pop temp 0
 push local 4
 return
-function StringsUtil.concat 3
+function S.concat 3
 push argument 0
 call Array.new 1
 pop local 1
@@ -103,7 +103,7 @@ push argument 1
 add
 pop pointer 1
 push that 0
-call StringsUtil.append 2
+call S.append 2
 pop temp 0
 pop pointer 1
 push temp 0
@@ -130,7 +130,7 @@ call Array.dispose 1
 pop temp 0
 push local 2
 return
-function StringsUtil.equals 1
+function S.equals 1
 push argument 0
 call String.length 1
 push argument 1
@@ -155,18 +155,17 @@ push argument 1
 push local 0
 call String.charAt 2
 eq
+not
 if-goto IF_TRUE1
 goto IF_FALSE1
 label IF_TRUE1
+push constant 0
+return
+label IF_FALSE1
 push local 0
 push constant 1
 add
 pop local 0
-goto IF_END1
-label IF_FALSE1
-push constant 0
-return
-label IF_END1
 goto WHILE_EXP0
 label WHILE_END0
 push constant 0
@@ -175,34 +174,146 @@ return
 label IF_FALSE0
 push constant 0
 return
-function StringsUtil.copy 4
+function S.includes 1
+push constant 0
+pop local 0
+label WHILE_EXP0
+push local 0
 push argument 0
 call String.length 1
-pop local 2
-push local 2
-call String.new 1
-pop local 0
-push constant 0
-pop local 1
-label WHILE_EXP0
-push local 1
-push local 2
 lt
 not
 if-goto WHILE_END0
 push argument 0
-push local 1
-call String.charAt 2
-pop local 3
 push local 0
-push local 3
-call String.appendChar 2
-pop temp 0
-push local 1
+call String.charAt 2
+push argument 1
+eq
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 0
+not
+return
+label IF_FALSE0
+push local 0
 push constant 1
 add
-pop local 1
+pop local 0
 goto WHILE_EXP0
 label WHILE_END0
+push constant 0
+return
+function S.indexOf 1
+push constant 0
+pop local 0
+label WHILE_EXP0
 push local 0
+push argument 0
+call String.length 1
+lt
+not
+if-goto WHILE_END0
+push argument 0
+push local 0
+call String.charAt 2
+push argument 1
+eq
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push local 0
+return
+label IF_FALSE0
+push local 0
+push constant 1
+add
+pop local 0
+goto WHILE_EXP0
+label WHILE_END0
+push constant 1
+neg
+return
+function S.substr 3
+push constant 10
+call String.new 1
+push constant 102
+call String.appendChar 2
+push constant 117
+call String.appendChar 2
+push constant 108
+call String.appendChar 2
+push constant 108
+call String.appendChar 2
+push constant 83
+call String.appendChar 2
+push constant 116
+call String.appendChar 2
+push constant 114
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+push constant 61
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+push argument 0
+call Out.log 2
+pop temp 0
+push argument 1
+push constant 1
+neg
+gt
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push argument 1
+push argument 2
+push constant 1
+add
+lt
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push argument 2
+push argument 0
+call String.length 1
+lt
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push argument 2
+push argument 1
+sub
+call String.new 1
+pop local 1
+push argument 1
+pop local 0
+label WHILE_EXP0
+push local 0
+push argument 2
+lt
+not
+if-goto WHILE_END0
+push argument 0
+push local 0
+call String.charAt 2
+pop local 2
+push local 1
+push local 2
+call String.appendChar 2
+pop temp 0
+push local 0
+push constant 1
+add
+pop local 0
+goto WHILE_EXP0
+label WHILE_END0
+push local 1
+return
+label IF_FALSE2
+label IF_FALSE1
+label IF_FALSE0
+push constant 0
+call String.new 1
 return

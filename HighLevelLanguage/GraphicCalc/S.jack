@@ -1,0 +1,122 @@
+/**
+* This class offers utility functions for strings
+*/
+class S {
+	/** Takes two strings and appends them together into a single string */
+  function String append (String a, String b){
+    var int aLength, bLength, abLength, i;
+    var String ab;
+    var char c;
+
+    let aLength = a.length();
+    let bLength = b.length();
+    let abLength = aLength + bLength;
+
+    let ab = String.new(abLength);
+
+    let i = 0;
+    while (i < aLength){
+      let c = a.charAt(i);
+      do ab.appendChar(c);
+      let i = i + 1;
+    }
+
+    let i = 0;
+    while (i < bLength){
+      let c = b.charAt(i);
+      do ab.appendChar(c);
+      let i = i + 1;
+    }
+
+    do a.dispose();
+    do b.dispose();
+
+    return ab;
+  }
+
+	/** Takes an array of strings and concatenates them together into a single string */
+  function String concat (int end, Array strings) {
+    var int i;
+    var Array builder;
+    var String newStr;
+
+    let builder = Array.new(end);
+    let builder[0] = strings[0];
+
+    let i = 1;
+    while (i < end) {
+      let builder[i] = S.append(builder[i-1], strings[i]);
+      let i = i + 1;
+    }
+    let newStr = builder[i - 1];
+    do strings.dispose();
+    do builder.dispose();
+    return newStr;
+  }
+
+	/** Returns whether two strings contain the same value */
+  function boolean equals (String first, String second) {
+    var int i;
+    if (first.length() = second.length()){
+      let i = 0;
+      while (i < first.length()){
+        if (~(first.charAt(i) = second.charAt(i))) {
+          return false;
+        }
+        let i = i + 1;
+      }
+      return true;
+    }
+    return false;
+  }
+
+  /** Returns whether the given char can be found in a string */
+  function boolean includes (String string, char c) {
+    var int i;
+    let i = 0;
+    while (i < string.length()) {
+      if (string.charAt(i) = c) {
+        return true;
+      }
+      let i = i + 1;
+    }
+    return false;
+  }
+
+  /** Returns the index of the first time the given char appears in a string or -1 if not found */
+  function int indexOf (String string, char c) {
+    var int i;
+    let i = 0;
+    while (i < string.length()) {
+      if (string.charAt(i) = c) {
+        return i;
+      }
+      let i = i + 1;
+    }
+    return -1;
+  }
+
+  /** Returns a portion of the a string from the start index inclusive to the end index exclusive */
+  function String substr (String fullStr, int start, int end) {
+    var int i;
+    var String sub;
+    var char c;
+    do Out.log("fullStr = ", fullStr);
+    if (start > -1) {
+      if (start < (end + 1)){
+        if (end < fullStr.length()) {
+          let sub = String.new(end - start);
+					let i = start;
+					while(i < end){
+            let c = fullStr.charAt(i);
+            do sub.appendChar(c);
+//            do Out.log("sub is now: ", sub);
+            let i = i + 1;
+          }
+          return sub;
+        }
+      }
+    }
+    return "";
+  }
+}

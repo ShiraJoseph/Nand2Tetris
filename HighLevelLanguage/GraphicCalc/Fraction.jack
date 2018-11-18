@@ -19,6 +19,7 @@ class Fraction {
   method void reduce() {
     var int g;
     let g = Fraction.gcd(numerator, denominator);
+    do Out.lnI(g);
     if (g > 1) {
        let numerator = numerator / g;
        let denominator = denominator / g;
@@ -39,10 +40,11 @@ class Fraction {
 
   // More fraction-related methods (minus, times, div, etc.) can be added here.
 
+	/**************************************************************/
+	/** The following methods written by Shira Joseph, Dec 2018  **/
+	/**----------------------------------------------------------**/
 
-  /** -- The following written by Shira Joseph 2018. -- */
-
-  /** Subtracts one fraction from another. */
+  /** Subtracts one fraction from another */
   method Fraction minus(Fraction sub) {
     var int minuend, subtrahend, difference;
     let minuend = numerator * sub.getDenominator();
@@ -62,12 +64,50 @@ class Fraction {
   /** Divides one fraction by another */
   method Fraction dividedBy (Fraction divisor) {
     var int numer, denom, quotient;
-    let numer = numerator * mult.getDenominator();
-    let denom = denominator * mult.getNumerator();
-    return Fraction.new (numer, denom);
+    let numer = numerator * divisor.getDenominator();
+    let denom = denominator * divisor.getNumerator();
+    return Fraction.new(numer, denom);
   }
 
-  /** -- End of lines written by Shira Joseph -- */
+	/** Turns a string into a Fraction */
+  function Fraction toFraction (String num) {
+    var int delimiter, forwardSlash, backSlash, end;
+    var String numer, denom;
+		do Out.ln(S.append("toFraction thinks it is: ", num));
+    let forwardSlash = S.indexOf(num, 47);
+    let backSlash = S.indexOf(num, 92);
+
+    if (forwardSlash = -1 & backSlash = -1) {
+      return Fraction.new(String.intValue(num), 1);
+    }
+
+    if (forwardSlash > -1) {
+      do Out.ln("Found a forward.");
+      let delimiter = forwardSlash;
+    } else {
+      do Out.ln("Found a back.");
+      let delimiter = backSlash;
+    }
+
+		do Out.s("Found a slash at index ");
+		do Out.lnI(delimiter);
+
+    let numer = S.substr(num, 0, delimiter);
+
+    do Out.ln(S.append("numer = ", numer));
+
+    let denom = S.substr(num, delimiter + 1, num.length()-1);
+
+    do Out.ln(S.append("denom = ", denom));
+
+
+    return Fraction.new(String.intValue(numer), String.intValue(denom));
+  }
+
+
+	/**- - - - - - - - - - - - - - - - - - - - - - - - - - - - - **/
+	/**               End of lines by Shira Joseph               **/
+	/**************************************************************/
 
   /** Disposes this fraction. */
   method void dispose() {

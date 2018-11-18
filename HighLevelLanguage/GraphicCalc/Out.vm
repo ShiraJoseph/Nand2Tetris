@@ -114,3 +114,17 @@ call Output.println 0
 pop temp 0
 push constant 0
 return
+function Out.log 0
+push argument 0
+push argument 1
+call S.append 2
+call Out.ln 1
+pop temp 0
+push argument 0
+call String.dispose 1
+pop temp 0
+push argument 1
+call String.dispose 1
+pop temp 0
+push constant 0
+return

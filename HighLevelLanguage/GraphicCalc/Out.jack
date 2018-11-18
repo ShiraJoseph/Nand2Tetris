@@ -1,20 +1,26 @@
+/**
+* This class provides shortcuts for Output.print functions
+*/
 class Out {
-  //shortcut class to print value and then print new line
+	/** Prints a string */
   function void s (String msg){
     do Output.printString(msg);
     return;
   }
 
+	/** Prints an integer */
   function void i (int msg){
     do Output.printInt(msg);
     return;
   }
 
+	/** Prints a char */
   function void c (char msg){
     do Output.printChar(msg);
     return;
   }
 
+	/** Prints a boolean */
   function void b (boolean msg){
     if (msg) {
       do Output.printString ("true");
@@ -24,24 +30,28 @@ class Out {
     return;
   }
 
+	/** Prints a string and then carriage return */
   function void ln (String msg) {
     do Output.printString(msg);
     do Output.println();
     return;
   }
 
+	/** Prints an integer and then carriage return */
   function void lnI (int msg) {
     do Output.printInt(msg);
     do Output.println();
     return;
   }
 
+	/** Prints a char and then carriage return */
   function void lnC (char msg) {
     do Output.printChar(msg);
     do Output.println();
     return;
   }
 
+	/** Prints a boolean and then carriage return */
   function void lnB (boolean msg) {
     if (msg) {
       do Output.printString ("true");
@@ -52,5 +62,11 @@ class Out {
     return;
   }
 
-
+  /** Prints two strings and then carriage return */
+  function void log(String a, String b){
+    do Out.ln(S.append(a, b));
+    do a.dispose();
+    do b.dispose();
+    return;
+  }
 }

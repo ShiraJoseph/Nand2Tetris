@@ -1,0 +1,6 @@
+class Graph {
+	/** Constructs a new graph */
+  constructor Graph new() {
+    return this;
+  }
+}

@@ -1,59 +1,52 @@
 class Main {
   function void main() {
-    var Equation equation;
-    var String eq, stringA, stringB, stringC, stringD;
-    var int v;
-    var boolean equal;
-//    let equation = Equation.new(1, "no form");
-//    0 = x, 1 = y, 2 = b
-//    let v = 0;
-//    do equation.inputVar(v);
-//    let v = 1;
-//    do equation.inputVar(v);
-//    let v = 2;
-//    do equation.inputVar(v);
-
-//    let eq = equation.setStringified(2);
-//    do Out.ln(eq);
-
-//    do eq.dispose();
-		let stringA = "goose";
-		let stringB = stringA;
-		do Out.ln("stringB = to stringA:");
-		  do Out.s("stringA: ");
-         do Out.ln(stringA);
-         do Out.s("stringB: ");
-         do Out.ln(stringB);
-         		let stringA = "moose";
-         do Out.ln("then change stringA to moose:");
-      do Out.s("stringA: ");
-               do Out.ln(stringA);
-               do Out.s("stringB: ");
-               do Out.ln(stringB);
-		do Output.println();
-
-    let stringC = "mouse";
-
-    let stringD = StringsUtil.copy(stringC);
-    do Out.ln("stringD = copy(stringC):");
-    do Out.s("stringC: ");
-    do Out.ln(stringC);
-    do Out.s("stringD: ");
-    do Out.ln(stringD);
-
-    let stringD = "house";
-    do Out.ln(" Changing D to house and get...");
-    do Out.s("stringC: ");
-    do Out.ln(stringC);
-    do Out.s("stringD: ");
-    do Out.ln(stringD);
-
-    do stringA.dispose();
-    do stringB.dispose();
-    do stringC.dispose();
-    do stringD.dispose();
-
+    do Main.createEquation();
+//		var Fraction frac;
+//		var String inp;
+//		do Out.ln("Let's start");
+//		let inp = Keyboard.readLine("Enter a number or fraction: ");
+//		let frac = Fraction.toFraction(inp);
+//		do Out.i(frac.getNumerator());
+//		do Out.s(" / ");
+//		do Out.lnI(frac.getDenominator());
+//		do frac.print();
     return;
   }
 
+  function void createEquation(){
+    var Equation equation;
+    var String format;
+    var int one, two, three;
+    let format = Keyboard.readLine("[P]oint-Slope, or Slope-[I]ntercept? ");
+    while(~(S.equals(format, "O") | S.equals(format, "I") | S.equals(format, "P"))){
+      if (S.equals(format, "Q")){
+        return;
+      }
+      let format = Keyboard.readLine("Please type P or I.");
+    }
+    do Screen.clearScreen();
+    do Output.moveCursor(0,0);
+    let equation = Equation.new(1, format);
+    do equation.getValues();
+    do Out.ln(equation.toString());
+    do Out.ln("");
+    do Out.ln("Some points:");
+    do Out.s("(0, ");
+    let one = equation.solveForY(0);
+    let two = equation.solveForY(50);
+    let three = equation.solveForX(60);
+    do Out.i(one);
+    do Out.ln(")");
+    do Out.s("(1, ");
+    do Out.i(two);
+    do Out.ln(")");
+    do Out.s("(");
+    do Out.i(three);
+    do Out.ln(", 1)");
+//    do Screen.clearScreen();
+//    do Screen.drawLine(0, 64 - one, three, 64-60);
+//    do Sys.wait(4000);
+    do Main.createEquation();
+    return;
+  }
 }
