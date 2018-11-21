@@ -7,11 +7,9 @@ class S {
     var int aLength, bLength, abLength, i;
     var String ab;
     var char c;
-
     let aLength = a.length();
     let bLength = b.length();
     let abLength = aLength + bLength;
-
     let ab = String.new(abLength);
 
     let i = 0;
@@ -33,6 +31,106 @@ class S {
 
     return ab;
   }
+  // Unfortunately, Jack does not allow overriding, so these next functions are as close as you can get to it.
+
+	function String append3 (String a, String b, String c){
+		var Array strings;
+		let strings = Array.new(3);
+		let strings[0] = a;
+		let strings[1] = b;
+		let strings[2] = c;
+		do strings.dispose();
+		return S.concat(3, strings);
+	}
+
+	function String append4 (String a, String b, String c, String d){
+    var Array strings;
+    var String appended;
+    let strings = Array.new(4);
+    let strings[0] = a;
+    let strings[1] = b;
+    let strings[2] = c;
+    let strings[3] = d;
+    do strings.dispose();
+    let appended = S.concat(4, strings);
+    return appended;
+  }
+
+	function String append5 (String a, String b, String c, String d, String e){
+    var Array strings;
+    var String appended;
+    let strings = Array.new(5);
+    let strings[0] = a;
+    let strings[1] = b;
+    let strings[2] = c;
+    let strings[3] = d;
+    let strings[4] = e;
+    let appended = S.concat(5, strings);
+    do strings.dispose();
+    return appended;
+  }
+
+  function String append6 (String a, String b, String c, String d, String e, String f){
+    var Array strings;
+    var String appended;
+    let strings = Array.new(6);
+    let strings[0] = a;
+    let strings[1] = b;
+    let strings[2] = c;
+    let strings[3] = d;
+    let strings[4] = e;
+    let strings[5] = f;
+    let appended = S.concat(6, strings);
+    do strings.dispose();
+    return appended;
+  }
+
+	function String append7 (String a, String b, String c, String d, String e, String f, String g){
+    var Array strings;
+    var String appended;
+    do Out.ln("append7");
+    do Out.s(a);
+    do Out.s(",");
+    do Out.s(b);
+        do Out.s(",");
+        do Out.s(c);
+            do Out.s(",");
+            do Out.s(d);
+                do Out.s(",");
+                do Out.s(e);
+                    do Out.s(",");
+                    do Out.s(f);
+                        do Out.s(",");
+                        do Out.ln(g);
+    let strings = Array.new(7);
+    let strings[0] = a;
+    do Out.ln(strings[0]);
+    let strings[1] = b;
+    do Out.ln(strings[1]);
+    let strings[2] = c;
+    do Out.ln(strings[2]);
+    let strings[3] = d;
+    do Out.ln(strings[3]);
+    let strings[4] = e;
+    do Out.ln(strings[4]);
+    let strings[5] = f;
+    do Out.ln(strings[5]);
+    let strings[6] = g;
+    do Out.ln(strings[6]);
+
+
+    let appended = S.concat(7, strings);
+        do strings.dispose();
+    do a.dispose();
+    		do b.dispose();
+    		do c.dispose();
+    		do d.dispose();
+    		do e.dispose();
+    		do f.dispose();
+    		do g.dispose();
+
+    return appended;
+  }
 
 	/** Takes an array of strings and concatenates them together into a single string */
   function String concat (int end, Array strings) {
@@ -49,6 +147,7 @@ class S {
       let i = i + 1;
     }
     let newStr = builder[i - 1];
+    do Out.ln(newStr);
     do strings.dispose();
     do builder.dispose();
     return newStr;
@@ -110,9 +209,10 @@ class S {
 					while(i < end){
             let c = fullStr.charAt(i);
             do sub.appendChar(c);
-//            do Out.log("sub is now: ", sub);
             let i = i + 1;
           }
+          do Out.log("subStr = ", sub);
+          do fullStr.dispose();
           return sub;
         }
       }

@@ -19,7 +19,7 @@ class Fraction {
   method void reduce() {
     var int g;
     let g = Fraction.gcd(numerator, denominator);
-    do Out.lnI(g);
+//    do Out.lnI(g);
     if (g > 1) {
        let numerator = numerator / g;
        let denominator = denominator / g;
@@ -39,6 +39,30 @@ class Fraction {
   }
 
   // More fraction-related methods (minus, times, div, etc.) can be added here.
+
+ /** Disposes this fraction. */
+  method void dispose() {
+    do Memory.deAlloc(this);  // uses an OS routine to recycle the memory held by the object
+    return;
+  }
+
+  /** Prints this fraction in the format x/y. */
+  method void print() {
+    do Output.printInt(numerator);
+    do Output.printString("/");
+    do Output.printInt(denominator);
+    return;
+  }
+
+  // Computes the greatest common divisor of the given integers.
+  function int gcd(int a, int b) {
+    var int r;
+    while (~(b = 0)) {             // applies Euclid's algorithm
+       let r = a - (b * (a / b));  // r = remainder of the integer division a/b
+       let a = b; let b = r;
+    }
+    return a;
+  }
 
 	/**************************************************************/
 	/** The following methods written by Shira Joseph, Dec 2018  **/
@@ -73,7 +97,7 @@ class Fraction {
   function Fraction toFraction (String num) {
     var int delimiter, forwardSlash, backSlash, end;
     var String numer, denom;
-		do Out.ln(S.append("toFraction thinks it is: ", num));
+//		do Out.ln(S.append("toFraction thinks it is: ", num));
     let forwardSlash = S.indexOf(num, 47);
     let backSlash = S.indexOf(num, 92);
 
@@ -82,54 +106,42 @@ class Fraction {
     }
 
     if (forwardSlash > -1) {
-      do Out.ln("Found a forward.");
+//      do Out.ln("Found a forward.");
       let delimiter = forwardSlash;
     } else {
-      do Out.ln("Found a back.");
+//      do Out.ln("Found a back.");
       let delimiter = backSlash;
     }
 
-		do Out.s("Found a slash at index ");
-		do Out.lnI(delimiter);
+//		do Out.s("Found a slash at index ");
+//		do Out.lnI(delimiter);
 
     let numer = S.substr(num, 0, delimiter);
 
-    do Out.ln(S.append("numer = ", numer));
+//    do Out.ln(S.append("numer = ", numer));
 
-    let denom = S.substr(num, delimiter + 1, num.length()-1);
+    let denom = S.substr(num, delimiter + 1, num.length() - 1);
 
-    do Out.ln(S.append("denom = ", denom));
+//    do Out.ln(S.append("denom = ", denom));
 
 
     return Fraction.new(String.intValue(numer), String.intValue(denom));
   }
 
+	method String toString(){
+		var String appended, n, d;
+		let n = String.new(10);
+		let d = String.new(10);
+		do n.setInt(numerator);
+		do d.setInt(denominator);
+		if (denominator = 1){
+			let appended = n;
+		} else {
+			let appended = S.append3(n, "/", d);
+		}
+		do n.dispose();
+		do d.dispose();
+		return appended;
+	}
 
-	/**- - - - - - - - - - - - - - - - - - - - - - - - - - - - - **/
-	/**               End of lines by Shira Joseph               **/
-	/**************************************************************/
-
-  /** Disposes this fraction. */
-  method void dispose() {
-    do Memory.deAlloc(this);  // uses an OS routine to recycle the memory held by the object
-    return;
-  }
-
-  /** Prints this fraction in the format x/y. */
-  method void print() {
-    do Output.printInt(numerator);
-    do Output.printString("/");
-    do Output.printInt(denominator);
-    return;
-  }
-
-  // Computes the greatest common divisor of the given integers.
-  function int gcd(int a, int b) {
-    var int r;
-    while (~(b = 0)) {             // applies Euclid's algorithm
-       let r = a - (b * (a / b));  // r = remainder of the integer division a/b
-       let a = b; let b = r;
-    }
-    return a;
-  }
 }

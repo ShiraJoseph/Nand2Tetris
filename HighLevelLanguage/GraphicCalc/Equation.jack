@@ -15,32 +15,57 @@ class Equation {
     return this;
   }
 
-	/** Uses the value of x to solve for y */
-	method int solveForY(int xPoint) {
+	/** Uses a value of x to solve for y */
+	method Fraction solveForY(int xPoint) {
+		var Fraction xFrac, yFrac, step1, step2;
+		var String xS;
+		let xS = xPoint;
+		let yFrac = Fraction.new(1, 1);
+    let xFrac = Fraction.toFraction(xS);
 		if (S.equals(format, "I")){
-			return (m * xPoint) + b;
+			let step1 = m.times(xFrac);
+			let yFrac = step1.plus(b);
+			return yFrac;
 		}
 		if (S.equals(format, "P")){
-			return y - (m * (x - xPoint));
+			let step1 = x.minus(xFrac);
+			let step2 = m.times(step1);
+			let yFrac = y.minus(step2);
+			return yFrac;
     }
     if (S.equals(format, "O")){
-      return (b - (x * xPoint)) / y;
+      let step1 = x.times(xFrac);
+      let step2 = b.minus(step1);
+      let yFrac = step2.dividedBy(y);
+      return yFrac;
     }
-    return 0;
+    return xFrac;
 	}
 
-	/** Uses the value of y to solve for x */
-	method int solveForX(int yPoint) {
+	/** Uses a value of y to solve for x */
+	method Fraction solveForX(int yPoint) {
+		var Fraction yFrac, xFrac, step1, step2;
+		var String yS;
+		let yS = yPoint;
+		let xFrac = Fraction.new(1, 1);
+		let yFrac = Fraction.toFraction(yS);
 		if (S.equals(format, "I")){
-			return (yPoint - b) / m;
+			let step1 = yFrac.minus(b);
+			let xFrac = step1.dividedBy(m);
 		}
 		if (S.equals(format, "P")){
-			return x - ((y - yPoint) / m);
+			let step1 = y.minus(yFrac);
+			let step2 = x.minus(step1);
+			let xFrac = step2.dividedBy(m);
 		}
 		if (S.equals(format, "O")){
-			return (b - (y * yPoint)) / x;
+			let step1 = y.times(yFrac);
+			let step2 = b.minus(step1);
+			let xFrac = step2.dividedBy(x);
 		}
-		return 0;
+		do step1.dispose();
+		do step2.dispose();
+		return xFrac;
 	}
 
 
@@ -74,23 +99,31 @@ class Equation {
 
 	/** Retrieves a single value from the user */
   method void inputVar(String v) {
-    var xString, yString, bString, mString;
+    var String xString, yString, bString, mString;
     do Out.ln(toString());
     if (S.equals(v, "x")){
-      let xString = Keyboard.readInt("Enter an x:");
-			let x = Fraction.new()
+      let xString = Keyboard.readLine("Enter an x:");
+			let x = Fraction.toFraction(xString);
+			do xString.dispose();
       let xExists = true;
     }
     if (S.equals(v, "y")){
-      let y = Keyboard.readInt("Enter a y:");
+      let yString = Keyboard.readLine("Enter a y:");
+      do Out.ln(yString);
+      let y = Fraction.toFraction(yString);
+      do yString.dispose();
       let yExists = true;
     }
     if (S.equals(v, "b")){
-      let b = Keyboard.readInt("Enter an intercept:");
+      let bString = Keyboard.readLine("Enter an intercept:");
+      let b = Fraction.toFraction(bString);
+      do bString.dispose();
       let bExists = true;
     }
     if (S.equals(v, "m")){
-      let m = Keyboard.readInt("Enter a slope:");
+      let mString = Keyboard.readLine("Enter a slope:");
+      let m = Fraction.toFraction(mString);
+      do mString.dispose();
       let mExists = true;
      }
      do Screen.clearScreen();
@@ -123,108 +156,70 @@ class Equation {
 
   method String slopeInterceptString(){
     var String mS, bS, stringified;
-    var Array eArray;
     if (mExists){
-      let mS = String.new(10);
-      do mS.setInt(m);
+      let mS = m.toString();
     } else {
       let mS = "_";
     }
     if (bExists){
-      let bS = String.new(10);
-      do bS.setInt(b);
+      let bS = b.toString();
     } else {
       let bS = "_";
     }
-
-    let eArray = Array.new(4);
-    let eArray[0] = "y = ";
-    let eArray[1] = mS;
-    let eArray[2] = "x + ";
-    let eArray[3] = bS;
-
-    let stringified = S.concat(4, eArray);
-
+		let stringified = S.append4("y = ", mS, "x + ", bS);
     do mS.dispose();
     do bS.dispose();
-    do eArray.dispose();
     return stringified;
   }
 
   /** Returns a string version of the equation in point-slope form: (y - y1) = m(x - x1) */
   method String pointSlopeString(){
     var String xS, yS, mS, stringified;
-    var Array eArray;
-
+    do Out.ln("in pointSlopeString()");
     if (yExists){
-      let yS = String.new(10);
-      do yS.setInt(y);
+      do Out.s("Fraction.toString(y) = ");
+      let yS = y.toString();
+      do Out.ln(yS);
     } else {
       let yS = "_";
     }
     if (mExists){
-      let mS = String.new(10);
-      do mS.setInt(m);
+      let mS = m.toString();
     } else {
       let mS = "_";
     }
     if (xExists){
-      let xS = String.new(10);
-      do xS.setInt(x);
+      let xS = x.toString();
     } else {
       let xS = "_";
     }
-
-    let eArray = Array.new(7);
-    let eArray[0] = "(y - ";
-    let eArray[1] = yS;
-    let eArray[2] = ") = ";
-    let eArray[3] = mS;
-    let eArray[4] = "(x - ";
-    let eArray[5] = xS;
-    let eArray[6] = ")";
-
-    let stringified = S.concat(7, eArray);
+    let stringified = S.append7("(y - ", yS, ") = ", mS, "(x - ", xS, ")");
 
     do xS.dispose();
     do yS.dispose();
     do mS.dispose();
-    do eArray.dispose();
     return stringified;
   }
 
 	/** Returns a string version of the equation in the old format: cy + dx = b */
   method String oldString(){
     var String xS, yS, bS, stringified;
-    var Array eArray;
-
     if (xExists){
-      let xS = String.new(10);
-      do xS.setInt(x);
+      let xS = x.toString();
     } else {
       let xS = "_";
     }
     if (yExists){
-      let yS = String.new(10);
-      do yS.setInt(y);
+      let yS = y.toString();
     } else {
       let yS = "_";
     }
     if (bExists){
-      let bS = String.new(10);
-      do bS.setInt(b);
+      let bS = b.toString();
     } else {
       let bS = "_";
     }
-
-    let eArray = Array.new(5);
-    let eArray[0] = xS;
-    let eArray[1] = "x + ";
-    let eArray[2] = yS;
-    let eArray[3] = "y = ";
-    let eArray[4] = bS;
-
-    let stringified = S.concat(5, eArray);
+    let stringified = S.append5(xS, "x + ", yS, "y = ", bS);
 
     do xS.dispose();
     do yS.dispose();
