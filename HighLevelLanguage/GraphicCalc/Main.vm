@@ -162,12 +162,6 @@ call Keyboard.readLine 1
 pop local 1
 goto WHILE_EXP0
 label WHILE_END0
-call Screen.clearScreen 0
-pop temp 0
-push constant 0
-push constant 0
-call Output.moveCursor 2
-pop temp 0
 push constant 1
 push local 1
 call Equation.new 2

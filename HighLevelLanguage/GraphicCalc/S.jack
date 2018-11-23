@@ -35,12 +35,17 @@ class S {
 
 	function String append3 (String a, String b, String c){
 		var Array strings;
+		var String appended;
 		let strings = Array.new(3);
 		let strings[0] = a;
 		let strings[1] = b;
 		let strings[2] = c;
-		do strings.dispose();
-		return S.concat(3, strings);
+		let appended = S.concat(3, strings);
+//		do a.dispose();
+//		do b.dispose();
+//		do c.dispose();
+//		do strings.dispose();
+		return appended;
 	}
 
 	function String append4 (String a, String b, String c, String d){
@@ -51,8 +56,13 @@ class S {
     let strings[1] = b;
     let strings[2] = c;
     let strings[3] = d;
-    do strings.dispose();
+
     let appended = S.concat(4, strings);
+		do a.dispose();
+		do b.dispose();
+		do c.dispose();
+		do d.dispose();
+    do strings.dispose();
     return appended;
   }
 
@@ -66,6 +76,11 @@ class S {
     let strings[3] = d;
     let strings[4] = e;
     let appended = S.concat(5, strings);
+    do a.dispose();
+    do b.dispose();
+    do c.dispose();
+    do d.dispose();
+    do e.dispose();
     do strings.dispose();
     return appended;
   }
@@ -81,6 +96,12 @@ class S {
     let strings[4] = e;
     let strings[5] = f;
     let appended = S.concat(6, strings);
+    do a.dispose();
+    do b.dispose();
+    do c.dispose();
+    do d.dispose();
+    do e.dispose();
+    do f.dispose();
     do strings.dispose();
     return appended;
   }
@@ -104,31 +125,24 @@ class S {
                         do Out.ln(g);
     let strings = Array.new(7);
     let strings[0] = a;
-    do Out.ln(strings[0]);
     let strings[1] = b;
-    do Out.ln(strings[1]);
     let strings[2] = c;
-    do Out.ln(strings[2]);
     let strings[3] = d;
-    do Out.ln(strings[3]);
     let strings[4] = e;
-    do Out.ln(strings[4]);
     let strings[5] = f;
-    do Out.ln(strings[5]);
     let strings[6] = g;
-    do Out.ln(strings[6]);
-
 
     let appended = S.concat(7, strings);
-        do strings.dispose();
-    do a.dispose();
-    		do b.dispose();
-    		do c.dispose();
-    		do d.dispose();
-    		do e.dispose();
-    		do f.dispose();
-    		do g.dispose();
+      do a.dispose();
+      do b.dispose();
+      do c.dispose();
+      do d.dispose();
+      do e.dispose();
+      do f.dispose();
+      do g.dispose();
 
+      do strings.dispose();
+      do Out.log("appended after the disposes: ", appended);
     return appended;
   }
 
@@ -137,7 +151,6 @@ class S {
     var int i;
     var Array builder;
     var String newStr;
-
     let builder = Array.new(end);
     let builder[0] = strings[0];
 
@@ -160,12 +173,18 @@ class S {
       let i = 0;
       while (i < first.length()){
         if (~(first.charAt(i) = second.charAt(i))) {
+          do first.dispose();
+          do second.dispose();
           return false;
         }
         let i = i + 1;
       }
+      do first.dispose();
+      do second.dispose();
       return true;
     }
+    do first.dispose();
+    do second.dispose();
     return false;
   }
 
@@ -175,10 +194,12 @@ class S {
     let i = 0;
     while (i < string.length()) {
       if (string.charAt(i) = c) {
+        do string.dispose();
         return true;
       }
       let i = i + 1;
     }
+    do string.dispose();
     return false;
   }
 
@@ -188,10 +209,12 @@ class S {
     let i = 0;
     while (i < string.length()) {
       if (string.charAt(i) = c) {
+        do string.dispose();
         return i;
       }
       let i = i + 1;
     }
+    do string.dispose();
     return -1;
   }
 

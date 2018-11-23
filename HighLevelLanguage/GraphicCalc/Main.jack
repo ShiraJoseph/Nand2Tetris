@@ -24,8 +24,8 @@ class Main {
       }
       let format = Keyboard.readLine("Please type P or I.");
     }
-    do Screen.clearScreen();
-    do Output.moveCursor(0,0);
+//    do Screen.clearScreen();
+//    do Output.moveCursor(0,0);
     let equation = Equation.new(1, format);
     do equation.getValues();
     do Out.ln(equation.toString());

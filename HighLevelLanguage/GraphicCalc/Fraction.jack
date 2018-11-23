@@ -95,7 +95,7 @@ class Fraction {
 
 	/** Turns a string into a Fraction */
   function Fraction toFraction (String num) {
-    var int delimiter, forwardSlash, backSlash, end;
+    var int delimiter, forwardSlash, backSlash, end, len, dInd, numerI, denomI;
     var String numer, denom;
 //		do Out.ln(S.append("toFraction thinks it is: ", num));
     let forwardSlash = S.indexOf(num, 47);
@@ -117,28 +117,32 @@ class Fraction {
 //		do Out.lnI(delimiter);
 
     let numer = S.substr(num, 0, delimiter);
-
+		let numerI = String.intValue(numer);
 //    do Out.ln(S.append("numer = ", numer));
-
-    let denom = S.substr(num, delimiter + 1, num.length() - 1);
-
+		let dInd = delimiter + 1;
+		let len = num.length() - 1;
+    let denom = S.substr(num, dInd, len);
+		let denomI = String.intValue(denom);
 //    do Out.ln(S.append("denom = ", denom));
 
 
-    return Fraction.new(String.intValue(numer), String.intValue(denom));
+    return Fraction.new(numerI, denomI);
   }
 
 	method String toString(){
 		var String appended, n, d;
-		let n = String.new(10);
-		let d = String.new(10);
-		do n.setInt(numerator);
-		do d.setInt(denominator);
+//		let n = String.new(10);
+//		let d = String.new(10);
+//		do n.setInt(numerator);
+//		do d.setInt(denominator);
+		let n = numerator;
+		let d = denominator;
 		if (denominator = 1){
 			let appended = n;
 		} else {
 			let appended = S.append3(n, "/", d);
 		}
+		do Out.log("toString, appended = ", appended);
 		do n.dispose();
 		do d.dispose();
 		return appended;

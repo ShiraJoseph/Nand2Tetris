@@ -183,12 +183,6 @@ return
 function Equation.getValues 0
 push argument 0
 pop pointer 0
-call Screen.clearScreen 0
-pop temp 0
-push constant 0
-push constant 0
-call Output.moveCursor 2
-pop temp 0
 push this 9
 push constant 1
 call String.new 1
@@ -328,6 +322,34 @@ pop local 0
 push local 0
 call Fraction.toFraction 1
 pop this 0
+push this 0
+call Fraction.toString 1
+pop local 0
+push constant 10
+call String.new 1
+push constant 120
+call String.appendChar 2
+push constant 83
+call String.appendChar 2
+push constant 116
+call String.appendChar 2
+push constant 114
+call String.appendChar 2
+push constant 105
+call String.appendChar 2
+push constant 110
+call String.appendChar 2
+push constant 103
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+push constant 61
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+push local 0
+call Out.log 2
+pop temp 0
 push local 0
 call String.dispose 1
 pop temp 0
@@ -493,12 +515,6 @@ push constant 0
 not
 pop this 8
 label IF_FALSE3
-call Screen.clearScreen 0
-pop temp 0
-push constant 0
-push constant 0
-call Output.moveCursor 2
-pop temp 0
 push constant 0
 return
 function Equation.toString 0

@@ -75,8 +75,8 @@ class Equation {
 
 	/** Stores the appropriate values from the user based on the chosen equation format */
 	method void getValues(){
-		do Screen.clearScreen();
-		do Output.moveCursor(0,0);
+//		do Screen.clearScreen();
+//		do Output.moveCursor(0,0);
 		if (S.equals(format, "P")){
       do inputVar("y");
       do inputVar("m");
@@ -104,6 +104,8 @@ class Equation {
     if (S.equals(v, "x")){
       let xString = Keyboard.readLine("Enter an x:");
 			let x = Fraction.toFraction(xString);
+			let xString = x.toString();
+			do Out.log("xString = ", xString);
 			do xString.dispose();
       let xExists = true;
     }
@@ -126,8 +128,8 @@ class Equation {
       do mString.dispose();
       let mExists = true;
      }
-     do Screen.clearScreen();
-     do Output.moveCursor(0,0);
+//     do Screen.clearScreen();
+//     do Output.moveCursor(0,0);
     return;
   }
 
