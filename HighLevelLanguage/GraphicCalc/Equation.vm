@@ -1,5 +1,5 @@
 function Equation.new 0
-push constant 10
+push constant 14
 call Memory.alloc 1
 pop pointer 0
 push constant 0
@@ -133,12 +133,6 @@ return
 function Equation.getValues 0
 push argument 0
 pop pointer 0
-call Screen.clearScreen 0
-pop temp 0
-push constant 0
-push constant 0
-call Output.moveCursor 2
-pop temp 0
 push this 9
 push constant 1
 call String.new 1
@@ -148,54 +142,6 @@ call S.equals 2
 if-goto IF_TRUE0
 goto IF_FALSE0
 label IF_TRUE0
-push constant 22
-call String.new 1
-push constant 99
-call String.appendChar 2
-push constant 97
-call String.appendChar 2
-push constant 108
-call String.appendChar 2
-push constant 108
-call String.appendChar 2
-push constant 105
-call String.appendChar 2
-push constant 110
-call String.appendChar 2
-push constant 103
-call String.appendChar 2
-push constant 32
-call String.appendChar 2
-push constant 105
-call String.appendChar 2
-push constant 110
-call String.appendChar 2
-push constant 112
-call String.appendChar 2
-push constant 117
-call String.appendChar 2
-push constant 116
-call String.appendChar 2
-push constant 86
-call String.appendChar 2
-push constant 97
-call String.appendChar 2
-push constant 114
-call String.appendChar 2
-push constant 115
-call String.appendChar 2
-push constant 32
-call String.appendChar 2
-push constant 110
-call String.appendChar 2
-push constant 111
-call String.appendChar 2
-push constant 119
-call String.appendChar 2
-push constant 46
-call String.appendChar 2
-call Out.ln 1
-pop temp 0
 push pointer 0
 push constant 1
 call String.new 1
@@ -281,13 +227,9 @@ return
 label IF_FALSE2
 push constant 0
 return
-function Equation.inputVar 0
+function Equation.inputVar 4
 push argument 0
 pop pointer 0
-push pointer 0
-call Equation.toString 1
-call Out.ln 1
-pop temp 0
 push argument 1
 push constant 1
 call String.new 1
@@ -321,8 +263,17 @@ push constant 120
 call String.appendChar 2
 push constant 58
 call String.appendChar 2
-call Keyboard.readInt 1
+call Keyboard.readLine 1
+pop local 0
+push local 0
+call String.intValue 1
 pop this 0
+push local 0
+call Fraction.toFraction 1
+pop this 10
+push local 0
+call String.dispose 1
+pop temp 0
 push constant 0
 not
 pop this 5
@@ -336,60 +287,6 @@ call S.equals 2
 if-goto IF_TRUE1
 goto IF_FALSE1
 label IF_TRUE1
-push constant 25
-call String.new 1
-push constant 116
-call String.appendChar 2
-push constant 104
-call String.appendChar 2
-push constant 101
-call String.appendChar 2
-push constant 32
-call String.appendChar 2
-push constant 99
-call String.appendChar 2
-push constant 117
-call String.appendChar 2
-push constant 114
-call String.appendChar 2
-push constant 114
-call String.appendChar 2
-push constant 101
-call String.appendChar 2
-push constant 110
-call String.appendChar 2
-push constant 116
-call String.appendChar 2
-push constant 32
-call String.appendChar 2
-push constant 118
-call String.appendChar 2
-push constant 97
-call String.appendChar 2
-push constant 114
-call String.appendChar 2
-push constant 105
-call String.appendChar 2
-push constant 97
-call String.appendChar 2
-push constant 98
-call String.appendChar 2
-push constant 108
-call String.appendChar 2
-push constant 101
-call String.appendChar 2
-push constant 32
-call String.appendChar 2
-push constant 105
-call String.appendChar 2
-push constant 115
-call String.appendChar 2
-push constant 32
-call String.appendChar 2
-push constant 121
-call String.appendChar 2
-call Out.ln 1
-pop temp 0
 push constant 10
 call String.new 1
 push constant 69
@@ -412,8 +309,17 @@ push constant 121
 call String.appendChar 2
 push constant 58
 call String.appendChar 2
-call Keyboard.readInt 1
+call Keyboard.readLine 1
+pop local 1
+push local 1
+call String.intValue 1
 pop this 1
+push local 1
+call Fraction.toFraction 1
+pop this 11
+push local 1
+call String.dispose 1
+pop temp 0
 push constant 0
 not
 pop this 6
@@ -467,8 +373,17 @@ push constant 116
 call String.appendChar 2
 push constant 58
 call String.appendChar 2
-call Keyboard.readInt 1
+call Keyboard.readLine 1
+pop local 2
+push local 2
+call String.intValue 1
 pop this 3
+push local 2
+call Fraction.toFraction 1
+pop this 12
+push local 2
+call String.dispose 1
+pop temp 0
 push constant 0
 not
 pop this 7
@@ -512,18 +427,21 @@ push constant 101
 call String.appendChar 2
 push constant 58
 call String.appendChar 2
-call Keyboard.readInt 1
+call Keyboard.readLine 1
+pop local 3
+push local 3
+call String.intValue 1
 pop this 2
+push local 3
+call Fraction.toFraction 1
+pop this 13
+push local 3
+call String.dispose 1
+pop temp 0
 push constant 0
 not
 pop this 8
 label IF_FALSE3
-call Screen.clearScreen 0
-pop temp 0
-push constant 0
-push constant 0
-call Output.moveCursor 2
-pop temp 0
 push constant 0
 return
 function Equation.toString 0

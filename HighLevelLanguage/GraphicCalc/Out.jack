@@ -3,60 +3,60 @@
 */
 class Out {
 	/** Prints a string */
-  function void s (String msg){
-    do Output.printString(msg);
+  function void s (String msg1){
+    do Output.printString(msg1);
     return;
   }
 
 	/** Prints an integer */
-  function void i (int msg){
-    do Output.printInt(msg);
+  function void i (int msg2){
+    do Output.printInt(msg2);
     return;
   }
 
 	/** Prints a char */
-  function void c (char msg){
-    do Output.printChar(msg);
+  function void c (char msg3){
+    do Output.printChar(msg3);
     return;
   }
 
 	/** Prints a boolean */
-  function void b (boolean msg){
-    if (msg) {
-      do Output.printString ("true");
+  function void b (boolean msg4){
+    if (msg4) {
+      do Out.s("true");
     } else {
-      do Output.printString ("false");
+      do Out.s("false");
     }
     return;
   }
 
 	/** Prints a string and then carriage return */
-  function void ln (String msg) {
-    do Output.printString(msg);
+  function void ln (String msg5) {
+    do Output.printString(msg5);
     do Output.println();
     return;
   }
 
 	/** Prints an integer and then carriage return */
-  function void lnI (int msg) {
-    do Output.printInt(msg);
+  function void lnI (int msg6) {
+    do Output.printInt(msg6);
     do Output.println();
     return;
   }
 
 	/** Prints a char and then carriage return */
-  function void lnC (char msg) {
-    do Output.printChar(msg);
+  function void lnC (char msg7) {
+    do Output.printChar(msg7);
     do Output.println();
     return;
   }
 
 	/** Prints a boolean and then carriage return */
-  function void lnB (boolean msg) {
-    if (msg) {
-      do Output.printString ("true");
+  function void lnB (boolean msg8) {
+    if (msg8) {
+      do Out.s("true");
     } else {
-      do Output.printString ("false");
+      do Out.s("false");
     }
     do Output.println();
     return;
@@ -64,9 +64,12 @@ class Out {
 
   /** Prints two strings and then carriage return */
   function void log(String a, String b){
-    do Out.ln(S.append(a, b));
-    do a.dispose();
-    do b.dispose();
+    var String a1, b1;
+    let a1 = a;
+    let b1 = b;
+    do Out.ln(S.append(a1, b1));
+    do a1.dispose();
+    do b1.dispose();
     return;
   }
 }

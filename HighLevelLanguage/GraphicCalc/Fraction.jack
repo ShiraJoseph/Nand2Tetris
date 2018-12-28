@@ -11,6 +11,9 @@ class Fraction {
   constructor Fraction new(int x, int y) {
     let numerator = x;
     let denominator = y;
+    if (~(y > 0)) {
+      let denominator = 1;
+    }
     do reduce();   // reduces the fraction
     return this;   // a constructor is expected to return a reference to the new object
   }
@@ -19,11 +22,16 @@ class Fraction {
   method void reduce() {
     var int g;
     let g = Fraction.gcd(numerator, denominator);
-    do Out.lnI(g);
+//    do Out.lnI(g);
     if (g > 1) {
        let numerator = numerator / g;
        let denominator = denominator / g;
     }
+    do Out.s("(");
+    do Out.i(numerator);
+    do Out.s("/");
+    do Out.i(denominator);
+    do Out.ln(")");
     return;
   }
 
@@ -71,37 +79,45 @@ class Fraction {
 
 	/** Turns a string into a Fraction */
   function Fraction toFraction (String num) {
-    var int delimiter, forwardSlash, backSlash, end;
-    var String numer, denom;
-		do Out.ln(S.append("toFraction thinks it is: ", num));
-    let forwardSlash = S.indexOf(num, 47);
-    let backSlash = S.indexOf(num, 92);
+    var int delimiter, forwardSlash, backSlash, n, d, start, end;
+    var String numer, denom, num2;
+    var char f, b;
+    var Fraction frac;
+		let f = 47;
+		let b = 92;
 
+    let forwardSlash = S.indexOf(num, f);
+    		let num2=num;
+    let backSlash = S.indexOf(num2, b);
     if (forwardSlash = -1 & backSlash = -1) {
-      return Fraction.new(String.intValue(num), 1);
-    }
 
-    if (forwardSlash > -1) {
-      do Out.ln("Found a forward.");
-      let delimiter = forwardSlash;
+      let n = num.intValue();
+      do num.dispose();
+      let frac = Fraction.new(n, 1);
+      return frac;
     } else {
-      do Out.ln("Found a back.");
-      let delimiter = backSlash;
+
+	    if (forwardSlash > -1) {
+	      let delimiter = forwardSlash;
+	    } else {
+	      let delimiter = backSlash;
+	    }
+
+
+	    let numer = S.substr(num, 0, delimiter);
+
+			let start = delimiter + 1;
+			let end = String.length(num);
+	    let denom = S.substr(num, start, end);
+
+			let n = numer.intValue();
+			let d = denom.intValue();
+			let frac = Fraction.new(n, d);
+			do numer.dispose();
+			do denom.dispose();
+			do num.dispose();
+	    return frac;
     }
-
-		do Out.s("Found a slash at index ");
-		do Out.lnI(delimiter);
-
-    let numer = S.substr(num, 0, delimiter);
-
-    do Out.ln(S.append("numer = ", numer));
-
-    let denom = S.substr(num, delimiter + 1, num.length()-1);
-
-    do Out.ln(S.append("denom = ", denom));
-
-
-    return Fraction.new(String.intValue(numer), String.intValue(denom));
   }
 
 

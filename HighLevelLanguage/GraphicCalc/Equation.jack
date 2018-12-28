@@ -1,8 +1,9 @@
 class Equation {
-  field Fraction x, y, m, b;
+  field int x, y, m, b;
   field int degree;
   field boolean xExists, yExists, bExists, mExists;
   field String format;
+  field Fraction xF, yF, bF, mF;
 
 	/** Constructs a new equation for graphing */
   constructor Equation new(int deg, String form) {
@@ -50,8 +51,8 @@ class Equation {
 
 	/** Stores the appropriate values from the user based on the chosen equation format */
 	method void getValues(){
-		do Screen.clearScreen();
-		do Output.moveCursor(0,0);
+//		do Screen.clearScreen();
+//		do Output.moveCursor(0,0);
 		if (S.equals(format, "P")){
       do inputVar("y");
       do inputVar("m");
@@ -74,27 +75,37 @@ class Equation {
 
 	/** Retrieves a single value from the user */
   method void inputVar(String v) {
-    var xString, yString, bString, mString;
-    do Out.ln(toString());
+    var String xString, yString, bString, mString;
     if (S.equals(v, "x")){
-      let xString = Keyboard.readInt("Enter an x:");
-			let x = Fraction.new()
+      let xString = Keyboard.readLine("Enter an x:");
+      let x = String.intValue(xString);
+      let xF = Fraction.toFraction(xString);
+      do xString.dispose();
       let xExists = true;
     }
     if (S.equals(v, "y")){
-      let y = Keyboard.readInt("Enter a y:");
+      let yString = Keyboard.readLine("Enter a y:");
+      let y = String.intValue(yString);
+      let yF = Fraction.toFraction(yString);
+      do yString.dispose();
       let yExists = true;
     }
     if (S.equals(v, "b")){
-      let b = Keyboard.readInt("Enter an intercept:");
+      let bString = Keyboard.readLine("Enter an intercept:");
+      let b = String.intValue(bString);
+      let bF = Fraction.toFraction(bString);
+      do bString.dispose();
       let bExists = true;
     }
     if (S.equals(v, "m")){
-      let m = Keyboard.readInt("Enter a slope:");
+      let mString = Keyboard.readLine("Enter a slope:");
+      let m = String.intValue(mString);
+      let mF = Fraction.toFraction(mString);
+      do mString.dispose();
       let mExists = true;
      }
-     do Screen.clearScreen();
-     do Output.moveCursor(0,0);
+//     do Screen.clearScreen();
+//     do Output.moveCursor(0,0);
     return;
   }
 
