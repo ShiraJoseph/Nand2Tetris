@@ -1,6 +1,16 @@
 class Main {
   function void main() {
+//    var String newStr, oldStr;
+//    var int len;
     do Main.createEquation();
+//		let oldStr = "dogs";
+//		let len = ;
+//    let newStr = String.new(oldStr.length());
+//		let newStr = oldStr;
+//		let oldStr = "hi";
+//		do Out.log("oldStr = ", oldStr);
+//		do Out.log("newStr = ", newStr);
+//
 //		var Fraction frac;
 //		var String inp;
 //		do Out.ln("Let's start");

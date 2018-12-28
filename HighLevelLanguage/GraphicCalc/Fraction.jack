@@ -11,6 +11,9 @@ class Fraction {
   constructor Fraction new(int x, int y) {
     let numerator = x;
     let denominator = y;
+    if (~(y > 0)) {
+      let denominator = 1;
+    }
     do reduce();   // reduces the fraction
     return this;   // a constructor is expected to return a reference to the new object
   }
@@ -19,11 +22,15 @@ class Fraction {
   method void reduce() {
     var int g;
     let g = Fraction.gcd(numerator, denominator);
-//    do Out.lnI(g);
     if (g > 1) {
        let numerator = numerator / g;
        let denominator = denominator / g;
     }
+    do Out.s("(");
+    do Out.i(numerator);
+    do Out.s("/");
+    do Out.i(denominator);
+    do Out.ln(")");
     return;
   }
 
@@ -39,30 +46,6 @@ class Fraction {
   }
 
   // More fraction-related methods (minus, times, div, etc.) can be added here.
-
- /** Disposes this fraction. */
-  method void dispose() {
-    do Memory.deAlloc(this);  // uses an OS routine to recycle the memory held by the object
-    return;
-  }
-
-  /** Prints this fraction in the format x/y. */
-  method void print() {
-    do Output.printInt(numerator);
-    do Output.printString("/");
-    do Output.printInt(denominator);
-    return;
-  }
-
-  // Computes the greatest common divisor of the given integers.
-  function int gcd(int a, int b) {
-    var int r;
-    while (~(b = 0)) {             // applies Euclid's algorithm
-       let r = a - (b * (a / b));  // r = remainder of the integer division a/b
-       let a = b; let b = r;
-    }
-    return a;
-  }
 
 	/**************************************************************/
 	/** The following methods written by Shira Joseph, Dec 2018  **/
@@ -95,41 +78,48 @@ class Fraction {
 
 	/** Turns a string into a Fraction */
   function Fraction toFraction (String num) {
-    var int delimiter, forwardSlash, backSlash, end, len, dInd, numerI, denomI;
-    var String numer, denom;
-//		do Out.ln(S.append("toFraction thinks it is: ", num));
-    let forwardSlash = S.indexOf(num, 47);
-    let backSlash = S.indexOf(num, 92);
+    var int delimiter, forwardSlash, backSlash, n, d, start, end;
+    var String numer, denom, num2;
+    var char f, b;
+    var Fraction frac;
+		let f = 47;
+		let b = 92;
 
+    let forwardSlash = S.indexOf(num, f);
+    		let num2=num;
+    let backSlash = S.indexOf(num2, b);
     if (forwardSlash = -1 & backSlash = -1) {
-      return Fraction.new(String.intValue(num), 1);
-    }
 
-    if (forwardSlash > -1) {
-//      do Out.ln("Found a forward.");
-      let delimiter = forwardSlash;
+      let n = num.intValue();
+      do num.dispose();
+      let frac = Fraction.new(n, 1);
+      return frac;
     } else {
-//      do Out.ln("Found a back.");
-      let delimiter = backSlash;
+
+	    if (forwardSlash > -1) {
+	      let delimiter = forwardSlash;
+	    } else {
+	      let delimiter = backSlash;
+	    }
+
+
+	    let numer = S.substr(num, 0, delimiter);
+
+			let start = delimiter + 1;
+			let end = String.length(num);
+	    let denom = S.substr(num, start, end);
+
+			let n = numer.intValue();
+			let d = denom.intValue();
+			let frac = Fraction.new(n, d);
+			do numer.dispose();
+			do denom.dispose();
+			do num.dispose();
+	    return frac;
     }
-
-//		do Out.s("Found a slash at index ");
-//		do Out.lnI(delimiter);
-
-    let numer = S.substr(num, 0, delimiter);
-		let numerI = String.intValue(numer);
-//    do Out.ln(S.append("numer = ", numer));
-		let dInd = delimiter + 1;
-		let len = num.length() - 1;
-    let denom = S.substr(num, dInd, len);
-		let denomI = String.intValue(denom);
-//    do Out.ln(S.append("denom = ", denom));
-
-
-    return Fraction.new(numerI, denomI);
   }
 
-	method String toString(){
+method String toString(){
 		var String appended, n, d;
 //		let n = String.new(10);
 //		let d = String.new(10);
@@ -148,4 +138,31 @@ class Fraction {
 		return appended;
 	}
 
+	/**- - - - - - - - - - - - - - - - - - - - - - - - - - - - - **/
+	/**               End of lines by Shira Joseph               **/
+	/**************************************************************/
+
+  /** Disposes this fraction. */
+  method void dispose() {
+    do Memory.deAlloc(this);  // uses an OS routine to recycle the memory held by the object
+    return;
+  }
+
+  /** Prints this fraction in the format x/y. */
+  method void print() {
+    do Output.printInt(numerator);
+    do Output.printString("/");
+    do Output.printInt(denominator);
+    return;
+  }
+
+  // Computes the greatest common divisor of the given integers.
+  function int gcd(int a, int b) {
+    var int r;
+    while (~(b = 0)) {             // applies Euclid's algorithm
+       let r = a - (b * (a / b));  // r = remainder of the integer division a/b
+       let a = b; let b = r;
+    }
+    return a;
+  }
 }

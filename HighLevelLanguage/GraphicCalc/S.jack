@@ -220,13 +220,13 @@ class S {
 
   /** Returns a portion of the a string from the start index inclusive to the end index exclusive */
   function String substr (String fullStr, int start, int end) {
-    var int i;
+    var int i, len;
     var String sub;
     var char c;
-    do Out.log("fullStr = ", fullStr);
+		let len = String.length(fullStr);
     if (start > -1) {
       if (start < (end + 1)){
-        if (end < fullStr.length()) {
+        if (end < (len + 1)) {
           let sub = String.new(end - start);
 					let i = start;
 					while(i < end){
