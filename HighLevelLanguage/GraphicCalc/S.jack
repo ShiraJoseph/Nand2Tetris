@@ -76,23 +76,6 @@ class S {
     return false;
   }
 
-	/** returns a new string with a copy of the original string */
-//	function String copy (String oldStr) {
-//		var String newStr;
-//	  var int i, length;
-//	  var char c;
-//
-//	  let length = oldStr.length();
-//	  let newStr = String.new(length);
-//	  let i = 0;
-//	  while (i < length){
-//			let c = oldStr.charAt(i);
-//	    do newStr.appendChar(c);
-//	    let i = i + 1;
-//		}
-//		return newStr;
-//  }
-
   /** Returns whether the given char can be found in a string */
   function boolean includes (String string, char c) {
     var int i;
