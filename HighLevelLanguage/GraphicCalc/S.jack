@@ -25,12 +25,9 @@ class S {
       do ab.appendChar(c);
       let i = i + 1;
     }
-
-    do a.dispose();
-    do b.dispose();
-
     return ab;
   }
+
   // Unfortunately, Jack does not allow overriding, so these next functions are as close as you can get to it.
 
 	function String append3 (String a, String b, String c){
@@ -41,10 +38,6 @@ class S {
 		let strings[1] = b;
 		let strings[2] = c;
 		let appended = S.concat(3, strings);
-//		do a.dispose();
-//		do b.dispose();
-//		do c.dispose();
-//		do strings.dispose();
 		return appended;
 	}
 
@@ -58,11 +51,6 @@ class S {
     let strings[3] = d;
 
     let appended = S.concat(4, strings);
-		do a.dispose();
-		do b.dispose();
-		do c.dispose();
-		do d.dispose();
-    do strings.dispose();
     return appended;
   }
 
@@ -76,12 +64,6 @@ class S {
     let strings[3] = d;
     let strings[4] = e;
     let appended = S.concat(5, strings);
-    do a.dispose();
-    do b.dispose();
-    do c.dispose();
-    do d.dispose();
-    do e.dispose();
-    do strings.dispose();
     return appended;
   }
 
@@ -96,33 +78,12 @@ class S {
     let strings[4] = e;
     let strings[5] = f;
     let appended = S.concat(6, strings);
-    do a.dispose();
-    do b.dispose();
-    do c.dispose();
-    do d.dispose();
-    do e.dispose();
-    do f.dispose();
-    do strings.dispose();
     return appended;
   }
 
 	function String append7 (String a, String b, String c, String d, String e, String f, String g){
     var Array strings;
     var String appended;
-    do Out.ln("append7");
-    do Out.s(a);
-    do Out.s(",");
-    do Out.s(b);
-        do Out.s(",");
-        do Out.s(c);
-            do Out.s(",");
-            do Out.s(d);
-                do Out.s(",");
-                do Out.s(e);
-                    do Out.s(",");
-                    do Out.s(f);
-                        do Out.s(",");
-                        do Out.ln(g);
     let strings = Array.new(7);
     let strings[0] = a;
     let strings[1] = b;
@@ -133,16 +94,6 @@ class S {
     let strings[6] = g;
 
     let appended = S.concat(7, strings);
-      do a.dispose();
-      do b.dispose();
-      do c.dispose();
-      do d.dispose();
-      do e.dispose();
-      do f.dispose();
-      do g.dispose();
-
-      do strings.dispose();
-      do Out.log("appended after the disposes: ", appended);
     return appended;
   }
 
@@ -160,9 +111,6 @@ class S {
       let i = i + 1;
     }
     let newStr = builder[i - 1];
-    do Out.ln(newStr);
-    do strings.dispose();
-    do builder.dispose();
     return newStr;
   }
 
@@ -173,18 +121,12 @@ class S {
       let i = 0;
       while (i < first.length()){
         if (~(first.charAt(i) = second.charAt(i))) {
-          do first.dispose();
-          do second.dispose();
           return false;
         }
         let i = i + 1;
       }
-      do first.dispose();
-      do second.dispose();
       return true;
     }
-    do first.dispose();
-    do second.dispose();
     return false;
   }
 
@@ -194,12 +136,10 @@ class S {
     let i = 0;
     while (i < string.length()) {
       if (string.charAt(i) = c) {
-        do string.dispose();
         return true;
       }
       let i = i + 1;
     }
-    do string.dispose();
     return false;
   }
 
@@ -209,12 +149,10 @@ class S {
     let i = 0;
     while (i < string.length()) {
       if (string.charAt(i) = c) {
-        do string.dispose();
         return i;
       }
       let i = i + 1;
     }
-    do string.dispose();
     return -1;
   }
 
@@ -224,18 +162,17 @@ class S {
     var String sub;
     var char c;
 		let len = String.length(fullStr);
+
     if (start > -1) {
       if (start < (end + 1)){
         if (end < (len + 1)) {
-          let sub = String.new(end - start);
 					let i = start;
+          let sub = String.new(end - start + 1);
 					while(i < end){
-            let c = fullStr.charAt(i);
-            do sub.appendChar(c);
+
+            do sub.appendChar(fullStr.charAt(i));
             let i = i + 1;
           }
-          do Out.log("subStr = ", sub);
-          do fullStr.dispose();
           return sub;
         }
       }

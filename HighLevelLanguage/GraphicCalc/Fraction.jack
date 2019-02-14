@@ -26,11 +26,11 @@ class Fraction {
        let numerator = numerator / g;
        let denominator = denominator / g;
     }
-    do Out.s("(");
-    do Out.i(numerator);
-    do Out.s("/");
-    do Out.i(denominator);
-    do Out.ln(")");
+//    do Out.s("(");
+//    do Out.i(numerator);
+//    do Out.s("/");
+//    do Out.i(denominator);
+//    do Out.ln(")");
     return;
   }
 
@@ -79,19 +79,17 @@ class Fraction {
 	/** Turns a string into a Fraction */
   function Fraction toFraction (String num) {
     var int delimiter, forwardSlash, backSlash, n, d, start, end;
-    var String numer, denom, num2;
+    var String numer, denom, num2, num3;
     var char f, b;
     var Fraction frac;
 		let f = 47;
 		let b = 92;
-
     let forwardSlash = S.indexOf(num, f);
     		let num2=num;
     let backSlash = S.indexOf(num2, b);
     if (forwardSlash = -1 & backSlash = -1) {
 
       let n = num.intValue();
-      do num.dispose();
       let frac = Fraction.new(n, 1);
       return frac;
     } else {
@@ -103,7 +101,12 @@ class Fraction {
 	    }
 
 
-	    let numer = S.substr(num, 0, delimiter);
+//		do Out.ln(num);
+//		do Out.lnI(delimiter);
+			let num3 = num;
+//			do Out.ln(num3);
+//			do Out.ln(num3);
+	    let numer = S.substr(num3, 0, delimiter);
 
 			let start = delimiter + 1;
 			let end = String.length(num);
@@ -112,29 +115,33 @@ class Fraction {
 			let n = numer.intValue();
 			let d = denom.intValue();
 			let frac = Fraction.new(n, d);
-			do numer.dispose();
-			do denom.dispose();
-			do num.dispose();
+//			do numer.dispose();
+//			do denom.dispose();
+//			do num.dispose();
 	    return frac;
     }
   }
 
 method String toString(){
 		var String appended, n, d;
-//		let n = String.new(10);
-//		let d = String.new(10);
-//		do n.setInt(numerator);
-//		do d.setInt(denominator);
-		let n = numerator;
-		let d = denominator;
+		let n = String.new(10);
+		let d = String.new(10);
+		do Out.lnI(numerator);
+		do n.setInt(numerator);
+		do Out.ln(n);
+		do Out.lnI(denominator);
+		do d.setInt(denominator);
+		do Out.ln(d);
+//		let n = numerator;
+//		let d = denominator;
 		if (denominator = 1){
 			let appended = n;
 		} else {
 			let appended = S.append3(n, "/", d);
 		}
 		do Out.log("toString, appended = ", appended);
-		do n.dispose();
-		do d.dispose();
+//		do n.dispose();
+//		do d.dispose();
 		return appended;
 	}
 

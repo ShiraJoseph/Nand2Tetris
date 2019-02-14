@@ -173,10 +173,6 @@ push local 0
 call Equation.toString 1
 call Out.ln 1
 pop temp 0
-push constant 0
-call String.new 1
-call Out.ln 1
-pop temp 0
 push constant 12
 call String.new 1
 push constant 83

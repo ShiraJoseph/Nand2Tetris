@@ -68,8 +68,6 @@ class Out {
     let a1 = a;
     let b1 = b;
     do Out.ln(S.append(a1, b1));
-    do a1.dispose();
-    do b1.dispose();
     return;
   }
 }

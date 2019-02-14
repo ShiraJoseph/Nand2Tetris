@@ -1,5 +1,28 @@
 class Main {
   function void main() {
+//    var Array stringy;
+//    var Fraction f1, f2;
+//    var String result1, result2;
+//    var int num;
+//    let num = 2;
+//    let f1 = Fraction.toFraction("4/5");
+//    let f2 = Fraction.toFraction("3");
+//    let result1 = f1.toString();
+//    let result2 = f2.toString();
+//    do Out.ln(result1);
+//    do Out.ln(result2);
+//		let result1 = String.new(10);
+//		do result1.setInt(num);
+//		do Out.ln(result1);
+
+
+
+//    let stringy = Array.new(3);
+//    let stringy[0]="Put ";
+//    let stringy[1]="me ";
+//    let stringy[2]="together.";
+//    let result = S.append3("Put ", "me ", "together.");
+//    do Out.ln(result);
 //    var String newStr, oldStr;
 //    var int len;
     do Main.createEquation();
@@ -39,7 +62,6 @@ class Main {
     let equation = Equation.new(1, format);
     do equation.getValues();
     do Out.ln(equation.toString());
-    do Out.ln("");
     do Out.ln("Some points:");
     do Out.s("(0, ");
     let one = equation.solveForY(0);
