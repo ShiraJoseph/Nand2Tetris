@@ -16,7 +16,7 @@ push argument 1
 pop this 9
 push pointer 0
 return
-function Equation.solveForY 0
+function Equation.solveForY 3
 push argument 0
 pop pointer 0
 push this 9
@@ -28,11 +28,15 @@ call S.equals 2
 if-goto IF_TRUE0
 goto IF_FALSE0
 label IF_TRUE0
-push this 2
+push this 13
 push argument 1
-call Math.multiply 2
-push this 3
-add
+call Fraction.times 2
+pop local 0
+push local 0
+push this 12
+call Fraction.plus 2
+pop local 1
+push local 1
 return
 label IF_FALSE0
 push this 9
@@ -44,13 +48,19 @@ call S.equals 2
 if-goto IF_TRUE1
 goto IF_FALSE1
 label IF_TRUE1
-push this 1
-push this 2
-push this 0
+push this 10
 push argument 1
-sub
-call Math.multiply 2
-sub
+call Fraction.minus 2
+pop local 0
+push this 13
+push local 0
+call Fraction.times 2
+pop local 1
+push this 11
+push local 1
+call Fraction.minus 2
+pop local 2
+push local 2
 return
 label IF_FALSE1
 push this 9
@@ -62,18 +72,26 @@ call S.equals 2
 if-goto IF_TRUE2
 goto IF_FALSE2
 label IF_TRUE2
-push this 3
-push this 0
+push this 10
 push argument 1
-call Math.multiply 2
-sub
-push this 1
-call Math.divide 2
+call Fraction.times 2
+pop local 0
+push this 12
+push local 0
+call Fraction.minus 2
+pop local 1
+push local 1
+push this 11
+call Fraction.dividedBy 2
+pop local 2
+push local 2
 return
 label IF_FALSE2
 push constant 0
+push constant 1
+call Fraction.new 2
 return
-function Equation.solveForX 0
+function Equation.solveForX 3
 push argument 0
 pop pointer 0
 push this 9
@@ -86,10 +104,14 @@ if-goto IF_TRUE0
 goto IF_FALSE0
 label IF_TRUE0
 push argument 1
-push this 3
-sub
-push this 2
-call Math.divide 2
+push this 12
+call Fraction.minus 2
+pop local 0
+push local 0
+push this 13
+call Fraction.dividedBy 2
+pop local 1
+push local 1
 return
 label IF_FALSE0
 push this 9
@@ -101,13 +123,19 @@ call S.equals 2
 if-goto IF_TRUE1
 goto IF_FALSE1
 label IF_TRUE1
-push this 0
-push this 1
+push this 11
 push argument 1
-sub
-push this 2
-call Math.divide 2
-sub
+call Fraction.minus 2
+pop local 0
+push local 0
+push this 13
+call Fraction.dividedBy 2
+pop local 1
+push this 10
+push local 1
+call Fraction.minus 2
+pop local 2
+push local 2
 return
 label IF_FALSE1
 push this 9
@@ -119,16 +147,24 @@ call S.equals 2
 if-goto IF_TRUE2
 goto IF_FALSE2
 label IF_TRUE2
-push this 3
-push this 1
+push this 11
 push argument 1
-call Math.multiply 2
-sub
-push this 0
-call Math.divide 2
+call Fraction.times 2
+pop local 0
+push this 12
+push local 0
+call Fraction.minus 2
+pop local 1
+push local 1
+push this 10
+call Fraction.dividedBy 2
+pop local 2
+push local 2
 return
 label IF_FALSE2
 push constant 0
+push constant 1
+call Fraction.new 2
 return
 function Equation.getValues 0
 push argument 0
@@ -309,14 +345,6 @@ pop local 1
 push local 1
 call Fraction.toFraction 1
 pop this 11
-push this 11
-call Fraction.getNumerator 1
-call Out.lnI 1
-pop temp 0
-push this 11
-call Fraction.getDenominator 1
-call Out.lnI 1
-pop temp 0
 push constant 0
 not
 pop this 6
@@ -488,20 +516,16 @@ call String.new 1
 push constant 120
 call String.appendChar 2
 return
-function Equation.getSlopeInterceptString 4
+function Equation.getSlopeInterceptString 3
 push argument 0
 pop pointer 0
 push this 8
 if-goto IF_TRUE0
 goto IF_FALSE0
 label IF_TRUE0
-push constant 10
-call String.new 1
+push this 13
+call Fraction.toString 1
 pop local 0
-push local 0
-push this 2
-call String.setInt 2
-pop temp 0
 goto IF_END0
 label IF_FALSE0
 push constant 1
@@ -514,13 +538,9 @@ push this 7
 if-goto IF_TRUE1
 goto IF_FALSE1
 label IF_TRUE1
-push constant 10
-call String.new 1
+push this 12
+call Fraction.toString 1
 pop local 1
-push local 1
-push this 3
-call String.setInt 2
-pop temp 0
 goto IF_END1
 label IF_FALSE1
 push constant 1
@@ -529,12 +549,6 @@ push constant 95
 call String.appendChar 2
 pop local 1
 label IF_END1
-push constant 4
-call Array.new 1
-pop local 3
-push constant 0
-push local 3
-add
 push constant 4
 call String.new 1
 push constant 121
@@ -545,21 +559,7 @@ push constant 61
 call String.appendChar 2
 push constant 32
 call String.appendChar 2
-pop temp 0
-pop pointer 1
-push temp 0
-pop that 0
-push constant 1
-push local 3
-add
 push local 0
-pop temp 0
-pop pointer 1
-push temp 0
-pop that 0
-push constant 2
-push local 3
-add
 push constant 4
 call String.new 1
 push constant 120
@@ -570,25 +570,12 @@ push constant 43
 call String.appendChar 2
 push constant 32
 call String.appendChar 2
-pop temp 0
-pop pointer 1
-push temp 0
-pop that 0
-push constant 3
-push local 3
-add
 push local 1
-pop temp 0
-pop pointer 1
-push temp 0
-pop that 0
-push constant 4
-push local 3
-call S.concat 2
+call S.append4 4
 pop local 2
 push local 2
 return
-function Equation.getPointSlopeString 5
+function Equation.getPointSlopeString 4
 push argument 0
 pop pointer 0
 push this 6
@@ -688,13 +675,9 @@ push this 5
 if-goto IF_TRUE0
 goto IF_FALSE0
 label IF_TRUE0
-push constant 10
-call String.new 1
+push this 10
+call Fraction.toString 1
 pop local 0
-push local 0
-push this 0
-call String.setInt 2
-pop temp 0
 goto IF_END0
 label IF_FALSE0
 push constant 1
@@ -707,13 +690,9 @@ push this 6
 if-goto IF_TRUE1
 goto IF_FALSE1
 label IF_TRUE1
-push constant 10
-call String.new 1
+push this 11
+call Fraction.toString 1
 pop local 1
-push local 1
-push this 1
-call String.setInt 2
-pop temp 0
 goto IF_END1
 label IF_FALSE1
 push constant 1
@@ -726,13 +705,9 @@ push this 7
 if-goto IF_TRUE2
 goto IF_FALSE2
 label IF_TRUE2
-push constant 10
-call String.new 1
+push this 12
+call Fraction.toString 1
 pop local 2
-push local 2
-push this 3
-call String.setInt 2
-pop temp 0
 goto IF_END2
 label IF_FALSE2
 push constant 1
@@ -741,20 +716,7 @@ push constant 95
 call String.appendChar 2
 pop local 2
 label IF_END2
-push constant 5
-call Array.new 1
-pop local 4
-push constant 0
-push local 4
-add
 push local 0
-pop temp 0
-pop pointer 1
-push temp 0
-pop that 0
-push constant 1
-push local 4
-add
 push constant 4
 call String.new 1
 push constant 120
@@ -765,21 +727,7 @@ push constant 43
 call String.appendChar 2
 push constant 32
 call String.appendChar 2
-pop temp 0
-pop pointer 1
-push temp 0
-pop that 0
-push constant 2
-push local 4
-add
 push local 1
-pop temp 0
-pop pointer 1
-push temp 0
-pop that 0
-push constant 3
-push local 4
-add
 push constant 4
 call String.new 1
 push constant 121
@@ -790,21 +738,8 @@ push constant 61
 call String.appendChar 2
 push constant 32
 call String.appendChar 2
-pop temp 0
-pop pointer 1
-push temp 0
-pop that 0
-push constant 4
-push local 4
-add
 push local 2
-pop temp 0
-pop pointer 1
-push temp 0
-pop that 0
-push constant 5
-push local 4
-call S.concat 2
+call S.append5 5
 pop local 3
 push local 3
 return

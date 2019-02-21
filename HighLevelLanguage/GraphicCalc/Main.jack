@@ -48,8 +48,9 @@ class Main {
 
   function void createEquation(){
     var Equation equation;
-    var String format;
-    var int one, two, three;
+    var String format, oneS, twoS, threeS;
+    var Fraction one, two, three, oneF, twoF, threeF;
+    var int oneI, twoI, threeI;
     let format = Keyboard.readLine("[P]oint-Slope, or Slope-[I]ntercept? ");
     while(~(S.equals(format, "O") | S.equals(format, "I") | S.equals(format, "P"))){
       if (S.equals(format, "Q")){
@@ -57,24 +58,28 @@ class Main {
       }
       let format = Keyboard.readLine("Please type P or I.");
     }
-//    do Screen.clearScreen();
-//    do Output.moveCursor(0,0);
     let equation = Equation.new(1, format);
     do equation.getValues();
     do Out.ln(equation.toString());
     do Out.ln("Some points:");
+    let one = Fraction.new(0,1);
+    let two = Fraction.new(50,1);
+    let three = Fraction.new(60,1);
+    let oneF = equation.solveForY(one);
+    let twoF = equation.solveForY(two);
+    let threeF = equation.solveForX(three);
+    let oneS = oneF.toString();
+    let twoS = twoF.toString();
+    let threeS = threeF.toString();
     do Out.s("(0, ");
-    let one = equation.solveForY(0);
-    let two = equation.solveForY(50);
-    let three = equation.solveForX(60);
-    do Out.i(one);
+    do Out.s(oneS);
     do Out.ln(")");
-    do Out.s("(1, ");
-    do Out.i(two);
+    do Out.s("(50, ");
+    do Out.s(twoS);
     do Out.ln(")");
     do Out.s("(");
-    do Out.i(three);
-    do Out.ln(", 1)");
+    do Out.s(threeS);
+    do Out.ln(", 60)");
 //    do Screen.clearScreen();
 //    do Screen.drawLine(0, 64 - one, three, 64-60);
 //    do Sys.wait(4000);
