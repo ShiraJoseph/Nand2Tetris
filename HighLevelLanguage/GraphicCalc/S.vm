@@ -56,35 +56,6 @@ add
 pop local 3
 goto WHILE_EXP1
 label WHILE_END1
-push constant 11
-call String.new 1
-push constant 105
-call String.appendChar 2
-push constant 110
-call String.appendChar 2
-push constant 32
-call String.appendChar 2
-push constant 97
-call String.appendChar 2
-push constant 112
-call String.appendChar 2
-push constant 112
-call String.appendChar 2
-push constant 101
-call String.appendChar 2
-push constant 110
-call String.appendChar 2
-push constant 100
-call String.appendChar 2
-push constant 58
-call String.appendChar 2
-push constant 32
-call String.appendChar 2
-call Out.s 1
-pop temp 0
-push local 4
-call Out.ln 1
-pop temp 0
 push local 4
 return
 function S.append3 2

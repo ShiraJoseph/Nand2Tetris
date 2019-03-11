@@ -1,5 +1,27 @@
 function Main.main 0
-call Main.createEquation 0
+call Screen.clearScreen 0
+pop temp 0
+call Graph.drawAxes 0
+pop temp 0
+push constant 27
+push constant 9
+neg
+call Graph.drawPoint 2
+pop temp 0
+push constant 180
+push constant 49
+call Graph.drawPoint 2
+pop temp 0
+push constant 5
+neg
+push constant 5
+neg
+call Graph.drawPoint 2
+pop temp 0
+push constant 4000
+call Sys.wait 1
+pop temp 0
+call Sys.halt 0
 pop temp 0
 push constant 0
 return

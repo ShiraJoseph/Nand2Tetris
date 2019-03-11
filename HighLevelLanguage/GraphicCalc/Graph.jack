@@ -3,4 +3,40 @@ class Graph {
   constructor Graph new() {
     return this;
   }
+
+	/** Draws x- and y-axes with arrows */
+	function void drawAxes() {
+    // x-axis
+    do Screen.drawLine(255, 0, 255, 255);
+
+    // y-axis
+    do Screen.drawLine(0, 127, 511, 127);
+
+    // left arrow
+    do Screen.drawLine(4, 124, 0, 127);
+    do Screen.drawLine(4, 130, 0, 127);
+
+    // right arrow
+    do Screen.drawLine(507, 124, 511, 127);
+    do Screen.drawLine(507, 130, 511, 127);
+
+    // top arrow
+    do Screen.drawLine(252, 4, 255, 0);
+    do Screen.drawLine(258, 4, 255, 0);
+
+    // bottom arrow
+    do Screen.drawLine(252, 251, 255, 255);
+    do Screen.drawLine(258, 251, 255, 255);
+
+    return;
+  }
+
+  function void drawPoint(int x, int y) {
+    var Point p;
+    let p = Point.new(x, y);
+    let p = p.toCoord();
+    do p.drawPixel();
+    return;
+  }
+
 }
