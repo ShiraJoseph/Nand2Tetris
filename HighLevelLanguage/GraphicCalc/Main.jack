@@ -1,20 +1,19 @@
 class Main {
   function void main() {
-//    do Main.createEquation();
-			do Screen.clearScreen();
-			do Graph.drawAxes();
-			do Graph.drawPoint(27, -9);
-			do Graph.drawPoint(180, 49);
-			do Graph.drawPoint(-5, -5);
-			do Sys.wait(4000);
-			do Sys.halt();
+    do Main.createEquation();
+// do Graph.drawAxes();
+// 		do Graph.drawPoint(27, -9);
+// 		 			do Graph.drawPoint(180, 49);
+//  			do Graph.drawPoint(-5, -5);
+//  			do Sys.wait(4000);
+//  			do Sys.halt();
     return;
   }
 
   function void createEquation(){
     var Equation equation;
     var String format, oneS, twoS, threeS;
-    var Fraction one, two, three, oneF, twoF, threeF;
+    var Fraction xIncptF, xIncpt, yIncptF, yIncpt;
     var int oneI, twoI, threeI;
     let format = Keyboard.readLine("[P]oint-Slope, or Slope-[I]ntercept? ");
     while(~(S.equals(format, "O") | S.equals(format, "I") | S.equals(format, "P"))){
@@ -25,26 +24,23 @@ class Main {
     }
     let equation = Equation.new(1, format);
     do equation.getValues();
+    do Screen.clearScreen();
     do Out.ln(equation.toString());
-    do Out.ln("Some points:");
-    let one = Fraction.new(0,1);
-    let two = Fraction.new(50,1);
-    let three = Fraction.new(60,1);
-    let oneF = equation.solveForY(one);
-    let twoF = equation.solveForY(two);
-    let threeF = equation.solveForX(three);
-    let oneS = oneF.toString();
-    let twoS = twoF.toString();
-    let threeS = threeF.toString();
+    let xIncptF = Fraction.new(0,1);
+    let yIncptF = Fraction.new(0,1);
+    let yIncpt = equation.solveForY(yIncptF);
+    let xIncpt = equation.solveForX(xIncptF);
     do Out.s("(0, ");
-    do Out.s(oneS);
-    do Out.ln(")");
-    do Out.s("(50, ");
-    do Out.s(twoS);
-    do Out.ln(")");
-    do Out.s("(");
-    do Out.s(threeS);
-    do Out.ln(", 60)");
+        do Out.s(yIncpt.toString());
+        do Out.ln(")");
+
+        do Out.s("(");
+        do Out.s(xIncpt.toString());
+        do Out.ln(", 0)");
+//    let oneS = oneF.toString();
+//    let twoS = twoF.toString();
+//    let threeS = threeF.toString();
+
 //    do Screen.clearScreen();
 //    do Screen.drawLine(0, 64 - one, three, 64-60);
 //    do Sys.wait(4000);

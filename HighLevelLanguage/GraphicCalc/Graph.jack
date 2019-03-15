@@ -4,6 +4,10 @@ class Graph {
     return this;
   }
 
+  function void drawGraph() {
+		return;
+  }
+
 	/** Draws x- and y-axes with arrows */
 	function void drawAxes() {
     // x-axis
@@ -38,5 +42,51 @@ class Graph {
     do p.drawPixel();
     return;
   }
-
 }
+/**
+Get xIncpt and yIncpt
+if either is <.0001 or >10000, throw an error (it may already do that)
+Let cutoff=1.5 or other const
+ if(2xIncpt>yIncpt)
+        limXAxis=cutoff*xIncpt
+        limYAxis=cutoff*xIncpt/2;
+        scale=256/limXAxis;
+        h2=limXAxis
+else
+        limYAxis=cutoff*yIncpt;
+        limXAxis=cutoff*yIncpt*2
+        scale=128/limYAxis;
+        h2=limYAxis
+get scaledIncpts
+get tickmarks
+
+get x of -limXAxis if xincept is greatest
+get y of -limYAxis if yincept is greatest
+from each until the positives of those, plot each point through to the end of the line
+
+
+
+
+
+needs a floor function
+
+get scaledIncpts(
+scaledXIncpt=floor(xIncpt*scale)
+scaledYIncpt=floor(yIncpt*scale)
+
+
+get tick marks:
+
+tickDist=if(H2<0.0001, "too small", if(H2<0.001, 0.0001 , if(H2<0.01, 0.001, if(H2<0.1, 0.01, if(H2<1, 0.1, if(H2<10, 1, if(H2<100, 10, if(H2<1000, 100, if(H2<10000, 1000, "too high")))))))))
+scaledTickDist=tickDist*scale
+
+let dist=scaledTickDist,
+while dist < 256
+        draw tickmark going up down at dist,0
+        draw tickmark going up down at -dist,0
+        if dist < 128
+                draw tickmark going left right at 0, dist
+                draw tickmark going left right at 0, -dist
+        increase dist by scaledTickDist
+
+}*/
