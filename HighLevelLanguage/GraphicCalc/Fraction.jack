@@ -127,6 +127,22 @@ method String toString(){
 		return appended;
 	}
 
+	//method int toInt() {
+      //  return 1;
+	//}
+
+	//method int floor(int num) {
+      //  return 1;
+	//}
+
+	method boolean checkValid() {
+        if(numerator > 10000 | denominator > 10000) {
+            do Out.ln("Invalid - please choose a number between 1/10000 and 10000.");
+            return false;
+        }
+        return true;
+	}
+
 	/**- - - - - - - - - - - - - - - - - - - - - - - - - - - - - **/
 	/**               End of lines by Shira Joseph               **/
 	/**************************************************************/

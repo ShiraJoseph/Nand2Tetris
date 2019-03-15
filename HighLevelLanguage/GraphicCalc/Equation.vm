@@ -263,9 +263,11 @@ return
 label IF_FALSE2
 push constant 0
 return
-function Equation.inputVar 4
+function Equation.inputVar 5
 push argument 0
 pop pointer 0
+push constant 0
+pop local 4
 push argument 1
 push constant 1
 call String.new 1
@@ -301,9 +303,50 @@ push constant 58
 call String.appendChar 2
 call Keyboard.readLine 1
 pop local 0
+label WHILE_EXP0
+push local 4
+not
+if-goto WHILE_END0
 push local 0
 call Fraction.toFraction 1
 pop this 10
+push this 10
+call Fraction.checkValid 1
+pop local 4
+push constant 14
+call String.new 1
+push constant 105
+call String.appendChar 2
+push constant 110
+call String.appendChar 2
+push constant 102
+call String.appendChar 2
+push constant 105
+call String.appendChar 2
+push constant 110
+call String.appendChar 2
+push constant 105
+call String.appendChar 2
+push constant 116
+call String.appendChar 2
+push constant 101
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+push constant 108
+call String.appendChar 2
+push constant 111
+call String.appendChar 2
+push constant 111
+call String.appendChar 2
+push constant 112
+call String.appendChar 2
+push constant 63
+call String.appendChar 2
+call Out.ln 1
+pop temp 0
+goto WHILE_EXP0
+label WHILE_END0
 push constant 0
 not
 pop this 5
