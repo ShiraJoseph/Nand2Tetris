@@ -1,5 +1,5 @@
 function Equation.new 0
-push constant 14
+push constant 16
 call Memory.alloc 1
 pop pointer 0
 push constant 0
@@ -14,7 +14,94 @@ push argument 0
 pop this 4
 push argument 1
 pop this 9
+push constant 0
+push constant 0
+call Point.new 2
+pop this 14
+push constant 0
+push constant 0
+call Point.new 2
+pop this 15
 push pointer 0
+return
+function Equation.getX 0
+push argument 0
+pop pointer 0
+push this 10
+return
+function Equation.getY 0
+push argument 0
+pop pointer 0
+push this 11
+return
+function Equation.getSlope 0
+push argument 0
+pop pointer 0
+push this 13
+return
+function Equation.getHighestPoint 0
+push argument 0
+pop pointer 0
+push this 15
+return
+function Equation.getLowestPoint 0
+push argument 0
+pop pointer 0
+push this 14
+return
+function Equation.setX 0
+push argument 0
+pop pointer 0
+push argument 1
+pop this 10
+push constant 0
+not
+pop this 5
+push constant 0
+return
+function Equation.setY 0
+push argument 0
+pop pointer 0
+push argument 1
+pop this 11
+push constant 0
+not
+pop this 6
+push constant 0
+return
+function Equation.setB 0
+push argument 0
+pop pointer 0
+push argument 1
+pop this 12
+push constant 0
+not
+pop this 7
+push constant 0
+return
+function Equation.setSlope 0
+push argument 0
+pop pointer 0
+push argument 1
+pop this 13
+push constant 0
+not
+pop this 8
+push constant 0
+return
+function Equation.setHighestPoint 0
+push argument 0
+pop pointer 0
+push argument 1
+pop this 15
+push constant 0
+return
+function Equation.setLowestPoint 0
+push argument 0
+pop pointer 0
+push argument 1
+pop this 14
+push constant 0
 return
 function Equation.solveForY 3
 push argument 0
@@ -742,4 +829,30 @@ push local 2
 call S.append5 5
 pop local 3
 push local 3
+return
+function Equation.getYIntercept 2
+push argument 0
+pop pointer 0
+push constant 0
+push constant 1
+call Fraction.new 2
+pop local 1
+push pointer 0
+push local 1
+call Equation.solveForY 2
+pop local 0
+push local 0
+return
+function Equation.getXIntercept 2
+push argument 0
+pop pointer 0
+push constant 0
+push constant 1
+call Fraction.new 2
+pop local 1
+push pointer 0
+push local 1
+call Equation.solveForX 2
+pop local 0
+push local 0
 return

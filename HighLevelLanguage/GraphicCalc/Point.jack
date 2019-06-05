@@ -1,5 +1,6 @@
 class Point {
 	field int x, y;
+	field boolean isCoord;
 	/** Constructs a point on the graph */
   constructor Point new(int xVal, int yVal) {
     let x = xVal;

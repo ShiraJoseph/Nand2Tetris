@@ -42,12 +42,117 @@ class Graph {
     do p.drawPixel();
     return;
   }
+
+  function void drawLine(Equation equation) {
+    var Fraction slope;
+    var int xIncrease, yIncrease;
+    var Point start, end, curr;
+    var int x, y;
+    let slope = equation.getSlope();
+    let xIncrease = slope.getDenominator();
+    let yIncrease = slope.getNumerator();
+    let start = equation.getLowestPoint();
+    let end = equation.getHighestPoint();
+    let x = start.x();
+    let y = start.y();
+    while(x < end.x()){
+      do Graph.drawPoint(x, y);
+      let x = x + xIncrease;
+      let y = y + yIncrease;
+      do Sys.wait(10);
+    }
+		return;
+  }
+
+	function Point getStartingLeftPoint(Fraction scale, Equation e) {
+		var Fraction y, x, TWOFIFTYFIVE;
+				var int xInt, yInt;
+		var Point p;
+		let TWOFIFTYFIVE = Fraction.new(-255, 1);
+		let x = TWOFIFTYFIVE.dividedBy(scale);
+		let y = e.solveForY(x);
+			let xInt = x.getNumerator()/x.getDenominator();
+      		let yInt = y.getNumerator()/y.getDenominator();
+      		let p = Point.new(xInt, yInt);
+		return p;
+	}
+	function Point getEndingRightPoint(Fraction scale, Equation e) {
+  		var Fraction y, x, TWOFIFTYFIVE;
+  				var int xInt, yInt;
+  		var Point p;
+  		let TWOFIFTYFIVE = Fraction.new(255, 1);
+  		let x = TWOFIFTYFIVE.dividedBy(scale);
+  		let y = e.solveForY(x);
+  			let xInt = x.getNumerator()/x.getDenominator();
+        		let yInt = y.getNumerator()/y.getDenominator();
+        		let p = Point.new(xInt, yInt);
+  		return p;
+  	}
+
+	function Point getStartingBottomPoint(Fraction scale, Equation e) {
+		var Fraction y, x, ONETWENTYSEVEN;
+		var int xInt, yInt;
+  		var Point p;
+  		let ONETWENTYSEVEN = Fraction.new(-127, 1);
+  		let y = ONETWENTYSEVEN.dividedBy(scale);
+  		let x = e.solveForX(y);
+  		let xInt = x.getNumerator()/x.getDenominator();
+  		let yInt = y.getNumerator()/y.getDenominator();
+  		let p = Point.new(xInt, yInt);
+  		return p;
+	}
+
+	function Point getEndingTopPoint(Fraction scale, Equation e) {
+  		var Fraction y, x, ONETWENTYSEVEN;
+  		var int xInt, yInt;
+    		var Point p;
+    		let ONETWENTYSEVEN = Fraction.new(127, 1);
+    		let y = ONETWENTYSEVEN.dividedBy(scale);
+    		let x = e.solveForX(y);
+    		let xInt = x.getNumerator()/x.getDenominator();
+    		let yInt = y.getNumerator()/y.getDenominator();
+    		let p = Point.new(xInt, yInt);
+    		return p;
+  	}
+
+
+  function void getScaledLine(Equation e) {
+    var Fraction yIncpt, xIncpt, xIncptTwice, limXAxis, limYAxis, scale, comparator,
+      TWOFIFTYSIX, CUTOFF, TWO, ONETWENTYEIGHT;
+    let yIncpt = e.getYIntercept();
+    let xIncpt = e.getXIntercept();
+		do yIncpt.checkValid();
+		do xIncpt.checkValid();
+
+		let CUTOFF = Fraction.new(3, 2);
+		let TWO = Fraction.new(2, 1);
+		let TWOFIFTYSIX = Fraction.new(256, 1);
+		let ONETWENTYEIGHT = Fraction.new(128, 1);
+		let xIncptTwice = xIncpt.times(TWO);
+		if(xIncptTwice.isGreaterThan(yIncpt)){
+			let limXAxis = CUTOFF.times(xIncpt);
+			let limYAxis = CUTOFF.times(xIncpt.dividedBy(TWO));
+			let scale = TWOFIFTYSIX.dividedBy(limXAxis);
+			let comparator = limXAxis;
+		} else {
+			let limYAxis = CUTOFF.times(yIncpt);
+     	let limXAxis = CUTOFF.times(yIncpt.times(TWO));
+ 			let scale = ONETWENTYEIGHT.dividedBy(limYAxis);
+ 			let comparator = limYAxis;
+		}
+
+		do Out.ln(limYAxis.toString());
+		do Out.ln(limXAxis.toString());
+		do Out.ln(scale.toString());
+		do Out.ln(comparator.toString());
+return;
+  }
 }
 /**
-Get xIncpt and yIncpt
+(Get xIncpt and yIncpt)
 if either is <.0001 or >10000, throw an error (it may already do that)
-Let cutoff=1.5 or other const
- if(2xIncpt>yIncpt)
+(Let cutoff=1.5 or other const)
+ (if(2xIncpt>yIncpt)
         limXAxis=cutoff*xIncpt
         limYAxis=cutoff*xIncpt/2;
         scale=256/limXAxis;
@@ -57,6 +162,7 @@ else
         limXAxis=cutoff*yIncpt*2
         scale=128/limYAxis;
         h2=limYAxis
+        )
 get scaledIncpts
 get tickmarks
 

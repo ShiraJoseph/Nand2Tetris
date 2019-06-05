@@ -4,6 +4,7 @@ class Equation {
   field boolean xExists, yExists, bExists, mExists;
   field String format;
   field Fraction xF, yF, bF, mF;
+	field Point lowestPoint, highestPoint;
 
 	/** Constructs a new equation for graphing */
   constructor Equation new(int deg, String form) {
@@ -13,7 +14,44 @@ class Equation {
     let mExists = false;
     let degree = deg;
     let format = form;
+    let lowestPoint = Point.new(0,0);
+    let highestPoint = Point.new(0, 0);
     return this;
+  }
+
+  /** Accessors. */
+  method Fraction getX() { return xF; }
+  method Fraction getY() { return yF; }
+  method Fraction getSlope() { return mF; }
+  method Point getHighestPoint() { return highestPoint; }
+  method Point getLowestPoint() { return lowestPoint; }
+  method void setX(Fraction xSet) {
+    let xF = xSet;
+    let xExists = true;
+    return;
+  }
+  method void setY(Fraction ySet) {
+    let yF = ySet;
+    let yExists = true;
+    return;
+  }
+  method void setB(Fraction bSet) {
+    let bF = bSet;
+    let bExists = true;
+    return;
+  }
+  method void setSlope(Fraction mSet) {
+    let mF = mSet;
+    let mExists = true;
+    return;
+  }
+  method void setHighestPoint(Point highSet) {
+    let highestPoint = highSet;
+    return;
+  }
+  method void setLowestPoint(Point lowSet) {
+    let lowestPoint = lowSet;
+    return;
   }
 
 	/** Uses the value of x to solve for y */
@@ -67,6 +105,7 @@ class Equation {
 	**  Methods to build the equation with user input  **
 	****************************************************/
 
+	// TODO: either prevent or figure out how to handle an input of 0
 	/** Stores the appropriate values from the user based on the chosen equation format */
 	method void getValues(){
 		if (S.equals(format, "P")){
@@ -205,5 +244,19 @@ class Equation {
 
     let stringified = S.append5(xS, "x + ", yS, "y = ", bS);
     return stringified;
+  }
+
+  method Fraction getYIntercept() {
+    var Fraction yIntercept, x;
+    let x = Fraction.new(0,1);
+    let yIntercept = solveForY(x);
+    return yIntercept;
+  }
+
+  method Fraction getXIntercept() {
+      var Fraction xIntercept, y;
+      let y = Fraction.new(0,1);
+      let xIntercept = solveForX(y);
+      return xIntercept;
   }
 }

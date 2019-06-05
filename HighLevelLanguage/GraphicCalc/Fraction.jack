@@ -127,6 +127,21 @@ method String toString(){
 		return appended;
 	}
 
+	method void checkValid() {
+		if(denominator > 9999 | denominator < -9999 | numerator > 9999 | numerator < -9999){
+			do Out.ln("Invalid number");
+			do Sys.halt();
+		}
+		return;
+	}
+
+	method boolean isGreaterThan(Fraction f2) {
+		if (numerator * f2.getDenominator() > f2.getNumerator() * denominator){
+			return true;
+		}
+		return false;
+	}
+
 	/**- - - - - - - - - - - - - - - - - - - - - - - - - - - - - **/
 	/**               End of lines by Shira Joseph               **/
 	/**************************************************************/

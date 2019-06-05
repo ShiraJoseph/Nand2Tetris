@@ -1,7 +1,27 @@
 class Main {
   function void main() {
-    do Main.createEquation();
-// do Graph.drawAxes();
+	  var Equation e;
+	  var Fraction m, f1, f2, ONE;
+	  var Point startP, endP;
+	  var boolean isGreater;
+	//    do Main.createEquation();
+	  do Graph.drawAxes();
+	  let e = Equation.new(1, "I");
+//	  do e.setY(Fraction.new(1,1));
+//	  do e.setX(Fraction.new(1,1));
+	  do e.setB(Fraction.new(-20, 1));
+	  do e.setSlope(Fraction.new(1,2));
+//	  let m = Fraction.new(4, 1);
+//	  let startP = Point.new(-127, -127);
+//	  let endP = Point.new(127, 127);
+	  let ONE = Fraction.new(1,1);
+	  let startP = Graph.getStartingBottomPoint(ONE, e);
+	  let endP = Graph.getEndingTopPoint(ONE, e);
+	  do e.setLowestPoint(startP);
+	  do e.setHighestPoint(endP);
+//	  do e.setSlope(m);
+	  do Graph.drawLine(e);
+	  do Graph.getScaledLine(e);
 // 		do Graph.drawPoint(27, -9);
 // 		 			do Graph.drawPoint(180, 49);
 //  			do Graph.drawPoint(-5, -5);
