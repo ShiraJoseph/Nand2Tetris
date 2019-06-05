@@ -1,6 +1,12 @@
 class Graph {
+	field Fraction ONETWENTYSEVEN, NEG127, TWOFIFTYFIVE, NEG255, TWO;
 	/** Constructs a new graph */
   constructor Graph new() {
+    let ONETWENTYSEVEN = Fraction.new(127, 1);
+    let NEG127 = Fraction.new(-127, 1);
+    let TWOFIFTYFIVE = Fraction.new(255, 1);
+    let NEG255 = Fraction.new(-255, 1);
+    let TWO = Fraction.new(2, 1);
     return this;
   }
 
@@ -65,11 +71,11 @@ class Graph {
   }
 
 	function Point getStartingLeftPoint(Fraction scale, Equation e) {
-		var Fraction y, x, TWOFIFTYFIVE;
+		var Fraction y, x;
 				var int xInt, yInt;
 		var Point p;
-		let TWOFIFTYFIVE = Fraction.new(-255, 1);
-		let x = TWOFIFTYFIVE.dividedBy(scale);
+//		let TWOFIFTYFIVE = Fraction.new(-255, 1);
+		let x = NEG255.dividedBy(scale);
 		let y = e.solveForY(x);
 			let xInt = x.getNumerator()/x.getDenominator();
       		let yInt = y.getNumerator()/y.getDenominator();
@@ -77,10 +83,10 @@ class Graph {
 		return p;
 	}
 	function Point getEndingRightPoint(Fraction scale, Equation e) {
-  		var Fraction y, x, TWOFIFTYFIVE;
+  		var Fraction y, x;
   				var int xInt, yInt;
   		var Point p;
-  		let TWOFIFTYFIVE = Fraction.new(255, 1);
+//  		let TWOFIFTYFIVE = Fraction.new(255, 1);
   		let x = TWOFIFTYFIVE.dividedBy(scale);
   		let y = e.solveForY(x);
   			let xInt = x.getNumerator()/x.getDenominator();
@@ -90,11 +96,11 @@ class Graph {
   	}
 
 	function Point getStartingBottomPoint(Fraction scale, Equation e) {
-		var Fraction y, x, ONETWENTYSEVEN;
+		var Fraction y, x;
 		var int xInt, yInt;
   		var Point p;
-  		let ONETWENTYSEVEN = Fraction.new(-127, 1);
-  		let y = ONETWENTYSEVEN.dividedBy(scale);
+//  		let ONETWENTYSEVEN = Fraction.new(-127, 1);
+  		let y = NEG127.dividedBy(scale);
   		let x = e.solveForX(y);
   		let xInt = x.getNumerator()/x.getDenominator();
   		let yInt = y.getNumerator()/y.getDenominator();
@@ -103,10 +109,10 @@ class Graph {
 	}
 
 	function Point getEndingTopPoint(Fraction scale, Equation e) {
-  		var Fraction y, x, ONETWENTYSEVEN;
+  		var Fraction y, x;
   		var int xInt, yInt;
     		var Point p;
-    		let ONETWENTYSEVEN = Fraction.new(127, 1);
+//    		let ONETWENTYSEVEN = Fraction.new(127, 1);
     		let y = ONETWENTYSEVEN.dividedBy(scale);
     		let x = e.solveForX(y);
     		let xInt = x.getNumerator()/x.getDenominator();
@@ -117,8 +123,8 @@ class Graph {
 
 
   function void getScaledLine(Equation e) {
-    var Fraction yIncpt, xIncpt, xIncptTwice, limXAxis, limYAxis, scale, comparator,
-      TWOFIFTYSIX, CUTOFF, TWO, ONETWENTYEIGHT;
+    var Fraction yIncpt, xIncpt, xIncptTwice, limXAxis, limYAxis, scale, comparator, CUTOFF, scaledX, scaledY;
+    var int scaledXIncpt, scaledYIncpt;
     let yIncpt = e.getYIntercept();
     let xIncpt = e.getXIntercept();
 		do yIncpt.checkValid();
@@ -126,28 +132,36 @@ class Graph {
 
 		let CUTOFF = Fraction.new(3, 2);
 		let TWO = Fraction.new(2, 1);
-		let TWOFIFTYSIX = Fraction.new(256, 1);
-		let ONETWENTYEIGHT = Fraction.new(128, 1);
+//		let TWOFIFTYSIX = Fraction.new(256, 1);
+//		let ONETWENTYEIGHT = Fraction.new(128, 1);
 		let xIncptTwice = xIncpt.times(TWO);
 		if(xIncptTwice.isGreaterThan(yIncpt)){
 			let limXAxis = CUTOFF.times(xIncpt);
 			let limYAxis = CUTOFF.times(xIncpt.dividedBy(TWO));
-			let scale = TWOFIFTYSIX.dividedBy(limXAxis);
+			let scale = TWOFIFTYFIVE.dividedBy(limXAxis);
 			let comparator = limXAxis;
 		} else {
 			let limYAxis = CUTOFF.times(yIncpt);
      	let limXAxis = CUTOFF.times(yIncpt.times(TWO));
- 			let scale = ONETWENTYEIGHT.dividedBy(limYAxis);
+ 			let scale = ONETWENTYSEVEN.dividedBy(limYAxis);
  			let comparator = limYAxis;
 		}
+		let scaledX = xIncpt.times(scale);
+		let scaledY = yIncpt.times(scale);
+		let scaledM =
+		let scaledXIncpt=scaledX.toInt();
+		let scaledYIncpt=scaledY.toInt();
 
-		do Out.ln(limYAxis.toString());
-		do Out.ln(limXAxis.toString());
-		do Out.ln(scale.toString());
-		do Out.ln(comparator.toString());
+//
+//		do Out.ln(limYAxis.toString());
+//		do Out.ln(limXAxis.toString());
+//		do Out.ln(scale.toString());
+//		do Out.ln(comparator.toString());
 return;
   }
 }
+
+
 /**
 (Get xIncpt and yIncpt)
 if either is <.0001 or >10000, throw an error (it may already do that)

@@ -111,8 +111,8 @@ class Fraction {
 
 method String toString(){
 		var String appended, n, d;
-		let n = String.new(10);
-		let d = String.new(10);
+		let n = String.new(20);
+		let d = String.new(20);
 		do n.setInt(numerator);
 		do d.setInt(denominator);
 		if (denominator = 1){
@@ -140,6 +140,12 @@ method String toString(){
 			return true;
 		}
 		return false;
+	}
+
+	method int toInt() {
+		var int a;
+		let a = numerator/denominator;
+		return a;
 	}
 
 	/**- - - - - - - - - - - - - - - - - - - - - - - - - - - - - **/

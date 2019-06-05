@@ -220,10 +220,10 @@ label IF_END0
 function Fraction.toString 3
 push argument 0
 pop pointer 0
-push constant 10
+push constant 20
 call String.new 1
 pop local 1
-push constant 10
+push constant 20
 call String.new 1
 pop local 2
 push local 1
