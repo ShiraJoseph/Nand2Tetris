@@ -131,10 +131,18 @@ class Equation {
 	/** Retrieves a single value from the user */
   method void inputVar(String v) {
     var String xString, yString, bString, mString;
+    var boolean invalid;
+    let invalid = false;
+    // while(invalid = false)
     if (S.equals(v, "x")){
       let xString = Keyboard.readLine("Enter an x:");
-      let xF = Fraction.toFraction(xString);
-      let xExists = true;
+      while(invalid) {
+          let xF = Fraction.toFraction(xString);
+          let invalid = xF.checkValid();
+          do Out.ln("infinite loop?");
+      }
+
+       let xExists = true;
     } else {
 	    if (S.equals(v, "y")){
 	      let yString = Keyboard.readLine("Enter a y:");
