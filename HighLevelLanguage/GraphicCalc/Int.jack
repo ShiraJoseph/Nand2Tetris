@@ -1,0 +1,101 @@
+/**
+* A helper class to handle negative numbers
+*/
+
+Class Int {
+    field boolean pos;
+    field int num;
+
+    constructor Int new(boolean isPos, int x){
+        let pos = isPos;
+        let num = x;
+    }
+
+    //accessors
+    method boolean pos(){ return pos;}
+    method int num() {return num;}
+
+    function boolean zeros(Int x, Int y){
+        if(x.num()=0 & y.num()=0){
+            return true;
+        }
+        return false;
+    }
+    function Int subtract(Int x, Int y){
+        return compute(false, x, y);
+    }
+    function Int add(Int x, Int y){
+        return compute(true, x, y);
+    }
+
+    function compute(boolean add, Int a, Int b){
+        var int x, y, bigger, smaller, result;
+        var boolean biggerPos, smallerPos, posPos, posNeg, negPos, negNeg;
+
+        let x=a.num();
+        let y=b.num();
+        let smallerPos=false;
+        let biggerPos=false;
+        let posPos=false;
+        let posNeg=false;
+        let negPos=false;
+        let negNeg=false;
+        let result=0;
+
+        if((zeros(x, y)) | ((x = y) & ((add=true & a.pos() != b.pos()) | (add=false & a.pos()=b.pos()))){
+            return Int.new(true, result);
+        }
+
+        if(x > y){
+            let bigger=x;
+            let biggerPos=a.pos();
+            let smaller=y;
+            let smallerPos=b.pos();
+        } else {
+            let bigger=y;
+            let biggerPos=b.pos();
+            let smaller=x;
+            let smallerPos=a.pos();
+        }
+        if(biggerPos=true){
+            if(smallerPos=true){
+                let posPos=true;
+            } else {
+                let posNeg=true;
+            }
+        } else {
+            if(smallerPos=true){
+                let negPos=true;
+            } else {
+                let negNeg=true;
+            }
+        }
+
+        let result = bigger+smaller;
+	    if((add=true & posPos=true) | (add=false & ((posNeg=true & ~(x<y)) | (negPos=true & x<y)))){
+	        return Int.new(true, result);
+	    }
+        if((add=true & negNeg=true) | (add=false & ((posNeg=true & x<y) | (negPos=true & ~(x<y))))){
+	        return Int.new(false, result);
+	    }
+
+        let result = bigger - smaller;
+        if((add=true & posNeg=true) | (add=false & ((negNeg=true & x<y) | (posPos=true & x>y)))){
+	        return Int.new(true, result);
+        }
+        if((add=true & negPos=true) | (add=false & ((negNeg=true & x>y) | (posPos=true & x<y)))){
+            return Int.new(false, result);
+        }
+        do Sys.halt();
+    }
+
+    function Int multiply(Int x, Int y){
+        var int product;
+        let product = x.num() * y.num();
+        if (~(x.isNeg() | y.isNeg()) | (x.isNeg() & y.isNeg() ){
+            return Int.new(false, product);
+        }
+        return Int.new(true, product);
+    }
+
+}
