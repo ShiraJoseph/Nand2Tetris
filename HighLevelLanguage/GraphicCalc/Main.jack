@@ -8,7 +8,7 @@ return;
     var Equation equation;
     var String format, oneS, twoS, threeS;
     var Fraction xIncptF, xIncpt, yIncptF, yIncpt;
-    var int oneI, twoI, threeI;
+//     var Int oneI, twoI, threeI;
     do Screen.clearScreen();
     let format = Keyboard.readLine("[P]oint-Slope, or Slope-[I]ntercept? ");
     while(~(S.equals(format, "O") | S.equals(format, "I") | S.equals(format, "P"))){
@@ -57,7 +57,7 @@ return;
 //  	  let e = Equation.new(1, "I");
 //  	  do e.setB(Fraction.new(-20, 1));
 //  	  do e.setSlope(Fraction.new(1,2));
-  	  let ONE = Fraction.new(1,1);
+  	  let ONE = Fraction.new(true, 1,1);
   	  let startP = Graph.getStartingBottomPoint(ONE, e);
   	  let endP = Graph.getEndingTopPoint(ONE, e);
   	  do e.setLowestPoint(startP);

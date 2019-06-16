@@ -349,6 +349,15 @@ return
 label IF_FALSE0
 push constant 0
 return
+function Fraction.toInt 1
+push argument 0
+pop pointer 0
+push this 0
+push this 1
+call Math.divide 2
+pop local 0
+push local 0
+return
 function Fraction.dispose 0
 push argument 0
 pop pointer 0

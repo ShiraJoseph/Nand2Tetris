@@ -21,11 +21,23 @@ Class Int {
         }
         return false;
     }
-    function Int subtract(Int x, Int y){
-        return compute(false, x, y);
+
+    function Int multiply(Int x, Int y){
+       var int product;
+       let product = x.num() * y.num();
+       if (~(x.isNeg() | y.isNeg()) | (x.isNeg() & y.isNeg() ){
+           return Int.new(false, product);
+       }
+       return Int.new(true, product);
     }
+
+
     function Int add(Int x, Int y){
         return compute(true, x, y);
+    }
+
+    function Int subtract(Int x, Int y){
+        return compute(false, x, y);
     }
 
     function compute(boolean add, Int a, Int b){
@@ -89,13 +101,24 @@ Class Int {
         do Sys.halt();
     }
 
-    function Int multiply(Int x, Int y){
-        var int product;
-        let product = x.num() * y.num();
-        if (~(x.isNeg() | y.isNeg()) | (x.isNeg() & y.isNeg() ){
-            return Int.new(false, product);
-        }
-        return Int.new(true, product);
+    method boolean equals(Int b){
+        return pos = b.pos() & num = b.num();
     }
 
+    method boolean isLessThan(Int b){
+        if(pos=b.pos()){
+            if(pos=true){
+                return num < b.num();
+            }
+            return num > b.num();
+        }
+        if(pos=true){
+            return false;
+        }
+        return true;
+    }
+
+    method boolean isGreaterThan(Int b){
+        return ~(isLessThan(b) | equals(b));
+    }
 }

@@ -1,0 +1,21 @@
+class Coord {
+	field int x, y;
+	/** Constructs a point on the graph */
+  constructor Coord new(int x, int y) {
+    let x = x;
+    let y = y;
+    return this;
+  }
+
+  /** Accessors. */
+  method int x() { return x; }
+  method int y() { return y; }
+
+
+  method boolean isValidCoord() {
+    if ((x >0 | x=0) & x < 512 & (y > 0 | y = 0) & y < 256){
+      return true;
+    }
+    return false;
+  }
+}

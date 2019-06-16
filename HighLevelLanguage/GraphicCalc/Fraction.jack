@@ -6,11 +6,12 @@
 /** Represents the Fraction type and related operations. */
 class Fraction {
   field int numerator, denominator;  // field = property = member variable.
-
+  field boolean pos;
   /** Constructs a (reduced) fraction from the given numerator and denominator. */
-  constructor Fraction new(int x, int y) {
-    let numerator = x;
-    let denominator = y;
+  constructor Fraction new(pos, Int x, Int y) {
+    let numerator = x.num();
+    let denominator = y.num();
+    let pos = pos;
     if (~(y > 0)) {
       let denominator = 1;
     }
@@ -23,8 +24,8 @@ class Fraction {
     var int g;
     let g = Fraction.gcd(numerator, denominator);
     if (g > 1) {
-       let numerator = numerator / g;
-       let denominator = denominator / g;
+       let numerator = Int.new(pos, numerator / g);
+       let denominator = Int.new(true, denominator / g);
     }
     return;
   }
@@ -32,6 +33,7 @@ class Fraction {
   /** Accessors. */
   method int getNumerator() { return numerator; }
   method int getDenominator() { return denominator; }
+  method boolean getPos() { return pos; }
 
   /** Returns the sum of this fraction and the other one. */
   method Fraction plus(Fraction other) {

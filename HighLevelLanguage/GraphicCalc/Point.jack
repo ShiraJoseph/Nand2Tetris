@@ -1,8 +1,8 @@
 class Point {
-	field int x, y;
+	field Int x, y;
 	field boolean isCoord;
 	/** Constructs a point on the graph */
-  constructor Point new(int xVal, int yVal) {
+  constructor Point new(Int xVal, Int yVal) {
     let x = xVal;
     let y = yVal;
     return this;
@@ -17,35 +17,21 @@ class Point {
    *  The center of the screen is considered the origin.
    *  Example: the point (1, 1) would be drawn at (256, 126) on the Hack Screen
    */
-  method Point toCoord() {
-    var Point coord;
+  method Coord toCoord() {
+    var Coord coord;
     if (isValidPoint()) {
-      let coord = Point.new(255 + x, 127 - y);
+      let coord = Coord.new((Int.add(Int.new(true, 255), x)).num(), (Int.subract(Int.new(true, 127), y)).num());
     } else {
-      let coord = Point.new(512, 256);
+      let coord = Coord.new(512, 256);
       do Out.ln("Invalid Point");
     }
     return coord;
   }
 
-  method boolean isValidCoord() {
-    if (x > -1 & x < 512 & y > -1 & y < 256){
-      return true;
-    }
-    return false;
-  }
-
   method boolean isValidPoint() {
-    if (x < 256 & x > -256 & y < 128 & y > -128){
+    if (x.isLessThan(Int.new(true, 256)) & x.isGreaterThan(Int.new(false, 256)) & y.isLessThan(Int.new(true, 128)) & y.isGreaterThan(Int.new(false, 128))){
       return true;
     }
     return false;
-  }
-
-  method void drawPixel() {
-    if (isValidCoord()) {
-      do Screen.drawPixel(x, y);
-    }
-    return;
   }
 }
