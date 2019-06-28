@@ -8,12 +8,22 @@ class Fraction {
   field int numerator, denominator;  // field = property = member variable.
   field boolean pos;
   /** Constructs a (reduced) fraction from the given numerator and denominator. */
-  constructor Fraction new(pos, Int x, Int y) {
+  constructor Fraction new(Int x, Int y) {
     let numerator = x.num();
     let denominator = y.num();
-    let pos = pos;
-    if (~(y > 0)) {
-      let denominator = 1;
+    if (x.pos() = y.pos()){
+      let pos = true;
+    } else {
+      let pos = false;
+    }
+    do Out.s("numerator: ");
+    do Out.lnI(numerator);
+    do Out.s("denom: ");
+    do Out.lnI(denominator);
+
+    if (y.num() = 0) {
+//      let denominator = 1;
+      do Sys.error(3);
     }
     do reduce();   // reduces the fraction
     return this;   // a constructor is expected to return a reference to the new object
@@ -31,15 +41,28 @@ class Fraction {
   }
 
   /** Accessors. */
-  method int getNumerator() { return numerator; }
-  method int getDenominator() { return denominator; }
-  method boolean getPos() { return pos; }
+  method int numerator() { return numerator; }
+  method int denominator() { return denominator; }
+  method boolean pos() { return pos; }
 
   /** Returns the sum of this fraction and the other one. */
   method Fraction plus(Fraction other) {
-    var int sum;
-    let sum = (numerator * other.getDenominator()) + (other.getNumerator() * denominator);
-    return Fraction.new(sum, denominator * other.getDenominator());
+    var Int sum, numers, denoms, a, b;
+    let a = Int.new(pos, numerator);
+    let b = Int.new(true, other.denominator());
+
+    let numers = Int.multiply(a, b);
+    do Out.s("numers multiplied: ");
+    do Out.lnI(numers.num());
+    let denoms = Int.multiply(Int.new(other.pos(), other.numerator()), Int.new(true, denominator));
+      do Out.s("denoms multiplied: ");
+        do Out.lnI(denoms.num());
+    let sum = Int.add(numers, denoms);
+    do Out.s("sum.num: ");
+    do Out.lnI(sum.num());
+    do Out.s("sum.pos: ");
+    do Out.lnB(sum.pos());
+    return Fraction.new(sum, Int.new(true, denominator * other.denominator()));
   }
 
   // More fraction-related methods (minus, times, div, etc.) can be added here.
@@ -51,25 +74,25 @@ class Fraction {
   /** Subtracts one fraction from another */
   method Fraction minus(Fraction sub) {
     var int minuend, subtrahend, difference;
-    let minuend = numerator * sub.getDenominator();
-    let subtrahend = sub.getNumerator() * denominator;
+    let minuend = numerator * sub.denominator();
+    let subtrahend = sub.numerator() * denominator;
     let difference = minuend - subtrahend;
-    return Fraction.new(difference, denominator * sub.getDenominator());
+    return Fraction.new(difference, denominator * sub.denominator());
   }
 
   /** Multiplies two fractions */
   method Fraction times(Fraction mult) {
     var int numer, denom;
-    let numer = numerator * mult.getNumerator();
-    let denom = denominator * mult.getDenominator();
+    let numer = numerator * mult.numerator();
+    let denom = denominator * mult.denominator();
     return Fraction.new(numer, denom);
   }
 
   /** Divides one fraction by another */
   method Fraction dividedBy (Fraction divisor) {
     var int numer, denom, quotient;
-    let numer = numerator * divisor.getDenominator();
-    let denom = denominator * divisor.getNumerator();
+    let numer = numerator * divisor.denominator();
+    let denom = denominator * divisor.numerator();
     return Fraction.new(numer, denom);
   }
 
@@ -138,7 +161,7 @@ method String toString(){
 	}
 
 	method boolean isGreaterThan(Fraction f2) {
-		if (numerator * f2.getDenominator() > f2.getNumerator() * denominator){
+		if (numerator * f2.denominator() > f2.numerator() * denominator){
 			return true;
 		}
 		return false;

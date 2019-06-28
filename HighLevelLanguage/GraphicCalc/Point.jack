@@ -1,7 +1,7 @@
 class Point {
 	field Int x, y;
 	field boolean isCoord;
-	/** Constructs a point on the graph */
+	/** Constructs a point on the cartesian plane */
   constructor Point new(Int xVal, Int yVal) {
     let x = xVal;
     let y = yVal;
@@ -19,8 +19,13 @@ class Point {
    */
   method Coord toCoord() {
     var Coord coord;
+    var Int t55, o27, add, sub;
+    let t55 = Int.new(true, 255);
+    let o27 = Int.new(true, 127);
+    let add = Int.add(t55, x);
+    let sub = Int.subtract(o27, y);
     if (isValidPoint()) {
-      let coord = Coord.new((Int.add(Int.new(true, 255), x)).num(), (Int.subract(Int.new(true, 127), y)).num());
+      let coord = Coord.new(add.num(), sub.num());
     } else {
       let coord = Coord.new(512, 256);
       do Out.ln("Invalid Point");

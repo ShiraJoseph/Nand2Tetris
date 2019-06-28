@@ -1,13 +1,7 @@
 class Graph {
-	field Int ONETWENTYSEVEN, NEG127, TWOFIFTYFIVE, NEG255, TWO;
 
 	/** Constructs a new graph */
   constructor Graph new() {
-    let ONETWENTYSEVEN = Int.new(true, 127);
-    let NEG127 = Int.new(false, 127);
-    let TWOFIFTYFIVE = Int.new(true, 255);
-    let NEG255 = Int.new(false, 255);
-    let TWO = Int.new(true, 2);
     return this;
   }
 
@@ -15,7 +9,7 @@ class Graph {
     if (coord.isValidCoord()) {
       do Screen.drawPixel(coord.x(), coord.y());
     }
-        return;
+      return;
   }
 
   function void drawGraph() {
@@ -51,99 +45,99 @@ class Graph {
 
   function void drawPoint(Int x, Int y) {
     var Point p;
+    var Coord c;
     let p = Point.new(x, y);
-    let p = p.toCoord();
-    do p.drawPixel();
+    let c = p.toCoord();
+    do Graph.drawPixel(c);
     return;
   }
 
-// TODO: CONTINUE FROM HERE - CONVERTING EVERYTHING TO USE MY NEW INT OBJECT
+
   function void drawLine(Equation equation) {
     var Fraction slope;
-    var int xIncrease, yIncrease;
+    var Int xIncrease, yIncrease, x, y;
     var Point start, end, curr;
-    var int x, y;
     let slope = equation.getSlope();
-    let xIncrease = slope.getDenominator();
-    let yIncrease = slope.getNumerator();
+    let xIncrease = slope.denominator();
+    let yIncrease = slope.numerator();
     let start = equation.getLowestPoint();
     let end = equation.getHighestPoint();
     let x = start.x();
     let y = start.y();
-    while(x < end.x()){
+    while(x.isLessThan(end.x())){
       do Graph.drawPoint(x, y);
-      let x = x + xIncrease;
-      let y = y + yIncrease;
+      let x = Int.add(x, xIncrease);
+      let y = Int.add(y, yIncrease);
       do Sys.wait(10);
     }
 		return;
   }
 
+
 	function Point getStartingLeftPoint(Fraction scale, Equation e) {
 		var Fraction y, x, two55;
-		var int xInt, yInt;
+		var Int xInt, yInt;
 		var Point p;
-		let two55 = Fraction.new(NEG255, 1);
+		let two55 = Fraction.new(Int.new(false, 255), Int.new(true, 1));
 		let x = two55.dividedBy(scale);
 		let y = e.solveForY(x);
-			let xInt = x.getNumerator()/x.getDenominator();
-      		let yInt = y.getNumerator()/y.getDenominator();
-      		let p = Point.new(xInt, yInt);
+		let xInt = Int.new(x.pos(), x.numerator()/x.denominator());
+   	let yInt = Int.new(y.pos(), y.numerator()/y.denominator());
+   	let p = Point.new(xInt, yInt);
 		return p;
 	}
+
 	function Point getEndingRightPoint(Fraction scale, Equation e) {
-  		var Fraction y, x;
-  				var int xInt, yInt;
+  		var Fraction y, x, two55;
+  		var Int xInt, yInt;
   		var Point p;
- //  		let TWOFIFTYFIVE = Fraction.new(255, 1);
-  		let x = TWOFIFTYFIVE.dividedBy(scale);
+  		let two55 = Fraction.new(Int.new(true, 255), Int.new(true, 1));
+  		let x = two55.dividedBy(scale);
   		let y = e.solveForY(x);
-  			let xInt = x.getNumerator()/x.getDenominator();
-        		let yInt = y.getNumerator()/y.getDenominator();
-        		let p = Point.new(xInt, yInt);
+  		let xInt = Int.new(x.pos(), x.numerator()/x.denominator());
+   		let yInt = Int.new(y.pos(), y.numerator()/y.denominator());
+   		let p = Point.new(xInt, yInt);
   		return p;
   	}
 
 	function Point getStartingBottomPoint(Fraction scale, Equation e) {
-		var Fraction y, x;
-		var int xInt, yInt;
+		var Fraction y, x, one27;
+		var Int xInt, yInt;
   		var Point p;
-//  		let ONETWENTYSEVEN = Fraction.new(-127, 1);
-  		let y = NEG127.dividedBy(scale);
+        let one27 = Fraction.new(Int.new(false, 127), Int.new(true, 1));
+  		let y = one27.dividedBy(scale);
   		let x = e.solveForX(y);
-  		let xInt = x.getNumerator()/x.getDenominator();
-  		let yInt = y.getNumerator()/y.getDenominator();
+  		let xInt = Int.new(x.pos(), x.numerator()/x.denominator());
+  		let yInt = Int.new(y.pos(), y.numerator()/y.denominator());
   		let p = Point.new(xInt, yInt);
   		return p;
 	}
 
 	function Point getEndingTopPoint(Fraction scale, Equation e) {
   		var Fraction y, x, one27;
-  		var int xInt, yInt;
-    		var Point p;
-   		let one27 = Fraction.new(ONETWENTYSEVEN, 1);
-
-    		let y = one27.dividedBy(scale);
-    		let x = e.solveForX(y);
-    		let xInt = x.getNumerator()/x.getDenominator();
-    		let yInt = y.getNumerator()/y.getDenominator();
-    		let p = Point.new(xInt, yInt);
-    		return p;
+  		var Int xInt, yInt;
+    	var Point p;
+   		let one27 = Fraction.new(Int.new(true, 127), Int.new(true, 1));
+        let y = one27.dividedBy(scale);
+    	let x = e.solveForX(y);
+    	let xInt = Int.new(x.pos(), x.numerator()/x.denominator());
+    	let yInt = Int.new(y.pos(), y.numerator()/y.denominator());
+    	let p = Point.new(xInt, yInt);
+    	return p;
   	}
 
-
+// TODO: CONTINUE FROM HERE - CONVERTING EVERYTHING TO USE MY NEW INT OBJECT
   function void getScaledLine(Equation e) {
-    var Fraction yIncpt, xIncpt, xIncptTwice, limXAxis, limYAxis, scale, comparator, CUTOFF, scaledX, scaledY;
+    var Fraction yIncpt, xIncpt, xIncptTwice, limXAxis, limYAxis, scale, comparator, CUTOFF, scaledX, scaledY, TWOFIFTYFIVE, ONETWENTYSEVEN, TWO;
     var int scaledXIncpt, scaledYIncpt;
     let yIncpt = e.getYIntercept();
     let xIncpt = e.getXIntercept();
 		do yIncpt.checkValid();
 		do xIncpt.checkValid();
-
-		let CUTOFF = Fraction.new(3, 2);
-\\ 		let TWO = Fraction.new(2, 1);
-		let TWOFIFTYSIX = Fraction.new(256, 1);
-\\ 		let ONETWENTYEIGHT = Fraction.new(128, 1);
+    let TWOFIFTYFIVE = Fraction.new(Int.new(true, 255), Int.new(true, 1));
+    let ONETWENTYSEVEN = Fraction.new(Int.new(true, 127), Int.new(true, 1));
+		let CUTOFF = Fraction.new(Int.new(true, 3), Int.new(true, 2));
+		let TWO = Fraction.new(Int.new(true, 2), Int.new(true, 1));
 		let xIncptTwice = xIncpt.times(TWO);
 		if(xIncptTwice.isGreaterThan(yIncpt)){
 			let limXAxis = CUTOFF.times(xIncpt);
@@ -158,11 +152,8 @@ class Graph {
 		}
 		let scaledX = xIncpt.times(scale);
 		let scaledY = yIncpt.times(scale);
-		let scaledM =
 		let scaledXIncpt=scaledX.toInt();
 		let scaledYIncpt=scaledY.toInt();
-
-//
 //		do Out.ln(limYAxis.toString());
 //		do Out.ln(limXAxis.toString());
 //		do Out.ln(scale.toString());

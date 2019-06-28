@@ -1,9 +1,9 @@
 class Coord {
 	field int x, y;
-	/** Constructs a point on the graph */
-  constructor Coord new(int x, int y) {
-    let x = x;
-    let y = y;
+	/** Constructs a coordinate on the Hack Emulated Screen, using positive x and y values */
+  constructor Coord new(int xVal, int yVal) {
+    let x = xVal;
+    let y = yVal;
     return this;
   }
 
@@ -13,7 +13,7 @@ class Coord {
 
 
   method boolean isValidCoord() {
-    if ((x >0 | x=0) & x < 512 & (y > 0 | y = 0) & y < 256){
+    if (((x > 0) | (x = 0)) & (x < 512) & ((y > 0) | (y = 0)) & (y < 256)){
       return true;
     }
     return false;

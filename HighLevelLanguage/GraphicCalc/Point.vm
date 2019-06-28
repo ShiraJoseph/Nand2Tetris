@@ -18,27 +18,43 @@ push argument 0
 pop pointer 0
 push this 1
 return
-function Point.toCoord 1
+function Point.toCoord 5
 push argument 0
 pop pointer 0
+push constant 0
+not
+push constant 255
+call Int.new 2
+pop local 1
+push constant 0
+not
+push constant 127
+call Int.new 2
+pop local 2
+push local 1
+push this 0
+call Int.add 2
+pop local 3
+push local 2
+push this 1
+call Int.subtract 2
+pop local 4
 push pointer 0
 call Point.isValidPoint 1
 if-goto IF_TRUE0
 goto IF_FALSE0
 label IF_TRUE0
-push constant 255
-push this 0
-add
-push constant 127
-push this 1
-sub
-call Point.new 2
+push local 3
+call Int.num 1
+push local 4
+call Int.num 1
+call Coord.new 2
 pop local 0
 goto IF_END0
 label IF_FALSE0
 push constant 512
 push constant 256
-call Point.new 2
+call Coord.new 2
 pop local 0
 push constant 13
 call String.new 1
@@ -73,76 +89,40 @@ pop temp 0
 label IF_END0
 push local 0
 return
-function Point.isValidCoord 0
-push argument 0
-pop pointer 0
-push this 0
-push constant 1
-neg
-gt
-push this 0
-and
-push constant 512
-lt
-push this 1
-and
-push constant 1
-neg
-gt
-push this 1
-and
-push constant 256
-lt
-if-goto IF_TRUE0
-goto IF_FALSE0
-label IF_TRUE0
-push constant 0
-not
-return
-label IF_FALSE0
-push constant 0
-return
 function Point.isValidPoint 0
 push argument 0
 pop pointer 0
 push this 0
+push constant 0
+not
 push constant 256
-lt
+call Int.new 2
+call Int.isLessThan 2
 push this 0
-and
+push constant 0
 push constant 256
-neg
-gt
-push this 1
+call Int.new 2
+call Int.isGreaterThan 2
 and
-push constant 128
-lt
 push this 1
-and
+push constant 0
+not
 push constant 128
-neg
-gt
+call Int.new 2
+call Int.isLessThan 2
+and
+push this 1
+push constant 0
+push constant 128
+call Int.new 2
+call Int.isGreaterThan 2
+and
 if-goto IF_TRUE0
 goto IF_FALSE0
 label IF_TRUE0
 push constant 0
 not
 return
-label IF_FALSE0
-push constant 0
-return
-function Point.drawPixel 0
-push argument 0
-pop pointer 0
-push pointer 0
-call Point.isValidCoord 1
-if-goto IF_TRUE0
-goto IF_FALSE0
-label IF_TRUE0
-push this 0
-push this 1
-call Screen.drawPixel 2
-pop temp 0
 label IF_FALSE0
 push constant 0
 return

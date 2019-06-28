@@ -1,6 +1,16 @@
 class Main {
   function void main() {
-do Main.createEquation();
+  var Fraction x, y, z;
+//do Main.createEquation();
+  let x = Fraction.new(Int.new(false, 3), Int.new(false, 2));
+  let y = Fraction.new(Int.new(true, 4), Int.new(false, 3));
+  let z = x.plus(y);
+  do Out.lnB(z.pos());
+  do Out.s("peek numer:");
+  do Out.lnI(Memory.peek(z.numerator()));
+  do Out.lnI(z.denominator());
+    do Out.s("peek denom:");
+  do Out.lnI(Memory.peek(z.denominator()));
 return;
   }
 
@@ -57,7 +67,7 @@ return;
 //  	  let e = Equation.new(1, "I");
 //  	  do e.setB(Fraction.new(-20, 1));
 //  	  do e.setSlope(Fraction.new(1,2));
-  	  let ONE = Fraction.new(true, 1,1);
+  	  let ONE = Fraction.new(Int.new(true, 1), Int.new(true, 1));
   	  let startP = Graph.getStartingBottomPoint(ONE, e);
   	  let endP = Graph.getEndingTopPoint(ONE, e);
   	  do e.setLowestPoint(startP);
