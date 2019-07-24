@@ -3,6 +3,8 @@
 // by Nisan and Schocken, MIT Press.
 // File name: projects/09/Fraction/Fraction.jack
 
+// Extended and Modified by Shira Joseph
+
 /** Represents the Fraction type and related operations. */
 class Fraction {
   field int numerator, denominator;  // field = property = member variable.
@@ -16,10 +18,6 @@ class Fraction {
     } else {
       let pos = false;
     }
-    do Out.s("numerator: ");
-    do Out.lnI(numerator);
-    do Out.s("denom: ");
-    do Out.lnI(denominator);
 
     if (y.num() = 0) {
 //      let denominator = 1;
@@ -34,8 +32,8 @@ class Fraction {
     var int g;
     let g = Fraction.gcd(numerator, denominator);
     if (g > 1) {
-       let numerator = Int.new(pos, numerator / g);
-       let denominator = Int.new(true, denominator / g);
+       let numerator = numerator / g;
+       let denominator = denominator / g;
     }
     return;
   }
@@ -52,84 +50,94 @@ class Fraction {
     let b = Int.new(true, other.denominator());
 
     let numers = Int.multiply(a, b);
-    do Out.s("numers multiplied: ");
-    do Out.lnI(numers.num());
     let denoms = Int.multiply(Int.new(other.pos(), other.numerator()), Int.new(true, denominator));
-      do Out.s("denoms multiplied: ");
-        do Out.lnI(denoms.num());
     let sum = Int.add(numers, denoms);
-    do Out.s("sum.num: ");
-    do Out.lnI(sum.num());
-    do Out.s("sum.pos: ");
-    do Out.lnB(sum.pos());
     return Fraction.new(sum, Int.new(true, denominator * other.denominator()));
   }
 
-  // More fraction-related methods (minus, times, div, etc.) can be added here.
-
-	/**************************************************************/
-	/** The following methods written by Shira Joseph, Dec 2018  **/
-	/**----------------------------------------------------------**/
-
   /** Subtracts one fraction from another */
-  method Fraction minus(Fraction sub) {
-    var int minuend, subtrahend, difference;
-    let minuend = numerator * sub.denominator();
-    let subtrahend = sub.numerator() * denominator;
-    let difference = minuend - subtrahend;
-    return Fraction.new(difference, denominator * sub.denominator());
+  method Fraction minus(Fraction other) {
+    var Int numers, denoms, difference, a, b;
+    let a = Int.new(pos, numerator);
+    let b = Int.new(true, other.denominator());
+     let numers = Int.multiply(a, b);
+        let denoms = Int.multiply(Int.new(other.pos(), other.numerator()), Int.new(true, denominator));
+    let difference = Int.subtract(numers, denoms);
+    return Fraction.new(difference, Int.new(true, denominator * other.denominator()));
   }
 
   /** Multiplies two fractions */
   method Fraction times(Fraction mult) {
-    var int numer, denom;
-    let numer = numerator * mult.numerator();
-    let denom = denominator * mult.denominator();
+    var Int numer, denom;
+    let numer = Int.multiply(Int.new(pos, numerator), Int.new(mult.pos(), mult.numerator()));
+    let denom = Int.multiply(Int.new(pos, denominator), Int.new(mult.pos(), mult.denominator()));
     return Fraction.new(numer, denom);
   }
 
   /** Divides one fraction by another */
   method Fraction dividedBy (Fraction divisor) {
-    var int numer, denom, quotient;
-    let numer = numerator * divisor.denominator();
-    let denom = denominator * divisor.numerator();
+    var Int numer, denom;
+    let numer = Int.multiply(Int.new(pos, numerator), Int.new(divisor.pos(), divisor.denominator()));
+    let denom = Int.multiply(Int.new(pos, denominator), Int.new(divisor.pos(), divisor.numerator()));
     return Fraction.new(numer, denom);
   }
 
 	/** Turns a string into a Fraction */
   function Fraction toFraction (String num) {
-    var int delimiter, forwardSlash, backSlash, n, d, start, end;
-    var String numer, denom, num2, num3;
-    var char f, b;
+    var int delimiter, forwardSlash, backSlash, n, d, start, end, negative;
+    var Int nu, de;
+    // Not yet sure if all these copies are needed, but I'm not taking any risks right now.
+    var String numer, denom, num2, num3, num4, num5, num6, num7, num8, num9;
+    var char f, b, neg;
     var Fraction frac;
-		let f = 47;
-		let b = 92;
+    var boolean numerPos, denomPos;
+
+    let numerPos = true;
+    let denomPos = true;
+		let neg = 45;
+    let num4=num;
+    let negative = S.indexOf(num4, neg);
+    if (negative = 0) {
+      let numerPos = false;
+      let num5 = num;
+      let num = S.substr(num5, 1, num5.length());
+    }
+    let f = 47;
+    let num6 = num;
     let forwardSlash = S.indexOf(num, f);
-    		let num2=num;
+    let b = 92;
+    let num2 = num;
     let backSlash = S.indexOf(num2, b);
     if (forwardSlash = -1 & backSlash = -1) {
-
       let n = num.intValue();
-      let frac = Fraction.new(n, 1);
+      let nu = Int.new(numerPos, n);
+      let de = Int.new(true, 1);
+      let frac = Fraction.new(nu, de);
       return frac;
     } else {
-
 	    if (forwardSlash > -1) {
 	      let delimiter = forwardSlash;
 	    } else {
 	      let delimiter = backSlash;
 	    }
-
 			let num3 = num;
 	    let numer = S.substr(num3, 0, delimiter);
 
 			let start = delimiter + 1;
 			let end = String.length(num);
-	    let denom = S.substr(num, start, end);
 
+			let num7 = num;
+	    let denom = S.substr(num7, start, end);
+	    let num8 = denom;
+	    let negative = S.indexOf(num8, neg);
+      if (negative = 0) {
+        let denomPos = false;
+        let num9 = denom;
+        let denom = S.substr(num9, 1, num9.length());
+      }
 			let n = numer.intValue();
 			let d = denom.intValue();
-			let frac = Fraction.new(n, d);
+			let frac = Fraction.new(Int.new(numerPos, n), Int.new(denomPos, d));
 	    return frac;
     }
   }
@@ -152,6 +160,12 @@ method String toString(){
 		return appended;
 	}
 
+	method int toInt() {
+		var int a;
+		let a = numerator/denominator;
+		return a;
+	}
+
 	method void checkValid() {
 		if(denominator > 9999 | denominator < -9999 | numerator > 9999 | numerator < -9999){
 			do Out.ln("Invalid number");
@@ -167,15 +181,6 @@ method String toString(){
 		return false;
 	}
 
-	method int toInt() {
-		var int a;
-		let a = numerator/denominator;
-		return a;
-	}
-
-	/**- - - - - - - - - - - - - - - - - - - - - - - - - - - - - **/
-	/**               End of lines by Shira Joseph               **/
-	/**************************************************************/
 
   /** Disposes this fraction. */
   method void dispose() {

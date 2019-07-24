@@ -26,12 +26,6 @@ class Int {
     function Int multiply(Int x, Int y){
        var int product;
        let product = x.num() * y.num();
-       do Out.s("x.num: ");
-       do Out.lnI(x.num());
-       do Out.s("y.num: ");
-       do Out.lnI(y.num());
-       do Out.s("product: ");
-       do Out.lnI(product);
        if (x.pos() = y.pos()){
            return Int.new(true, product);
        }
@@ -53,7 +47,7 @@ class Int {
 
     function Int compute(boolean add, Int a, Int b){
         var int x, y, bigger, smaller, result;
-        var boolean biggerPos, smallerPos, posPos, posNeg, negPos, negNeg, c, d, e, f, g;
+        var boolean biggerPos, smallerPos, posPos, posNeg, negPos, negNeg, c, d, e, f, g, h, i;
 
         let x=a.num();
         let y=b.num();
@@ -68,7 +62,7 @@ class Int {
         do Out.lnI(x);
         do Out.s("second num: ");
         do Out.lnI(y);
-        if((x=0 & y=0) | ((x = y) & ((add & ~(a.pos() = b.pos())) | (~add & (a.pos()=b.pos()))))){
+        if(((x=0) & (y=0)) | ((x = y) & ((add & ~(a.pos() = b.pos())) | (~add & (a.pos()=b.pos()))))){
             do Out.ln("returning 0!");
             return Int.new(true, result);
         }
@@ -100,17 +94,21 @@ class Int {
 
         let result = bigger+smaller;
 	      if((add & posPos) | (~add & ((posNeg & ~(x<y)) | (negPos & (x<y))))){
+	        do Out.ln("add and posPos");
 	        return Int.new(true, result);
 	      }
         if((add & negNeg) | (~add & ((posNeg & (x<y)) | (negPos & ~(x<y))))){
+        	        do Out.ln("add and negNeg");
 	        return Int.new(false, result);
 	      }
 
         let result = bigger - smaller;
         if((add & posNeg) | (~add & ((negNeg & (x<y)) | (posPos & (x>y))))){
+        	        do Out.ln("add and posNeg");
 	        return Int.new(true, result);
         }
         if((add & negPos) | (~add & ((negNeg & (x>y)) | (posPos & (x<y))))){
+            	        do Out.ln("add and negPos");
             return Int.new(false, result);
         }
         do Sys.halt();

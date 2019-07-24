@@ -126,10 +126,10 @@ class Graph {
     	return p;
   	}
 
-// TODO: CONTINUE FROM HERE - CONVERTING EVERYTHING TO USE MY NEW INT OBJECT
-  function void getScaledLine(Equation e) {
-    var Fraction yIncpt, xIncpt, xIncptTwice, limXAxis, limYAxis, scale, comparator, CUTOFF, scaledX, scaledY, TWOFIFTYFIVE, ONETWENTYSEVEN, TWO;
-    var int scaledXIncpt, scaledYIncpt;
+  function Equation getScaledLine(Equation e) {
+    var Fraction yIncpt, xIncpt, xIncptTwice, limXAxis, limYAxis, scale, comparator, CUTOFF, scaledXIncpt,
+    scaledYIncpt, scaledSlope, TWOFIFTYFIVE, ONETWENTYSEVEN, TWO, slope;
+    var Equation scaledEquation;
     let yIncpt = e.getYIntercept();
     let xIncpt = e.getXIntercept();
 		do yIncpt.checkValid();
@@ -150,15 +150,24 @@ class Graph {
  			let scale = ONETWENTYSEVEN.dividedBy(limYAxis);
  			let comparator = limYAxis;
 		}
-		let scaledX = xIncpt.times(scale);
-		let scaledY = yIncpt.times(scale);
-		let scaledXIncpt=scaledX.toInt();
-		let scaledYIncpt=scaledY.toInt();
+		//now to calculate all our new values
+		let scaledXIncpt = xIncpt.times(scale);
+		let scaledYIncpt = yIncpt.times(scale);
+//		let scaledXIncpt=scaledX.toInt();
+//		let scaledYIncpt=scaledY.toInt();
+		let slope = e.getSlope();
+		let scaledSlope = slope.times(scale);
+
+		// and return with a new equation for the line:
+		let scaledEquation = Equation.new(1, "P");
+		do scaledEquation.setX(scaledXIncpt);
+		do scaledEquation.setY(scaledXIncpt);
+		do scaledEquation.setSlope(scaledSlope);
 //		do Out.ln(limYAxis.toString());
 //		do Out.ln(limXAxis.toString());
 //		do Out.ln(scale.toString());
 //		do Out.ln(comparator.toString());
-return;
+    return scaledEquation;
   }
 }
 
@@ -181,9 +190,10 @@ else
 get scaledIncpts
 get tickmarks
 
-get x of -limXAxis if xincept is greatest
-get y of -limYAxis if yincept is greatest
-from each until the positives of those, plot each point through to the end of the line
+get x of -limXAxis if xincept is greatest = -15*17
+get y of -limYAxis if yincept is greatest = -7.5*17
+from either that x or that y, solve for the missing value (y or x) and plot that point,
+repeatedly increasing by 1 pixel to and resolving with the new value, through to the other edge of the screen
 
 
 

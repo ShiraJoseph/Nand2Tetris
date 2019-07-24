@@ -1,16 +1,25 @@
 class Main {
   function void main() {
-  var Fraction x, y, z;
+  var String x;
+  var Fraction y;
+//  var Fraction x, y, z;
+//  var Int a, b, c, d;
+//  let a = Int.new(false, 3);
+//  let b = Int.new(true, 2);
+//  let c = Int.new(false, 4);
+//  let d = Int.new(true, 3);
+//  let x = Fraction.new(a, b);
+//  let y = Fraction.new(c, d);
+//  let z = x.dividedBy(y);
+//  do Out.lnI(z.numerator());
+//  do Out.lnI(z.denominator());
+//  do Out.lnB(z.pos());
 //do Main.createEquation();
-  let x = Fraction.new(Int.new(false, 3), Int.new(false, 2));
-  let y = Fraction.new(Int.new(true, 4), Int.new(false, 3));
-  let z = x.plus(y);
-  do Out.lnB(z.pos());
-  do Out.s("peek numer:");
-  do Out.lnI(Memory.peek(z.numerator()));
-  do Out.lnI(z.denominator());
-    do Out.s("peek denom:");
-  do Out.lnI(Memory.peek(z.denominator()));
+  let x = "-5/10";
+  let y = Fraction.toFraction(x);
+  do Out.lnB(y.pos());
+  do Out.lnI(y.numerator());
+  do Out.lnI(y.denominator());
 return;
   }
 
@@ -60,20 +69,22 @@ return;
   }
 
   function void draw(Equation e){
-  	  var Fraction m, f1, f2, ONE;
-  	  var Point startP, endP;
-  	  var boolean isGreater;
-  	  do Graph.drawAxes();
-//  	  let e = Equation.new(1, "I");
-//  	  do e.setB(Fraction.new(-20, 1));
-//  	  do e.setSlope(Fraction.new(1,2));
-  	  let ONE = Fraction.new(Int.new(true, 1), Int.new(true, 1));
-  	  let startP = Graph.getStartingBottomPoint(ONE, e);
-  	  let endP = Graph.getEndingTopPoint(ONE, e);
-  	  do e.setLowestPoint(startP);
-  	  do e.setHighestPoint(endP);
-  	  do Graph.drawLine(e);
-  	  do Graph.getScaledLine(e);
+    var Equation newE;
+//  	  var Fraction m, f1, f2, ONE;
+//  	  var Point startP, endP;
+//  	  var boolean isGreater;
+//  	  do Graph.drawAxes();
+////  	  let e = Equation.new(1, "I");
+////  	  do e.setB(Fraction.new(-20, 1));
+////  	  do e.setSlope(Fraction.new(1,2));
+//  	  let ONE = Fraction.new(Int.new(true, 1), Int.new(true, 1));
+//  	  let startP = Graph.getStartingBottomPoint(ONE, e);
+//  	  let endP = Graph.getEndingTopPoint(ONE, e);
+//  	  do e.setLowestPoint(startP);
+//  	  do e.setHighestPoint(endP);
+//  	  do Graph.drawLine(e);
+  	  let newE = Graph.getScaledLine(e);
+  	  do Out.ln(newE.toString());
       return;
   }
 }
