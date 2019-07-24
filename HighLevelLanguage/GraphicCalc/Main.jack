@@ -1,7 +1,6 @@
 class Main {
   function void main() {
-  var String x;
-  var Fraction y;
+
 //  var Fraction x, y, z;
 //  var Int a, b, c, d;
 //  let a = Int.new(false, 3);
@@ -14,12 +13,7 @@ class Main {
 //  do Out.lnI(z.numerator());
 //  do Out.lnI(z.denominator());
 //  do Out.lnB(z.pos());
-//do Main.createEquation();
-  let x = "-5/10";
-  let y = Fraction.toFraction(x);
-  do Out.lnB(y.pos());
-  do Out.lnI(y.numerator());
-  do Out.lnI(y.denominator());
+do Main.createEquation();
 return;
   }
 
@@ -28,7 +22,11 @@ return;
     var String format, oneS, twoS, threeS;
     var Fraction xIncptF, xIncpt, yIncptF, yIncpt;
 //     var Int oneI, twoI, threeI;
-    do Screen.clearScreen();
+
+//
+//    do Screen.clearScreen();
+//
+
     let format = Keyboard.readLine("[P]oint-Slope, or Slope-[I]ntercept? ");
     while(~(S.equals(format, "O") | S.equals(format, "I") | S.equals(format, "P"))){
       if (S.equals(format, "Q")){
@@ -38,9 +36,10 @@ return;
     }
     let equation = Equation.new(1, format);
     do equation.getValues();
-    do Screen.clearScreen();
-    do Output.moveCursor(0, 0);
+//    do Screen.clearScreen();
+//    do Output.moveCursor(0, 0);
     do Out.ln(equation.toString());
+//    do Sys.halt();
 //    let xIncptF = Fraction.new(0,1);
 //    let yIncptF = Fraction.new(0,1);
 //    let yIncpt = equation.solveForY(yIncptF);
@@ -53,9 +52,18 @@ return;
 //        do Out.s(xIncpt.toString());
 //        do Out.ln(", 0)");
 
+
+
+
+
         do Graph.drawAxes();
         do Main.draw(equation);
       do Sys.wait(10000);
+
+
+
+
+
        // do Sys.halt();
 //    let oneS = oneF.toString();
 //    let twoS = twoF.toString();

@@ -131,16 +131,20 @@ class Equation {
 	/** Retrieves a single value from the user */
   method void inputVar(String v) {
     var String xString, yString, bString, mString;
-    var boolean invalid;
-    let invalid = false;
+    var Fraction temp;
+//    var boolean invalid;
+//    let invalid = false;
     // while(invalid = false)
     if (S.equals(v, "x")){
       let xString = Keyboard.readLine("Enter an x:");
-      while(invalid) {
           let xF = Fraction.toFraction(xString);
-          let invalid = xF.checkValid();
-          do Out.ln("infinite loop?");
-      }
+          let temp = xF;
+          do Out.ln(temp.toString());
+
+//      while(invalid) {
+//          let invalid = xF.checkValid();
+//          do Out.ln("infinite loop?");
+//      }
 
        let xExists = true;
     } else {
@@ -148,16 +152,22 @@ class Equation {
 	      let yString = Keyboard.readLine("Enter a y:");
 	      let yF = Fraction.toFraction(yString);
 	      let yExists = true;
+	                let temp = yF;
+                  do Out.ln(temp.toString());
 	    } else {
 		    if (S.equals(v, "b")){
 		      let bString = Keyboard.readLine("Enter an intercept:");
 		      let bF = Fraction.toFraction(bString);
 		      let bExists = true;
+		                let temp = bF;
+                    do Out.ln(temp.toString());
 		    } else {
 			    if (S.equals(v, "m")){
 			      let mString = Keyboard.readLine("Enter a slope:");
 			      let mF = Fraction.toFraction(mString);
 			      let mExists = true;
+			                let temp = mF;
+                      do Out.ln(temp.toString());
 			    }
 			  }
 			}
@@ -209,21 +219,21 @@ class Equation {
   method String getPointSlopeString(){
     var String xS, yS, mS, stringified;
 
-    if (yExists){
+//    if (yExists){
       let yS = yF.toString();
-    } else {
-      let yS = "_";
-    }
-    if (mExists){
+//    } else {
+//      let yS = "_";
+//    }
+//    if (mExists){
 			let mS = mF.toString();
-    } else {
-      let mS = "_";
-    }
-    if (xExists){
+//    } else {
+//      let mS = "_";
+//    }
+//    if (xExists){
 			let xS = xF.toString();
-    } else {
-      let xS = "_";
-    }
+//    } else {
+//      let xS = "_";
+//    }
 
 		let stringified = S.append7("(y - ", yS, ") = ", mS, "(x - ", xS, ")");
     return stringified;
@@ -256,14 +266,20 @@ class Equation {
 
   method Fraction getYIntercept() {
     var Fraction yIntercept, x;
-    let x = Fraction.new(0,1);
+    var Int zero, one;
+    let zero = Int.new(true, 0);
+    let one = Int.new(true, 1);
+    let x = Fraction.new(zero, one);
     let yIntercept = solveForY(x);
     return yIntercept;
   }
 
   method Fraction getXIntercept() {
       var Fraction xIntercept, y;
-      let y = Fraction.new(0,1);
+      var Int zero, one;
+          let zero = Int.new(true, 0);
+          let one = Int.new(true, 1);
+      let y = Fraction.new(zero,one);
       let xIntercept = solveForX(y);
       return xIntercept;
   }

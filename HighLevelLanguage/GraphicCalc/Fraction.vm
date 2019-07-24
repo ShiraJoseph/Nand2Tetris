@@ -372,9 +372,24 @@ pop local 23
 push local 23
 return
 label IF_END1
-function Fraction.toString 3
+function Fraction.toString 4
 push argument 0
 pop pointer 0
+push this 2
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 0
+call String.new 1
+pop local 3
+goto IF_END0
+label IF_FALSE0
+push constant 1
+call String.new 1
+push constant 45
+call String.appendChar 2
+pop local 3
+label IF_END0
 push constant 20
 call String.new 1
 pop local 1
@@ -392,35 +407,42 @@ pop temp 0
 push this 1
 push constant 1
 eq
-if-goto IF_TRUE0
-goto IF_FALSE0
-label IF_TRUE0
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
 push this 0
 push constant 1
 eq
 not
-if-goto IF_TRUE1
-goto IF_FALSE1
-label IF_TRUE1
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push local 3
 push local 1
+call S.append 2
 pop local 0
+goto IF_END2
+label IF_FALSE2
+push local 3
+push constant 1
+call String.new 1
+push constant 49
+call String.appendChar 2
+call S.append 2
+pop local 0
+label IF_END2
 goto IF_END1
 label IF_FALSE1
-push constant 0
-call String.new 1
-pop local 0
-label IF_END1
-goto IF_END0
-label IF_FALSE0
+push local 3
 push local 1
 push constant 1
 call String.new 1
 push constant 47
 call String.appendChar 2
 push local 2
-call S.append3 3
+call S.append4 4
 pop local 0
-label IF_END0
+label IF_END1
 push local 0
 return
 function Fraction.toInt 1

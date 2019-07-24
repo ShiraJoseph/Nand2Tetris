@@ -143,21 +143,35 @@ class Fraction {
   }
 
 method String toString(){
-		var String appended, n, d;
+		var String appended, n, d, sign;
+
+		if (pos) {
+//		  return "";
+		  let sign = "";
+		} else {
+//		return "-";
+		  let sign = "-";
+		}
+		//
+//		let appended = sign;
+		//
 		let n = String.new(20);
 		let d = String.new(20);
 		do n.setInt(numerator);
 		do d.setInt(denominator);
 		if (denominator = 1){
 			if (~(numerator = 1)) {
-			let appended = n;
+			  let appended = S.append(sign, n);
 			} else {
-				let appended = "";
+				let appended = S.append(sign, "1");
 			}
 		} else {
-			let appended = S.append3(n, "/", d);
+			let appended = S.append4(sign, n, "/", d);
 		}
 		return appended;
+//
+//return "";
+	//
 	}
 
 	method int toInt() {
