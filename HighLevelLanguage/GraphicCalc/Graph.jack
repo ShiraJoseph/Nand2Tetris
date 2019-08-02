@@ -52,6 +52,29 @@ class Graph {
     return;
   }
 
+	function void drawScaledLine(Equation equation) {
+		var Int x, y;
+		var Fraction xF, yF;
+//		var int x, y;
+		if (equation.getXIsScreenCutoff()) {
+			let x = Int.new(false, 255);
+			while(x.isLessThan(Int.new(true, 256))) {
+				let yF = equation.solveForY(x);
+				let y = Int.new(yF.pos(), yF.toInt());
+				do Graph.drawPoint(x, y);
+				let x = Int.add(x, Int.new(true, 1));
+			}
+		} else {
+			let y = Int.new(false, 127);
+			while(y.isLessThan(Int.new(true, 256))) {
+    	  let xF = equation.solveForX(y);
+   			let x = Int.new(xF.pos(), xF.toInt());
+   			do Graph.drawPoint(x, y);
+   			let y = Int.add(y, Int.new(true, 1));
+      }
+		}
+		return;
+	}
 
   function void drawLine(Equation equation) {
     var Fraction slope;
@@ -128,29 +151,36 @@ class Graph {
 
   function Equation getScaledLine(Equation e) {
     var Fraction yIncpt, xIncpt, xIncptTwice, limXAxis, limYAxis, scale, comparator, CUTOFF, scaledXIncpt,
-    scaledYIncpt, scaledSlope, TWOFIFTYFIVE, ONETWENTYSEVEN, TWO, slope;
+    scaledYIncpt, scaledSlope, TWOFIFTYFIVE, ONETWENTYSEVEN, TWO, slope, missingValue, NEGTWOFIFTYFIVE, NEGONETWENTYSEVEN,
+    firstY, firstX;
     var Equation scaledEquation;
+    var boolean xIsGreater;
+
     let yIncpt = e.getYIntercept();
     let xIncpt = e.getXIntercept();
 		do yIncpt.checkValid();
 		do xIncpt.checkValid();
     let TWOFIFTYFIVE = Fraction.new(Int.new(true, 255), Int.new(true, 1));
+    let NEGTWOFIFTYFIVE = Fraction.new(Int.new(false, 255), Int.new(true, 1));
     let ONETWENTYSEVEN = Fraction.new(Int.new(true, 127), Int.new(true, 1));
+    let NEGONETWENTYSEVEN = Fraction.new(Int.new(false, 127), Int.new(true, 1));
 		let CUTOFF = Fraction.new(Int.new(true, 3), Int.new(true, 2));
 		let TWO = Fraction.new(Int.new(true, 2), Int.new(true, 1));
 		let xIncptTwice = xIncpt.times(TWO);
 		if(xIncptTwice.isGreaterThan(yIncpt)){
+			let xIsGreater = true;
 			let limXAxis = CUTOFF.times(xIncpt);
 			let limYAxis = CUTOFF.times(xIncpt.dividedBy(TWO));
 			let scale = TWOFIFTYFIVE.dividedBy(limXAxis);
 			let comparator = limXAxis;
 		} else {
+			let xIsGreater = false;
 			let limYAxis = CUTOFF.times(yIncpt);
      	let limXAxis = CUTOFF.times(yIncpt.times(TWO));
  			let scale = ONETWENTYSEVEN.dividedBy(limYAxis);
  			let comparator = limYAxis;
 		}
-		//now to calculate all our new values
+		// now to calculate all our new values
 		let scaledXIncpt = xIncpt.times(scale);
 		let scaledYIncpt = yIncpt.times(scale);
 //		let scaledXIncpt=scaledX.toInt();
@@ -163,10 +193,15 @@ class Graph {
 		do scaledEquation.setX(scaledXIncpt);
 		do scaledEquation.setY(scaledXIncpt);
 		do scaledEquation.setSlope(scaledSlope);
+		do scaledEquation.setXIsScreenCutoff(xIsGreater);
 //		do Out.ln(limYAxis.toString());
 //		do Out.ln(limXAxis.toString());
 //		do Out.ln(scale.toString());
 //		do Out.ln(comparator.toString());
+//		get x of -limXAxis if xincept is greatest = -15*17
+//    get y of -limYAxis if yincept is greatest = -7.5*17
+//    from either that x or that y, solve for the missing value (y or x) and plot that point,
+//    repeatedly increasing by 1 pixel to and resolving with the new value, through to the other edge of the screen
     return scaledEquation;
   }
 }

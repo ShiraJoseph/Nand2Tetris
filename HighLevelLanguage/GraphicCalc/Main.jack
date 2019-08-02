@@ -56,15 +56,15 @@ return;
 
 
 
-        do Graph.drawAxes();
+
         do Main.draw(equation);
-      do Sys.wait(10000);
+//      do Sys.wait(10000);
 
 
 
 
 
-       // do Sys.halt();
+        do Sys.halt();
 //    let oneS = oneF.toString();
 //    let twoS = twoF.toString();
 //    let threeS = threeF.toString();
@@ -92,7 +92,12 @@ return;
 //  	  do e.setHighestPoint(endP);
 //  	  do Graph.drawLine(e);
   	  let newE = Graph.getScaledLine(e);
+  	  do Sys.wait(5000);
+  	  do Screen.clearScreen();
+			do Graph.drawAxes();
+  	  do Output.moveCursor(0, 0);
   	  do Out.ln(newE.toString());
+  	  do Graph.drawScaledLine(newE);
       return;
   }
 }

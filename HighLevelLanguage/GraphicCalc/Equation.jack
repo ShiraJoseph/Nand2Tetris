@@ -1,7 +1,7 @@
 class Equation {
   field int x, y, m, b;
   field int degree;
-  field boolean xExists, yExists, bExists, mExists;
+  field boolean xExists, yExists, bExists, mExists, xIsScreenCutoff;
   field String format;
   field Fraction xF, yF, bF, mF;
 	field Point lowestPoint, highestPoint;
@@ -25,6 +25,7 @@ class Equation {
   method Fraction getSlope() { return mF; }
   method Point getHighestPoint() { return highestPoint; }
   method Point getLowestPoint() { return lowestPoint; }
+  method boolean getXIsScreenCutoff() { return xIsScreenCutoff; }
   method void setX(Fraction xSet) {
     let xF = xSet;
     let xExists = true;
@@ -53,6 +54,11 @@ class Equation {
     let lowestPoint = lowSet;
     return;
   }
+
+	method void setXIsScreenCutoff(boolean isX) {
+		let xIsScreenCutoff = isX;
+		return;
+	}
 
 	/** Uses the value of x to solve for y */
 	method Fraction solveForY(Fraction xPoint) {

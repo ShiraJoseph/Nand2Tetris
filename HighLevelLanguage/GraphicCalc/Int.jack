@@ -58,10 +58,6 @@ class Int {
         let negPos=false;
         let negNeg=false;
         let result=0;
-        do Out.s("first num: ");
-        do Out.lnI(x);
-        do Out.s("second num: ");
-        do Out.lnI(y);
         if(((x=0) & (y=0)) | ((x = y) & ((add & ~(a.pos() = b.pos())) | (~add & (a.pos()=b.pos()))))){
             do Out.ln("returning 0!");
             return Int.new(true, result);
@@ -94,21 +90,21 @@ class Int {
 
         let result = bigger+smaller;
 	      if((add & posPos) | (~add & ((posNeg & ~(x<y)) | (negPos & (x<y))))){
-	        do Out.ln("add and posPos");
+//	        do Out.ln("add and posPos");
 	        return Int.new(true, result);
 	      }
         if((add & negNeg) | (~add & ((posNeg & (x<y)) | (negPos & ~(x<y))))){
-        	        do Out.ln("add and negNeg");
+//        	        do Out.ln("add and negNeg");
 	        return Int.new(false, result);
 	      }
 
         let result = bigger - smaller;
         if((add & posNeg) | (~add & ((negNeg & (x<y)) | (posPos & (x>y))))){
-        	        do Out.ln("add and posNeg");
+//        	        do Out.ln("add and posNeg");
 	        return Int.new(true, result);
         }
         if((add & negPos) | (~add & ((negNeg & (x>y)) | (posPos & (x<y))))){
-            	        do Out.ln("add and negPos");
+//            	        do Out.ln("add and negPos");
             return Int.new(false, result);
         }
         do Sys.halt();
