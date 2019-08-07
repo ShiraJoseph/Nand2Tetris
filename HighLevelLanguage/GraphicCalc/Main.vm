@@ -3,7 +3,7 @@ call Main.createEquation 0
 pop temp 0
 push constant 0
 return
-function Main.createEquation 9
+function Main.createEquation 2
 push constant 37
 call String.new 1
 push constant 91

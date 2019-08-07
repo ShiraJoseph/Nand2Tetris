@@ -5,15 +5,20 @@ class Graph {
     return this;
   }
 
+  function void drawPoint(Int x, Int y) {
+    var Point p;
+    var Coord c;
+    let p = Point.new(x, y);
+    let c = p.toCoord();
+    do Graph.drawPixel(c);
+    return;
+  }
+
   function void drawPixel(Coord coord) {
     if (coord.isValidCoord()) {
       do Screen.drawPixel(coord.x(), coord.y());
     }
       return;
-  }
-
-  function void drawGraph() {
-		return;
   }
 
 	/** Draws x- and y-axes with arrows */
@@ -43,15 +48,8 @@ class Graph {
     return;
   }
 
-  function void drawPoint(Int x, Int y) {
-    var Point p;
-    var Coord c;
-    let p = Point.new(x, y);
-    let c = p.toCoord();
-    do Graph.drawPixel(c);
-    return;
-  }
 
+	/** Draws a line using an equation scaled to fit within (-255, -127) to (255, 127) */
 	function void drawScaledLine(Equation equation) {
 		var Int x, y, oneI, zeroI, diffInt;
 		var Fraction xF, yF, one, tff, ots, diff;
@@ -59,41 +57,25 @@ class Graph {
 		let one = Fraction.new(Int.new(true, 1), Int.new(true, 1));
 		let tff = Fraction.new(Int.new(true, 255), Int.new(true, 1));
 		let ots = Fraction.new(Int.new(true, 127), Int.new(true, 1));
-//		let oneI = Int.new(true, 1);
 		let zeroI = Int.new(true, 0);
 		let continue = true;
-//		var int x, y;
 		if (equation.getXIsScreenCutoff()) {
-//			let xF = Fraction.new(Int.new(false, 255), Int.new(true, 1));
 			let xF = tff;
 			do xF.setPos(false);
-//			let x = Int.new(false, 255);
 			while(continue){
-//			.isLessThan(Int.new(true, 256))) {
 				let yF = equation.solveForY(xF);
 				let y = Int.new(yF.pos(), yF.toInt());
 				let x = Int.new(xF.pos(), xF.toInt());
 				do Graph.drawPoint(x, y);
 
 				let xF = xF.plus(one);
-
 				let diff = xF.minus(tff);
 				let diffInt = Int.new(diff.pos(), diff.toInt());
-//				do Out.s("x = ");
-//				do Out.ln(xF.toString());
-//				do Out.s("255 - x = ");
-//				do Out.b(diffInt.pos());
-//				do Out.lnI(diffInt.num());
 				let continue = diffInt.isGreaterThan(zeroI);
-//				let x = Int.add(x, Int.new(true, 1));
 			}
 		} else {
-//			let yF = Fraction.new(Int.new(false, 127), Int.new(true, 1));
 			let yF = ots;
 			do yF.setPos(false);
-//			let y = Int.new(yF.pos(), yF.toInt());
-//			while(y.isLessThan(Int.new(true, 256))) {
-//			while((yF.minus(ots).toInt()).isGreaterThan(Int.new(true, 0))){
 			while(continue){
     	  let xF = equation.solveForX(yF);
    			let x = Int.new(xF.pos(), xF.toInt());
@@ -101,146 +83,56 @@ class Graph {
 				do Graph.drawPoint(x, y);
 
    			let yF = yF.plus(one);
-//   			let y = Int.add(y, Int.new(true, 1));
         let diff = yF.minus(ots);
         let diffInt = Int.new(diff.pos(), diff.toInt());
-//        do Out.s("y = ");
-//        do Out.ln(yF.toString());
-//        	do Out.s("127 - y = ");
-//        				do Out.b(diffInt.pos());
-//        				do Out.lnI(diffInt.num());
         let continue = diffInt.isGreaterThan(zeroI);
       }
 		}
 		return;
 	}
 
-  function void drawLine(Equation equation) {
-    var Fraction slope;
-    var Int xIncrease, yIncrease, x, y;
-    var Point start, end, curr;
-    let slope = equation.getSlope();
-    let xIncrease = slope.denominator();
-    let yIncrease = slope.numerator();
-    let start = equation.getLowestPoint();
-    let end = equation.getHighestPoint();
-    let x = start.x();
-    let y = start.y();
-    while(x.isLessThan(end.x())){
-      do Graph.drawPoint(x, y);
-      let x = Int.add(x, xIncrease);
-      let y = Int.add(y, yIncrease);
-      do Sys.wait(10);
-    }
-		return;
-  }
-
-
-	function Point getStartingLeftPoint(Fraction scale, Equation e) {
-		var Fraction y, x, two55;
-		var Int xInt, yInt;
-		var Point p;
-		let two55 = Fraction.new(Int.new(false, 255), Int.new(true, 1));
-		let x = two55.dividedBy(scale);
-		let y = e.solveForY(x);
-		let xInt = Int.new(x.pos(), x.numerator()/x.denominator());
-   	let yInt = Int.new(y.pos(), y.numerator()/y.denominator());
-   	let p = Point.new(xInt, yInt);
-		return p;
-	}
-
-	function Point getEndingRightPoint(Fraction scale, Equation e) {
-  		var Fraction y, x, two55;
-  		var Int xInt, yInt;
-  		var Point p;
-  		let two55 = Fraction.new(Int.new(true, 255), Int.new(true, 1));
-  		let x = two55.dividedBy(scale);
-  		let y = e.solveForY(x);
-  		let xInt = Int.new(x.pos(), x.numerator()/x.denominator());
-   		let yInt = Int.new(y.pos(), y.numerator()/y.denominator());
-   		let p = Point.new(xInt, yInt);
-  		return p;
-  	}
-
-	function Point getStartingBottomPoint(Fraction scale, Equation e) {
-		var Fraction y, x, one27;
-		var Int xInt, yInt;
-  		var Point p;
-        let one27 = Fraction.new(Int.new(false, 127), Int.new(true, 1));
-  		let y = one27.dividedBy(scale);
-  		let x = e.solveForX(y);
-  		let xInt = Int.new(x.pos(), x.numerator()/x.denominator());
-  		let yInt = Int.new(y.pos(), y.numerator()/y.denominator());
-  		let p = Point.new(xInt, yInt);
-  		return p;
-	}
-
-	function Point getEndingTopPoint(Fraction scale, Equation e) {
-  		var Fraction y, x, one27;
-  		var Int xInt, yInt;
-    	var Point p;
-   		let one27 = Fraction.new(Int.new(true, 127), Int.new(true, 1));
-        let y = one27.dividedBy(scale);
-    	let x = e.solveForX(y);
-    	let xInt = Int.new(x.pos(), x.numerator()/x.denominator());
-    	let yInt = Int.new(y.pos(), y.numerator()/y.denominator());
-    	let p = Point.new(xInt, yInt);
-    	return p;
-  	}
-
+	/** Returns an equation comparable to the given equation but scaled to fit within (-255, -127) to (255, 127) */
   function Equation getScaledLine(Equation e) {
-    var Fraction yIncpt, xIncpt, xIncptTwice, limXAxis, limYAxis, scale, comparator, CUTOFF, scaledXIncpt,
-    scaledYIncpt, scaledSlope, TWOFIFTYFIVE, ONETWENTYSEVEN, TWO, slope, missingValue, NEGTWOFIFTYFIVE, NEGONETWENTYSEVEN,
-    firstY, firstX;
+    var Fraction yIncpt, xIncpt, xIncptTwice, limXAxis, limYAxis, scale, slope, CUTOFF, scaledXIncpt,
+    scaledYIncpt, scaledSlope, TWOFIFTYFIVE, ONETWENTYSEVEN, TWO, NEGTWOFIFTYFIVE, NEGONETWENTYSEVEN;
     var Equation scaledEquation;
     var boolean xIsGreater;
+
+		let CUTOFF = Fraction.new(Int.new(true, 3), Int.new(true, 2));
+    let TWOFIFTYFIVE = Fraction.new(Int.new(true, 255), Int.new(true, 1));
+    let NEGTWOFIFTYFIVE = Fraction.new(Int.new(false, 255), Int.new(true, 1));
+    let ONETWENTYSEVEN = Fraction.new(Int.new(true, 127), Int.new(true, 1));
+    let NEGONETWENTYSEVEN = Fraction.new(Int.new(false, 127), Int.new(true, 1));
+		let TWO = Fraction.new(Int.new(true, 2), Int.new(true, 1));
 
     let yIncpt = e.getYIntercept();
     let xIncpt = e.getXIntercept();
 		do yIncpt.checkValid();
 		do xIncpt.checkValid();
-    let TWOFIFTYFIVE = Fraction.new(Int.new(true, 255), Int.new(true, 1));
-    let NEGTWOFIFTYFIVE = Fraction.new(Int.new(false, 255), Int.new(true, 1));
-    let ONETWENTYSEVEN = Fraction.new(Int.new(true, 127), Int.new(true, 1));
-    let NEGONETWENTYSEVEN = Fraction.new(Int.new(false, 127), Int.new(true, 1));
-		let CUTOFF = Fraction.new(Int.new(true, 3), Int.new(true, 2));
-		let TWO = Fraction.new(Int.new(true, 2), Int.new(true, 1));
 		let xIncptTwice = xIncpt.times(TWO);
+
 		if(xIncptTwice.isGreaterThan(yIncpt)){
 			let xIsGreater = true;
 			let limXAxis = CUTOFF.times(xIncpt);
 			let limYAxis = CUTOFF.times(xIncpt.dividedBy(TWO));
 			let scale = TWOFIFTYFIVE.dividedBy(limXAxis);
-			let comparator = limXAxis;
 		} else {
 			let xIsGreater = false;
 			let limYAxis = CUTOFF.times(yIncpt);
      	let limXAxis = CUTOFF.times(yIncpt.times(TWO));
  			let scale = ONETWENTYSEVEN.dividedBy(limYAxis);
- 			let comparator = limYAxis;
 		}
-		// now to calculate all our new values
+
 		let scaledXIncpt = xIncpt.times(scale);
 		let scaledYIncpt = yIncpt.times(scale);
-//		let scaledXIncpt=scaledX.toInt();
-//		let scaledYIncpt=scaledY.toInt();
 		let slope = e.getSlope();
 		let scaledSlope = slope.times(scale);
-
-		// and return with a new equation for the line:
 		let scaledEquation = Equation.new(1, "P");
 		do scaledEquation.setX(scaledXIncpt);
 		do scaledEquation.setY(scaledXIncpt);
 		do scaledEquation.setSlope(scaledSlope);
 		do scaledEquation.setXIsScreenCutoff(xIsGreater);
-//		do Out.ln(limYAxis.toString());
-//		do Out.ln(limXAxis.toString());
-//		do Out.ln(scale.toString());
-//		do Out.ln(comparator.toString());
-//		get x of -limXAxis if xincept is greatest = -15*17
-//    get y of -limYAxis if yincept is greatest = -7.5*17
-//    from either that x or that y, solve for the missing value (y or x) and plot that point,
-//    repeatedly increasing by 1 pixel to and resolving with the new value, through to the other edge of the screen
+
     return scaledEquation;
   }
 }
@@ -261,7 +153,7 @@ else
         scale=128/limYAxis;
         h2=limYAxis
         )
-get scaledIncpts
+(get scaledIncpts)
 get tickmarks
 
 get x of -limXAxis if xincept is greatest = -15*17
@@ -269,15 +161,11 @@ get y of -limYAxis if yincept is greatest = -7.5*17
 from either that x or that y, solve for the missing value (y or x) and plot that point,
 repeatedly increasing by 1 pixel to and resolving with the new value, through to the other edge of the screen
 
+(needs a floor function) (just using division, for now)
 
-
-
-
-needs a floor function
-
-get scaledIncpts(
+(get scaledIncpts(
 scaledXIncpt=floor(xIncpt*scale)
-scaledYIncpt=floor(yIncpt*scale)
+scaledYIncpt=floor(yIncpt*scale))
 
 
 get tick marks:

@@ -550,23 +550,6 @@ call Memory.deAlloc 1
 pop temp 0
 push constant 0
 return
-function Fraction.print 0
-push argument 0
-pop pointer 0
-push this 0
-call Output.printInt 1
-pop temp 0
-push constant 1
-call String.new 1
-push constant 47
-call String.appendChar 2
-call Output.printString 1
-pop temp 0
-push this 1
-call Output.printInt 1
-pop temp 0
-push constant 0
-return
 function Fraction.gcd 1
 label WHILE_EXP0
 push argument 1

@@ -1,10 +1,8 @@
 class Equation {
-  field int x, y, m, b;
-  field int degree;
+  field int x, y, m, b, degree;
   field boolean xExists, yExists, bExists, mExists, xIsScreenCutoff;
   field String format;
   field Fraction xF, yF, bF, mF;
-	field Point lowestPoint, highestPoint;
 
 	/** Constructs a new equation for graphing */
   constructor Equation new(int deg, String form) {
@@ -14,54 +12,41 @@ class Equation {
     let mExists = false;
     let degree = deg;
     let format = form;
-    let lowestPoint = Point.new(0,0);
-    let highestPoint = Point.new(0, 0);
     return this;
   }
 
-  /** Accessors. */
-  method Fraction getX() { return xF; }
-  method Fraction getY() { return yF; }
-  method Fraction getSlope() { return mF; }
-  method Point getHighestPoint() { return highestPoint; }
-  method Point getLowestPoint() { return lowestPoint; }
-  method boolean getXIsScreenCutoff() { return xIsScreenCutoff; }
-  method void setX(Fraction xSet) {
+  /** Accessors */
+  method Fraction getX(){ return xF; }
+  method Fraction getY(){ return yF; }
+  method Fraction getSlope(){ return mF; }
+  method boolean getXIsScreenCutoff(){ return xIsScreenCutoff; }
+  method void setX(Fraction xSet){
     let xF = xSet;
     let xExists = true;
     return;
   }
-  method void setY(Fraction ySet) {
+  method void setY(Fraction ySet){
     let yF = ySet;
     let yExists = true;
     return;
   }
-  method void setB(Fraction bSet) {
+  method void setB(Fraction bSet){
     let bF = bSet;
     let bExists = true;
     return;
   }
-  method void setSlope(Fraction mSet) {
+  method void setSlope(Fraction mSet){
     let mF = mSet;
     let mExists = true;
     return;
   }
-  method void setHighestPoint(Point highSet) {
-    let highestPoint = highSet;
-    return;
-  }
-  method void setLowestPoint(Point lowSet) {
-    let lowestPoint = lowSet;
-    return;
-  }
-
-	method void setXIsScreenCutoff(boolean isX) {
+	method void setXIsScreenCutoff(boolean isX){
 		let xIsScreenCutoff = isX;
 		return;
 	}
 
 	/** Uses the value of x to solve for y */
-	method Fraction solveForY(Fraction xPoint) {
+	method Fraction solveForY(Fraction xPoint){
 		var Fraction tempCalc1, tempCalc2, tempCalc3;
 		if (S.equals(format, "I")){
 			let tempCalc1 = mF.times(xPoint);
@@ -80,11 +65,11 @@ class Equation {
       let tempCalc3 = tempCalc2.dividedBy(yF);
       return tempCalc3;
     }
-    return Fraction.new(0,1);
+    return Fraction.new(0, 1);
 	}
 
 	/** Uses the value of y to solve for x */
-	method Fraction solveForX(Fraction yPoint) {
+	method Fraction solveForX(Fraction yPoint){
 		var Fraction tempCalc1, tempCalc2, tempCalc3;
 		if (S.equals(format, "I")){
 			let tempCalc1 = yPoint.minus(bF);
@@ -103,7 +88,7 @@ class Equation {
 			let tempCalc3 = tempCalc2.dividedBy(xF);
 			return tempCalc3;
 		}
-		return Fraction.new(0,1);
+		return Fraction.new(0, 1);
 	}
 
 
@@ -135,49 +120,37 @@ class Equation {
 	}
 
 	/** Retrieves a single value from the user */
-  method void inputVar(String v) {
+  method void inputVar(String v){
     var String xString, yString, bString, mString;
     var Fraction temp;
-//    var boolean invalid;
-//    let invalid = false;
-    // while(invalid = false)
     if (S.equals(v, "x")){
       let xString = Keyboard.readLine("Enter an x:");
-          let xF = Fraction.toFraction(xString);
-          let temp = xF;
-          do Out.ln(temp.toString());
-
-//      while(invalid) {
-//          let invalid = xF.checkValid();
-//          do Out.ln("infinite loop?");
-//      }
-
-       let xExists = true;
-    } else {
-	    if (S.equals(v, "y")){
-	      let yString = Keyboard.readLine("Enter a y:");
-	      let yF = Fraction.toFraction(yString);
-	      let yExists = true;
-	                let temp = yF;
-                  do Out.ln(temp.toString());
-	    } else {
-		    if (S.equals(v, "b")){
-		      let bString = Keyboard.readLine("Enter an intercept:");
-		      let bF = Fraction.toFraction(bString);
-		      let bExists = true;
-		                let temp = bF;
-                    do Out.ln(temp.toString());
-		    } else {
-			    if (S.equals(v, "m")){
-			      let mString = Keyboard.readLine("Enter a slope:");
-			      let mF = Fraction.toFraction(mString);
-			      let mExists = true;
-			                let temp = mF;
-                      do Out.ln(temp.toString());
-			    }
-			  }
-			}
-		}
+      let xF = Fraction.toFraction(xString);
+      let temp = xF;
+      do Out.ln(temp.toString());
+      let xExists = true;
+    }
+    if (S.equals(v, "y")){
+      let yString = Keyboard.readLine("Enter a y:");
+      let yF = Fraction.toFraction(yString);
+      let yExists = true;
+      let temp = yF;
+      do Out.ln(temp.toString());
+    }
+    if (S.equals(v, "b")){
+      let bString = Keyboard.readLine("Enter an intercept:");
+      let bF = Fraction.toFraction(bString);
+      let bExists = true;
+      let temp = bF;
+      do Out.ln(temp.toString());
+    }
+    if (S.equals(v, "m")){
+      let mString = Keyboard.readLine("Enter a slope:");
+      let mF = Fraction.toFraction(mString);
+      let mExists = true;
+      let temp = mF;
+      do Out.ln(temp.toString());
+    }
     return;
   }
 
@@ -187,7 +160,7 @@ class Equation {
 	************************************************************************************/
 
 	/** Returns the current state of the equation as a string based on the chosen equation format */
-  method String toString() {
+  method String toString(){
     if (degree = 1){
 	    if (S.equals(format, "O")){
 	      return getOldString();
@@ -203,7 +176,6 @@ class Equation {
   }
 
   /** Returns a string version of the equation in slope-intercept form: y = mx + b */
-
   method String getSlopeInterceptString(){
     var String mS, bS, stringified;
     if (mExists){
@@ -216,7 +188,6 @@ class Equation {
     } else {
       let bS = "_";
     }
-
     let stringified = S.append4("y = ", mS, "x + ", bS);
     return stringified;
   }
@@ -224,23 +195,21 @@ class Equation {
   /** Returns a string version of the equation in point-slope form: (y - y1) = m(x - x1) */
   method String getPointSlopeString(){
     var String xS, yS, mS, stringified;
-
-//    if (yExists){
+    if (yExists){
       let yS = yF.toString();
-//    } else {
-//      let yS = "_";
-//    }
-//    if (mExists){
+    } else {
+      let yS = "_";
+    }
+    if (mExists){
 			let mS = mF.toString();
-//    } else {
-//      let mS = "_";
-//    }
-//    if (xExists){
+    } else {
+      let mS = "_";
+    }
+    if (xExists){
 			let xS = xF.toString();
-//    } else {
-//      let xS = "_";
-//    }
-
+    } else {
+      let xS = "_";
+    }
 		let stringified = S.append7("(y - ", yS, ") = ", mS, "(x - ", xS, ")");
     return stringified;
   }
@@ -248,8 +217,6 @@ class Equation {
 	/** Returns a string version of the equation in the old format: cy + dx = b */
   method String getOldString(){
     var String xS, yS, bS, stringified;
-    var Array eArray;
-
     if (xExists){
       let xS = xF.toString();
     } else {
@@ -265,12 +232,11 @@ class Equation {
     } else {
       let bS = "_";
     }
-
     let stringified = S.append5(xS, "x + ", yS, "y = ", bS);
     return stringified;
   }
 
-  method Fraction getYIntercept() {
+  method Fraction getYIntercept(){
     var Fraction yIntercept, x;
     var Int zero, one;
     let zero = Int.new(true, 0);
@@ -280,13 +246,13 @@ class Equation {
     return yIntercept;
   }
 
-  method Fraction getXIntercept() {
-      var Fraction xIntercept, y;
-      var Int zero, one;
-          let zero = Int.new(true, 0);
-          let one = Int.new(true, 1);
-      let y = Fraction.new(zero,one);
-      let xIntercept = solveForX(y);
-      return xIntercept;
+  method Fraction getXIntercept(){
+    var Fraction xIntercept, y;
+    var Int zero, one;
+    let zero = Int.new(true, 0);
+    let one = Int.new(true, 1);
+    let y = Fraction.new(zero, one);
+    let xIntercept = solveForX(y);
+    return xIntercept;
   }
 }

@@ -7,8 +7,9 @@
 
 /** Represents the Fraction type and related operations. */
 class Fraction {
-  field int numerator, denominator;  // field = property = member variable.
+  field int numerator, denominator;
   field boolean pos;
+
   /** Constructs a (reduced) fraction from the given numerator and denominator. */
   constructor Fraction new(Int x, Int y) {
     let numerator = x.num();
@@ -18,13 +19,11 @@ class Fraction {
     } else {
       let pos = false;
     }
-
     if (y.num() = 0) {
-//      let denominator = 1;
       do Sys.error(3);
     }
-    do reduce();   // reduces the fraction
-    return this;   // a constructor is expected to return a reference to the new object
+    do reduce();
+    return this;
   }
 
   // Reduces this fraction.
@@ -39,10 +38,10 @@ class Fraction {
   }
 
   /** Accessors. */
-  method int numerator() { return numerator; }
-  method int denominator() { return denominator; }
-  method boolean pos() { return pos; }
-  method void setPos(boolean value) {
+  method int numerator(){ return numerator; }
+  method int denominator(){ return denominator; }
+  method boolean pos(){ return pos; }
+  method void setPos(boolean value){
     let pos = value;
     return;
   }
@@ -52,7 +51,6 @@ class Fraction {
     var Int sum, numers, denoms, a, b;
     let a = Int.new(pos, numerator);
     let b = Int.new(true, other.denominator());
-
     let numers = Int.multiply(a, b);
     let denoms = Int.multiply(Int.new(other.pos(), other.numerator()), Int.new(true, denominator));
     let sum = Int.add(numers, denoms);
@@ -64,8 +62,8 @@ class Fraction {
     var Int numers, denoms, difference, a, b;
     let a = Int.new(pos, numerator);
     let b = Int.new(true, other.denominator());
-     let numers = Int.multiply(a, b);
-        let denoms = Int.multiply(Int.new(other.pos(), other.numerator()), Int.new(true, denominator));
+    let numers = Int.multiply(a, b);
+    let denoms = Int.multiply(Int.new(other.pos(), other.numerator()), Int.new(true, denominator));
     let difference = Int.subtract(numers, denoms);
     return Fraction.new(difference, Int.new(true, denominator * other.denominator()));
   }
@@ -146,19 +144,13 @@ class Fraction {
     }
   }
 
-method String toString(){
+	method String toString(){
 		var String appended, n, d, sign;
-
 		if (pos) {
-//		  return "";
 		  let sign = "";
 		} else {
-//		return "-";
 		  let sign = "-";
 		}
-		//
-//		let appended = sign;
-		//
 		let n = String.new(20);
 		let d = String.new(20);
 		do n.setInt(numerator);
@@ -173,9 +165,6 @@ method String toString(){
 			let appended = S.append4(sign, n, "/", d);
 		}
 		return appended;
-//
-//return "";
-	//
 	}
 
 	method int toInt() {
@@ -202,15 +191,7 @@ method String toString(){
 
   /** Disposes this fraction. */
   method void dispose() {
-    do Memory.deAlloc(this);  // uses an OS routine to recycle the memory held by the object
-    return;
-  }
-
-  /** Prints this fraction in the format x/y. */
-  method void print() {
-    do Output.printInt(numerator);
-    do Output.printString("/");
-    do Output.printInt(denominator);
+    do Memory.deAlloc(this);
     return;
   }
 

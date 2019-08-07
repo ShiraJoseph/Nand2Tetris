@@ -1,32 +1,12 @@
 class Main {
   function void main() {
-
-//  var Fraction x, y, z;
-//  var Int a, b, c, d;
-//  let a = Int.new(false, 3);
-//  let b = Int.new(true, 2);
-//  let c = Int.new(false, 4);
-//  let d = Int.new(true, 3);
-//  let x = Fraction.new(a, b);
-//  let y = Fraction.new(c, d);
-//  let z = x.dividedBy(y);
-//  do Out.lnI(z.numerator());
-//  do Out.lnI(z.denominator());
-//  do Out.lnB(z.pos());
-do Main.createEquation();
-return;
+    do Main.createEquation();
+		return;
   }
 
   function void createEquation(){
     var Equation equation;
-    var String format, oneS, twoS, threeS;
-    var Fraction xIncptF, xIncpt, yIncptF, yIncpt;
-//     var Int oneI, twoI, threeI;
-
-//
-//    do Screen.clearScreen();
-//
-
+    var String format;
     let format = Keyboard.readLine("[P]oint-Slope, or Slope-[I]ntercept? ");
     while(~(S.equals(format, "O") | S.equals(format, "I") | S.equals(format, "P"))){
       if (S.equals(format, "Q")){
@@ -36,68 +16,20 @@ return;
     }
     let equation = Equation.new(1, format);
     do equation.getValues();
-//    do Screen.clearScreen();
-//    do Output.moveCursor(0, 0);
     do Out.ln(equation.toString());
-//    do Sys.halt();
-//    let xIncptF = Fraction.new(0,1);
-//    let yIncptF = Fraction.new(0,1);
-//    let yIncpt = equation.solveForY(yIncptF);
-//    let xIncpt = equation.solveForX(xIncptF);
-//    do Out.s("(0, ");
-//        do Out.s(yIncpt.toString());
-//        do Out.ln(")");
-//
-//        do Out.s("(");
-//        do Out.s(xIncpt.toString());
-//        do Out.ln(", 0)");
-
-
-
-
-
-
-        do Main.draw(equation);
-//      do Sys.wait(10000);
-
-
-
-
-
-//        do Sys.halt();
-//    let oneS = oneF.toString();
-//    let twoS = twoF.toString();
-//    let threeS = threeF.toString();
-
-//    do Screen.clearScreen();
-//    do Screen.drawLine(0, 64 - one, three, 64-60);
-//    do Sys.wait(4000);
+    do Main.draw(equation);
     do Main.createEquation();
     return;
   }
 
   function void draw(Equation e){
     var Equation newE;
-//  	  var Fraction m, f1, f2, ONE;
-//  	  var Point startP, endP;
-//  	  var boolean isGreater;
-//  	  do Graph.drawAxes();
-////  	  let e = Equation.new(1, "I");
-////  	  do e.setB(Fraction.new(-20, 1));
-////  	  do e.setSlope(Fraction.new(1,2));
-//  	  let ONE = Fraction.new(Int.new(true, 1), Int.new(true, 1));
-//  	  let startP = Graph.getStartingBottomPoint(ONE, e);
-//  	  let endP = Graph.getEndingTopPoint(ONE, e);
-//  	  do e.setLowestPoint(startP);
-//  	  do e.setHighestPoint(endP);
-//  	  do Graph.drawLine(e);
-  	  let newE = Graph.getScaledLine(e);
-//  	  do Sys.wait(5000);
-  	  do Screen.clearScreen();
-			do Graph.drawAxes();
-  	  do Output.moveCursor(0, 0);
-  	  do Out.ln(newE.toString());
-  	  do Graph.drawScaledLine(newE);
-      return;
+    let newE = Graph.getScaledLine(e);
+    do Screen.clearScreen();
+		do Graph.drawAxes();
+    do Output.moveCursor(0, 0);
+    do Out.ln(newE.toString());
+    do Graph.drawScaledLine(newE);
+    return;
   }
 }

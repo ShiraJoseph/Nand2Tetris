@@ -1,134 +1,123 @@
 /**
-* A helper class to handle negative numbers
+* A replacement integer class to handle negative numbers
 */
-
 class Int {
-    field boolean pos;
-    field int num;
+	field boolean pos;
+  field int num;
 
-    constructor Int new(boolean isPos, int x){
-        let pos = isPos;
-        let num = x;
-        return this;
+  constructor Int new(boolean isPos, int x){
+    let pos = isPos;
+    let num = x;
+    return this;
+  }
+
+  /** accessors */
+  method boolean pos(){ return pos; }
+  method int num(){ return num; }
+
+  function Int multiply(Int x, Int y){
+     var int product;
+     let product = x.num() * y.num();
+     if (x.pos() = y.pos()){
+       return Int.new(true, product);
+     }
+     return Int.new(false, product);
+  }
+
+  function Int add(Int x, Int y){
+    var Int sum;
+    let sum = Int.compute(true, x, y);
+    return sum;
+  }
+
+  function Int subtract(Int x, Int y){
+    var Int diff;
+    let diff = Int.compute(false, x, y);
+    return diff;
+  }
+
+	/** Adds or subtracts two integers following rules of negatives */
+  function Int compute(boolean add, Int a, Int b){
+    var int x, y, bigger, smaller, result;
+    var boolean biggerPos, smallerPos, posPos, posNeg, negPos, negNeg;
+
+    let x = a.num();
+    let y = b.num();
+    let smallerPos = false;
+    let biggerPos = false;
+    let posPos = false;
+    let posNeg = false;
+    let negPos = false;
+    let negNeg = false;
+    let result = 0;
+
+    if (((x = 0) & (y = 0)) | ((x = y) & ((add & ~(a.pos() = b.pos())) | (~add & (a.pos() = b.pos()))))){
+      do Out.ln("returning 0!");
+      return Int.new(true, result);
     }
 
-    //accessors
-    method boolean pos(){ return pos;}
-    method int num() {return num;}
-
-    function boolean zeros(int x, int y){
-        if(x=0 & y=0){
-            return true;
-        }
-        return false;
+    if (x > y){
+      let bigger = x;
+      let biggerPos = a.pos();
+      let smaller = y;
+      let smallerPos = b.pos();
+    } else {
+      let bigger = y;
+      let biggerPos = b.pos();
+      let smaller = x;
+      let smallerPos = a.pos();
+    }
+    if (biggerPos){
+      if (smallerPos){
+        let posPos = true;
+      } else {
+        let posNeg = true;
+      }
+    } else {
+      if (smallerPos){
+        let negPos = true;
+      } else {
+        let negNeg = true;
+      }
     }
 
-    function Int multiply(Int x, Int y){
-       var int product;
-       let product = x.num() * y.num();
-       if (x.pos() = y.pos()){
-           return Int.new(true, product);
-       }
-       return Int.new(false, product);
+    let result = bigger + smaller;
+    if((add & posPos) | (~add & ((posNeg & ~(x < y)) | (negPos & (x < y))))){
+      return Int.new(true, result);
+    }
+    if((add & negNeg) | (~add & ((posNeg & (x < y)) | (negPos & ~(x < y))))){
+      return Int.new(false, result);
     }
 
-
-    function Int add(Int x, Int y){
-      var Int sum;
-      let sum = Int.compute(true, x, y);
-      return sum;
+    let result = bigger - smaller;
+    if((add & posNeg) | (~add & ((negNeg & (x < y)) | (posPos & (x > y))))){
+      return Int.new(true, result);
     }
-
-    function Int subtract(Int x, Int y){
-      var Int diff;
-      let diff = Int.compute(false, x, y);
-      return diff;
+    if((add & negPos) | (~add & ((negNeg & (x > y)) | (posPos & (x < y))))){
+      return Int.new(false, result);
     }
+    do Sys.halt();
+    return Int.new(true, 10000);
+  }
 
-    function Int compute(boolean add, Int a, Int b){
-        var int x, y, bigger, smaller, result;
-        var boolean biggerPos, smallerPos, posPos, posNeg, negPos, negNeg, c, d, e, f, g, h, i;
+  method boolean equals(Int b){
+    return (pos = b.pos()) & (num = b.num());
+  }
 
-        let x=a.num();
-        let y=b.num();
-        let smallerPos=false;
-        let biggerPos=false;
-        let posPos=false;
-        let posNeg=false;
-        let negPos=false;
-        let negNeg=false;
-        let result=0;
-        if(((x=0) & (y=0)) | ((x = y) & ((add & ~(a.pos() = b.pos())) | (~add & (a.pos()=b.pos()))))){
-            do Out.ln("returning 0!");
-            return Int.new(true, result);
-        }
-
-        if(x > y){
-            let bigger=x;
-            let biggerPos=a.pos();
-            let smaller=y;
-            let smallerPos=b.pos();
-        } else {
-            let bigger=y;
-            let biggerPos=b.pos();
-            let smaller=x;
-            let smallerPos=a.pos();
-        }
-        if(biggerPos){
-            if(smallerPos){
-                let posPos=true;
-            } else {
-                let posNeg=true;
-            }
-        } else {
-            if(smallerPos){
-                let negPos=true;
-            } else {
-                let negNeg=true;
-            }
-        }
-
-        let result = bigger+smaller;
-	      if((add & posPos) | (~add & ((posNeg & ~(x<y)) | (negPos & (x<y))))){
-//	        do Out.ln("add and posPos");
-	        return Int.new(true, result);
-	      }
-        if((add & negNeg) | (~add & ((posNeg & (x<y)) | (negPos & ~(x<y))))){
-//        	        do Out.ln("add and negNeg");
-	        return Int.new(false, result);
-	      }
-
-        let result = bigger - smaller;
-        if((add & posNeg) | (~add & ((negNeg & (x<y)) | (posPos & (x>y))))){
-//        	        do Out.ln("add and posNeg");
-	        return Int.new(true, result);
-        }
-        if((add & negPos) | (~add & ((negNeg & (x>y)) | (posPos & (x<y))))){
-//            	        do Out.ln("add and negPos");
-            return Int.new(false, result);
-        }
-        do Sys.halt();
-        return Int.new(true, 10000);
+  method boolean isLessThan(Int b){
+    if (pos = b.pos()){
+      if (pos){
+        return (num < b.num());
+      }
+      return (num > b.num());
     }
-
-    method boolean equals(Int b){
-        return (pos = b.pos()) & (num = b.num());
+    if (pos){
+      return false;
     }
+    return true;
+  }
 
-    method boolean isLessThan(Int b){
-        if(pos = b.pos()){
-            if(pos){
-                return (num < b.num());
-            }
-            return (num > b.num());
-        }
-        if(pos){
-            return false;
-        }
-        return true;
-    }
-
-    method boolean isGreaterThan(Int b){
-        return ~(isLessThan(b) | equals(b));
-    }
+  method boolean isGreaterThan(Int b){
+    return ~(isLessThan(b) | equals(b));
+  }
 }
