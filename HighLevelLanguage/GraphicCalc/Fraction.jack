@@ -42,6 +42,10 @@ class Fraction {
   method int numerator() { return numerator; }
   method int denominator() { return denominator; }
   method boolean pos() { return pos; }
+  method void setPos(boolean value) {
+    let pos = value;
+    return;
+  }
 
   /** Returns the sum of this fraction and the other one. */
   method Fraction plus(Fraction other) {

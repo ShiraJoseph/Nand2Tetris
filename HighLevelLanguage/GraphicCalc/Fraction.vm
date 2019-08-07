@@ -79,6 +79,13 @@ push argument 0
 pop pointer 0
 push this 2
 return
+function Fraction.setPos 0
+push argument 0
+pop pointer 0
+push argument 1
+pop this 2
+push constant 0
+return
 function Fraction.plus 5
 push argument 0
 pop pointer 0
