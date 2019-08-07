@@ -84,64 +84,55 @@ class Fraction {
     return Fraction.new(numer, denom);
   }
 
-	/** Turns a string into a Fraction */
+	/** Turns a string into a Fraction. Accepts these formats: x, -x, x/y, x\y, -x/y, -x\y, x/-y, x\-y, -x/-y, -x\-y */
   function Fraction toFraction (String num) {
-    var int delimiter, forwardSlash, backSlash, n, d, start, end, negative;
-    var Int nu, de;
-    // Not yet sure if all these copies are needed, but I'm not taking any risks right now.
-    var String numer, denom, num2, num3, num4, num5, num6, num7, num8, num9;
-    var char f, b, neg;
+    var int delimiter, forwardSlash, backSlash, n, d, start, end, negative, negative2;
+    var Int nInt, dInt;
+    var String nS, dS, num2, num3;
+    var char fChar, bChar, negChar;
     var Fraction frac;
     var boolean numerPos, denomPos;
 
     let numerPos = true;
     let denomPos = true;
-		let neg = 45;
-    let num4=num;
-    let negative = S.indexOf(num4, neg);
+		let negChar = 45;
+    let fChar = 47;
+    let bChar = 92;
+
+    let negative = S.indexOf(num, negChar);
     if (negative = 0) {
       let numerPos = false;
-      let num5 = num;
-      let num = S.substr(num5, 1, num5.length());
+      let num2 = num;
+      let num = S.substr(num2, 1, num2.length());
     }
-    let f = 47;
-    let num6 = num;
-    let forwardSlash = S.indexOf(num, f);
-    let b = 92;
-    let num2 = num;
-    let backSlash = S.indexOf(num2, b);
+    let forwardSlash = S.indexOf(num, fChar);
+    let num3 = num;
+    let backSlash = S.indexOf(num3, bChar);
     if (forwardSlash = -1 & backSlash = -1) {
       let n = num.intValue();
-      let nu = Int.new(numerPos, n);
-      let de = Int.new(true, 1);
-      let frac = Fraction.new(nu, de);
+      let nInt = Int.new(numerPos, n);
+      let dInt = Int.new(true, 1);
+      let frac = Fraction.new(nInt, dInt);
       return frac;
-    } else {
-	    if (forwardSlash > -1) {
-	      let delimiter = forwardSlash;
-	    } else {
-	      let delimiter = backSlash;
-	    }
-			let num3 = num;
-	    let numer = S.substr(num3, 0, delimiter);
-
-			let start = delimiter + 1;
-			let end = String.length(num);
-
-			let num7 = num;
-	    let denom = S.substr(num7, start, end);
-	    let num8 = denom;
-	    let negative = S.indexOf(num8, neg);
-      if (negative = 0) {
-        let denomPos = false;
-        let num9 = denom;
-        let denom = S.substr(num9, 1, num9.length());
-      }
-			let n = numer.intValue();
-			let d = denom.intValue();
-			let frac = Fraction.new(Int.new(numerPos, n), Int.new(denomPos, d));
-	    return frac;
     }
+    if (forwardSlash > -1) {
+      let delimiter = forwardSlash;
+    } else {
+      let delimiter = backSlash;
+    }
+    let nS = S.substr(num, 0, delimiter);
+		let start = delimiter + 1;
+		let end = String.length(num);
+    let dS = S.substr(num, start, end);
+    let negative2 = S.indexOf(dS, negChar);
+    if (negative2 = 0) {
+      let denomPos = false;
+      let dS = S.substr(dS, 1, dS.length());
+    }
+		let n = nS.intValue();
+		let d = dS.intValue();
+		let frac = Fraction.new(Int.new(numerPos, n), Int.new(denomPos, d));
+    return frac;
   }
 
 	method String toString(){

@@ -3,15 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="0a36f627-86f8-4dce-8696-920f4763c8f8" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Coord.jack" beforeDir="false" afterPath="$PROJECT_DIR$/Coord.jack" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Equation.jack" beforeDir="false" afterPath="$PROJECT_DIR$/Equation.jack" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Fraction.jack" beforeDir="false" afterPath="$PROJECT_DIR$/Fraction.jack" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Graph.jack" beforeDir="false" afterPath="$PROJECT_DIR$/Graph.jack" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Int.jack" beforeDir="false" afterPath="$PROJECT_DIR$/Int.jack" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Fraction.vm" beforeDir="false" afterPath="$PROJECT_DIR$/Fraction.vm" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Main.jack" beforeDir="false" afterPath="$PROJECT_DIR$/Main.jack" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Main.vm" beforeDir="false" afterPath="$PROJECT_DIR$/Main.vm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Point.jack" beforeDir="false" afterPath="$PROJECT_DIR$/Point.jack" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/S.jack" beforeDir="false" afterPath="$PROJECT_DIR$/S.jack" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -28,8 +23,8 @@
       <file leaf-file-name="Main.jack" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Main.jack">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="408">
-              <caret line="24" column="30" selection-start-line="24" selection-start-column="30" selection-end-line="24" selection-end-column="30" />
+            <state relative-caret-position="255">
+              <caret line="17" column="28" lean-forward="true" selection-start-line="17" selection-start-column="28" selection-end-line="17" selection-end-column="28" />
             </state>
           </provider>
         </entry>
@@ -73,7 +68,7 @@
       <file leaf-file-name="Equation.jack" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Equation.jack">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="697">
+            <state relative-caret-position="-3030">
               <caret line="60" column="5" lean-forward="true" selection-start-line="60" selection-start-column="5" selection-end-line="60" selection-end-column="5" />
               <folding>
                 <element signature="e#0#6940#0" />
@@ -86,13 +81,29 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Fraction.jack" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Fraction.jack" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Fraction.jack">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1168">
-              <caret line="143" column="5" lean-forward="true" selection-start-line="143" selection-start-column="5" selection-end-line="143" selection-end-column="5" />
+            <state relative-caret-position="406">
+              <caret line="134" column="16" selection-start-line="134" selection-start-column="16" selection-end-line="134" selection-end-column="16" />
               <folding>
+                <element signature="e#0#6381#0" />
+                <element signature="e#0#6381#0" />
+                <element signature="e#0#6381#0" />
                 <element signature="e#0#6454#0" />
+                <element signature="e#0#6381#0" />
+                <element signature="e#0#6381#0" />
+                <element signature="e#0#6381#0" />
+                <element signature="e#0#6381#0" />
+                <element signature="e#0#6381#0" />
+                <element signature="e#0#6381#0" />
+                <element signature="e#0#6381#0" />
+                <element signature="e#0#6381#0" />
+                <element signature="e#0#6381#0" />
+                <element signature="e#0#6381#0" />
+                <element signature="e#0#5157#0" />
+                <element signature="e#0#5157#0" />
+                <element signature="e#0#5157#0" />
               </folding>
             </state>
           </provider>
@@ -101,17 +112,17 @@
       <file leaf-file-name="Out.jack" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Out.jack">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
+            <state relative-caret-position="-692">
               <caret line="11" column="29" selection-start-line="11" selection-start-column="29" selection-end-line="11" selection-end-column="29" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="S.jack" pinned="false" current-in-tab="true">
+      <file leaf-file-name="S.jack" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/S.jack">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="4" column="2" selection-start-line="4" selection-start-column="2" selection-end-line="4" selection-end-column="2" />
+            <state relative-caret-position="646">
+              <caret line="38" column="33" lean-forward="true" selection-start-line="38" selection-start-column="33" selection-end-line="38" selection-end-column="33" />
             </state>
           </provider>
         </entry>
@@ -120,18 +131,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>toString</find>
-      <find>tostring</find>
-      <find>getyi</find>
-      <find>dividedby</find>
-      <find>Out.</find>
-      <find>halt</find>
-      <find>set</find>
-      <find>missingValue</find>
-      <find>slope</find>
-      <find>comparator</find>
-      <find>firstY</find>
-      <find>getStartingBottomPoint</find>
       <find>drawGraph</find>
       <find>xIncptF</find>
       <find>Incpt</find>
@@ -145,11 +144,23 @@
       <find>e</find>
       <find>d</find>
       <find>c</find>
-      <find>format</find>
       <find>bigger</find>
       <find>setHighestPoint</find>
       <find>getYIntercept</find>
       <find>eArray</find>
+      <find>format</find>
+      <find>negChar</find>
+      <find>b</find>
+      <find>num9</find>
+      <find>num8</find>
+      <find>num7</find>
+      <find>num6</find>
+      <find>num5</find>
+      <find>num4</find>
+      <find>delimiter</find>
+      <find>forwardSlash</find>
+      <find>numer</find>
+      <find>denom</find>
     </findStrings>
     <replaceStrings>
       <replace>S</replace>
@@ -163,14 +174,14 @@
       <list>
         <option value="$PROJECT_DIR$/StringsUtil.jack" />
         <option value="$PROJECT_DIR$/Out.jack" />
-        <option value="$PROJECT_DIR$/Main.jack" />
         <option value="$PROJECT_DIR$/Graph.jack" />
         <option value="$PROJECT_DIR$/Int.jack" />
         <option value="$PROJECT_DIR$/Point.jack" />
         <option value="$PROJECT_DIR$/Coord.jack" />
         <option value="$PROJECT_DIR$/Equation.jack" />
-        <option value="$PROJECT_DIR$/Fraction.jack" />
         <option value="$PROJECT_DIR$/S.jack" />
+        <option value="$PROJECT_DIR$/Main.jack" />
+        <option value="$PROJECT_DIR$/Fraction.jack" />
       </list>
     </option>
   </component>
@@ -442,7 +453,23 @@
         <state relative-caret-position="170">
           <caret line="10" column="28" selection-start-line="10" selection-start-column="28" selection-end-line="10" selection-end-column="28" />
           <folding>
+            <element signature="e#0#6381#0" />
+            <element signature="e#0#6381#0" />
+            <element signature="e#0#6381#0" />
             <element signature="e#0#6454#0" />
+            <element signature="e#0#6381#0" />
+            <element signature="e#0#6381#0" />
+            <element signature="e#0#6381#0" />
+            <element signature="e#0#6381#0" />
+            <element signature="e#0#6381#0" />
+            <element signature="e#0#6381#0" />
+            <element signature="e#0#6381#0" />
+            <element signature="e#0#6381#0" />
+            <element signature="e#0#6381#0" />
+            <element signature="e#0#6381#0" />
+            <element signature="e#0#5157#0" />
+            <element signature="e#0#5157#0" />
+            <element signature="e#0#5157#0" />
           </folding>
         </state>
       </provider>
@@ -627,7 +654,23 @@
         <state relative-caret-position="213">
           <caret line="48" selection-start-line="48" selection-end-line="50" selection-end-column="3" />
           <folding>
+            <element signature="e#0#6381#0" />
+            <element signature="e#0#6381#0" />
+            <element signature="e#0#6381#0" />
             <element signature="e#0#6454#0" />
+            <element signature="e#0#6381#0" />
+            <element signature="e#0#6381#0" />
+            <element signature="e#0#6381#0" />
+            <element signature="e#0#6381#0" />
+            <element signature="e#0#6381#0" />
+            <element signature="e#0#6381#0" />
+            <element signature="e#0#6381#0" />
+            <element signature="e#0#6381#0" />
+            <element signature="e#0#6381#0" />
+            <element signature="e#0#6381#0" />
+            <element signature="e#0#5157#0" />
+            <element signature="e#0#5157#0" />
+            <element signature="e#0#5157#0" />
           </folding>
         </state>
       </provider>
@@ -664,17 +707,24 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Main.jack">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="24" column="30" selection-start-line="24" selection-start-column="30" selection-end-line="24" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Int.jack">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1700">
           <caret line="100" column="3" lean-forward="true" selection-start-line="100" selection-start-column="3" selection-end-line="100" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/S.jack">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="646">
+          <caret line="38" column="33" lean-forward="true" selection-start-line="38" selection-start-column="33" selection-end-line="38" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Out.jack">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-692">
+          <caret line="11" column="29" selection-start-line="11" selection-start-column="29" selection-end-line="11" selection-end-column="29" />
         </state>
       </provider>
     </entry>
@@ -685,16 +735,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Coord.jack">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" column="29" lean-forward="true" selection-start-line="11" selection-start-column="29" selection-end-line="11" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Equation.jack">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="697">
+        <state relative-caret-position="-3030">
           <caret line="60" column="5" lean-forward="true" selection-start-line="60" selection-start-column="5" selection-end-line="60" selection-end-column="5" />
           <folding>
             <element signature="e#0#6940#0" />
@@ -706,27 +749,43 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Fraction.jack">
+    <entry file="file://$PROJECT_DIR$/Main.jack">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1168">
-          <caret line="143" column="5" lean-forward="true" selection-start-line="143" selection-start-column="5" selection-end-line="143" selection-end-column="5" />
-          <folding>
-            <element signature="e#0#6454#0" />
-          </folding>
+        <state relative-caret-position="255">
+          <caret line="17" column="28" lean-forward="true" selection-start-line="17" selection-start-column="28" selection-end-line="17" selection-end-column="28" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Out.jack">
+    <entry file="file://$PROJECT_DIR$/Coord.jack">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="187">
-          <caret line="11" column="29" selection-start-line="11" selection-start-column="29" selection-end-line="11" selection-end-column="29" />
+          <caret line="11" column="29" lean-forward="true" selection-start-line="11" selection-start-column="29" selection-end-line="11" selection-end-column="29" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/S.jack">
+    <entry file="file://$PROJECT_DIR$/Fraction.jack">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="2" selection-start-line="4" selection-start-column="2" selection-end-line="4" selection-end-column="2" />
+        <state relative-caret-position="406">
+          <caret line="134" column="16" selection-start-line="134" selection-start-column="16" selection-end-line="134" selection-end-column="16" />
+          <folding>
+            <element signature="e#0#6381#0" />
+            <element signature="e#0#6381#0" />
+            <element signature="e#0#6381#0" />
+            <element signature="e#0#6454#0" />
+            <element signature="e#0#6381#0" />
+            <element signature="e#0#6381#0" />
+            <element signature="e#0#6381#0" />
+            <element signature="e#0#6381#0" />
+            <element signature="e#0#6381#0" />
+            <element signature="e#0#6381#0" />
+            <element signature="e#0#6381#0" />
+            <element signature="e#0#6381#0" />
+            <element signature="e#0#6381#0" />
+            <element signature="e#0#6381#0" />
+            <element signature="e#0#5157#0" />
+            <element signature="e#0#5157#0" />
+            <element signature="e#0#5157#0" />
+          </folding>
         </state>
       </provider>
     </entry>

@@ -17,7 +17,7 @@ class Main {
     let equation = Equation.new(1, format);
     do equation.getValues();
     do Out.ln(equation.toString());
-    do Main.draw(equation);
+//    do Main.draw(equation);
     do Main.createEquation();
     return;
   }

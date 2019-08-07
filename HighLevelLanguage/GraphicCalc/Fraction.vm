@@ -224,19 +224,21 @@ push local 0
 push local 1
 call Fraction.new 2
 return
-function Fraction.toFraction 26
+function Fraction.toFraction 21
 push constant 0
 not
-pop local 24
+pop local 19
 push constant 0
 not
-pop local 25
+pop local 20
 push constant 45
-pop local 22
+pop local 17
+push constant 47
+pop local 15
+push constant 92
+pop local 16
 push argument 0
-pop local 14
-push local 14
-push local 22
+push local 17
 call S.indexOf 2
 pop local 7
 push local 7
@@ -246,30 +248,24 @@ if-goto IF_TRUE0
 goto IF_FALSE0
 label IF_TRUE0
 push constant 0
-pop local 24
+pop local 19
 push argument 0
-pop local 15
-push local 15
+pop local 13
+push local 13
 push constant 1
-push local 15
+push local 13
 call String.length 1
 call S.substr 3
 pop argument 0
 label IF_FALSE0
-push constant 47
-pop local 20
 push argument 0
-pop local 16
-push argument 0
-push local 20
+push local 15
 call S.indexOf 2
 pop local 1
-push constant 92
-pop local 21
 push argument 0
-pop local 12
-push local 12
-push local 21
+pop local 14
+push local 14
+push local 16
 call S.indexOf 2
 pop local 2
 push local 1
@@ -287,22 +283,21 @@ label IF_TRUE1
 push argument 0
 call String.intValue 1
 pop local 3
-push local 24
+push local 19
 push local 3
 call Int.new 2
-pop local 8
+pop local 9
 push constant 0
 not
 push constant 1
 call Int.new 2
-pop local 9
-push local 8
+pop local 10
 push local 9
+push local 10
 call Fraction.new 2
-pop local 23
-push local 23
+pop local 18
+push local 18
 return
-goto IF_END1
 label IF_FALSE1
 push local 1
 push constant 1
@@ -319,12 +314,10 @@ push local 2
 pop local 0
 label IF_END2
 push argument 0
-pop local 13
-push local 13
 push constant 0
 push local 0
 call S.substr 3
-pop local 10
+pop local 11
 push local 0
 push constant 1
 add
@@ -333,52 +326,45 @@ push argument 0
 call String.length 1
 pop local 6
 push argument 0
-pop local 17
-push local 17
 push local 5
 push local 6
 call S.substr 3
-pop local 11
-push local 11
-pop local 18
-push local 18
-push local 22
+pop local 12
+push local 12
+push local 17
 call S.indexOf 2
-pop local 7
-push local 7
+pop local 8
+push local 8
 push constant 0
 eq
 if-goto IF_TRUE3
 goto IF_FALSE3
 label IF_TRUE3
 push constant 0
-pop local 25
-push local 11
-pop local 19
-push local 19
+pop local 20
+push local 12
 push constant 1
-push local 19
+push local 12
 call String.length 1
 call S.substr 3
-pop local 11
+pop local 12
 label IF_FALSE3
-push local 10
-call String.intValue 1
-pop local 3
 push local 11
 call String.intValue 1
+pop local 3
+push local 12
+call String.intValue 1
 pop local 4
-push local 24
+push local 19
 push local 3
 call Int.new 2
-push local 25
+push local 20
 push local 4
 call Int.new 2
 call Fraction.new 2
-pop local 23
-push local 23
+pop local 18
+push local 18
 return
-label IF_END1
 function Fraction.toString 4
 push argument 0
 pop pointer 0
