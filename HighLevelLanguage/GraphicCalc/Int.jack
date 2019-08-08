@@ -15,10 +15,10 @@ class Int {
   method boolean pos(){ return pos; }
   method int num(){ return num; }
 
-  function Int multiply(Int x, Int y){
+  method Int times(Int x){
      var int product;
-     let product = x.num() * y.num();
-     if (x.pos() = y.pos()){
+     let product = x.num() * num;
+     if (x.pos() = pos){
        return Int.new(true, product);
      }
      return Int.new(false, product);
@@ -119,5 +119,30 @@ class Int {
 
   method boolean isGreaterThan(Int b){
     return ~(isLessThan(b) | equals(b));
+  }
+
+//  function String stringOf(Int x){
+//	  var String numS;
+//	  let numS = String.new(20);
+//	  do numS.setInt(x.num());
+//	  if (x.pos()) {
+//	    return numS;
+//	  } else {
+//	    return S.append("-", numS);
+//	  }
+////	return "dummyInt";
+//  }
+
+  method String toString(){
+  var String numS, mnumS, sign;
+  let sign = "-";
+      let numS = String.new(20);
+    	  do numS.setInt(num);
+    	  if (pos) {
+    	    return numS;
+    	  } else {
+    	    let mnumS = S.append(sign, numS);
+    	    return mnumS;
+    	  }
   }
 }

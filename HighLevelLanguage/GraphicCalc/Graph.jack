@@ -5,12 +5,13 @@ class Graph {
     return this;
   }
 
-  function void drawPoint(Int x, Int y) {
-    var Point p;
+  function void drawPoint(Point p) {
     var Coord c;
-    let p = Point.new(x, y);
     let c = p.toCoord();
     do Graph.drawPixel(c);
+    do Memory.deAlloc(p);
+    do Memory.deAlloc(c);
+    do Sys.wait(500);
     return;
   }
 
@@ -52,36 +53,60 @@ class Graph {
 	/** Draws a line using an equation scaled to fit within (-255, -127) to (255, 127) */
 	function void drawScaledLine(Equation equation) {
 		var Int x, y, oneI, zeroI, diffInt;
-		var Fraction xF, yF, one, tff, ots, diff;
+		var Fraction xF, yF, one, tff, ots, diff, pF;
+		var Point p;
+		var String pS;
 		var boolean continue;
-		let one = Fraction.new(Int.new(true, 1), Int.new(true, 1));
-		let tff = Fraction.new(Int.new(true, 255), Int.new(true, 1));
-		let ots = Fraction.new(Int.new(true, 127), Int.new(true, 1));
+		if (equation.getStartLineNegative()){
+			let one = Fraction.new(Int.new(false, 1), Int.new(true, 1));
+			let tff = Fraction.new(Int.new(false, 255), Int.new(true, 1));
+			let ots = Fraction.new(Int.new(false, 127), Int.new(true, 1));
+		} else {
+			let one = Fraction.new(Int.new(true, 1), Int.new(true, 1));
+			let tff = Fraction.new(Int.new(true, 255), Int.new(true, 1));
+			let ots = Fraction.new(Int.new(true, 127), Int.new(true, 1));
+		}
 		let zeroI = Int.new(true, 0);
 		let continue = true;
 		if (equation.getXIsScreenCutoff()) {
 			let xF = tff;
 			do xF.setPos(false);
+			do Out.ln("using X");
 			while(continue){
 				let yF = equation.solveForY(xF);
 				let y = Int.new(yF.pos(), yF.toInt());
 				let x = Int.new(xF.pos(), xF.toInt());
-				do Graph.drawPoint(x, y);
-
+				let p = Point.new(x, y);
+				do Graph.drawPoint(p);
+				let pF = Fraction.new(x, y);
+				do Out.ln(pF.toString());
+//				let pS = p.toString();
+//do Out.ln(pS);
+				do Memory.deAlloc(y);
+				do Memory.deAlloc(x);
+				do Memory.deAlloc(p);
 				let xF = xF.plus(one);
 				let diff = xF.minus(tff);
 				let diffInt = Int.new(diff.pos(), diff.toInt());
 				let continue = diffInt.isGreaterThan(zeroI);
 			}
 		} else {
+			do Out.ln("using y");
 			let yF = ots;
 			do yF.setPos(false);
 			while(continue){
     	  let xF = equation.solveForX(yF);
    			let x = Int.new(xF.pos(), xF.toInt());
         let y = Int.new(yF.pos(), yF.toInt());
-				do Graph.drawPoint(x, y);
-
+        let p = Point.new(x, y);
+				do Graph.drawPoint(p);
+let pF = Fraction.new(x, y);
+//				do Out.ln(pF.toString());
+//				let pS = p.toString();
+				do Out.ln(pS);
+				do Memory.deAlloc(y);
+				do Memory.deAlloc(x);
+				do Memory.deAlloc(p);
    			let yF = yF.plus(one);
         let diff = yF.minus(ots);
         let diffInt = Int.new(diff.pos(), diff.toInt());
@@ -96,7 +121,7 @@ class Graph {
     var Fraction yIncpt, xIncpt, xIncptTwice, limXAxis, limYAxis, scale, slope, CUTOFF, scaledXIncpt,
     scaledYIncpt, scaledSlope, TWOFIFTYFIVE, ONETWENTYSEVEN, TWO, NEGTWOFIFTYFIVE, NEGONETWENTYSEVEN;
     var Equation scaledEquation;
-    var boolean xIsGreater;
+    var boolean xIsGreater, startNegative;
 
 		let CUTOFF = Fraction.new(Int.new(true, 3), Int.new(true, 2));
     let TWOFIFTYFIVE = Fraction.new(Int.new(true, 255), Int.new(true, 1));
@@ -116,11 +141,13 @@ class Graph {
 			let limXAxis = CUTOFF.times(xIncpt);
 			let limYAxis = CUTOFF.times(xIncpt.dividedBy(TWO));
 			let scale = TWOFIFTYFIVE.dividedBy(limXAxis);
+			let startNegative = ~yIncpt.pos();
 		} else {
 			let xIsGreater = false;
 			let limYAxis = CUTOFF.times(yIncpt);
      	let limXAxis = CUTOFF.times(yIncpt.times(TWO));
  			let scale = ONETWENTYSEVEN.dividedBy(limYAxis);
+ 			let startNegative = ~xIncpt.pos();
 		}
 
 		let scaledXIncpt = xIncpt.times(scale);
@@ -132,6 +159,7 @@ class Graph {
 		do scaledEquation.setY(scaledXIncpt);
 		do scaledEquation.setSlope(scaledSlope);
 		do scaledEquation.setXIsScreenCutoff(xIsGreater);
+		do scaledEquation.setStartLineNegative(startNegative);
 
     return scaledEquation;
   }

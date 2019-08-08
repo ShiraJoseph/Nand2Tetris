@@ -48,39 +48,45 @@ class Fraction {
 
   /** Returns the sum of this fraction and the other one. */
   method Fraction plus(Fraction other) {
-    var Int sum, numers, denoms, a, b;
+    var Int sum, numers, denoms, a, b, c;
     let a = Int.new(pos, numerator);
     let b = Int.new(true, other.denominator());
-    let numers = Int.multiply(a, b);
-    let denoms = Int.multiply(Int.new(other.pos(), other.numerator()), Int.new(true, denominator));
+    let numers = a.times(b);
+    let c = Int.new(other.pos(), other.numerator());
+    let denoms = c.times(Int.new(true, denominator));
     let sum = Int.add(numers, denoms);
     return Fraction.new(sum, Int.new(true, denominator * other.denominator()));
   }
 
   /** Subtracts one fraction from another */
   method Fraction minus(Fraction other) {
-    var Int numers, denoms, difference, a, b;
+    var Int numers, denoms, difference, a, b, c;
     let a = Int.new(pos, numerator);
     let b = Int.new(true, other.denominator());
-    let numers = Int.multiply(a, b);
-    let denoms = Int.multiply(Int.new(other.pos(), other.numerator()), Int.new(true, denominator));
+    let numers = a.times(b);
+		let c = Int.new(other.pos(), other.numerator());
+		let denoms = c.times(Int.new(true, denominator));
     let difference = Int.subtract(numers, denoms);
     return Fraction.new(difference, Int.new(true, denominator * other.denominator()));
   }
 
   /** Multiplies two fractions */
   method Fraction times(Fraction mult) {
-    var Int numer, denom;
-    let numer = Int.multiply(Int.new(pos, numerator), Int.new(mult.pos(), mult.numerator()));
-    let denom = Int.multiply(Int.new(pos, denominator), Int.new(mult.pos(), mult.denominator()));
+    var Int numer, denom, a, b;
+    let a = Int.new(mult.pos(), mult.numerator());
+    let numer = a.times(Int.new(pos, numerator));
+    let b = Int.new(mult.pos(), mult.denominator());
+    let denom = b.times(Int.new(pos, denominator));
     return Fraction.new(numer, denom);
   }
 
   /** Divides one fraction by another */
   method Fraction dividedBy (Fraction divisor) {
-    var Int numer, denom;
-    let numer = Int.multiply(Int.new(pos, numerator), Int.new(divisor.pos(), divisor.denominator()));
-    let denom = Int.multiply(Int.new(pos, denominator), Int.new(divisor.pos(), divisor.numerator()));
+    var Int numer, denom, a, b;
+    let a = Int.new(divisor.pos(), divisor.denominator());
+    let numer = a.times(Int.new(pos, numerator));
+		let b = Int.new(divisor.pos(), divisor.numerator());
+		let denom = b.times(Int.new(pos, denominator));
     return Fraction.new(numer, denom);
   }
 

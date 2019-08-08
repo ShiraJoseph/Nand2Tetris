@@ -1,6 +1,6 @@
 class Equation {
   field int x, y, m, b, degree;
-  field boolean xExists, yExists, bExists, mExists, xIsScreenCutoff;
+  field boolean xExists, yExists, bExists, mExists, xIsScreenCutoff, startLineNegative;
   field String format;
   field Fraction xF, yF, bF, mF;
 
@@ -20,6 +20,7 @@ class Equation {
   method Fraction getY(){ return yF; }
   method Fraction getSlope(){ return mF; }
   method boolean getXIsScreenCutoff(){ return xIsScreenCutoff; }
+  method boolean getStartLineNegative(){ return startLineNegative; }
   method void setX(Fraction xSet){
     let xF = xSet;
     let xExists = true;
@@ -42,6 +43,10 @@ class Equation {
   }
 	method void setXIsScreenCutoff(boolean isX){
 		let xIsScreenCutoff = isX;
+		return;
+	}
+	method void setStartLineNegative(boolean startNegative){
+		let startLineNegative = startNegative;
 		return;
 	}
 

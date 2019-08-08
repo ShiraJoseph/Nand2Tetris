@@ -52,11 +52,7 @@ call Coord.new 2
 pop local 0
 goto IF_END0
 label IF_FALSE0
-push constant 512
-push constant 256
-call Coord.new 2
-pop local 0
-push constant 13
+push constant 14
 call String.new 1
 push constant 73
 call String.appendChar 2
@@ -84,7 +80,27 @@ push constant 110
 call String.appendChar 2
 push constant 116
 call String.appendChar 2
+push constant 32
+call String.appendChar 2
+call Out.s 1
+pop temp 0
+push this 0
+call Int.toString 1
+call Out.s 1
+pop temp 0
+push constant 2
+call String.new 1
+push constant 44
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+call Out.s 1
+pop temp 0
+push this 1
+call Int.toString 1
 call Out.ln 1
+pop temp 0
+call Sys.halt 0
 pop temp 0
 label IF_END0
 push local 0
@@ -125,4 +141,39 @@ not
 return
 label IF_FALSE0
 push constant 0
+return
+function Point.toString 3
+push argument 0
+pop pointer 0
+push this 0
+call Int.toString 1
+pop local 0
+push this 1
+call Int.toString 1
+pop local 1
+push constant 1
+call String.new 1
+push constant 40
+call String.appendChar 2
+push local 0
+push constant 2
+call String.new 1
+push constant 44
+call String.appendChar 2
+push constant 32
+call String.appendChar 2
+push local 1
+push constant 1
+call String.new 1
+push constant 41
+call String.appendChar 2
+call S.append5 5
+pop local 2
+push local 0
+call Memory.deAlloc 1
+pop temp 0
+push local 1
+call Memory.deAlloc 1
+pop temp 0
+push local 2
 return
