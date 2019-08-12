@@ -64,7 +64,7 @@ class Equation {
 			let tempCalc3 = yF.minus(tempCalc2);
 			return tempCalc3;
     }
-    if (S.equals(format, "O")){
+    if (S.equals(format, "S")){
       let tempCalc1 = xF.times(xPoint);
       let tempCalc2 = bF.minus(tempCalc1);
       let tempCalc3 = tempCalc2.dividedBy(yF);
@@ -87,7 +87,7 @@ class Equation {
 			let tempCalc3 = xF.minus(tempCalc2);
 			return tempCalc3;
 		}
-		if (S.equals(format, "O")){
+		if (S.equals(format, "S")){
 			let tempCalc1 = yF.times(yPoint);
 			let tempCalc2 = bF.minus(tempCalc1);
 			let tempCalc3 = tempCalc2.dividedBy(xF);
@@ -115,7 +115,7 @@ class Equation {
 			do inputVar("b");
 			return;
 		}
-		if (S.equals(format, "O")){
+		if (S.equals(format, "S")){
       do inputVar("x");
       do inputVar("y");
       do inputVar("b");
@@ -167,7 +167,7 @@ class Equation {
 	/** Returns the current state of the equation as a string based on the chosen equation format */
   method String toString(){
     if (degree = 1){
-	    if (S.equals(format, "O")){
+	    if (S.equals(format, "S")){
 	      return getOldString();
 	    }
 	    if (S.equals(format, "I")){
@@ -219,8 +219,8 @@ class Equation {
     return stringified;
   }
 
-	/** Returns a string version of the equation in the old format: cy + dx = b */
-  method String getOldString(){
+	/** Returns a string version of the equation in standard form: x1x + y1y = b */
+  method String getStandardString(){
     var String xS, yS, bS, stringified;
     if (xExists){
       let xS = xF.toString();

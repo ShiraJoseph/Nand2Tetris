@@ -26,6 +26,7 @@ class Int {
 
   function Int add(Int x, Int y){
     var Int sum;
+    do Out.ln()
     let sum = Int.compute(true, x, y);
     return sum;
   }
@@ -96,7 +97,8 @@ class Int {
     if((add & negPos) | (~add & ((negNeg & (x > y)) | (posPos & (x < y))))){
       return Int.new(false, result);
     }
-    do Sys.halt();
+    do Out.ln("invalid Int Calculation");
+//    do Sys.halt();
     return Int.new(true, 10000);
   }
 
@@ -145,4 +147,9 @@ class Int {
     	    return mnumS;
     	  }
   }
+
+   method void dispose() {
+      do Memory.deAlloc(this);
+      return;
+    }
 }

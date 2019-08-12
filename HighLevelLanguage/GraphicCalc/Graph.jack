@@ -55,14 +55,14 @@ class Graph {
 		var Int x, y, oneI, zeroI, diffInt;
 		var Fraction xF, yF, one, tff, ots, diff, pF;
 		var Point p;
-		var String pS;
+//		var String pS;
 		var boolean continue;
 		if (equation.getStartLineNegative()){
-			let one = Fraction.new(Int.new(false, 1), Int.new(true, 1));
+			let one = Fraction.new(Int.new(true, 1), Int.new(true, 1));
 			let tff = Fraction.new(Int.new(false, 255), Int.new(true, 1));
 			let ots = Fraction.new(Int.new(false, 127), Int.new(true, 1));
 		} else {
-			let one = Fraction.new(Int.new(true, 1), Int.new(true, 1));
+			let one = Fraction.new(Int.new(false, 1), Int.new(true, 1));
 			let tff = Fraction.new(Int.new(true, 255), Int.new(true, 1));
 			let ots = Fraction.new(Int.new(true, 127), Int.new(true, 1));
 		}
@@ -70,7 +70,7 @@ class Graph {
 		let continue = true;
 		if (equation.getXIsScreenCutoff()) {
 			let xF = tff;
-			do xF.setPos(false);
+//			do xF.setPos(false);
 			do Out.ln("using X");
 			while(continue){
 				let yF = equation.solveForY(xF);
@@ -78,39 +78,45 @@ class Graph {
 				let x = Int.new(xF.pos(), xF.toInt());
 				let p = Point.new(x, y);
 				do Graph.drawPoint(p);
-				let pF = Fraction.new(x, y);
-				do Out.ln(pF.toString());
-//				let pS = p.toString();
-//do Out.ln(pS);
-				do Memory.deAlloc(y);
-				do Memory.deAlloc(x);
-				do Memory.deAlloc(p);
+//				let pF = Fraction.new(x, y);
+				do y.dispose();
+				do x.dispose();
+				do p.dispose();
 				let xF = xF.plus(one);
 				let diff = xF.minus(tff);
 				let diffInt = Int.new(diff.pos(), diff.toInt());
-				let continue = diffInt.isGreaterThan(zeroI);
+				if (equation.getStartLineNegative()){
+					let continue = diffInt.isGreaterThan(zeroI);
+				} else {
+					let continue = diffInt.isLessThan(zeroI);
+				}
 			}
 		} else {
 			do Out.ln("using y");
 			let yF = ots;
-			do yF.setPos(false);
+//			do yF.setPos(false);
 			while(continue){
     	  let xF = equation.solveForX(yF);
    			let x = Int.new(xF.pos(), xF.toInt());
         let y = Int.new(yF.pos(), yF.toInt());
         let p = Point.new(x, y);
 				do Graph.drawPoint(p);
-let pF = Fraction.new(x, y);
+//let pF = Fraction.new(x, y);
 //				do Out.ln(pF.toString());
 //				let pS = p.toString();
-				do Out.ln(pS);
-				do Memory.deAlloc(y);
-				do Memory.deAlloc(x);
-				do Memory.deAlloc(p);
+//				do Out.ln(pS);
+	do y.dispose();
+				do x.dispose();
+				do p.dispose();
    			let yF = yF.plus(one);
         let diff = yF.minus(ots);
         let diffInt = Int.new(diff.pos(), diff.toInt());
-        let continue = diffInt.isGreaterThan(zeroI);
+        if (equation.getStartLineNegative()){
+        					let continue = diffInt.isGreaterThan(zeroI);
+        				} else {
+        					let continue = diffInt.isLessThan(zeroI);
+        				}
+//        let continue = diffInt.isGreaterThan(zeroI);
       }
 		}
 		return;

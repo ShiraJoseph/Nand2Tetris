@@ -7,12 +7,12 @@ class Main {
   function void createEquation(){
     var Equation equation;
     var String format;
-    let format = Keyboard.readLine("[P]oint-Slope, or Slope-[I]ntercept? ");
-    while(~(S.equals(format, "O") | S.equals(format, "I") | S.equals(format, "P"))){
+    let format = Keyboard.readLine("[P]oint-Slope, Slope-[I]ntercept, or [S]tandard? ");
+    while(~(S.equals(format, "S") | S.equals(format, "I") | S.equals(format, "P"))){
       if (S.equals(format, "Q")){
         return;
       }
-      let format = Keyboard.readLine("Please type P or I.");
+      let format = Keyboard.readLine("Please type P, I, or S.");
     }
     let equation = Equation.new(1, format);
     do equation.getValues();

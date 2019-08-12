@@ -34,7 +34,7 @@ class Point {
       do Out.ln(y.toString());
 //      do Sys.wait(1000);
 //      let coord = Coord.new(512, 256);
-      do Sys.halt();
+//      do Sys.halt();
     }
     return coord;
   }
@@ -55,5 +55,10 @@ class Point {
     do Memory.deAlloc(yS);
     return sS;
 //		return "dummyPoint";
+  }
+
+  method void dispose() {
+    do Memory.deAlloc(this);
+    return;
   }
 }

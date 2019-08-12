@@ -172,8 +172,8 @@ class Fraction {
 
 	method void checkValid() {
 		if(denominator > 9999 | denominator < -9999 | numerator > 9999 | numerator < -9999){
-			do Out.ln("Invalid number");
-			do Sys.halt();
+			do Out.ln("Invalid fraction");
+//			do Sys.halt();
 		}
 		return;
 	}
