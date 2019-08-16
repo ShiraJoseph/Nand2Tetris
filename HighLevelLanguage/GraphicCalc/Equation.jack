@@ -260,4 +260,9 @@ class Equation {
     let xIntercept = solveForX(y);
     return xIntercept;
   }
+
+// TODO: fill in this method
+  function Equation convertToPointSlope(e){
+    return null;
+  }
 }
