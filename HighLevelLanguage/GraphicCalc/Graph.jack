@@ -11,7 +11,7 @@ class Graph {
     do Graph.drawPixel(c);
     do Memory.deAlloc(p);
     do Memory.deAlloc(c);
-    do Sys.wait(500);
+    do Sys.wait(50);
     return;
   }
 

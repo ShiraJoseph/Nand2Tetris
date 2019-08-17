@@ -58,18 +58,26 @@ class Equation {
 		if (S.equals(format, "I")){
 			let tempCalc1 = mF.times(xPoint);
 			let tempCalc2 = tempCalc1.plus(bF);
+			do Memory.deAlloc(xPoint);
+			do Memory.deAlloc(tempCalc1);
 			return tempCalc2;
 		}
 		if (S.equals(format, "P")){
 			let tempCalc1 = xF.minus(xPoint);
 			let tempCalc2 = mF.times(tempCalc1);
 			let tempCalc3 = yF.minus(tempCalc2);
+			do Memory.deAlloc(xPoint);
+      do Memory.deAlloc(tempCalc1);
+      do Memory.deAlloc(tempCalc2);
 			return tempCalc3;
     }
     if (S.equals(format, "S")){
       let tempCalc1 = xF.times(xPoint);
       let tempCalc2 = bF.minus(tempCalc1);
       let tempCalc3 = tempCalc2.dividedBy(yF);
+      do Memory.deAlloc(xPoint);
+      do Memory.deAlloc(tempCalc1);
+      do Memory.deAlloc(tempCalc2);
       return tempCalc3;
     }
     return Fraction.new(0, 1);
@@ -81,18 +89,26 @@ class Equation {
 		if (S.equals(format, "I")){
 			let tempCalc1 = yPoint.minus(bF);
 			let tempCalc2 = tempCalc1.dividedBy(mF);
+			do Memory.deAlloc(yPoint);
+			do Memory.deAlloc(tempCalc1);
 			return tempCalc2;
 		}
 		if (S.equals(format, "P")){
 			let tempCalc1 = yF.minus(yPoint);
 			let tempCalc2 = tempCalc1.dividedBy(mF);
 			let tempCalc3 = xF.minus(tempCalc2);
+			do Memory.deAlloc(yPoint);
+      do Memory.deAlloc(tempCalc1);
+      do Memory.deAlloc(tempCalc2);
 			return tempCalc3;
 		}
 		if (S.equals(format, "S")){
 			let tempCalc1 = yF.times(yPoint);
 			let tempCalc2 = bF.minus(tempCalc1);
 			let tempCalc3 = tempCalc2.dividedBy(xF);
+			do Memory.deAlloc(yPoint);
+      do Memory.deAlloc(tempCalc1);
+      do Memory.deAlloc(tempCalc2);
 			return tempCalc3;
 		}
 		return Fraction.new(0, 1);
