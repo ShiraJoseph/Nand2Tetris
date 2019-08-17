@@ -18,9 +18,11 @@ class Equation {
   /** Accessors */
   method Fraction getX(){ return xF; }
   method Fraction getY(){ return yF; }
+  method Fraction getB(){ return bF; }
   method Fraction getSlope(){ return mF; }
   method boolean getXIsScreenCutoff(){ return xIsScreenCutoff; }
   method boolean getStartLineNegative(){ return startLineNegative; }
+  method String getFormat(){ return format; }
   method void setX(Fraction xSet){
     let xF = xSet;
     let xExists = true;
@@ -168,7 +170,7 @@ class Equation {
   method String toString(){
     if (degree = 1){
 	    if (S.equals(format, "S")){
-	      return getOldString();
+	      return getStandardString();
 	    }
 	    if (S.equals(format, "I")){
 	      return getSlopeInterceptString();
@@ -261,8 +263,29 @@ class Equation {
     return xIntercept;
   }
 
-// TODO: fill in this method
-  function Equation convertToPointSlope(e){
-    return null;
+  function Equation convertToSlopeIntercept(Equation e){
+    var String f;
+    var Fraction eX, eY, eB, newSlope, newB, mx;
+    var Equation slopeIEquation;
+    let f = e.getFormat();
+    if (S.equals(f, "I")){
+      return e;
+    }
+    let eX = e.getX();
+    let eY = e.getY();
+    let slopeIEquation = Equation.new(1, "I");
+    if (S.equals(f, "S")){
+			let newSlope = eX.dividedBy(eY);
+			do newSlope.setPos(~newSlope.pos());
+			let eB = e.getB();
+			let newB = eB.dividedBy(eY);
+		} else {
+			let newSlope = e.getSlope();
+			let mx = newSlope.times(e.getX());
+			let newB = eY.minus(mx);
+		}
+		do slopeIEquation.setSlope(newSlope);
+		do slopeIEquation.setB(newB);
+		return slopeIEquation;
   }
 }

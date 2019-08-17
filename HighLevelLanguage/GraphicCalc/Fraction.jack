@@ -178,11 +178,38 @@ class Fraction {
 		return;
 	}
 
+//	method boolean equals(Fraction f2) {
+//		if (numerator = f2.numerator() & denominator = f2.denominator() & pos = f2.pos()){
+//			return true;
+//		}
+//		return false;
+//	}
 	method boolean isGreaterThan(Fraction f2) {
-		if (numerator * f2.denominator() > f2.numerator() * denominator){
+		if (pos = f2.pos()){
+			if (numerator = f2.numerator() & denominator = f2.denominator()){
+				return false;
+			}
+			if (numerator * f2.denominator() < f2.numerator() * denominator){
+				return false;
+			}
 			return true;
 		}
-		return false;
+		return pos;
+	}
+
+	method boolean isLessThan(Fraction f2) {
+//		var Fraction thisFrac();
+//		let thisFrac = Fraction.new(Int.new(pos, numerator), Int.new(true, denominator));
+		if (pos = f2.pos()){
+			if (numerator = f2.numerator() & denominator = f2.denominator()){
+				return false;
+			}
+			if (numerator * f2.denominator() > f2.numerator() * denominator){
+				return false;
+			}
+			return true;
+		}
+		return ~pos;
 	}
 
 

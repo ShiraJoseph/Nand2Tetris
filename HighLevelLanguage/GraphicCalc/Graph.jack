@@ -53,26 +53,15 @@ class Graph {
 	/** Draws a line using an equation scaled to fit within (-255, -127) to (255, 127) */
 	function void drawScaledLine(Equation equation) {
 		var Int x, y, oneI, zeroI, diffInt;
-		var Fraction xF, yF, one, tff, ots, diff, pF;
+		var Fraction xF, yF, one, tff, ots, diff, pF, negTff, negOts;
 		var Point p;
-//		var String pS;
-//		var boolean continue;
-//		if (equation.getStartLineNegative()){
 			let one = Fraction.new(Int.new(true, 1), Int.new(true, 1));
 			let tff = Fraction.new(Int.new(true, 255), Int.new(true, 1));
 			let ots = Fraction.new(Int.new(true, 127), Int.new(true, 1));
-			let negTff = Fraction.new(Int.new(false, 255), Int.new(true, 1));;
+			let negTff = Fraction.new(Int.new(false, 255), Int.new(true, 1));
 			let negOts = Fraction.new(Int.new(false, 127), Int.new(true, 1));
-//		} else {
-//			let one = Fraction.new(Int.new(false, 1), Int.new(true, 1));
-//			let tff = Fraction.new(Int.new(true, 255), Int.new(true, 1));
-//			let ots = Fraction.new(Int.new(true, 127), Int.new(true, 1));
-//		}
-//		let zeroI = Int.new(true, 0);
-//		let continue = true;
 		if (equation.getXIsScreenCutoff()) {
 			let xF = negTff;
-//			do xF.setPos(false);
 			do Out.ln("using X");
 			while(xF.isLessThan(tff)){
 				let yF = equation.solveForY(xF);
@@ -80,45 +69,24 @@ class Graph {
 				let x = Int.new(xF.pos(), xF.toInt());
 				let p = Point.new(x, y);
 				do Graph.drawPoint(p);
-//				let pF = Fraction.new(x, y);
 				do y.dispose();
 				do x.dispose();
 				do p.dispose();
 				let xF = xF.plus(one);
-//				let diff = tff.minus(xF);
-//				let diffInt = Int.new(diff.pos(), diff.toInt());
-//				if (equation.getStartLineNegative()){
-//					let continue = diffInt.isGreaterThan(zeroI);
-//				} else {
-//					let continue = diffInt.isLessThan(zeroI);
-				}
 			}
 		} else {
-			do Out.ln("using y");
 			let yF = negOts;
-//			do yF.setPos(false);
-			while(continue){
+			do Out.ln("using y");
+			while(yF.isLessThan(ots)){
     	  let xF = equation.solveForX(yF);
    			let x = Int.new(xF.pos(), xF.toInt());
         let y = Int.new(yF.pos(), yF.toInt());
         let p = Point.new(x, y);
 				do Graph.drawPoint(p);
-//let pF = Fraction.new(x, y);
-//				do Out.ln(pF.toString());
-//				let pS = p.toString();
-//				do Out.ln(pS);
-	do y.dispose();
+				do y.dispose();
 				do x.dispose();
 				do p.dispose();
    			let yF = yF.plus(one);
-//        let diff = ots.minus(yF);
-//        let diffInt = Int.new(diff.pos(), diff.toInt());
-//        if (equation.getStartLineNegative()){
-//        					let continue = diffInt.isGreaterThan(zeroI);
-//        				} else {
-//        					let continue = diffInt.isLessThan(zeroI);
-        				}
-//        let continue = diffInt.isGreaterThan(zeroI);
       }
 		}
 		return;
@@ -127,7 +95,8 @@ class Graph {
 	/** Returns an equation comparable to the given equation but scaled to fit within (-255, -127) to (255, 127) */
   function Equation getScaledLine(Equation e) {
     var Fraction yIncpt, xIncpt, xIncptTwice, limXAxis, limYAxis, scale, slope, CUTOFF, scaledXIncpt,
-    scaledYIncpt, scaledSlope, TWOFIFTYFIVE, ONETWENTYSEVEN, TWO, NEGTWOFIFTYFIVE, NEGONETWENTYSEVEN;
+    scaledYIncpt, scaledSlope, TWOFIFTYFIVE, ONETWENTYSEVEN, TWO, NEGTWOFIFTYFIVE, NEGONETWENTYSEVEN,
+    b, m, bByM, cutoffTotal, newB, newBM;
     var Equation scaledEquation;
     var boolean xIsGreater, startNegative;
 
@@ -141,18 +110,13 @@ class Graph {
     let xIncpt = e.getXIntercept();
 		do yIncpt.checkValid();
 		do xIncpt.checkValid();
-		let scaledEquation = Equation.convertToPointSlope(e);
-//		Equation.new(1, "P");
-		let b = scaledEquation.getYIntercept;
+		let scaledEquation = Equation.convertToSlopeIntercept(e);
+		let b = scaledEquation.getYIntercept();
 		let xIncptTwice = xIncpt.times(TWO);
 
 		if(xIncptTwice.isGreaterThan(yIncpt)){
 			let xIsGreater = true;
 			let m = scaledEquation.getSlope();
-//			let limXAxis = CUTOFF.times(xIncpt);
-//			let limYAxis = CUTOFF.times(xIncpt.dividedBy(TWO));
-//			let scale = TWOFIFTYFIVE.dividedBy(limXAxis);
-//			let startNegative = ~yIncpt.pos();
 			let bByM = b.dividedBy(m);
 			let cutoffTotal = CUTOFF.times(bByM);
 			let scale = TWOFIFTYFIVE.dividedBy(cutoffTotal);
@@ -163,38 +127,23 @@ class Graph {
 			let cutoffTotal = CUTOFF.times(b);
 			let scale = ONETWENTYSEVEN.dividedBy(cutoffTotal);
 			let newB=scale.times(b);
-//			scaledEquation.setYintercept(newB);
-//			let limYAxis = CUTOFF.times(yIncpt);
-//     	let limXAxis = CUTOFF.times(yIncpt.times(TWO));
-// 			let scale = ONETWENTYSEVEN.dividedBy(limYAxis);
-// 			let startNegative = ~xIncpt.pos();
 		}
-    if x is cutoff determinant,
-    	cutoffTotal=CUTOFF times b/m
-    	scale = 255 divided by cutoffTotal
-    	newBM=scale times b/m
-    	newB=m times newBM
-    	newXEquation= y=mx+newB
-    	get first point by using (-255, solveForY(-255))
+		do scaledEquation.setB(newB);
+		do scaledEquation.setXIsScreenCutoff(xIsGreater);
+//    if x is cutoff determinant,
+//    	cutoffTotal=CUTOFF times b/m
+//    	scale = 255 divided by cutoffTotal
+//    	newBM=scale times b/m
+//    	newB=m times newBM
+//    	newXEquation= y=mx+newB
+//    	get first point by using (-255, solveForY(-255))
 //    if y is cutoff determinant
 //    	cutoffTotal = CUTOFF times b
 //    	scale = 127 divided by cutoffTotal
 //    	newB=scale times b
 //    	newEquation is y=mx+newB
-    	get first point by using (solveForX(-127), -127))
+//    	get first point by using (solveForX(-127), -127))
 
-//		turn into y=mx+b format
-do scaledEquation.setYintercept(newB)
-//		let scaledXIncpt = xIncpt.times(scale);
-//		let scaledYIncpt = yIncpt.times(scale);
-//		let slope = e.getSlope();
-//		let scaledSlope = slope.times(scale);
-//		let scaledEquation = Equation.new(1, "P");
-//		do scaledEquation.setX(scaledXIncpt);
-//		do scaledEquation.setY(scaledXIncpt);
-//		do scaledEquation.setSlope(scaledSlope);
-		do scaledEquation.setXIsScreenCutoff(xIsGreater);
-//		do scaledEquation.setStartLineNegative(startNegative);
 
     return scaledEquation;
   }

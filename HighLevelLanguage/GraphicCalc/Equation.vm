@@ -26,6 +26,11 @@ push argument 0
 pop pointer 0
 push this 13
 return
+function Equation.getB 0
+push argument 0
+pop pointer 0
+push this 14
+return
 function Equation.getSlope 0
 push argument 0
 pop pointer 0
@@ -40,6 +45,11 @@ function Equation.getStartLineNegative 0
 push argument 0
 pop pointer 0
 push this 10
+return
+function Equation.getFormat 0
+push argument 0
+pop pointer 0
+push this 11
 return
 function Equation.setX 0
 push argument 0
@@ -145,7 +155,7 @@ label IF_FALSE1
 push this 11
 push constant 1
 call String.new 1
-push constant 79
+push constant 83
 call String.appendChar 2
 call S.equals 2
 if-goto IF_TRUE2
@@ -220,7 +230,7 @@ label IF_FALSE1
 push this 11
 push constant 1
 call String.new 1
-push constant 79
+push constant 83
 call String.appendChar 2
 call S.equals 2
 if-goto IF_TRUE2
@@ -310,7 +320,7 @@ label IF_FALSE1
 push this 11
 push constant 1
 call String.new 1
-push constant 79
+push constant 83
 call String.appendChar 2
 call S.equals 2
 if-goto IF_TRUE2
@@ -571,14 +581,14 @@ label IF_TRUE0
 push this 11
 push constant 1
 call String.new 1
-push constant 79
+push constant 83
 call String.appendChar 2
 call S.equals 2
 if-goto IF_TRUE1
 goto IF_FALSE1
 label IF_TRUE1
 push pointer 0
-call Equation.getOldString 1
+call Equation.getStandardString 1
 return
 label IF_FALSE1
 push this 11
@@ -765,7 +775,7 @@ call S.append7 7
 pop local 3
 push local 3
 return
-function Equation.getOldString 4
+function Equation.getStandardString 4
 push argument 0
 pop pointer 0
 push this 5
@@ -885,4 +895,84 @@ push local 1
 call Equation.solveForX 2
 pop local 0
 push local 0
+return
+function Equation.convertToSlopeIntercept 8
+push argument 0
+call Equation.getFormat 1
+pop local 0
+push local 0
+push constant 1
+call String.new 1
+push constant 73
+call String.appendChar 2
+call S.equals 2
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push argument 0
+return
+label IF_FALSE0
+push argument 0
+call Equation.getX 1
+pop local 1
+push argument 0
+call Equation.getY 1
+pop local 2
+push constant 1
+push constant 1
+call String.new 1
+push constant 73
+call String.appendChar 2
+call Equation.new 2
+pop local 7
+push local 0
+push constant 1
+call String.new 1
+push constant 83
+call String.appendChar 2
+call S.equals 2
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push local 1
+push local 2
+call Fraction.dividedBy 2
+pop local 4
+push local 4
+push local 4
+call Fraction.pos 1
+not
+call Fraction.setPos 2
+pop temp 0
+push argument 0
+call Equation.getB 1
+pop local 3
+push local 3
+push local 2
+call Fraction.dividedBy 2
+pop local 5
+goto IF_END1
+label IF_FALSE1
+push argument 0
+call Equation.getSlope 1
+pop local 4
+push local 4
+push argument 0
+call Equation.getX 1
+call Fraction.times 2
+pop local 6
+push local 2
+push local 6
+call Fraction.minus 2
+pop local 5
+label IF_END1
+push local 7
+push local 4
+call Equation.setSlope 2
+pop temp 0
+push local 7
+push local 5
+call Equation.setB 2
+pop temp 0
+push local 7
 return

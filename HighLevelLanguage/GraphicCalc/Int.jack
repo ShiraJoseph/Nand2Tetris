@@ -26,7 +26,6 @@ class Int {
 
   function Int add(Int x, Int y){
     var Int sum;
-    do Out.ln()
     let sum = Int.compute(true, x, y);
     return sum;
   }

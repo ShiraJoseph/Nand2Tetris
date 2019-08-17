@@ -524,6 +524,74 @@ return
 function Fraction.isGreaterThan 0
 push argument 0
 pop pointer 0
+push this 2
+push argument 1
+call Fraction.pos 1
+eq
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push this 0
+push argument 1
+call Fraction.numerator 1
+eq
+push this 1
+and
+push argument 1
+call Fraction.denominator 1
+eq
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push constant 0
+return
+label IF_FALSE1
+push this 0
+push argument 1
+call Fraction.denominator 1
+call Math.multiply 2
+push argument 1
+call Fraction.numerator 1
+lt
+push this 1
+call Math.multiply 2
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push constant 0
+return
+label IF_FALSE2
+push constant 0
+not
+return
+label IF_FALSE0
+push this 2
+return
+function Fraction.isLessThan 0
+push argument 0
+pop pointer 0
+push this 2
+push argument 1
+call Fraction.pos 1
+eq
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push this 0
+push argument 1
+call Fraction.numerator 1
+eq
+push this 1
+and
+push argument 1
+call Fraction.denominator 1
+eq
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push constant 0
+return
+label IF_FALSE1
 push this 0
 push argument 1
 call Fraction.denominator 1
@@ -533,14 +601,18 @@ call Fraction.numerator 1
 gt
 push this 1
 call Math.multiply 2
-if-goto IF_TRUE0
-goto IF_FALSE0
-label IF_TRUE0
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push constant 0
+return
+label IF_FALSE2
 push constant 0
 not
 return
 label IF_FALSE0
-push constant 0
+push this 2
+not
 return
 function Fraction.dispose 0
 push argument 0
