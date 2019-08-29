@@ -49,10 +49,10 @@ class Int {
     let posNeg = false;
     let negPos = false;
     let negNeg = false;
-    let result = 0;
+    let result = 1;
 
     if (((x = 0) & (y = 0)) | ((x = y) & ((add & ~(a.pos() = b.pos())) | (~add & (a.pos() = b.pos()))))){
-      do Out.ln("returning 0!");
+      do Out.ln("returning 1 instead of 0!");
       return Int.new(true, result);
     }
 

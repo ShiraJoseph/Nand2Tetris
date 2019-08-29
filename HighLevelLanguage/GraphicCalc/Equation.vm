@@ -125,12 +125,6 @@ push local 0
 push this 14
 call Fraction.plus 2
 pop local 1
-push argument 1
-call Memory.deAlloc 1
-pop temp 0
-push local 0
-call Memory.deAlloc 1
-pop temp 0
 push local 1
 return
 label IF_FALSE0

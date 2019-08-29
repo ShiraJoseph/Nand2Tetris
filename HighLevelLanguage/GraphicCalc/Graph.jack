@@ -55,6 +55,7 @@ class Graph {
 		var Int x, y, oneI, zeroI, diffInt;
 		var Fraction xF, yF, one, tff, ots, diff, pF, negTff, negOts;
 		var Point p;
+		var boolean continue;
 			let one = Fraction.new(Int.new(true, 1), Int.new(true, 1));
 			let tff = Fraction.new(Int.new(true, 255), Int.new(true, 1));
 			let ots = Fraction.new(Int.new(true, 127), Int.new(true, 1));
@@ -65,10 +66,17 @@ class Graph {
 			do Out.ln("using X");
 			while(xF.isLessThan(tff)){
 				let yF = equation.solveForY(xF);
+//				do Out.s("xF = ");
+//				do Out.ln(xF.toString());
+//				do Out.s("yF = ");
+//				do Out.ln(yF.toString());
 				let y = Int.new(yF.pos(), yF.toInt());
 				let x = Int.new(xF.pos(), xF.toInt());
 				let p = Point.new(x, y);
-				do Graph.drawPoint(p);
+				do Out.ln(p.toString());
+				if (p.isValidPoint()){
+					do Graph.drawPoint(p);
+				}
 				do y.dispose();
 				do x.dispose();
 				do p.dispose();
@@ -82,7 +90,10 @@ class Graph {
    			let x = Int.new(xF.pos(), xF.toInt());
         let y = Int.new(yF.pos(), yF.toInt());
         let p = Point.new(x, y);
-				do Graph.drawPoint(p);
+        do Out.ln(p.toString());
+        if (p.isValidPoint()){
+					do Graph.drawPoint(p);
+				}
 				do y.dispose();
 				do x.dispose();
 				do p.dispose();
@@ -96,15 +107,16 @@ class Graph {
   function Equation getScaledLine(Equation e) {
     var Fraction yIncpt, xIncpt, xIncptTwice, limXAxis, limYAxis, scale, slope, CUTOFF, scaledXIncpt,
     scaledYIncpt, scaledSlope, TWOFIFTYFIVE, ONETWENTYSEVEN, TWO, NEGTWOFIFTYFIVE, NEGONETWENTYSEVEN,
-    b, m, bByM, cutoffTotal, newB, newBM;
+    b, m, bByM, cutoffTotal, newB, newBM, ONESEVENTY;
     var Equation scaledEquation;
     var boolean xIsGreater, startNegative;
 
 		let CUTOFF = Fraction.new(Int.new(true, 3), Int.new(true, 2));
-    let TWOFIFTYFIVE = Fraction.new(Int.new(true, 255), Int.new(true, 1));
-    let NEGTWOFIFTYFIVE = Fraction.new(Int.new(false, 255), Int.new(true, 1));
+//    let TWOFIFTYFIVE = Fraction.new(Int.new(true, 255), Int.new(true, 1));
+//    let NEGTWOFIFTYFIVE = Fraction.new(Int.new(false, 255), Int.new(true, 1));
+		let ONESEVENTY = Fraction.new(Int.new(true, 170), Int.new(true, 1));
     let ONETWENTYSEVEN = Fraction.new(Int.new(true, 127), Int.new(true, 1));
-    let NEGONETWENTYSEVEN = Fraction.new(Int.new(false, 127), Int.new(true, 1));
+//    let NEGONETWENTYSEVEN = Fraction.new(Int.new(false, 127), Int.new(true, 1));
 		let TWO = Fraction.new(Int.new(true, 2), Int.new(true, 1));
     let yIncpt = e.getYIntercept();
     let xIncpt = e.getXIntercept();
@@ -117,11 +129,11 @@ class Graph {
 		if(xIncptTwice.isGreaterThan(yIncpt)){
 			let xIsGreater = true;
 			let m = scaledEquation.getSlope();
-			let bByM = b.dividedBy(m);
-			let cutoffTotal = CUTOFF.times(bByM);
-			let scale = TWOFIFTYFIVE.dividedBy(cutoffTotal);
-			let newBM = scale.times(bByM);
-			let newB = m.times(newBM);
+//			let bByM = b.dividedBy(m);
+//			let cutoffTotal = CUTOFF.times(bByM);
+//			let scale = TWOFIFTYFIVE.dividedBy(cutoffTotal);
+//			let newBM = scale.times(bByM);
+			let newB = m.times(ONESEVENTY);
 		} else {
 			let xIsGreater = false;
 			let cutoffTotal = CUTOFF.times(b);

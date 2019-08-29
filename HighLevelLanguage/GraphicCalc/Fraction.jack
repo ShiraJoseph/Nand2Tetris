@@ -22,6 +22,9 @@ class Fraction {
     if (y.num() = 0) {
       do Sys.error(3);
     }
+    if (x.num() = 0) {
+      let pos = true;
+    }
     do reduce();
     return this;
   }
