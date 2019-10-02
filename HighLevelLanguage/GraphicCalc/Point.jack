@@ -1,17 +1,21 @@
 class Point {
 	field Int x, y;
 	field boolean isCoord;
+	field Coord coord;
 
 	/** Constructs a point on the cartesian plane */
   constructor Point new(Int xVal, Int yVal){
     let x = xVal;
     let y = yVal;
+//    do Memory.deAlloc(xVal);
+//    do Memory.deAlloc(yVal);
     return this;
   }
 
   /** Accessors. */
   method Int x(){ return x; }
   method Int y(){ return y; }
+  method Int coord(){ return coord; }
 
   /**
    *  Takes an x,y point on the cartesian plane and converts it into Hack screen coordinates.
@@ -19,12 +23,12 @@ class Point {
    *  Example: the point (1, 1) would be drawn at (256, 126) on the Hack Screen
    */
   method Coord toCoord(){
-    var Coord coord;
-    var Int t55, o27, add, sub;
+    var Int add, sub, t55, o27;
     let t55 = Int.new(true, 255);
     let o27 = Int.new(true, 127);
-    let add = Int.add(t55, x);
-    let sub = Int.subtract(o27, y);
+
+    let add = x.plus(t55);
+    let sub = y.plus(o27);
     if (isValidPoint()){
       let coord = Coord.new(add.num(), sub.num());
     } else {
@@ -32,17 +36,39 @@ class Point {
       do Out.s(x.toString());
       do Out.s(", ");
       do Out.ln(y.toString());
-//      do Sys.wait(1000);
-//      let coord = Coord.new(512, 256);
-//      do Sys.halt();
+      do Sys.wait(300);
     }
+    do t55.dispose();
+    do o27.dispose();
+//    do Memory.deAlloc(t55);
+//    do Memory.deAlloc(o27);
+//    do Memory.deAlloc(add);
+//    do Memory.deAlloc(sub);
     return coord;
   }
 
   method boolean isValidPoint() {
-    if (x.isLessThan(Int.new(true, 256)) & x.isGreaterThan(Int.new(false, 256)) & y.isLessThan(Int.new(true, 128)) & y.isGreaterThan(Int.new(false, 128))){
+    var Int t56, o28, n256, n128;
+    let t56 = Int.new(true, 256);
+    let o28 = Int.new(true, 128);
+    let n256 = Int.new(false, 256);
+    let n128 = Int.new(false, 128);
+    if (
+      x.isLessThan(t56) &
+      x.isGreaterThan(n256) &
+      y.isLessThan(o28) &
+      y.isGreaterThan(n128)
+    ){
+      do t56.dispose();
+      do o28.dispose();
+      do n256.dispose();
+      do n128.dispose();
       return true;
     }
+    do t56.dispose();
+    do o28.dispose();
+    do n256.dispose();
+    do n128.dispose();
     return false;
   }
 
@@ -51,10 +77,9 @@ class Point {
     let xS = x.toString();
     let yS = y.toString();
     let sS = S.append5("(", xS, ", ", yS, ")");
-    do Memory.deAlloc(xS);
-    do Memory.deAlloc(yS);
+//    do Memory.deAlloc(xS);
+//    do Memory.deAlloc(yS);
     return sS;
-//		return "dummyPoint";
   }
 
   method void dispose() {

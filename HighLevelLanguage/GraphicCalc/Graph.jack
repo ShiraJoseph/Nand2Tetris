@@ -1,17 +1,27 @@
 class Graph {
+	field Equation equation;
+	field Int t55, o27;
 
 	/** Constructs a new graph */
   constructor Graph new() {
+    let t55 = Int.new(true, 255);
+    let o27 = Int.new(true, 127);
     return this;
   }
+
+	/** Getters and Setters */
+	method Int t55(){
+		return t55;
+	}
+	method Int o27(){
+		return o27;
+	}
+
 
   function void drawPoint(Point p) {
     var Coord c;
     let c = p.toCoord();
     do Graph.drawPixel(c);
-    do Memory.deAlloc(p);
-    do Memory.deAlloc(c);
-    do Sys.wait(50);
     return;
   }
 
@@ -52,71 +62,86 @@ class Graph {
 
 	/** Draws a line using an equation scaled to fit within (-255, -127) to (255, 127) */
 	function void drawScaledLine(Equation equation) {
-		var Int x, y, oneI, zeroI, diffInt;
-		var Fraction xF, yF, one, tff, ots, diff, pF, negTff, negOts;
-		var Point p;
-		var boolean continue;
-			let one = Fraction.new(Int.new(true, 1), Int.new(true, 1));
-			let tff = Fraction.new(Int.new(true, 255), Int.new(true, 1));
-			let ots = Fraction.new(Int.new(true, 127), Int.new(true, 1));
-			let negTff = Fraction.new(Int.new(false, 255), Int.new(true, 1));
-			let negOts = Fraction.new(Int.new(false, 127), Int.new(true, 1));
 		if (equation.getXIsScreenCutoff()) {
-			let xF = negTff;
-			do Out.ln("using X");
-			while(xF.isLessThan(tff)){
-				let yF = equation.solveForY(xF);
-//				do Out.s("xF = ");
-//				do Out.ln(xF.toString());
-//				do Out.s("yF = ");
-//				do Out.ln(yF.toString());
-				let y = Int.new(yF.pos(), yF.toInt());
-				let x = Int.new(xF.pos(), xF.toInt());
-				let p = Point.new(x, y);
-				do Out.ln(p.toString());
-				if (p.isValidPoint()){
-					do Graph.drawPoint(p);
-				}
-				do y.dispose();
-				do x.dispose();
-				do p.dispose();
-				let xF = xF.plus(one);
-			}
+//			do Graph.drawXCutoffLine(equation, 0, 50);
+//			do Graph.drawXCutoffLine(equation, 50, 100);
+//			do Graph.drawXCutoffLine(equation, 100, 150);
+			do Graph.drawXCutoffLine(equation, 150, 200);
+			do Graph.drawXCutoffLine(equation, 200, 250);
+			do Graph.drawXCutoffLine(equation, 250, 300);
+//			do Graph.drawXCutoffLine(equation, 300, 350);
+//			do Graph.drawXCutoffLine(equation, 350, 400);
+//			do Graph.drawXCutoffLine(equation, 400, 450);
+//			do Graph.drawXCutoffLine(equation, 450, 500);
+//			do Graph.drawXCutoffLine(equation, 500, 511);
 		} else {
-			let yF = negOts;
-			do Out.ln("using y");
-			while(yF.isLessThan(ots)){
-    	  let xF = equation.solveForX(yF);
-   			let x = Int.new(xF.pos(), xF.toInt());
-        let y = Int.new(yF.pos(), yF.toInt());
-        let p = Point.new(x, y);
-        do Out.ln(p.toString());
-        if (p.isValidPoint()){
-					do Graph.drawPoint(p);
-				}
-				do y.dispose();
-				do x.dispose();
-				do p.dispose();
-   			let yF = yF.plus(one);
-      }
+//			do Graph.drawYCutoffLine(equation, 0, 50);
+			do Graph.drawYCutoffLine(equation, 50, 100);
+			do Graph.drawYCutoffLine(equation, 100, 150);
+			do Graph.drawYCutoffLine(equation, 150, 200);
+//			do Graph.drawYCutoffLine(equation, 200, 255);
 		}
 		return;
 	}
 
+
+	function void drawYCutoffLine(Equation equation, int i, int j) {
+		var Fraction yF, xF;
+    var Int iI, deltaI, o27, one;
+      let o27 = Int.new(true, 127);
+      let one = Int.new(true, 1);
+    while(i < j){
+      let iI = Int.new(true, i);
+      // Mental post-it note: may want to set these anonymous Ints to variables so I can deallocate them
+      let deltaI = iI.minus(o27);
+      let yF = Fraction.new(deltaI, one);
+      let xF = equation.solveForX(yF);
+      do Graph.drawValidScaledPoint(xF, yF);
+      let i = i + 1;
+    }
+
+    return;
+	}
+
+	function void drawXCutoffLine(Equation equation, int i, int j) {
+		var Fraction yF, xF;
+		var Int iI, deltaI, one, t55;
+		let one = Int.new(true, 1);
+		let t55 = Int.new(true, 255);
+    while(i < j){
+      let iI = Int.new(true, i);
+      // Mental post-it note: may want to set these anonymous Ints to variables so I can deallocate them
+      let deltaI = iI.minus(t55);
+			let xF = Fraction.new(deltaI, one);
+      let yF = equation.solveForY(xF);
+      do Graph.drawValidScaledPoint(xF, yF);
+			let i = i + 1;
+    }
+		return;
+	}
+
+	function void drawValidScaledPoint(Fraction xF, Fraction yF) {
+		var Int x, y;
+		var Point p;
+		let x = Int.new(xF.pos(), xF.toInt());
+    let y = Int.new(yF.pos(), yF.toInt());
+    let p = Point.new(x, y);
+    if (p.isValidPoint()){
+//      do Out.ln(p.toString());
+      do Graph.drawPoint(p);
+    }
+  	return;
+	}
+
 	/** Returns an equation comparable to the given equation but scaled to fit within (-255, -127) to (255, 127) */
   function Equation getScaledLine(Equation e) {
-    var Fraction yIncpt, xIncpt, xIncptTwice, limXAxis, limYAxis, scale, slope, CUTOFF, scaledXIncpt,
-    scaledYIncpt, scaledSlope, TWOFIFTYFIVE, ONETWENTYSEVEN, TWO, NEGTWOFIFTYFIVE, NEGONETWENTYSEVEN,
-    b, m, bByM, cutoffTotal, newB, newBM, ONESEVENTY;
+    var Fraction CUTOFF, ONETWENTYSEVEN, TWO, ONESEVENTY, yIncpt, xIncpt, xIncptTwice,
+    scale, b, m, cutoffTotal, newB;
     var Equation scaledEquation;
-    var boolean xIsGreater, startNegative;
-
+    var boolean xIsGreater;
 		let CUTOFF = Fraction.new(Int.new(true, 3), Int.new(true, 2));
-//    let TWOFIFTYFIVE = Fraction.new(Int.new(true, 255), Int.new(true, 1));
-//    let NEGTWOFIFTYFIVE = Fraction.new(Int.new(false, 255), Int.new(true, 1));
 		let ONESEVENTY = Fraction.new(Int.new(true, 170), Int.new(true, 1));
     let ONETWENTYSEVEN = Fraction.new(Int.new(true, 127), Int.new(true, 1));
-//    let NEGONETWENTYSEVEN = Fraction.new(Int.new(false, 127), Int.new(true, 1));
 		let TWO = Fraction.new(Int.new(true, 2), Int.new(true, 1));
     let yIncpt = e.getYIntercept();
     let xIncpt = e.getXIntercept();
@@ -125,85 +150,19 @@ class Graph {
 		let scaledEquation = Equation.convertToSlopeIntercept(e);
 		let b = scaledEquation.getYIntercept();
 		let xIncptTwice = xIncpt.times(TWO);
-
 		if(xIncptTwice.isGreaterThan(yIncpt)){
 			let xIsGreater = true;
 			let m = scaledEquation.getSlope();
-//			let bByM = b.dividedBy(m);
-//			let cutoffTotal = CUTOFF.times(bByM);
-//			let scale = TWOFIFTYFIVE.dividedBy(cutoffTotal);
-//			let newBM = scale.times(bByM);
 			let newB = m.times(ONESEVENTY);
 		} else {
 			let xIsGreater = false;
 			let cutoffTotal = CUTOFF.times(b);
 			let scale = ONETWENTYSEVEN.dividedBy(cutoffTotal);
-			let newB=scale.times(b);
+			let newB = scale.times(b);
 		}
 		do scaledEquation.setB(newB);
 		do scaledEquation.setXIsScreenCutoff(xIsGreater);
-//    if x is cutoff determinant,
-//    	cutoffTotal=CUTOFF times b/m
-//    	scale = 255 divided by cutoffTotal
-//    	newBM=scale times b/m
-//    	newB=m times newBM
-//    	newXEquation= y=mx+newB
-//    	get first point by using (-255, solveForY(-255))
-//    if y is cutoff determinant
-//    	cutoffTotal = CUTOFF times b
-//    	scale = 127 divided by cutoffTotal
-//    	newB=scale times b
-//    	newEquation is y=mx+newB
-//    	get first point by using (solveForX(-127), -127))
-
 
     return scaledEquation;
   }
 }
-
-
-/**
-(Get xIncpt and yIncpt)
-if either is <.0001 or >10000, throw an error (it may already do that)
-(Let cutoff=1.5 or other const)
- (if(2xIncpt>yIncpt)
-        limXAxis=cutoff*xIncpt
-        limYAxis=cutoff*xIncpt/2;
-        scale=256/limXAxis;
-        h2=limXAxis
-else
-        limYAxis=cutoff*yIncpt;
-        limXAxis=cutoff*yIncpt*2
-        scale=128/limYAxis;
-        h2=limYAxis
-        )
-(get scaledIncpts)
-get tickmarks
-
-get x of -limXAxis if xincept is greatest = -15*17
-get y of -limYAxis if yincept is greatest = -7.5*17
-from either that x or that y, solve for the missing value (y or x) and plot that point,
-repeatedly increasing by 1 pixel to and resolving with the new value, through to the other edge of the screen
-
-(needs a floor function) (just using division, for now)
-
-(get scaledIncpts(
-scaledXIncpt=floor(xIncpt*scale)
-scaledYIncpt=floor(yIncpt*scale))
-
-
-get tick marks:
-
-tickDist=if(H2<0.0001, "too small", if(H2<0.001, 0.0001 , if(H2<0.01, 0.001, if(H2<0.1, 0.01, if(H2<1, 0.1, if(H2<10, 1, if(H2<100, 10, if(H2<1000, 100, if(H2<10000, 1000, "too high")))))))))
-scaledTickDist=tickDist*scale
-
-let dist=scaledTickDist,
-while dist < 256
-        draw tickmark going up down at dist,0
-        draw tickmark going up down at -dist,0
-        if dist < 128
-                draw tickmark going left right at 0, dist
-                draw tickmark going left right at 0, -dist
-        increase dist by scaledTickDist
-
-}*/

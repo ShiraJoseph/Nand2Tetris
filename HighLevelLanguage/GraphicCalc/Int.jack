@@ -8,6 +8,9 @@ class Int {
   constructor Int new(boolean isPos, int x){
     let pos = isPos;
     let num = x;
+    if (num = 0){
+      let pos = true;
+    }
     return this;
   }
 
@@ -24,24 +27,24 @@ class Int {
      return Int.new(false, product);
   }
 
-  function Int add(Int x, Int y){
+  method Int plus(Int x){
     var Int sum;
-    let sum = Int.compute(true, x, y);
+    let sum = compute(true, x);
     return sum;
   }
 
-  function Int subtract(Int x, Int y){
+  method Int minus(Int x){
     var Int diff;
-    let diff = Int.compute(false, x, y);
+    let diff = compute(false, x);
     return diff;
   }
 
 	/** Adds or subtracts two integers following rules of negatives */
-  function Int compute(boolean add, Int a, Int b){
+  method Int compute(boolean add, Int b){
     var int x, y, bigger, smaller, result;
     var boolean biggerPos, smallerPos, posPos, posNeg, negPos, negNeg;
 
-    let x = a.num();
+    let x = num;
     let y = b.num();
     let smallerPos = false;
     let biggerPos = false;
@@ -49,23 +52,25 @@ class Int {
     let posNeg = false;
     let negPos = false;
     let negNeg = false;
-    let result = 1;
+    let result = 0;
 
-    if (((x = 0) & (y = 0)) | ((x = y) & ((add & ~(a.pos() = b.pos())) | (~add & (a.pos() = b.pos()))))){
-      do Out.ln("returning 1 instead of 0!");
+
+    if (((x = 0) & (y = 0)) | ((x = y) & ((add & ~(pos = b.pos())) | (~add & (pos = b.pos()))))){
+//      do Memory.deAlloc(x);
+//      do Memory.deAlloc(y);
       return Int.new(true, result);
     }
 
     if (x > y){
       let bigger = x;
-      let biggerPos = a.pos();
+      let biggerPos = pos;
       let smaller = y;
       let smallerPos = b.pos();
     } else {
       let bigger = y;
       let biggerPos = b.pos();
       let smaller = x;
-      let smallerPos = a.pos();
+      let smallerPos = pos;
     }
     if (biggerPos){
       if (smallerPos){
@@ -83,17 +88,33 @@ class Int {
 
     let result = bigger + smaller;
     if((add & posPos) | (~add & ((posNeg & ~(x < y)) | (negPos & (x < y))))){
+//      do Memory.deAlloc(x);
+//      do Memory.deAlloc(y);
       return Int.new(true, result);
     }
     if((add & negNeg) | (~add & ((posNeg & (x < y)) | (negPos & ~(x < y))))){
+//      do Memory.deAlloc(x);
+//      do Memory.deAlloc(y);
       return Int.new(false, result);
     }
 
     let result = bigger - smaller;
     if((add & posNeg) | (~add & ((negNeg & (x < y)) | (posPos & (x > y))))){
+//      do Memory.deAlloc(x);
+//      do Memory.deAlloc(y);
       return Int.new(true, result);
     }
     if((add & negPos) | (~add & ((negNeg & (x > y)) | (posPos & (x < y))))){
+//      do Memory.deAlloc(x);
+//      do Memory.deAlloc(y);
+//      do Memory.deAlloc(bigger);
+//      do Memory.deAlloc(smaller);
+//      do Memory.deAlloc(biggerPos);
+//      do Memory.deAlloc(smallerPos);
+//      do Memory.deAlloc(posPos);
+//      do Memory.deAlloc(posNeg);
+//      do Memory.deAlloc(negPos);
+//      do Memory.deAlloc(negNeg);
       return Int.new(false, result);
     }
     do Out.ln("invalid Int Calculation");
@@ -122,29 +143,21 @@ class Int {
     return ~(isLessThan(b) | equals(b));
   }
 
-//  function String stringOf(Int x){
-//	  var String numS;
-//	  let numS = String.new(20);
-//	  do numS.setInt(x.num());
-//	  if (x.pos()) {
-//	    return numS;
-//	  } else {
-//	    return S.append("-", numS);
-//	  }
-////	return "dummyInt";
-//  }
-
   method String toString(){
   var String numS, mnumS, sign;
   let sign = "-";
-      let numS = String.new(20);
-    	  do numS.setInt(num);
-    	  if (pos) {
-    	    return numS;
-    	  } else {
-    	    let mnumS = S.append(sign, numS);
-    	    return mnumS;
-    	  }
+  let numS = String.new(6);
+    do numS.setInt(num);
+    if (pos) {
+//      do Memory.deAlloc(sign);
+//      do Memory.deAlloc(mnumS);
+      return numS;
+    } else {
+      let mnumS = S.append(sign, numS);
+//      do Memory.deAlloc(sign);
+//      do Memory.deAlloc(numS);
+      return mnumS;
+    }
   }
 
    method void dispose() {

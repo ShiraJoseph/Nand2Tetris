@@ -1,5 +1,5 @@
 function Point.new 0
-push constant 3
+push constant 4
 call Memory.alloc 1
 pop pointer 0
 push argument 0
@@ -18,38 +18,43 @@ push argument 0
 pop pointer 0
 push this 1
 return
-function Point.toCoord 5
+function Point.coord 0
+push argument 0
+pop pointer 0
+push this 3
+return
+function Point.toCoord 4
 push argument 0
 pop pointer 0
 push constant 0
 not
 push constant 255
 call Int.new 2
-pop local 1
+pop local 2
 push constant 0
 not
 push constant 127
 call Int.new 2
-pop local 2
-push local 1
-push this 0
-call Int.add 2
 pop local 3
+push this 0
 push local 2
+call Int.plus 2
+pop local 0
 push this 1
-call Int.subtract 2
-pop local 4
+push local 3
+call Int.plus 2
+pop local 1
 push pointer 0
 call Point.isValidPoint 1
 if-goto IF_TRUE0
 goto IF_FALSE0
 label IF_TRUE0
-push local 3
+push local 0
 call Int.num 1
-push local 4
+push local 1
 call Int.num 1
 call Coord.new 2
-pop local 0
+pop this 3
 goto IF_END0
 label IF_FALSE0
 push constant 14
@@ -100,44 +105,85 @@ push this 1
 call Int.toString 1
 call Out.ln 1
 pop temp 0
+push constant 300
+call Sys.wait 1
+pop temp 0
 label IF_END0
-push local 0
+push local 2
+call Int.dispose 1
+pop temp 0
+push local 3
+call Int.dispose 1
+pop temp 0
+push this 3
 return
-function Point.isValidPoint 0
+function Point.isValidPoint 4
 push argument 0
 pop pointer 0
-push this 0
 push constant 0
 not
 push constant 256
 call Int.new 2
-call Int.isLessThan 2
-push this 0
+pop local 0
+push constant 0
+not
+push constant 128
+call Int.new 2
+pop local 1
 push constant 0
 push constant 256
 call Int.new 2
+pop local 2
+push constant 0
+push constant 128
+call Int.new 2
+pop local 3
+push this 0
+push local 0
+call Int.isLessThan 2
+push this 0
+push local 2
 call Int.isGreaterThan 2
 and
 push this 1
-push constant 0
-not
-push constant 128
-call Int.new 2
+push local 1
 call Int.isLessThan 2
 and
 push this 1
-push constant 0
-push constant 128
-call Int.new 2
+push local 3
 call Int.isGreaterThan 2
 and
 if-goto IF_TRUE0
 goto IF_FALSE0
 label IF_TRUE0
+push local 0
+call Int.dispose 1
+pop temp 0
+push local 1
+call Int.dispose 1
+pop temp 0
+push local 2
+call Int.dispose 1
+pop temp 0
+push local 3
+call Int.dispose 1
+pop temp 0
 push constant 0
 not
 return
 label IF_FALSE0
+push local 0
+call Int.dispose 1
+pop temp 0
+push local 1
+call Int.dispose 1
+pop temp 0
+push local 2
+call Int.dispose 1
+pop temp 0
+push local 3
+call Int.dispose 1
+pop temp 0
 push constant 0
 return
 function Point.toString 3
@@ -167,12 +213,6 @@ push constant 41
 call String.appendChar 2
 call S.append5 5
 pop local 2
-push local 0
-call Memory.deAlloc 1
-pop temp 0
-push local 1
-call Memory.deAlloc 1
-pop temp 0
 push local 2
 return
 function Point.dispose 0

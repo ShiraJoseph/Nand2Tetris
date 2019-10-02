@@ -129,7 +129,7 @@ call Int.times 2
 pop local 2
 push local 1
 push local 2
-call Int.add 2
+call Int.plus 2
 pop local 0
 push local 0
 push constant 0
@@ -173,7 +173,7 @@ call Int.times 2
 pop local 1
 push local 0
 push local 1
-call Int.subtract 2
+call Int.minus 2
 pop local 2
 push local 2
 push constant 0
@@ -406,10 +406,10 @@ push constant 45
 call String.appendChar 2
 pop local 3
 label IF_END0
-push constant 20
+push constant 6
 call String.new 1
 pop local 1
-push constant 20
+push constant 6
 call String.new 1
 pop local 2
 push local 1
@@ -464,6 +464,15 @@ return
 function Fraction.toInt 1
 push argument 0
 pop pointer 0
+push this 0
+push constant 0
+eq
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 0
+return
+label IF_FALSE0
 push this 0
 push this 1
 call Math.divide 2

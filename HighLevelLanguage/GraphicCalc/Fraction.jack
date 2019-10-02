@@ -48,6 +48,7 @@ class Fraction {
     let pos = value;
     return;
   }
+  
 
   /** Returns the sum of this fraction and the other one. */
   method Fraction plus(Fraction other) {
@@ -57,7 +58,7 @@ class Fraction {
     let numers = a.times(b);
     let c = Int.new(other.pos(), other.numerator());
     let denoms = c.times(Int.new(true, denominator));
-    let sum = Int.add(numers, denoms);
+    let sum = numers.plus(denoms);
     return Fraction.new(sum, Int.new(true, denominator * other.denominator()));
   }
 
@@ -69,7 +70,7 @@ class Fraction {
     let numers = a.times(b);
 		let c = Int.new(other.pos(), other.numerator());
 		let denoms = c.times(Int.new(true, denominator));
-    let difference = Int.subtract(numers, denoms);
+    let difference = numers.minus(denoms);
     return Fraction.new(difference, Int.new(true, denominator * other.denominator()));
   }
 
@@ -151,8 +152,8 @@ class Fraction {
 		} else {
 		  let sign = "-";
 		}
-		let n = String.new(20);
-		let d = String.new(20);
+		let n = String.new(6);
+		let d = String.new(6);
 		do n.setInt(numerator);
 		do d.setInt(denominator);
 		if (denominator = 1){
@@ -169,6 +170,9 @@ class Fraction {
 
 	method int toInt() {
 		var int a;
+		if (numerator = 0){
+			return 0;
+		}
 		let a = numerator/denominator;
 		return a;
 	}

@@ -2,13 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0a36f627-86f8-4dce-8696-920f4763c8f8" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/../../ElementaryLogicGates/DMux4Way.hdl" beforeDir="false" afterPath="$PROJECT_DIR$/../../ElementaryLogicGates/DMux4Way.hdl" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Coord.jack" beforeDir="false" afterPath="$PROJECT_DIR$/Coord.jack" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Equation.jack" beforeDir="false" afterPath="$PROJECT_DIR$/Equation.jack" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Equation.vm" beforeDir="false" afterPath="$PROJECT_DIR$/Equation.vm" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Fraction.jack" beforeDir="false" afterPath="$PROJECT_DIR$/Fraction.jack" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Fraction.vm" beforeDir="false" afterPath="$PROJECT_DIR$/Fraction.vm" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Graph.jack" beforeDir="false" afterPath="$PROJECT_DIR$/Graph.jack" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Int.jack" beforeDir="false" afterPath="$PROJECT_DIR$/Int.jack" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Main.jack" beforeDir="false" afterPath="$PROJECT_DIR$/Main.jack" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Main.vm" beforeDir="false" afterPath="$PROJECT_DIR$/Main.vm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Point.jack" beforeDir="false" afterPath="$PROJECT_DIR$/Point.jack" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Point.vm" beforeDir="false" afterPath="$PROJECT_DIR$/Point.vm" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -25,7 +31,7 @@
       <file leaf-file-name="Main.jack" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Main.jack">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="510">
+            <state relative-caret-position="419">
               <caret line="30" column="22" selection-start-line="30" selection-start-column="22" selection-end-line="30" selection-end-column="22" />
             </state>
           </provider>
@@ -34,8 +40,8 @@
       <file leaf-file-name="Graph.jack" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Graph.jack">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="159">
-              <caret line="92" column="32" selection-start-line="92" selection-start-column="32" selection-end-line="92" selection-end-column="32" />
+            <state relative-caret-position="331">
+              <caret line="79" column="50" lean-forward="true" selection-start-line="79" selection-start-column="50" selection-end-line="79" selection-end-column="50" />
             </state>
           </provider>
         </entry>
@@ -43,8 +49,8 @@
       <file leaf-file-name="Int.jack" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Int.jack">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1088">
-              <caret line="64" column="21" lean-forward="true" selection-start-line="64" selection-start-column="21" selection-end-line="64" selection-end-column="21" />
+            <state relative-caret-position="223">
+              <caret line="58" column="29" lean-forward="true" selection-start-line="58" selection-start-column="29" selection-end-line="58" selection-end-column="29" />
             </state>
           </provider>
         </entry>
@@ -52,8 +58,8 @@
       <file leaf-file-name="Point.jack" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Point.jack">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-204">
-              <caret line="7" column="17" lean-forward="true" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
+            <state relative-caret-position="-7">
+              <caret line="41" column="21" selection-start-line="41" selection-start-column="21" selection-end-line="41" selection-end-column="21" />
             </state>
           </provider>
         </entry>
@@ -61,8 +67,8 @@
       <file leaf-file-name="Coord.jack" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Coord.jack">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="176">
-              <caret line="11" column="29" lean-forward="true" selection-start-line="11" selection-start-column="29" selection-end-line="11" selection-end-column="29" />
+            <state relative-caret-position="209">
+              <caret line="19" column="17" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="17" />
             </state>
           </provider>
         </entry>
@@ -70,8 +76,8 @@
       <file leaf-file-name="Equation.jack" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Equation.jack">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="58" column="39" lean-forward="true" selection-start-line="58" selection-start-column="39" selection-end-line="58" selection-end-column="39" />
+            <state relative-caret-position="3026">
+              <caret line="178" selection-start-line="178" selection-end-line="178" />
             </state>
           </provider>
         </entry>
@@ -79,8 +85,8 @@
       <file leaf-file-name="Fraction.jack" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Fraction.jack">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-442">
-              <caret line="133" column="10" selection-start-line="133" selection-start-column="10" selection-end-line="133" selection-end-column="10" />
+            <state relative-caret-position="676">
+              <caret line="155" column="26" selection-start-line="155" selection-start-column="26" selection-end-line="155" selection-end-column="26" />
             </state>
           </provider>
         </entry>
@@ -98,7 +104,7 @@
         <entry file="file://$PROJECT_DIR$/S.jack">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="2873">
-              <caret line="169" column="23" lean-forward="true" selection-start-line="169" selection-start-column="23" selection-end-line="169" selection-end-column="23" />
+              <caret line="169" column="23" selection-start-line="169" selection-start-column="23" selection-end-line="169" selection-end-column="23" />
             </state>
           </provider>
         </entry>
@@ -107,26 +113,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>zeros</find>
-      <find>i</find>
-      <find>h</find>
-      <find>g</find>
-      <find>f</find>
-      <find>e</find>
-      <find>d</find>
-      <find>c</find>
-      <find>bigger</find>
-      <find>setHighestPoint</find>
-      <find>getYIntercept</find>
-      <find>eArray</find>
-      <find>format</find>
-      <find>negChar</find>
-      <find>b</find>
-      <find>num9</find>
-      <find>num8</find>
-      <find>num7</find>
-      <find>num6</find>
-      <find>num5</find>
       <find>num4</find>
       <find>delimiter</find>
       <find>forwardSlash</find>
@@ -137,6 +123,26 @@
       <find>pS</find>
       <find>halt</find>
       <find>times</find>
+      <find>isValidPoint</find>
+      <find>isLessThan</find>
+      <find>add</find>
+      <find>limXAxis</find>
+      <find>slope</find>
+      <find>scaledXIncpt</find>
+      <find>TWOFIFTYFIVE</find>
+      <find>bByM</find>
+      <find>newBM</find>
+      <find>sub</find>
+      <find>mx</find>
+      <find>slopeIEquation</find>
+      <find>drawXCutoffLine</find>
+      <find>1</find>
+      <find>convertToSlopeIntercept</find>
+      <find>clear</find>
+      <find>getScaledLine</find>
+      <find>mF</find>
+      <find>drawValidScaledPoint</find>
+      <find>dealloc</find>
     </findStrings>
     <replaceStrings>
       <replace>S</replace>
@@ -150,21 +156,21 @@
       <list>
         <option value="$PROJECT_DIR$/StringsUtil.jack" />
         <option value="$PROJECT_DIR$/Out.jack" />
-        <option value="$PROJECT_DIR$/Coord.jack" />
         <option value="$PROJECT_DIR$/S.jack" />
-        <option value="$PROJECT_DIR$/Main.jack" />
         <option value="$PROJECT_DIR$/Fraction.jack" />
         <option value="$PROJECT_DIR$/Equation.jack" />
-        <option value="$PROJECT_DIR$/Point.jack" />
+        <option value="$PROJECT_DIR$/Main.jack" />
+        <option value="$PROJECT_DIR$/Coord.jack" />
         <option value="$PROJECT_DIR$/Int.jack" />
+        <option value="$PROJECT_DIR$/Point.jack" />
         <option value="$PROJECT_DIR$/Graph.jack" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="171" />
-    <option name="y" value="49" />
-    <option name="width" value="1022" />
+    <option name="x" value="366" />
+    <option name="y" value="93" />
+    <option name="width" value="1145" />
     <option name="height" value="783" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -172,21 +178,7 @@
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
-    <panes>
-      <pane id="Scope" />
-      <pane id="PackagesPane" />
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="GraphicCalc" type="b2602c69:ProjectViewProjectNode" />
-              <item name="GraphicCalc" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-    </panes>
+    <panes />
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
@@ -287,7 +279,7 @@
     <option name="totallyTimeSpent" value="37207000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="171" y="49" width="1022" height="783" extended-state="0" />
+    <frame x="366" y="93" width="1145" height="783" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
@@ -299,9 +291,9 @@
       <window_info anchor="right" id="Maven Projects" order="4" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Version Control" order="10" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="9" visible="true" weight="0.26093516" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="9" visible="true" weight="0.2790347" />
       <window_info id="Designer" order="5" />
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4989733" weight="0.35526314" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4989733" weight="0.35510203" />
       <window_info id="Structure" order="1" sideWeight="0.5010267" side_tool="true" weight="0.27954143" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info id="UI Designer" order="3" />
@@ -342,6 +334,7 @@
       <window_info anchor="right" id="Theme Preview" order="7" />
       <window_info anchor="bottom" id="Version Control" order="10" />
       <window_info anchor="right" id="Maven Projects" order="4" />
+      <window_info anchor="bottom" id="Find" order="1" />
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4989733" weight="0.27184466" />
       <window_info anchor="bottom" id="Messages" order="8" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -350,7 +343,6 @@
       <window_info anchor="right" id="Jenkins" order="8" />
       <window_info id="Structure" order="1" sideWeight="0.5010267" side_tool="true" weight="0.27954143" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
     </layout-to-restore>
   </component>
@@ -642,24 +634,10 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Graph.vm" />
-    <entry file="file://$PROJECT_DIR$/Main.jack">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="30" column="22" selection-start-line="30" selection-start-column="22" selection-end-line="30" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Out.jack">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="187">
           <caret line="11" column="29" selection-start-line="11" selection-start-column="29" selection-end-line="11" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/S.jack">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2873">
-          <caret line="169" column="23" lean-forward="true" selection-start-line="169" selection-start-column="23" selection-end-line="169" selection-end-column="23" />
         </state>
       </provider>
     </entry>
@@ -670,45 +648,59 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Coord.jack">
+    <entry file="file://$PROJECT_DIR$/S.jack">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="11" column="29" lean-forward="true" selection-start-line="11" selection-start-column="29" selection-end-line="11" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Point.jack">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-204">
-          <caret line="7" column="17" lean-forward="true" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
+        <state relative-caret-position="2873">
+          <caret line="169" column="23" selection-start-line="169" selection-start-column="23" selection-end-line="169" selection-end-column="23" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Equation.jack">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="58" column="39" lean-forward="true" selection-start-line="58" selection-start-column="39" selection-end-line="58" selection-end-column="39" />
+        <state relative-caret-position="3026">
+          <caret line="178" selection-start-line="178" selection-end-line="178" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Main.jack">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="419">
+          <caret line="30" column="22" selection-start-line="30" selection-start-column="22" selection-end-line="30" selection-end-column="22" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Fraction.jack">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-442">
-          <caret line="133" column="10" selection-start-line="133" selection-start-column="10" selection-end-line="133" selection-end-column="10" />
+        <state relative-caret-position="676">
+          <caret line="155" column="26" selection-start-line="155" selection-start-column="26" selection-end-line="155" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Coord.jack">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="209">
+          <caret line="19" column="17" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="17" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Int.jack">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1088">
-          <caret line="64" column="21" lean-forward="true" selection-start-line="64" selection-start-column="21" selection-end-line="64" selection-end-column="21" />
+        <state relative-caret-position="223">
+          <caret line="58" column="29" lean-forward="true" selection-start-line="58" selection-start-column="29" selection-end-line="58" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Point.jack">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-7">
+          <caret line="41" column="21" selection-start-line="41" selection-start-column="21" selection-end-line="41" selection-end-column="21" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Graph.jack">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="159">
-          <caret line="92" column="32" selection-start-line="92" selection-start-column="32" selection-end-line="92" selection-end-column="32" />
+        <state relative-caret-position="331">
+          <caret line="79" column="50" lean-forward="true" selection-start-line="79" selection-start-column="50" selection-end-line="79" selection-end-column="50" />
         </state>
       </provider>
     </entry>

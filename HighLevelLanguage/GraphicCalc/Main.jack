@@ -16,8 +16,13 @@ class Main {
     }
     let equation = Equation.new(1, format);
     do equation.getValues();
+     do Out.s("after get values: ");
+        do Out.ln(equation.toString());
     do Out.ln(equation.toString());
     do Main.draw(equation);
+    do Sys.wait(8000);
+//    do Screen.clearScreen();
+//    do Output.moveCursor(0, 0);
     do Main.createEquation();
     return;
   }

@@ -5,6 +5,8 @@ class Coord {
   constructor Coord new(int xVal, int yVal){
     let x = xVal;
     let y = yVal;
+//    do Memory.deAlloc(xVal);
+//    do Memory.deAlloc(yVal);
     return this;
   }
 
@@ -18,5 +20,10 @@ class Coord {
       return true;
     }
     return false;
+  }
+
+  method void dispose(){
+    do Memory.deAlloc(this);
+    return;
   }
 }
