@@ -1,0 +1,43 @@
+// Provides constants to the rest of the app to help manage memory
+class Const {
+	field Int i1, i255, i127, i256, i128, iNeg255, iNeg127;
+	field Fraction f1, f255, f127, f256, f128, fNeg255, fNeg127;
+  constructor Const new() {
+  do declareConsts();
+		return this;
+  }
+
+	method void declareConsts() {
+		let i1 = Int.new(true, 1);
+		let i255 = Int.new(true, 255);
+		let i127 = Int.new(true, 127);
+		let i256 = Int.new(true, 256);
+		let i128 = Int.new(true, 128);
+		let iNeg255 = Int.new(false, 255);
+		let iNeg127 = Int.new(false, 127);
+		let f1 = Fraction.new(i1, i1);
+		let f255 = Fraction.new(i255, i1);
+		let f127 = Fraction.new(i127, i1);
+		let f256 = Fraction.new(i256, i1);
+    let f128 = Fraction.new(i128, i1);
+    let fNeg255 = Fraction.new(iNeg255, i1);
+    let fNeg127 = Fraction.new(iNeg127, i1);
+    return;
+	}
+
+	method Int i1() { return i1; }
+	method Int i255() { return i255; }
+	method Int i127() { return i127; }
+	method Int i256() { return i256; }
+	method Int i128() { return i128; }
+	method Int iNeg255() { return iNeg255; }
+  method Int iNeg127() { return iNeg127; }
+  method Fraction f1() { return f1; }
+  method Fraction f255() { return f255; }
+  method Fraction f127() { return f127; }
+  method Fraction f256() { return f256; }
+  method Fraction f128() { return f128; }
+  method Fraction fNeg255() { return fNeg255; }
+  method Fraction fNeg127() { return fNeg127; }
+
+}

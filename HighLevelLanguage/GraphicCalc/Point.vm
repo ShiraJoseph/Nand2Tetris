@@ -109,12 +109,6 @@ push constant 300
 call Sys.wait 1
 pop temp 0
 label IF_END0
-push local 2
-call Int.dispose 1
-pop temp 0
-push local 3
-call Int.dispose 1
-pop temp 0
 push this 3
 return
 function Point.isValidPoint 4
@@ -156,34 +150,10 @@ and
 if-goto IF_TRUE0
 goto IF_FALSE0
 label IF_TRUE0
-push local 0
-call Int.dispose 1
-pop temp 0
-push local 1
-call Int.dispose 1
-pop temp 0
-push local 2
-call Int.dispose 1
-pop temp 0
-push local 3
-call Int.dispose 1
-pop temp 0
 push constant 0
 not
 return
 label IF_FALSE0
-push local 0
-call Int.dispose 1
-pop temp 0
-push local 1
-call Int.dispose 1
-pop temp 0
-push local 2
-call Int.dispose 1
-pop temp 0
-push local 3
-call Int.dispose 1
-pop temp 0
 push constant 0
 return
 function Point.toString 3

@@ -1,10 +1,13 @@
 class Main {
+
   function void main() {
-    do Main.createEquation();
+    var Const const;
+    let const = Const.new();
+    do Main.createEquation(const);
 		return;
   }
 
-  function void createEquation(){
+  function void createEquation(Const const){
     var Equation equation;
     var String format;
     let format = Keyboard.readLine("[P]oint-Slope, Slope-[I]ntercept, or [S]tandard? ");
@@ -16,25 +19,24 @@ class Main {
     }
     let equation = Equation.new(1, format);
     do equation.getValues();
-     do Out.s("after get values: ");
-        do Out.ln(equation.toString());
-    do Out.ln(equation.toString());
-    do Main.draw(equation);
+    do Main.draw(equation, const);
     do Sys.wait(8000);
 //    do Screen.clearScreen();
 //    do Output.moveCursor(0, 0);
-    do Main.createEquation();
+    do Main.createEquation(const);
     return;
   }
 
-  function void draw(Equation e){
+  function void draw(Equation e, Const const){
     var Equation newE;
-    let newE = Graph.getScaledLine(e);
+    var Graph graph;
+    let graph = Graph.new(const);
+    let newE = graph.getScaledLine(e);
     do Screen.clearScreen();
-		do Graph.drawAxes();
+		do graph.drawAxes();
     do Output.moveCursor(0, 0);
     do Out.ln(newE.toString());
-    do Graph.drawScaledLine(newE);
+    do graph.drawScaledLine(newE);
     return;
   }
 }

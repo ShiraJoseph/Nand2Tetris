@@ -1,31 +1,24 @@
 class Graph {
 	field Equation equation;
-	field Int t55, o27;
+	field Const C;
 
 	/** Constructs a new graph */
-  constructor Graph new() {
-    let t55 = Int.new(true, 255);
-    let o27 = Int.new(true, 127);
+  constructor Graph new(Const const) {
+     let const = const;
+//    let t55 = Int.new(true, 255);
+//    let o27 = Int.new(true, 127);
     return this;
   }
 
-	/** Getters and Setters */
-	method Int t55(){
-		return t55;
-	}
-	method Int o27(){
-		return o27;
-	}
 
-
-  function void drawPoint(Point p) {
+  method void drawPoint(Point p) {
     var Coord c;
     let c = p.toCoord();
-    do Graph.drawPixel(c);
+    do drawPixel(c);
     return;
   }
 
-  function void drawPixel(Coord coord) {
+  method void drawPixel(Coord coord) {
     if (coord.isValidCoord()) {
       do Screen.drawPixel(coord.x(), coord.y());
     }
@@ -33,7 +26,7 @@ class Graph {
   }
 
 	/** Draws x- and y-axes with arrows */
-	function void drawAxes() {
+	method void drawAxes() {
     // x-axis
     do Screen.drawLine(255, 0, 255, 255);
 
@@ -61,14 +54,14 @@ class Graph {
 
 
 	/** Draws a line using an equation scaled to fit within (-255, -127) to (255, 127) */
-	function void drawScaledLine(Equation equation) {
+	method void drawScaledLine(Equation equation) {
 		if (equation.getXIsScreenCutoff()) {
 //			do Graph.drawXCutoffLine(equation, 0, 50);
 //			do Graph.drawXCutoffLine(equation, 50, 100);
 //			do Graph.drawXCutoffLine(equation, 100, 150);
-			do Graph.drawXCutoffLine(equation, 150, 200);
-			do Graph.drawXCutoffLine(equation, 200, 250);
-			do Graph.drawXCutoffLine(equation, 250, 300);
+			do drawXCutoffLine(equation, 150, 200);
+			do drawXCutoffLine(equation, 200, 250);
+			do drawXCutoffLine(equation, 250, 300);
 //			do Graph.drawXCutoffLine(equation, 300, 350);
 //			do Graph.drawXCutoffLine(equation, 350, 400);
 //			do Graph.drawXCutoffLine(equation, 400, 450);
@@ -76,34 +69,39 @@ class Graph {
 //			do Graph.drawXCutoffLine(equation, 500, 511);
 		} else {
 //			do Graph.drawYCutoffLine(equation, 0, 50);
-			do Graph.drawYCutoffLine(equation, 50, 100);
-			do Graph.drawYCutoffLine(equation, 100, 150);
-			do Graph.drawYCutoffLine(equation, 150, 200);
+			do drawYCutoffLine(equation, 50, 100);
+			do drawYCutoffLine(equation, 100, 150);
+			do drawYCutoffLine(equation, 150, 200);
 //			do Graph.drawYCutoffLine(equation, 200, 255);
 		}
 		return;
 	}
 
 
-	function void drawYCutoffLine(Equation equation, int i, int j) {
+	method void drawYCutoffLine(Equation equation, int i, int j) {
 		var Fraction yF, xF;
-    var Int iI, deltaI, o27, one;
-      let o27 = Int.new(true, 127);
-      let one = Int.new(true, 1);
+    var Int iI, deltaI, one, o27;
+
+    let o27 = Int.new(true, 127);
+    let one = Int.new(true, 1);
     while(i < j){
       let iI = Int.new(true, i);
       // Mental post-it note: may want to set these anonymous Ints to variables so I can deallocate them
       let deltaI = iI.minus(o27);
       let yF = Fraction.new(deltaI, one);
       let xF = equation.solveForX(yF);
-      do Graph.drawValidScaledPoint(xF, yF);
+      do drawValidScaledPoint(xF, yF);
       let i = i + 1;
+//      do o27.dispose();
+//      do one.dispose();
+//      do yF.dispose();
+//      do xF.dispose();
     }
 
     return;
 	}
 
-	function void drawXCutoffLine(Equation equation, int i, int j) {
+	method void drawXCutoffLine(Equation equation, int i, int j) {
 		var Fraction yF, xF;
 		var Int iI, deltaI, one, t55;
 		let one = Int.new(true, 1);
@@ -114,13 +112,17 @@ class Graph {
       let deltaI = iI.minus(t55);
 			let xF = Fraction.new(deltaI, one);
       let yF = equation.solveForY(xF);
-      do Graph.drawValidScaledPoint(xF, yF);
+      do drawValidScaledPoint(xF, yF);
 			let i = i + 1;
+//			do one.dispose();
+//			do t55.dispose();
+//			do yF.dispose();
+//			do xF.dispose();
     }
 		return;
 	}
 
-	function void drawValidScaledPoint(Fraction xF, Fraction yF) {
+	method void drawValidScaledPoint(Fraction xF, Fraction yF) {
 		var Int x, y;
 		var Point p;
 		let x = Int.new(xF.pos(), xF.toInt());
@@ -128,13 +130,13 @@ class Graph {
     let p = Point.new(x, y);
     if (p.isValidPoint()){
 //      do Out.ln(p.toString());
-      do Graph.drawPoint(p);
+      do drawPoint(p);
     }
   	return;
 	}
 
 	/** Returns an equation comparable to the given equation but scaled to fit within (-255, -127) to (255, 127) */
-  function Equation getScaledLine(Equation e) {
+  method Equation getScaledLine(Equation e) {
     var Fraction CUTOFF, ONETWENTYSEVEN, TWO, ONESEVENTY, yIncpt, xIncpt, xIncptTwice,
     scale, b, m, cutoffTotal, newB;
     var Equation scaledEquation;

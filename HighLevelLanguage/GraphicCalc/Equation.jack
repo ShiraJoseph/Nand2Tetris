@@ -151,34 +151,34 @@ class Equation {
     if (S.equals(v, "x")){
       let xString = Keyboard.readLine("Enter an x:");
       let xF = Fraction.toFraction(xString);
-      let temp = xF;
-      do Out.ln(temp.toString());
+//      let temp = xF;
+//      do Out.ln(temp.toString());
       let xExists = true;
     }
     if (S.equals(v, "y")){
       let yString = Keyboard.readLine("Enter a y:");
       let yF = Fraction.toFraction(yString);
       let yExists = true;
-      let temp = yF;
-      do Out.ln(temp.toString());
+//      let temp = yF;
+//      do Out.ln(temp.toString());
     }
     if (S.equals(v, "b")){
       let bString = Keyboard.readLine("Enter an intercept:");
       let bF = Fraction.toFraction(bString);
       let bExists = true;
-      let temp = bF;
-      do Out.ln(temp.toString());
+//      let temp = bF;
+//      do Out.ln(temp.toString());
     }
     if (S.equals(v, "m")){
       let mString = Keyboard.readLine("Enter a slope:");
       let mF = Fraction.toFraction(mString);
       let mExists = true;
-      let temp = mF;
-      do Out.ln(temp.toString());
+//      let temp = mF;
+//      do Out.ln(temp.toString());
     }
 
-		do Out.s("in get values: ");
-		do Out.ln(toString());
+//		do Out.s("in get values: ");
+//		do Out.ln(toString());
 
 //    do Memory.deAlloc(xString);
 //    do Memory.deAlloc(yString);

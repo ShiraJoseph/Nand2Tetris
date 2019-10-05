@@ -26,6 +26,9 @@ class Fraction {
       let pos = true;
     }
     do reduce();
+//    do x.dispose();
+//    do y.dispose();
+// couldn't leave the above in; i think you can't dispose a parameter variable
     return this;
   }
 

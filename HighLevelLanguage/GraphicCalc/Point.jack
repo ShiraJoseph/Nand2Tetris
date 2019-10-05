@@ -38,8 +38,8 @@ class Point {
       do Out.ln(y.toString());
       do Sys.wait(300);
     }
-    do t55.dispose();
-    do o27.dispose();
+//    do t55.dispose();
+//    do o27.dispose();
 //    do Memory.deAlloc(t55);
 //    do Memory.deAlloc(o27);
 //    do Memory.deAlloc(add);
@@ -59,16 +59,16 @@ class Point {
       y.isLessThan(o28) &
       y.isGreaterThan(n128)
     ){
-      do t56.dispose();
-      do o28.dispose();
-      do n256.dispose();
-      do n128.dispose();
+//      do t56.dispose();
+//      do o28.dispose();
+//      do n256.dispose();
+//      do n128.dispose();
       return true;
     }
-    do t56.dispose();
-    do o28.dispose();
-    do n256.dispose();
-    do n128.dispose();
+//    do t56.dispose();
+//    do o28.dispose();
+//    do n256.dispose();
+//    do n128.dispose();
     return false;
   }
 
