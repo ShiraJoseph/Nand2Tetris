@@ -1,0 +1,48 @@
+// Provides constants to the rest of the app to help manage memory
+class Const {
+	static Int i1, i2, i255, i127, i256, i128, iNeg256, iNeg128;
+	static Fraction f1, f255, f127, f256, f128,
+//	fNeg255, fNeg127,
+	f127th;
+  constructor Const new() {
+		return this;
+  }
+
+	function void declareConsts() {
+		let i1 = Int.new(true, 1);
+		let i2 = Int.new(true, 2);
+		let i255 = Int.new(true, 255);
+		let i127 = Int.new(true, 127);
+		let i256 = Int.new(true, 256);
+		let i128 = Int.new(true, 128);
+		let iNeg256 = Int.new(false, 256);
+		let iNeg128 = Int.new(false, 128);
+		let f1 = Fraction.new(i1, i1);
+		let f255 = Fraction.new(i255, i1);
+		let f127 = Fraction.new(i127, i1);
+		let f256 = Fraction.new(i256, i1);
+    let f128 = Fraction.new(i128, i1);
+//    let fNeg255 = Fraction.new(iNeg255, i1);
+//    let fNeg127 = Fraction.new(iNeg127, i1);
+    let f127th = Fraction.new(i1, i127);
+    return;
+	}
+
+	function Int i1() { return i1; }
+	function Int i2() { return i2; }
+	function Int i255() { return i255; }
+	function Int i127() { return i127; }
+	function Int i256() { return i256; }
+	function Int i128() { return i128; }
+	function Int iNeg256() { return iNeg256; }
+  function Int iNeg128() { return iNeg128; }
+  function Fraction f1() { return f1; }
+  function Fraction f255() { return f255; }
+  function Fraction f127() { return f127; }
+  function Fraction f256() { return f256; }
+  function Fraction f128() { return f128; }
+//  function Fraction fNeg255() { return fNeg255; }
+//  function Fraction fNeg127() { return fNeg127; }
+  function Fraction f127th() { return f127th; }
+
+}

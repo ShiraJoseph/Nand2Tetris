@@ -23,25 +23,29 @@ push argument 0
 pop pointer 0
 push this 3
 return
-function Point.toCoord 4
+function Point.setX 0
 push argument 0
 pop pointer 0
+push argument 1
+pop this 0
 push constant 0
-not
-push constant 255
-call Int.new 2
-pop local 2
+return
+function Point.setY 0
+push argument 0
+pop pointer 0
+push argument 1
+pop this 1
 push constant 0
-not
-push constant 127
-call Int.new 2
-pop local 3
+return
+function Point.toCoord 2
+push argument 0
+pop pointer 0
 push this 0
-push local 2
+call Const.i255 0
 call Int.plus 2
 pop local 0
 push this 1
-push local 3
+call Const.i127 0
 call Int.plus 2
 pop local 1
 push pointer 0
@@ -109,81 +113,33 @@ push constant 300
 call Sys.wait 1
 pop temp 0
 label IF_END0
-push local 2
-call Int.dispose 1
-pop temp 0
-push local 3
-call Int.dispose 1
-pop temp 0
 push this 3
 return
-function Point.isValidPoint 4
+function Point.isValidPoint 0
 push argument 0
 pop pointer 0
-push constant 0
-not
-push constant 256
-call Int.new 2
-pop local 0
-push constant 0
-not
-push constant 128
-call Int.new 2
-pop local 1
-push constant 0
-push constant 256
-call Int.new 2
-pop local 2
-push constant 0
-push constant 128
-call Int.new 2
-pop local 3
 push this 0
-push local 0
+call Const.i256 0
 call Int.isLessThan 2
 push this 0
-push local 2
+call Const.iNeg256 0
 call Int.isGreaterThan 2
 and
 push this 1
-push local 1
+call Const.i128 0
 call Int.isLessThan 2
 and
 push this 1
-push local 3
+call Const.iNeg128 0
 call Int.isGreaterThan 2
 and
 if-goto IF_TRUE0
 goto IF_FALSE0
 label IF_TRUE0
-push local 0
-call Int.dispose 1
-pop temp 0
-push local 1
-call Int.dispose 1
-pop temp 0
-push local 2
-call Int.dispose 1
-pop temp 0
-push local 3
-call Int.dispose 1
-pop temp 0
 push constant 0
 not
 return
 label IF_FALSE0
-push local 0
-call Int.dispose 1
-pop temp 0
-push local 1
-call Int.dispose 1
-pop temp 0
-push local 2
-call Int.dispose 1
-pop temp 0
-push local 3
-call Int.dispose 1
-pop temp 0
 push constant 0
 return
 function Point.toString 3

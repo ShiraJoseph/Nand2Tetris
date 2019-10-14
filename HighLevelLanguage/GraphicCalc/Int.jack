@@ -4,6 +4,7 @@
 class Int {
 	field boolean pos;
   field int num;
+  static Int solution;
 
   constructor Int new(boolean isPos, int x){
     let pos = isPos;
@@ -14,9 +15,22 @@ class Int {
     return this;
   }
 
+	function void init(){
+		let solution = Int.new(true, 1);
+		return;
+	}
+
   /** accessors */
   method boolean pos(){ return pos; }
   method int num(){ return num; }
+  method void setPos(boolean val){
+    let pos = val;
+    return;
+  }
+  method void setNum(int numVal){
+    let num = numVal;
+    return;
+  }
 
   method Int times(Int x){
      var int product;
@@ -41,26 +55,29 @@ class Int {
 
 	/** Adds or subtracts two integers following rules of negatives */
   method Int compute(boolean add, Int b){
-    var int x, y, bigger, smaller, result;
+    var int x, y, bigger, smaller
+//    , result
+    ;
     var boolean biggerPos, smallerPos, posPos, posNeg, negPos, negNeg;
 
     let x = num;
     let y = b.num();
     let smallerPos = false;
-    let biggerPos = false;
     let posPos = false;
     let posNeg = false;
     let negPos = false;
     let negNeg = false;
-    let result = 0;
+//    let result = 0;
+		do solution.setPos(true);
+		do solution.setNum(0);
 
-
+		// (0)+(0) or (0)-(0), (-1)+(1), (1)-(1)
     if (((x = 0) & (y = 0)) | ((x = y) & ((add & ~(pos = b.pos())) | (~add & (pos = b.pos()))))){
-//      do Memory.deAlloc(x);
-//      do Memory.deAlloc(y);
-      return Int.new(true, result);
+//      return Int.new(true, result);
+			return solution;
     }
 
+		// determine which (absolute) number is bigger and which is smaller as well as their signs
     if (x > y){
       let bigger = x;
       let biggerPos = pos;
@@ -72,54 +89,53 @@ class Int {
       let smaller = x;
       let smallerPos = pos;
     }
-    if (biggerPos){
-      if (smallerPos){
+    if (biggerPos){ // if bigger integer is positive
+      if (smallerPos){ // if smaller integer is positive
         let posPos = true;
-      } else {
+      } else { // if smaller integer is negative
         let posNeg = true;
       }
-    } else {
-      if (smallerPos){
+    } else { // if bigger integer is negative
+      if (smallerPos){ // if smaller integer is positive
         let negPos = true;
-      } else {
+      } else { // if smaller integer is negative
         let negNeg = true;
       }
     }
 
-    let result = bigger + smaller;
+//    let result = bigger + smaller;
+
+		do solution.setNum(bigger + smaller);	// |2+1| = |3|
+		// (1)+(2) or (2)+(1), (2)-(-1), (1)-(-2) = +3
     if((add & posPos) | (~add & ((posNeg & ~(x < y)) | (negPos & (x < y))))){
-//      do Memory.deAlloc(x);
-//      do Memory.deAlloc(y);
-      return Int.new(true, result);
+//      return Int.new(true, result);
+			do solution.setPos(true); //
+      return solution;
     }
+    // (-1)+(-2) or (-2)+(-1), (-1)-(2), (-2)-(1) = -3
     if((add & negNeg) | (~add & ((posNeg & (x < y)) | (negPos & ~(x < y))))){
-//      do Memory.deAlloc(x);
-//      do Memory.deAlloc(y);
-      return Int.new(false, result);
+//      return Int.new(false, result);
+			do solution.setPos(false);
+			return solution;
     }
 
-    let result = bigger - smaller;
+//    let result = bigger - smaller;
+
+		do solution.setNum(bigger - smaller); // |2-1| = |1|
+		// (-1)+(2) or (2)+(-1), (-1)-(-2), (2)-(1) = +1
     if((add & posNeg) | (~add & ((negNeg & (x < y)) | (posPos & (x > y))))){
-//      do Memory.deAlloc(x);
-//      do Memory.deAlloc(y);
-      return Int.new(true, result);
+//      return Int.new(true, result);
+			do solution.setPos(true);
+			return solution;
     }
+    // (1)+(-2) or (-2)+(1), (-2)-(-1), (1)-(2) = -1
     if((add & negPos) | (~add & ((negNeg & (x > y)) | (posPos & (x < y))))){
-//      do Memory.deAlloc(x);
-//      do Memory.deAlloc(y);
-//      do Memory.deAlloc(bigger);
-//      do Memory.deAlloc(smaller);
-//      do Memory.deAlloc(biggerPos);
-//      do Memory.deAlloc(smallerPos);
-//      do Memory.deAlloc(posPos);
-//      do Memory.deAlloc(posNeg);
-//      do Memory.deAlloc(negPos);
-//      do Memory.deAlloc(negNeg);
-      return Int.new(false, result);
+//      return Int.new(false, result);
+			do solution.setPos(false);
+			return solution;
     }
     do Out.ln("invalid Int Calculation");
-//    do Sys.halt();
-    return Int.new(true, 10000);
+    return null;
   }
 
   method boolean equals(Int b){
@@ -149,13 +165,9 @@ class Int {
   let numS = String.new(6);
     do numS.setInt(num);
     if (pos) {
-//      do Memory.deAlloc(sign);
-//      do Memory.deAlloc(mnumS);
       return numS;
     } else {
       let mnumS = S.append(sign, numS);
-//      do Memory.deAlloc(sign);
-//      do Memory.deAlloc(numS);
       return mnumS;
     }
   }

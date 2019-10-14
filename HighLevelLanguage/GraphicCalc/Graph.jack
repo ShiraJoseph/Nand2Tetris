@@ -1,37 +1,26 @@
 class Graph {
-	field Equation equation;
-	field Int t55, o27;
+	static Equation equation;
+	static Point currPoint;
+	static Fraction currX, currY;
+	static Int x, y, index;
+	static Coord coord;
 
 	/** Constructs a new graph */
   constructor Graph new() {
-    let t55 = Int.new(true, 255);
-    let o27 = Int.new(true, 127);
     return this;
   }
 
-	/** Getters and Setters */
-	method Int t55(){
-		return t55;
+	function void init() {
+		do Int.init();
+	  let currPoint = Point.new(Const.i1(), Const.i1());
+		let currX = Fraction.new(Const.i1(), Const.i1());
+		let currY = Fraction.new(Const.i1(), Const.i1());
+		let x = Int.new(true, 1);
+		let y = Int.new(true, 1);
+		let index = Int.new(true, 1);
+		let coord = currPoint.toCoord();
+		return;
 	}
-	method Int o27(){
-		return o27;
-	}
-
-
-  function void drawPoint(Point p) {
-    var Coord c;
-    let c = p.toCoord();
-    do Graph.drawPixel(c);
-    return;
-  }
-
-  function void drawPixel(Coord coord) {
-    if (coord.isValidCoord()) {
-      do Screen.drawPixel(coord.x(), coord.y());
-    }
-      return;
-  }
-
 	/** Draws x- and y-axes with arrows */
 	function void drawAxes() {
     // x-axis
@@ -59,90 +48,15 @@ class Graph {
     return;
   }
 
-
-	/** Draws a line using an equation scaled to fit within (-255, -127) to (255, 127) */
-	function void drawScaledLine(Equation equation) {
-		if (equation.getXIsScreenCutoff()) {
-//			do Graph.drawXCutoffLine(equation, 0, 50);
-//			do Graph.drawXCutoffLine(equation, 50, 100);
-//			do Graph.drawXCutoffLine(equation, 100, 150);
-			do Graph.drawXCutoffLine(equation, 150, 200);
-			do Graph.drawXCutoffLine(equation, 200, 250);
-			do Graph.drawXCutoffLine(equation, 250, 300);
-//			do Graph.drawXCutoffLine(equation, 300, 350);
-//			do Graph.drawXCutoffLine(equation, 350, 400);
-//			do Graph.drawXCutoffLine(equation, 400, 450);
-//			do Graph.drawXCutoffLine(equation, 450, 500);
-//			do Graph.drawXCutoffLine(equation, 500, 511);
-		} else {
-//			do Graph.drawYCutoffLine(equation, 0, 50);
-			do Graph.drawYCutoffLine(equation, 50, 100);
-			do Graph.drawYCutoffLine(equation, 100, 150);
-			do Graph.drawYCutoffLine(equation, 150, 200);
-//			do Graph.drawYCutoffLine(equation, 200, 255);
-		}
-		return;
-	}
-
-
-	function void drawYCutoffLine(Equation equation, int i, int j) {
-		var Fraction yF, xF;
-    var Int iI, deltaI, o27, one;
-      let o27 = Int.new(true, 127);
-      let one = Int.new(true, 1);
-    while(i < j){
-      let iI = Int.new(true, i);
-      // Mental post-it note: may want to set these anonymous Ints to variables so I can deallocate them
-      let deltaI = iI.minus(o27);
-      let yF = Fraction.new(deltaI, one);
-      let xF = equation.solveForX(yF);
-      do Graph.drawValidScaledPoint(xF, yF);
-      let i = i + 1;
-    }
-
-    return;
-	}
-
-	function void drawXCutoffLine(Equation equation, int i, int j) {
-		var Fraction yF, xF;
-		var Int iI, deltaI, one, t55;
-		let one = Int.new(true, 1);
-		let t55 = Int.new(true, 255);
-    while(i < j){
-      let iI = Int.new(true, i);
-      // Mental post-it note: may want to set these anonymous Ints to variables so I can deallocate them
-      let deltaI = iI.minus(t55);
-			let xF = Fraction.new(deltaI, one);
-      let yF = equation.solveForY(xF);
-      do Graph.drawValidScaledPoint(xF, yF);
-			let i = i + 1;
-    }
-		return;
-	}
-
-	function void drawValidScaledPoint(Fraction xF, Fraction yF) {
-		var Int x, y;
-		var Point p;
-		let x = Int.new(xF.pos(), xF.toInt());
-    let y = Int.new(yF.pos(), yF.toInt());
-    let p = Point.new(x, y);
-    if (p.isValidPoint()){
-//      do Out.ln(p.toString());
-      do Graph.drawPoint(p);
-    }
-  	return;
-	}
-
-	/** Returns an equation comparable to the given equation but scaled to fit within (-255, -127) to (255, 127) */
+/** Returns an equation comparable to the given equation but scaled to fit within (-255, -127) to (255, 127) */
   function Equation getScaledLine(Equation e) {
-    var Fraction CUTOFF, ONETWENTYSEVEN, TWO, ONESEVENTY, yIncpt, xIncpt, xIncptTwice,
+    var Fraction CUTOFF, TWO, ONESEVENTY, yIncpt, xIncpt, xIncptTwice,
     scale, b, m, cutoffTotal, newB;
     var Equation scaledEquation;
     var boolean xIsGreater;
-		let CUTOFF = Fraction.new(Int.new(true, 3), Int.new(true, 2));
-		let ONESEVENTY = Fraction.new(Int.new(true, 170), Int.new(true, 1));
-    let ONETWENTYSEVEN = Fraction.new(Int.new(true, 127), Int.new(true, 1));
-		let TWO = Fraction.new(Int.new(true, 2), Int.new(true, 1));
+		let CUTOFF = Fraction.new(Int.new(true, 3), Const.i2());
+		let ONESEVENTY = Fraction.new(Int.new(true, 170), Const.i1());
+		let TWO = Fraction.new(Const.i2(), Const.i1());
     let yIncpt = e.getYIntercept();
     let xIncpt = e.getXIntercept();
 		do yIncpt.checkValid();
@@ -157,7 +71,7 @@ class Graph {
 		} else {
 			let xIsGreater = false;
 			let cutoffTotal = CUTOFF.times(b);
-			let scale = ONETWENTYSEVEN.dividedBy(cutoffTotal);
+			let scale = cutoffTotal.times(Const.f127th());
 			let newB = scale.times(b);
 		}
 		do scaledEquation.setB(newB);
@@ -165,4 +79,98 @@ class Graph {
 
     return scaledEquation;
   }
+
+	/** Draws a line using an equation scaled to fit within (-255, -127) to (255, 127) */
+	function void drawScaledLine(Equation e) {
+		let equation = e;
+//
+		if (equation.getXIsScreenCutoff()) {
+//			do Graph.drawXCutoffLine(equation, 0, 50);
+//			do Graph.drawXCutoffLine(equation, 50, 100);
+//			do Graph.drawXCutoffLine(equation, 100, 150);
+			do Graph.drawXCutoffLine(0, 511);
+//			do Graph.drawXCutoffLine(200, 250);
+//			do Graph.drawXCutoffLine(250, 300);
+//			do Graph.drawXCutoffLine(equation, 300, 350);
+//			do Graph.drawXCutoffLine(equation, 350, 400);
+//			do Graph.drawXCutoffLine(equation, 400, 450);
+//			do Graph.drawXCutoffLine(equation, 450, 500);
+//			do Graph.drawXCutoffLine(equation, 500, 511);
+		} else {
+//			do Graph.drawYCutoffLine(equation, 0, 50);
+//			do Graph.drawYCutoffLine(50, 100);
+//			do Graph.drawYCutoffLine(100, 150);
+			do Graph.drawYCutoffLine(0, 255);
+//			do Graph.drawYCutoffLine(equation, 200, 255);
+		}
+		return;
+	}
+
+
+	function void drawYCutoffLine(int i, int j) {
+    var Int deltaI;
+    while(i < j){
+//      let index = Int.new(true, i);
+      do index.setPos(true);
+      do index.setNum(i);
+      let deltaI = index.minus(Const.i127());
+      do currY.init(deltaI, Const.i1());
+//      let currY = Fraction.new(deltaI, Const.i1());
+      let currX = equation.solveForX(currY);
+//            do Out.s(currX.toString());
+//            do Out.s(", ");
+//            do Out.ln(currY.toString());
+      do Graph.drawValidScaledPoint();
+      let i = i + 1;
+    }
+
+    return;
+	}
+
+	function void drawXCutoffLine(int i, int j) {
+		var Int deltaI, cons;
+    while(i < j){
+//      let index = Int.new(true, i);
+      do index.setPos(true);
+      do index.setNum(i);
+      let deltaI = index.minus(Const.i255());
+      do currX.init(deltaI, Const.i1());
+//			let currX = Fraction.new(deltaI, Const.i1());
+      let currY = equation.solveForY(currX);
+//				do Out.s(currX.toString());
+//			  do Out.s(", ");
+//        do Out.ln(currY.toString());
+      do Sys.wait(2000);
+      do Graph.drawValidScaledPoint();
+			let i = i + 1;
+    }
+		return;
+	}
+
+	function void drawValidScaledPoint() {
+		do x.setPos(currX.pos());
+		do y.setPos(currY.pos());
+		do x.setNum(currX.toInt());
+		do y.setNum(currY.toInt());
+		do currPoint.setX(x);
+		do currPoint.setY(y);
+    if (currPoint.isValidPoint()){
+      do Graph.drawPoint();
+    }
+  	return;
+	}
+
+	 function void drawPoint() {
+      let coord = currPoint.toCoord();
+      do Graph.drawPixel();
+      return;
+    }
+
+    function void drawPixel() {
+      if (coord.isValidCoord()) {
+        do Screen.drawPixel(coord.x(), coord.y());
+      }
+        return;
+    }
+
 }

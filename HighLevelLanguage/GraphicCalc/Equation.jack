@@ -58,27 +58,18 @@ class Equation {
 		if (S.equals(format, "I")){
 			let tempCalc1 = mF.times(xPoint);
 			let tempCalc2 = tempCalc1.plus(bF);
-//			do Memory.deAlloc(xPoint);
-			do Memory.deAlloc(tempCalc1);
-//			do Memory.deAlloc(tempCalc3);
 			return tempCalc2;
 		}
 		if (S.equals(format, "P")){
 			let tempCalc1 = xF.minus(xPoint);
 			let tempCalc2 = mF.times(tempCalc1);
 			let tempCalc3 = yF.minus(tempCalc2);
-//			do Memory.deAlloc(xPoint);
-      do Memory.deAlloc(tempCalc1);
-      do Memory.deAlloc(tempCalc2);
 			return tempCalc3;
     }
     if (S.equals(format, "S")){
       let tempCalc1 = xF.times(xPoint);
       let tempCalc2 = bF.minus(tempCalc1);
       let tempCalc3 = tempCalc2.dividedBy(yF);
-//      do Memory.deAlloc(xPoint);
-      do Memory.deAlloc(tempCalc1);
-      do Memory.deAlloc(tempCalc2);
       return tempCalc3;
     }
     return Fraction.new(0, 1);
@@ -90,32 +81,63 @@ class Equation {
 		if (S.equals(format, "I")){
 			let tempCalc1 = yPoint.minus(bF);
 			let tempCalc2 = tempCalc1.dividedBy(mF);
-//			do Memory.deAlloc(yPoint);
-			do Memory.deAlloc(tempCalc1);
-//			do Memory.deAlloc(tempCalc3);
 			return tempCalc2;
 		}
 		if (S.equals(format, "P")){
 			let tempCalc1 = yF.minus(yPoint);
 			let tempCalc2 = tempCalc1.dividedBy(mF);
 			let tempCalc3 = xF.minus(tempCalc2);
-//			do Memory.deAlloc(yPoint);
-      do Memory.deAlloc(tempCalc1);
-      do Memory.deAlloc(tempCalc2);
 			return tempCalc3;
 		}
 		if (S.equals(format, "S")){
 			let tempCalc1 = yF.times(yPoint);
 			let tempCalc2 = bF.minus(tempCalc1);
 			let tempCalc3 = tempCalc2.dividedBy(xF);
-//			do Memory.deAlloc(yPoint);
-      do Memory.deAlloc(tempCalc1);
-      do Memory.deAlloc(tempCalc2);
 			return tempCalc3;
 		}
 		return Fraction.new(0, 1);
 	}
 
+  method Fraction getYIntercept(){
+    var Fraction yIntercept, x;
+    let x = Fraction.new( Int.new(true, 0), Int.new(true, 1));
+    let yIntercept = solveForY(x);
+    return yIntercept;
+  }
+
+  method Fraction getXIntercept(){
+    var Fraction xIntercept, y;
+    let y = Fraction.new( Int.new(true, 0), Int.new(true, 1));
+    let xIntercept = solveForX(y);
+    return xIntercept;
+  }
+
+  function Equation convertToSlopeIntercept(Equation e){
+    var String f;
+    var Fraction eX, eY, eB, newSlope, newB, mx;
+    var Equation slopeIEquation;
+    let f = e.getFormat();
+    if (S.equals(f, "I")){
+      return e;
+    }
+    let eX = e.getX();
+    let eY = e.getY();
+    let slopeIEquation = Equation.new(1, "I");
+    if (S.equals(f, "S")){
+			let newSlope = eX.dividedBy(eY);
+			do newSlope.setPos(~newSlope.pos());
+			let eB = e.getB();
+			let newB = eB.dividedBy(eY);
+		} else {
+			let newSlope = e.getSlope();
+			let mx = newSlope.times(e.getX());
+			let newB = eY.minus(mx);
+		}
+		do slopeIEquation.setSlope(newSlope);
+		do slopeIEquation.setB(newB);
+
+		return slopeIEquation;
+  }
 
 	/****************************************************
 	**  Methods to build the equation with user input  **
@@ -152,7 +174,6 @@ class Equation {
       let xString = Keyboard.readLine("Enter an x:");
       let xF = Fraction.toFraction(xString);
       let temp = xF;
-      do Out.ln(temp.toString());
       let xExists = true;
     }
     if (S.equals(v, "y")){
@@ -160,31 +181,19 @@ class Equation {
       let yF = Fraction.toFraction(yString);
       let yExists = true;
       let temp = yF;
-      do Out.ln(temp.toString());
     }
     if (S.equals(v, "b")){
       let bString = Keyboard.readLine("Enter an intercept:");
       let bF = Fraction.toFraction(bString);
       let bExists = true;
       let temp = bF;
-      do Out.ln(temp.toString());
     }
     if (S.equals(v, "m")){
       let mString = Keyboard.readLine("Enter a slope:");
       let mF = Fraction.toFraction(mString);
       let mExists = true;
       let temp = mF;
-      do Out.ln(temp.toString());
     }
-
-		do Out.s("in get values: ");
-		do Out.ln(toString());
-
-//    do Memory.deAlloc(xString);
-//    do Memory.deAlloc(yString);
-//    do Memory.deAlloc(bString);
-//    do Memory.deAlloc(mString);
-//    do Memory.deAlloc(temp);
     return;
   }
 
@@ -223,8 +232,6 @@ class Equation {
       let bS = "_";
     }
     let stringified = S.append4("y = ", mS, "x + ", bS);
-//    do Memory.deAlloc(mS);
-//    do Memory.deAlloc(bS);
     return stringified;
   }
 
@@ -247,9 +254,6 @@ class Equation {
       let xS = "_";
     }
 		let stringified = S.append7("(y - ", yS, ") = ", mS, "(x - ", xS, ")");
-//		do Memory.deAlloc(xS);
-//		do Memory.deAlloc(yS);
-//		do Memory.deAlloc(mS);
     return stringified;
   }
 
@@ -272,59 +276,7 @@ class Equation {
       let bS = "_";
     }
     let stringified = S.append5(xS, "x + ", yS, "y = ", bS);
-//    do Memory.deAlloc(xS);
-//    do Memory.deAlloc(yS);
-//    do Memory.deAlloc(bS);
     return stringified;
   }
 
-  method Fraction getYIntercept(){
-    var Fraction yIntercept, x;
-    let x = Fraction.new( Int.new(true, 0), Int.new(true, 1));
-    let yIntercept = solveForY(x);
-//    do Memory.deAlloc(x);
-    return yIntercept;
-  }
-
-  method Fraction getXIntercept(){
-    var Fraction xIntercept, y;
-    let y = Fraction.new( Int.new(true, 0), Int.new(true, 1));
-    let xIntercept = solveForX(y);
-//    do Memory.deAlloc(y);
-    return xIntercept;
-  }
-
-  function Equation convertToSlopeIntercept(Equation e){
-    var String f;
-    var Fraction eX, eY, eB, newSlope, newB, mx;
-    var Equation slopeIEquation;
-    let f = e.getFormat();
-    if (S.equals(f, "I")){
-      return e;
-    }
-    let eX = e.getX();
-    let eY = e.getY();
-    let slopeIEquation = Equation.new(1, "I");
-    if (S.equals(f, "S")){
-			let newSlope = eX.dividedBy(eY);
-			do newSlope.setPos(~newSlope.pos());
-			let eB = e.getB();
-			let newB = eB.dividedBy(eY);
-		} else {
-			let newSlope = e.getSlope();
-			let mx = newSlope.times(e.getX());
-			let newB = eY.minus(mx);
-		}
-		do slopeIEquation.setSlope(newSlope);
-		do slopeIEquation.setB(newB);
-
-//		do Memory.deAlloc(f);
-//		do Memory.deAlloc(eX);
-//		do Memory.deAlloc(eY);
-//		do Memory.deAlloc(eB);
-//		do Memory.deAlloc(newSlope);
-//		do Memory.deAlloc(newB);
-//		do Memory.deAlloc(mx);
-		return slopeIEquation;
-  }
 }

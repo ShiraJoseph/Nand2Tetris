@@ -1,5 +1,6 @@
 class Main {
   function void main() {
+    do Const.declareConsts();
     do Main.createEquation();
 		return;
   }
@@ -16,24 +17,25 @@ class Main {
     }
     let equation = Equation.new(1, format);
     do equation.getValues();
-     do Out.s("after get values: ");
         do Out.ln(equation.toString());
-    do Out.ln(equation.toString());
+        do Sys.wait(1000);
     do Main.draw(equation);
     do Sys.wait(8000);
 //    do Screen.clearScreen();
 //    do Output.moveCursor(0, 0);
-    do Main.createEquation();
+//    do Main.createEquation();
     return;
   }
 
   function void draw(Equation e){
     var Equation newE;
+    do Graph.init();
     let newE = Graph.getScaledLine(e);
     do Screen.clearScreen();
 		do Graph.drawAxes();
     do Output.moveCursor(0, 0);
-    do Out.ln(newE.toString());
+    do Out.ln(e.toString());
+    do Sys.wait(1000);
     do Graph.drawScaledLine(newE);
     return;
   }
