@@ -56,8 +56,11 @@ class Equation {
 	method Fraction solveForY(Fraction xPoint){
 		var Fraction tempCalc1, tempCalc2, tempCalc3;
 		if (S.equals(format, "I")){
+//			do Out.log("Eq.solveForY x = ", xPoint.toString());
 			let tempCalc1 = mF.times(xPoint);
+//			do Out.log("Eq.solveForY got back slope * x = ", tempCalc1.toString());
 			let tempCalc2 = tempCalc1.plus(bF);
+//			do Out.log("Eq.solveForY mx + b = ", tempCalc2.toString());
 			return tempCalc2;
 		}
 		if (S.equals(format, "P")){
@@ -79,8 +82,11 @@ class Equation {
 	method Fraction solveForX(Fraction yPoint){
 		var Fraction tempCalc1, tempCalc2, tempCalc3;
 		if (S.equals(format, "I")){
+//			do Out.log("Solve for x with y = ", yPoint.toString());
 			let tempCalc1 = yPoint.minus(bF);
+//			do Out.log("y - b = ", tempCalc1.toString());
 			let tempCalc2 = tempCalc1.dividedBy(mF);
+//			do Out.log("(y - b)/m = ", tempCalc2.toString());
 			return tempCalc2;
 		}
 		if (S.equals(format, "P")){
@@ -100,14 +106,14 @@ class Equation {
 
   method Fraction getYIntercept(){
     var Fraction yIntercept, x;
-    let x = Fraction.new( Int.new(true, 0), Int.new(true, 1));
+    let x = Fraction.new( Int.new(true, 0), Const.i1());
     let yIntercept = solveForY(x);
     return yIntercept;
   }
 
   method Fraction getXIntercept(){
     var Fraction xIntercept, y;
-    let y = Fraction.new( Int.new(true, 0), Int.new(true, 1));
+    let y = Fraction.new( Int.new(true, 0), Const.i1());
     let xIntercept = solveForX(y);
     return xIntercept;
   }
@@ -135,6 +141,7 @@ class Equation {
 		}
 		do slopeIEquation.setSlope(newSlope);
 		do slopeIEquation.setB(newB);
+		do Out.ln(slopeIEquation.toString());
 
 		return slopeIEquation;
   }

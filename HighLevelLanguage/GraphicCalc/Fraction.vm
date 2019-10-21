@@ -5,7 +5,7 @@ pop pointer 0
 push pointer 0
 push argument 0
 push argument 1
-call Fraction.init 3
+call Fraction.set 3
 pop temp 0
 push pointer 0
 return
@@ -55,7 +55,7 @@ push argument 1
 pop this 2
 push constant 0
 return
-function Fraction.init 0
+function Fraction.set 0
 push argument 0
 pop pointer 0
 push argument 1
@@ -98,13 +98,17 @@ eq
 if-goto IF_TRUE2
 goto IF_FALSE2
 label IF_TRUE2
+push constant 1
+pop this 1
 push constant 0
 not
 pop this 2
+goto IF_END2
 label IF_FALSE2
 push pointer 0
 call Fraction.reduce 1
 pop temp 0
+label IF_END2
 push constant 0
 return
 function Fraction.plus 6

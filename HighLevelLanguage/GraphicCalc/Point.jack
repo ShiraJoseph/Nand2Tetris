@@ -1,14 +1,16 @@
 class Point {
 	field Int x, y;
 	field boolean isCoord;
-	field Coord coord;
+	static Coord coord;
+	static Int xCoord, yCoord;
 
 	/** Constructs a point on the cartesian plane */
   constructor Point new(Int xVal, Int yVal){
+    let coord = Coord.new(1, 1);
+    let xCoord = Int.new(true, 1);
+    let yCoord = Int.new(true, 1);
     let x = xVal;
     let y = yVal;
-//    do Memory.deAlloc(xVal);
-//    do Memory.deAlloc(yVal);
     return this;
   }
 
@@ -31,18 +33,23 @@ class Point {
    *  Example: the point (1, 1) would be drawn at (256, 126) on the Hack Screen
    */
   method Coord toCoord(){
-    var Int add, sub;
 //		do Out.s(toString());
 //		do Out.s(" to (");
-    let add = x.plus(Const.i255());
-    let sub = y.plus(Const.i127());
+
+
 //    do Out.i(add.num());
 //    do Out.s(", ");
 //    do Out.i(sub.num());
 //    do Out.ln(")");
 //    do Sys.wait(500);
     if (isValidPoint()){
-      let coord = Coord.new(add.num(), sub.num());
+      let xCoord = x.plus(Const.i255());
+//      do Out.log("xCoord = ", xCoord.toString());
+      do coord.setX(xCoord.num());
+
+      let yCoord = y.plus(Const.i127());
+//      do Out.log("yCoord = ", yCoord.toString());
+      do coord.setY(yCoord.num());
     } else {
       do Out.s("Invalid Point ");
       do Out.s(x.toString());
@@ -54,11 +61,6 @@ class Point {
   }
 
   method boolean isValidPoint() {
-//    var Int t56, o28, n256, n128;
-//    let t56 = Int.new(true, 256);
-//    let o28 = Int.new(true, 128);
-//    let n256 = Int.new(false, 256);
-//    let n128 = Int.new(false, 128);
     if (
       x.isLessThan(Const.i256()) &
       x.isGreaterThan(Const.iNeg256()) &

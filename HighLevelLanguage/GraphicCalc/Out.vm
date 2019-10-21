@@ -114,14 +114,11 @@ call Output.println 0
 pop temp 0
 push constant 0
 return
-function Out.log 2
+function Out.log 0
 push argument 0
-pop local 0
+call Out.s 1
+pop temp 0
 push argument 1
-pop local 1
-push local 0
-push local 1
-call S.append 2
 call Out.ln 1
 pop temp 0
 push constant 0

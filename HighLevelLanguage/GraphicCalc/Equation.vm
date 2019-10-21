@@ -262,10 +262,7 @@ push constant 0
 not
 push constant 0
 call Int.new 2
-push constant 0
-not
-push constant 1
-call Int.new 2
+call Const.i1 0
 call Fraction.new 2
 pop local 1
 push pointer 0
@@ -281,10 +278,7 @@ push constant 0
 not
 push constant 0
 call Int.new 2
-push constant 0
-not
-push constant 1
-call Int.new 2
+call Const.i1 0
 call Fraction.new 2
 pop local 1
 push pointer 0
@@ -370,6 +364,10 @@ pop temp 0
 push local 7
 push local 5
 call Equation.setB 2
+pop temp 0
+push local 7
+call Equation.toString 1
+call Out.ln 1
 pop temp 0
 push local 7
 return

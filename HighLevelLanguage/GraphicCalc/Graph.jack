@@ -2,7 +2,7 @@ class Graph {
 	static Equation equation;
 	static Point currPoint;
 	static Fraction currX, currY;
-	static Int x, y, index;
+	static Int iX, iY, iIndex;
 	static Coord coord;
 
 	/** Constructs a new graph */
@@ -15,9 +15,9 @@ class Graph {
 	  let currPoint = Point.new(Const.i1(), Const.i1());
 		let currX = Fraction.new(Const.i1(), Const.i1());
 		let currY = Fraction.new(Const.i1(), Const.i1());
-		let x = Int.new(true, 1);
-		let y = Int.new(true, 1);
-		let index = Int.new(true, 1);
+		let iX = Int.new(true, 1);
+		let iY = Int.new(true, 1);
+		let iIndex = Int.new(true, 1);
 		let coord = currPoint.toCoord();
 		return;
 	}
@@ -58,17 +58,19 @@ class Graph {
 		let ONESEVENTY = Fraction.new(Int.new(true, 170), Const.i1());
 		let TWO = Fraction.new(Const.i2(), Const.i1());
     let yIncpt = e.getYIntercept();
+    do Out.log("e.yIncpt = ", yIncpt.toString());
     let xIncpt = e.getXIntercept();
+    do Out.log("e.xIncpt = ", xIncpt.toString());
 		do yIncpt.checkValid();
 		do xIncpt.checkValid();
 		let scaledEquation = Equation.convertToSlopeIntercept(e);
-		let b = scaledEquation.getYIntercept();
 		let xIncptTwice = xIncpt.times(TWO);
 		if(xIncptTwice.isGreaterThan(yIncpt)){
 			let xIsGreater = true;
 			let m = scaledEquation.getSlope();
 			let newB = m.times(ONESEVENTY);
 		} else {
+			let b = scaledEquation.getYIntercept();
 			let xIsGreater = false;
 			let cutoffTotal = CUTOFF.times(b);
 			let scale = cutoffTotal.times(Const.f127th());
@@ -83,25 +85,12 @@ class Graph {
 	/** Draws a line using an equation scaled to fit within (-255, -127) to (255, 127) */
 	function void drawScaledLine(Equation e) {
 		let equation = e;
-//
 		if (equation.getXIsScreenCutoff()) {
-//			do Graph.drawXCutoffLine(equation, 0, 50);
-//			do Graph.drawXCutoffLine(equation, 50, 100);
-//			do Graph.drawXCutoffLine(equation, 100, 150);
 			do Graph.drawXCutoffLine(0, 511);
-//			do Graph.drawXCutoffLine(200, 250);
-//			do Graph.drawXCutoffLine(250, 300);
-//			do Graph.drawXCutoffLine(equation, 300, 350);
-//			do Graph.drawXCutoffLine(equation, 350, 400);
-//			do Graph.drawXCutoffLine(equation, 400, 450);
-//			do Graph.drawXCutoffLine(equation, 450, 500);
-//			do Graph.drawXCutoffLine(equation, 500, 511);
+//			do Graph.drawXCutoffLine(200, 205);
 		} else {
-//			do Graph.drawYCutoffLine(equation, 0, 50);
-//			do Graph.drawYCutoffLine(50, 100);
-//			do Graph.drawYCutoffLine(100, 150);
 			do Graph.drawYCutoffLine(0, 255);
-//			do Graph.drawYCutoffLine(equation, 200, 255);
+//			do Graph.drawYCutoffLine(100, 105);
 		}
 		return;
 	}
@@ -110,16 +99,11 @@ class Graph {
 	function void drawYCutoffLine(int i, int j) {
     var Int deltaI;
     while(i < j){
-//      let index = Int.new(true, i);
-      do index.setPos(true);
-      do index.setNum(i);
-      let deltaI = index.minus(Const.i127());
-      do currY.init(deltaI, Const.i1());
-//      let currY = Fraction.new(deltaI, Const.i1());
+      do iIndex.setPos(true);
+      do iIndex.setNum(i);
+      let deltaI = iIndex.minus(Const.i127());
+      do currY.set(deltaI, Const.i1());
       let currX = equation.solveForX(currY);
-//            do Out.s(currX.toString());
-//            do Out.s(", ");
-//            do Out.ln(currY.toString());
       do Graph.drawValidScaledPoint();
       let i = i + 1;
     }
@@ -130,17 +114,11 @@ class Graph {
 	function void drawXCutoffLine(int i, int j) {
 		var Int deltaI, cons;
     while(i < j){
-//      let index = Int.new(true, i);
-      do index.setPos(true);
-      do index.setNum(i);
-      let deltaI = index.minus(Const.i255());
-      do currX.init(deltaI, Const.i1());
-//			let currX = Fraction.new(deltaI, Const.i1());
+      do iIndex.setPos(true);
+      do iIndex.setNum(i);
+      let deltaI = iIndex.minus(Const.i255());
+      do currX.set(deltaI, Const.i1());
       let currY = equation.solveForY(currX);
-//				do Out.s(currX.toString());
-//			  do Out.s(", ");
-//        do Out.ln(currY.toString());
-      do Sys.wait(2000);
       do Graph.drawValidScaledPoint();
 			let i = i + 1;
     }
@@ -148,12 +126,13 @@ class Graph {
 	}
 
 	function void drawValidScaledPoint() {
-		do x.setPos(currX.pos());
-		do y.setPos(currY.pos());
-		do x.setNum(currX.toInt());
-		do y.setNum(currY.toInt());
-		do currPoint.setX(x);
-		do currPoint.setY(y);
+		do iX.setPos(currX.pos());
+		do iX.setNum(currX.toInt());
+		do iY.setPos(currY.pos());
+		do iY.setNum(currY.toInt());
+		do currPoint.setX(iX);
+		do currPoint.setY(iY);
+//		do Out.ln(currPoint.toString());
     if (currPoint.isValidPoint()){
       do Graph.drawPoint();
     }
@@ -162,6 +141,7 @@ class Graph {
 
 	 function void drawPoint() {
       let coord = currPoint.toCoord();
+//      do Out.log(" --> ", coord.toString());
       do Graph.drawPixel();
       return;
     }

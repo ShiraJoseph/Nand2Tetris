@@ -1,7 +1,21 @@
 function Point.new 0
-push constant 4
+push constant 3
 call Memory.alloc 1
 pop pointer 0
+push constant 1
+push constant 1
+call Coord.new 2
+pop static 0
+push constant 0
+not
+push constant 1
+call Int.new 2
+pop static 1
+push constant 0
+not
+push constant 1
+call Int.new 2
+pop static 2
 push argument 0
 pop this 0
 push argument 1
@@ -21,7 +35,7 @@ return
 function Point.coord 0
 push argument 0
 pop pointer 0
-push this 3
+push static 0
 return
 function Point.setX 0
 push argument 0
@@ -37,28 +51,32 @@ push argument 1
 pop this 1
 push constant 0
 return
-function Point.toCoord 2
+function Point.toCoord 0
 push argument 0
 pop pointer 0
-push this 0
-call Const.i255 0
-call Int.plus 2
-pop local 0
-push this 1
-call Const.i127 0
-call Int.plus 2
-pop local 1
 push pointer 0
 call Point.isValidPoint 1
 if-goto IF_TRUE0
 goto IF_FALSE0
 label IF_TRUE0
-push local 0
+push this 0
+call Const.i255 0
+call Int.plus 2
+pop static 1
+push static 0
+push static 1
 call Int.num 1
-push local 1
+call Coord.setX 2
+pop temp 0
+push this 1
+call Const.i127 0
+call Int.plus 2
+pop static 2
+push static 0
+push static 2
 call Int.num 1
-call Coord.new 2
-pop this 3
+call Coord.setY 2
+pop temp 0
 goto IF_END0
 label IF_FALSE0
 push constant 14
@@ -113,7 +131,7 @@ push constant 300
 call Sys.wait 1
 pop temp 0
 label IF_END0
-push this 3
+push static 0
 return
 function Point.isValidPoint 0
 push argument 0

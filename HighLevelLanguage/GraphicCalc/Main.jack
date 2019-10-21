@@ -1,6 +1,7 @@
 class Main {
   function void main() {
-    do Const.declareConsts();
+    do Const.init();
+    do Int.init();
     do Main.createEquation();
 		return;
   }
@@ -23,7 +24,7 @@ class Main {
     do Sys.wait(8000);
 //    do Screen.clearScreen();
 //    do Output.moveCursor(0, 0);
-//    do Main.createEquation();
+    do Main.createEquation();
     return;
   }
 
@@ -35,6 +36,7 @@ class Main {
 		do Graph.drawAxes();
     do Output.moveCursor(0, 0);
     do Out.ln(e.toString());
+//    do Out.ln(newE.toString());
     do Sys.wait(1000);
     do Graph.drawScaledLine(newE);
     return;

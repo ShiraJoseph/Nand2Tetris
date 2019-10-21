@@ -1,5 +1,7 @@
 function Main.main 0
-call Const.declareConsts 0
+call Const.init 0
+pop temp 0
+call Int.init 0
 pop temp 0
 call Main.createEquation 0
 pop temp 0
@@ -215,6 +217,8 @@ call Main.draw 1
 pop temp 0
 push constant 8000
 call Sys.wait 1
+pop temp 0
+call Main.createEquation 0
 pop temp 0
 push constant 0
 return

@@ -13,6 +13,14 @@ class Coord {
   /** Accessors. */
   method int x(){ return x; }
   method int y(){ return y; }
+  method void setX(int xint){
+    let x = xint;
+    return;
+  }
+  method void setY(int yint){
+    let y = yint;
+    return;
+  }
 
 
   method boolean isValidCoord(){
@@ -25,5 +33,16 @@ class Coord {
   method void dispose(){
     do Memory.deAlloc(this);
     return;
+  }
+
+  method String toString(){
+    var String xS, yS, sS;
+
+    let xS = String.new(3);
+    let yS = String.new(3);
+    do xS.setInt(x);
+    do yS.setInt(y);
+    let sS = S.append5("(", xS, ", ", yS, ")");
+    return sS;
   }
 }

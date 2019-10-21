@@ -64,10 +64,8 @@ class Out {
 
   /** Prints two strings and then carriage return */
   function void log(String a, String b){
-    var String a1, b1;
-    let a1 = a;
-    let b1 = b;
-    do Out.ln(S.append(a1, b1));
+		do Out.s(a);
+		do Out.ln(b);
     return;
   }
 }

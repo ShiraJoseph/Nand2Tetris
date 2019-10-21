@@ -4,7 +4,7 @@
 class Int {
 	field boolean pos;
   field int num;
-  static Int solution;
+  static Int solution, diff, sum, prod;
 
   constructor Int new(boolean isPos, int x){
     let pos = isPos;
@@ -17,6 +17,9 @@ class Int {
 
 	function void init(){
 		let solution = Int.new(true, 1);
+		let diff = Int.new(true, 1);
+		let sum = Int.new(true, 1);
+		let prod = Int.new(true, 1);
 		return;
 	}
 
@@ -33,31 +36,28 @@ class Int {
   }
 
   method Int times(Int x){
+  // FOUND THE ISSUE: setting prod for the second time causes the first thing it was assigned to to change; that means that numer gets changed to denom once denom is done.
      var int product;
      let product = x.num() * num;
-     if (x.pos() = pos){
+     if ((x.pos() = pos) | (product = 0)){
        return Int.new(true, product);
      }
      return Int.new(false, product);
   }
 
   method Int plus(Int x){
-    var Int sum;
-    let sum = compute(true, x);
-    return sum;
+//    let sum = compute(true, x);
+    return compute(true, x);
   }
 
   method Int minus(Int x){
-    var Int diff;
-    let diff = compute(false, x);
-    return diff;
+//    let diff = compute(false, x);
+    return compute(false, x);
   }
 
 	/** Adds or subtracts two integers following rules of negatives */
   method Int compute(boolean add, Int b){
-    var int x, y, bigger, smaller
-//    , result
-    ;
+    var int x, y, bigger, smaller;
     var boolean biggerPos, smallerPos, posPos, posNeg, negPos, negNeg;
 
     let x = num;
@@ -67,17 +67,15 @@ class Int {
     let posNeg = false;
     let negPos = false;
     let negNeg = false;
-//    let result = 0;
-		do solution.setPos(true);
-		do solution.setNum(0);
 
 		// (0)+(0) or (0)-(0), (-1)+(1), (1)-(1)
     if (((x = 0) & (y = 0)) | ((x = y) & ((add & ~(pos = b.pos())) | (~add & (pos = b.pos()))))){
-//      return Int.new(true, result);
+      do solution.setPos(true);
+    	do solution.setNum(0);
 			return solution;
     }
 
-		// determine which (absolute) number is bigger and which is smaller as well as their signs
+		// determine which (absolute) number is bigger and which is smaller, as well as their signs
     if (x > y){
       let bigger = x;
       let biggerPos = pos;
@@ -89,48 +87,40 @@ class Int {
       let smaller = x;
       let smallerPos = pos;
     }
-    if (biggerPos){ // if bigger integer is positive
-      if (smallerPos){ // if smaller integer is positive
+    if (biggerPos){
+      if (smallerPos){
         let posPos = true;
-      } else { // if smaller integer is negative
+      } else {
         let posNeg = true;
       }
-    } else { // if bigger integer is negative
-      if (smallerPos){ // if smaller integer is positive
+    } else {
+      if (smallerPos){
         let negPos = true;
-      } else { // if smaller integer is negative
+      } else {
         let negNeg = true;
       }
     }
-
-//    let result = bigger + smaller;
-
+		// At some point, for fun, I may want to try just converting every case to addition, making double negatives positive, etc.
 		do solution.setNum(bigger + smaller);	// |2+1| = |3|
-		// (1)+(2) or (2)+(1), (2)-(-1), (1)-(-2) = +3
+		// (1)+(2), (2)+(1), (2)-(-1), (1)-(-2) = +3
     if((add & posPos) | (~add & ((posNeg & ~(x < y)) | (negPos & (x < y))))){
-//      return Int.new(true, result);
-			do solution.setPos(true); //
+			do solution.setPos(true);
       return solution;
     }
-    // (-1)+(-2) or (-2)+(-1), (-1)-(2), (-2)-(1) = -3
+    // (-1)+(-2), (-2)+(-1), (-1)-(2), (-2)-(1) = -3
     if((add & negNeg) | (~add & ((posNeg & (x < y)) | (negPos & ~(x < y))))){
-//      return Int.new(false, result);
 			do solution.setPos(false);
 			return solution;
     }
 
-//    let result = bigger - smaller;
-
 		do solution.setNum(bigger - smaller); // |2-1| = |1|
-		// (-1)+(2) or (2)+(-1), (-1)-(-2), (2)-(1) = +1
+		// (-1)+(2), (2)+(-1), (-1)-(-2), (2)-(1) = +1
     if((add & posNeg) | (~add & ((negNeg & (x < y)) | (posPos & (x > y))))){
-//      return Int.new(true, result);
 			do solution.setPos(true);
 			return solution;
     }
-    // (1)+(-2) or (-2)+(1), (-2)-(-1), (1)-(2) = -1
+    // (1)+(-2), (-2)+(1), (-2)-(-1), (1)-(2) = -1
     if((add & negPos) | (~add & ((negNeg & (x > y)) | (posPos & (x < y))))){
-//      return Int.new(false, result);
 			do solution.setPos(false);
 			return solution;
     }
