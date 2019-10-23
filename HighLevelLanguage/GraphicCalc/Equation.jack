@@ -3,7 +3,7 @@ class Equation {
   field boolean xExists, yExists, bExists, mExists, xIsScreenCutoff, startLineNegative;
   field String format;
   field Fraction xF, yF, bF, mF;
-  static Fraction tempCalc1, tempCalc2, tempCalc3;
+  static Fraction tempCalc1, tempCalc2, tempCalc3, tempCalc4, tempCalc5;
 
 	/** Constructs a new equation for graphing */
   constructor Equation new(int deg, String form) {
@@ -16,6 +16,8 @@ class Equation {
     let tempCalc1 = Fraction.new(Const.i1(), Const.i1());
     let tempCalc2 = Fraction.new(Const.i1(), Const.i1());
     let tempCalc3 = Fraction.new(Const.i1(), Const.i1());
+    let tempCalc4 = Fraction.new(Const.i1(), Const.i1());
+    let tempCalc5 = Fraction.new(Const.i1(), Const.i1());
     return this;
   }
 
@@ -61,23 +63,26 @@ class Equation {
 //		var Fraction tempCalc1, tempCalc2, tempCalc3;
 		if (S.equals(format, "I")){
 //			do Out.log("Eq.solveForY x = ", xPoint.toString());
-			let tempCalc1 = mF.times(xPoint);
+			do Fraction.multiply(mF, xPoint, tempCalc1, tempCalc2, tempCalc3);
+//			let tempCalc1 = mF.times(xPoint);
 //			do Out.log("Eq.solveForY got back slope * x = ", tempCalc1.toString());
-			let tempCalc2 = tempCalc1.plus(bF);
+			let tempCalc4 = tempCalc1.plus(bF);
 //			do Out.log("Eq.solveForY mx + b = ", tempCalc2.toString());
-			return tempCalc2;
+			return tempCalc4;
 		}
 		if (S.equals(format, "P")){
 			let tempCalc1 = xF.minus(xPoint);
-			let tempCalc2 = mF.times(tempCalc1);
-			let tempCalc3 = yF.minus(tempCalc2);
-			return tempCalc3;
+			do Fraction.multiply(mF, tempCalc1, tempCalc2, tempCalc3, tempCalc4);
+//			let tempCalc2 = mF.times(tempCalc1);
+			let tempCalc5 = yF.minus(tempCalc2);
+			return tempCalc5;
     }
     if (S.equals(format, "S")){
-      let tempCalc1 = xF.times(xPoint);
-      let tempCalc2 = bF.minus(tempCalc1);
-      let tempCalc3 = tempCalc2.dividedBy(yF);
-      return tempCalc3;
+      do Fraction.multiply(xF, xPoint, tempCalc1, tempCalc2, tempCalc3);
+//      let tempCalc1 = xF.times(xPoint);
+      let tempCalc4 = bF.minus(tempCalc1);
+      let tempCalc5 = tempCalc4.dividedBy(yF);
+      return tempCalc5;
     }
     return Fraction.new(0, 1);
 	}
@@ -100,10 +105,11 @@ class Equation {
 			return tempCalc3;
 		}
 		if (S.equals(format, "S")){
-			let tempCalc1 = yF.times(yPoint);
-			let tempCalc2 = bF.minus(tempCalc1);
-			let tempCalc3 = tempCalc2.dividedBy(xF);
-			return tempCalc3;
+			do Fraction.multiply(yF, yPoint, tempCalc1, tempCalc2, tempCalc3);
+//			let tempCalc1 = yF.times(yPoint);
+			let tempCalc4 = bF.minus(tempCalc1);
+			let tempCalc5 = tempCalc4.dividedBy(xF);
+			return tempCalc5;
 		}
 		return Fraction.new(0, 1);
 	}
@@ -140,7 +146,9 @@ class Equation {
 			let newB = eB.dividedBy(eY);
 		} else {
 			let newSlope = e.getSlope();
-			let mx = newSlope.times(e.getX());
+			let mx = Fraction.new(Const.i1(), Const.i1());
+			do Fraction.multiply(newSlope, e.getX(), mx, tempCalc1, tempCalc2);
+//			let mx = newSlope.times(e.getX());
 			let newB = eY.minus(mx);
 		}
 		do slopeIEquation.setSlope(newSlope);

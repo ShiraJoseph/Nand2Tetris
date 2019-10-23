@@ -83,13 +83,17 @@ class Fraction {
   }
 
   /** Multiplies one fraction with another */
-  method Fraction times(Fraction mult) {
-    var Int a, b;
-    let a = Int.new(mult.pos(), mult.numerator());
+  function void multiply(Fraction frac1, Fraction frac2, Fraction result, Int calc1, Int calc2) {
+//    var Int a, b;
+		do calc1.set(frac1.pos(), frac1.numerator());
+//    let a = Int.new(mult.pos(), mult.numerator());
 //    let numer = a.times(Int.new(pos, numerator));
-    let b = Int.new(true, mult.denominator());
+//    let b = Int.new(true, mult.denominator());
+    do calc2.set(true, frac1.denominator());
 //    let denom = b.times(Int.new(true, denominator));
-    return Fraction.new(a.times(Int.new(pos, numerator)), b.times(Int.new(true, denominator)));
+		do result.set(calc1.times(Int.new(frac2.pos(), frac2.numerator())), calc2.times(Int.new(true, frac2.denominator())));
+//    return Fraction.new(calc1.times(Int.new(pos, numerator)), b.times(Int.new(true, denominator)));
+		return;
   }
 
   /** Divides one fraction by another */

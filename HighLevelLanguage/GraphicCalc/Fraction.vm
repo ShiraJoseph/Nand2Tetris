@@ -191,33 +191,39 @@ call Math.multiply 2
 call Int.new 2
 call Fraction.new 2
 return
-function Fraction.times 2
+function Fraction.multiply 0
+push argument 3
 push argument 0
-pop pointer 0
+call Fraction.pos 1
+push argument 0
+call Fraction.numerator 1
+call Int.set 3
+pop temp 0
+push argument 4
+push constant 0
+not
+push argument 0
+call Fraction.denominator 1
+call Int.set 3
+pop temp 0
+push argument 2
+push argument 3
 push argument 1
 call Fraction.pos 1
 push argument 1
 call Fraction.numerator 1
 call Int.new 2
-pop local 0
+call Int.times 2
+push argument 4
 push constant 0
 not
 push argument 1
 call Fraction.denominator 1
 call Int.new 2
-pop local 1
-push local 0
-push this 2
-push this 0
-call Int.new 2
 call Int.times 2
-push local 1
+call Fraction.set 3
+pop temp 0
 push constant 0
-not
-push this 1
-call Int.new 2
-call Int.times 2
-call Fraction.new 2
 return
 function Fraction.dividedBy 2
 push argument 0

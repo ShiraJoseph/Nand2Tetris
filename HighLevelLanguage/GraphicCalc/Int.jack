@@ -7,11 +7,7 @@ class Int {
   static Int solution, diff, sum, prod;
 
   constructor Int new(boolean isPos, int x){
-    let pos = isPos;
-    let num = x;
-    if (num = 0){
-      let pos = true;
-    }
+    do set(isPos, x);
     return this;
   }
 
@@ -21,6 +17,15 @@ class Int {
 		let sum = Int.new(true, 1);
 		let prod = Int.new(true, 1);
 		return;
+	}
+
+	method void set(boolean isPos, int x){
+		let pos = isPos;
+    let num = x;
+    if (num = 0){
+      let pos = true;
+    }
+    return;
 	}
 
   /** accessors */

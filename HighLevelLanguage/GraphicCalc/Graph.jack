@@ -51,30 +51,41 @@ class Graph {
 /** Returns an equation comparable to the given equation but scaled to fit within (-255, -127) to (255, 127) */
   function Equation getScaledLine(Equation e) {
     var Fraction CUTOFF, TWO, ONESEVENTY, yIncpt, xIncpt, xIncptTwice,
-    scale, b, m, cutoffTotal, newB;
+    scale, b, m, cutoffTotal, newB, calc1, calc2;
     var Equation scaledEquation;
     var boolean xIsGreater;
 		let CUTOFF = Fraction.new(Int.new(true, 3), Const.i2());
 		let ONESEVENTY = Fraction.new(Int.new(true, 170), Const.i1());
 		let TWO = Fraction.new(Const.i2(), Const.i1());
+		let calc1 = Fraction.new(Const.i1(), Const.i1());
+		let calc2 = Fraction.new(Const.i1(), Const.i1());
+		let newB = Fraction.new(Const.i1(), Const.i1());
     let yIncpt = e.getYIntercept();
-    do Out.log("e.yIncpt = ", yIncpt.toString());
+//    do Out.log("e.yIncpt = ", yIncpt.toString());
     let xIncpt = e.getXIntercept();
-    do Out.log("e.xIncpt = ", xIncpt.toString());
+//    do Out.log("e.xIncpt = ", xIncpt.toString());
 		do yIncpt.checkValid();
 		do xIncpt.checkValid();
 		let scaledEquation = Equation.convertToSlopeIntercept(e);
-		let xIncptTwice = xIncpt.times(TWO);
+		let xIncptTwice = Fraction.new(Const.i1(), Const.i1());
+		do Fraction.multiply(xIncpt, TWO, xIncptTwice, calc1, calc2);
+//		let xIncptTwice = xIncpt.times(TWO);
 		if(xIncptTwice.isGreaterThan(yIncpt)){
 			let xIsGreater = true;
 			let m = scaledEquation.getSlope();
-			let newB = m.times(ONESEVENTY);
+			do Fraction.multiply(m, ONESEVENTY, newB, calc1, calc2);
+//			let newB = m.times(ONESEVENTY);
 		} else {
 			let b = scaledEquation.getYIntercept();
 			let xIsGreater = false;
-			let cutoffTotal = CUTOFF.times(b);
-			let scale = cutoffTotal.times(Const.f127th());
-			let newB = scale.times(b);
+			let cutoffTotal = Fraction.new(Const.i1(), Const.i1());
+			let scale = Fraction.new(Const.i1(), Const.i1());
+			do Fraction.multiply(CUTOFF, b, cutoffTotal, calc1, calc2);
+//			let cutoffTotal = CUTOFF.times(b);
+			do Fraction.multiply(cutoffTotal, Const.f127th(), scale, calc1, calc2);
+//			let scale = cutoffTotal.times(Const.f127th());
+			do Fraction.multiply(scale, b, newB, calc1, calc2);
+//			let newB = scale.times(b);
 		}
 		do scaledEquation.setB(newB);
 		do scaledEquation.setXIsScreenCutoff(xIsGreater);
