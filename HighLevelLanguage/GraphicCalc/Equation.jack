@@ -3,6 +3,7 @@ class Equation {
   field boolean xExists, yExists, bExists, mExists, xIsScreenCutoff, startLineNegative;
   field String format;
   field Fraction xF, yF, bF, mF;
+  static Fraction tempCalc1, tempCalc2, tempCalc3;
 
 	/** Constructs a new equation for graphing */
   constructor Equation new(int deg, String form) {
@@ -12,6 +13,9 @@ class Equation {
     let mExists = false;
     let degree = deg;
     let format = form;
+    let tempCalc1 = Fraction.new(Const.i1(), Const.i1());
+    let tempCalc2 = Fraction.new(Const.i1(), Const.i1());
+    let tempCalc3 = Fraction.new(Const.i1(), Const.i1());
     return this;
   }
 
@@ -54,7 +58,7 @@ class Equation {
 
 	/** Uses the value of x to solve for y */
 	method Fraction solveForY(Fraction xPoint){
-		var Fraction tempCalc1, tempCalc2, tempCalc3;
+//		var Fraction tempCalc1, tempCalc2, tempCalc3;
 		if (S.equals(format, "I")){
 //			do Out.log("Eq.solveForY x = ", xPoint.toString());
 			let tempCalc1 = mF.times(xPoint);
@@ -80,7 +84,7 @@ class Equation {
 
 	/** Uses the value of y to solve for x */
 	method Fraction solveForX(Fraction yPoint){
-		var Fraction tempCalc1, tempCalc2, tempCalc3;
+//		var Fraction tempCalc1, tempCalc2, tempCalc3;
 		if (S.equals(format, "I")){
 //			do Out.log("Solve for x with y = ", yPoint.toString());
 			let tempCalc1 = yPoint.minus(bF);
@@ -105,17 +109,17 @@ class Equation {
 	}
 
   method Fraction getYIntercept(){
-    var Fraction yIntercept, x;
-    let x = Fraction.new( Int.new(true, 0), Const.i1());
-    let yIntercept = solveForY(x);
-    return yIntercept;
+//    var Fraction yIntercept, x;
+    let tempCalc1 = Fraction.new( Int.new(true, 0), Const.i1());
+    let tempCalc2 = solveForY(tempCalc1);
+    return tempCalc2;
   }
 
   method Fraction getXIntercept(){
-    var Fraction xIntercept, y;
-    let y = Fraction.new( Int.new(true, 0), Const.i1());
-    let xIntercept = solveForX(y);
-    return xIntercept;
+//    var Fraction xIntercept, y;
+    let tempCalc1 = Fraction.new( Int.new(true, 0), Const.i1());
+    let tempCalc2 = solveForX(tempCalc1);
+    return tempCalc2;
   }
 
   function Equation convertToSlopeIntercept(Equation e){

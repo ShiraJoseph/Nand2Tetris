@@ -111,41 +111,37 @@ pop temp 0
 label IF_END2
 push constant 0
 return
-function Fraction.plus 6
+function Fraction.plus 2
 push argument 0
 pop pointer 0
 push this 2
 push this 0
 call Int.new 2
-pop local 3
+pop local 0
+push local 0
 push constant 0
 not
 push argument 1
 call Fraction.denominator 1
 call Int.new 2
-pop local 4
-push local 3
-push local 4
 call Int.times 2
-pop local 1
+pop static 0
 push argument 1
 call Fraction.pos 1
 push argument 1
 call Fraction.numerator 1
 call Int.new 2
-pop local 5
-push local 5
+pop local 1
+push local 1
 push constant 0
 not
 push this 1
 call Int.new 2
 call Int.times 2
-pop local 2
-push local 1
-push local 2
+pop static 1
+push static 0
+push static 1
 call Int.plus 2
-pop local 0
-push local 0
 push constant 0
 not
 push this 1
@@ -155,41 +151,37 @@ call Math.multiply 2
 call Int.new 2
 call Fraction.new 2
 return
-function Fraction.minus 6
+function Fraction.minus 2
 push argument 0
 pop pointer 0
 push this 2
 push this 0
 call Int.new 2
-pop local 3
+pop local 0
+push local 0
 push constant 0
 not
 push argument 1
 call Fraction.denominator 1
 call Int.new 2
-pop local 4
-push local 3
-push local 4
 call Int.times 2
-pop local 0
+pop static 0
 push argument 1
 call Fraction.pos 1
 push argument 1
 call Fraction.numerator 1
 call Int.new 2
-pop local 5
-push local 5
+pop local 1
+push local 1
 push constant 0
 not
 push this 1
 call Int.new 2
 call Int.times 2
-pop local 1
-push local 0
-push local 1
+pop static 1
+push static 0
+push static 1
 call Int.minus 2
-pop local 2
-push local 2
 push constant 0
 not
 push this 1
@@ -199,7 +191,7 @@ call Math.multiply 2
 call Int.new 2
 call Fraction.new 2
 return
-function Fraction.times 4
+function Fraction.times 2
 push argument 0
 pop pointer 0
 push argument 1
@@ -207,31 +199,27 @@ call Fraction.pos 1
 push argument 1
 call Fraction.numerator 1
 call Int.new 2
-pop local 2
-push local 2
-push this 2
-push this 0
-call Int.new 2
-call Int.times 2
 pop local 0
 push constant 0
 not
 push argument 1
 call Fraction.denominator 1
 call Int.new 2
-pop local 3
-push local 3
+pop local 1
+push local 0
+push this 2
+push this 0
+call Int.new 2
+call Int.times 2
+push local 1
 push constant 0
 not
 push this 1
 call Int.new 2
 call Int.times 2
-pop local 1
-push local 0
-push local 1
 call Fraction.new 2
 return
-function Fraction.dividedBy 4
+function Fraction.dividedBy 2
 push argument 0
 pop pointer 0
 push constant 0
@@ -239,28 +227,24 @@ not
 push argument 1
 call Fraction.denominator 1
 call Int.new 2
-pop local 2
-push local 2
-push this 2
-push this 0
-call Int.new 2
-call Int.times 2
 pop local 0
 push argument 1
 call Fraction.pos 1
 push argument 1
 call Fraction.numerator 1
 call Int.new 2
-pop local 3
-push local 3
+pop local 1
+push local 0
+push this 2
+push this 0
+call Int.new 2
+call Int.times 2
+push local 1
 push constant 0
 not
 push this 1
 call Int.new 2
 call Int.times 2
-pop local 1
-push local 0
-push local 1
 call Fraction.new 2
 return
 function Fraction.toFraction 21

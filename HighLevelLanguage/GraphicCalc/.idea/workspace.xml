@@ -3,20 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="0a36f627-86f8-4dce-8696-920f4763c8f8" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Const.jack" beforeDir="false" afterPath="$PROJECT_DIR$/Const.jack" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Coord.jack" beforeDir="false" afterPath="$PROJECT_DIR$/Coord.jack" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Equation.jack" beforeDir="false" afterPath="$PROJECT_DIR$/Equation.jack" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Equation.vm" beforeDir="false" afterPath="$PROJECT_DIR$/Equation.vm" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Fraction.jack" beforeDir="false" afterPath="$PROJECT_DIR$/Fraction.jack" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Fraction.vm" beforeDir="false" afterPath="$PROJECT_DIR$/Fraction.vm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Graph.jack" beforeDir="false" afterPath="$PROJECT_DIR$/Graph.jack" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Int.jack" beforeDir="false" afterPath="$PROJECT_DIR$/Int.jack" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Main.jack" beforeDir="false" afterPath="$PROJECT_DIR$/Main.jack" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Main.vm" beforeDir="false" afterPath="$PROJECT_DIR$/Main.vm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Out.jack" beforeDir="false" afterPath="$PROJECT_DIR$/Out.jack" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Out.vm" beforeDir="false" afterPath="$PROJECT_DIR$/Out.vm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Point.jack" beforeDir="false" afterPath="$PROJECT_DIR$/Point.jack" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Point.vm" beforeDir="false" afterPath="$PROJECT_DIR$/Point.vm" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -30,11 +20,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Main.jack" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Main.jack" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Main.jack">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="393">
-              <caret line="39" column="22" lean-forward="true" selection-start-line="39" selection-start-column="22" selection-end-line="39" selection-end-column="22" />
+            <state relative-caret-position="-3">
+              <caret line="20" column="39" lean-forward="true" selection-start-line="20" selection-start-column="39" selection-end-line="20" selection-end-column="39" />
             </state>
           </provider>
         </entry>
@@ -42,7 +32,7 @@
       <file leaf-file-name="Graph.jack" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Graph.jack">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2414">
+            <state relative-caret-position="1648">
               <caret line="142" column="38" lean-forward="true" selection-start-line="142" selection-start-column="38" selection-end-line="142" selection-end-column="38" />
             </state>
           </provider>
@@ -51,8 +41,8 @@
       <file leaf-file-name="Int.jack" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Int.jack">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
-              <caret line="13" column="5" lean-forward="true" selection-start-line="13" selection-start-column="5" selection-end-line="13" selection-end-column="5" />
+            <state relative-caret-position="-673">
+              <caret line="42" column="37" lean-forward="true" selection-start-line="42" selection-start-column="37" selection-end-line="42" selection-end-column="37" />
             </state>
           </provider>
         </entry>
@@ -81,22 +71,18 @@
       <file leaf-file-name="Equation.jack" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Equation.jack">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1071">
-              <caret line="63" column="23" lean-forward="true" selection-start-line="63" selection-start-column="23" selection-end-line="63" selection-end-column="23" />
+            <state relative-caret-position="-78">
+              <caret line="175" column="5" lean-forward="true" selection-start-line="175" selection-start-column="5" selection-end-line="175" selection-end-column="5" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Fraction.jack" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Fraction.jack" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Fraction.jack">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1667">
-              <caret line="164" column="29" lean-forward="true" selection-start-line="161" selection-start-column="4" selection-end-line="164" selection-end-column="29" />
+            <state relative-caret-position="-76">
+              <caret line="61" column="37" selection-start-line="61" selection-start-column="37" selection-end-line="61" selection-end-column="37" />
               <folding>
-                <element signature="e#0#6525#0" />
-                <element signature="e#0#6525#0" />
-                <element signature="e#0#6525#0" />
-                <element signature="e#0#6525#0" />
                 <element signature="e#0#6525#0" />
                 <element signature="e#0#6525#0" />
               </folding>
@@ -172,18 +158,18 @@
         <option value="$PROJECT_DIR$/S.jack" />
         <option value="$PROJECT_DIR$/Out.jack" />
         <option value="$PROJECT_DIR$/Const.jack" />
-        <option value="$PROJECT_DIR$/Fraction.jack" />
-        <option value="$PROJECT_DIR$/Equation.jack" />
         <option value="$PROJECT_DIR$/Coord.jack" />
         <option value="$PROJECT_DIR$/Int.jack" />
         <option value="$PROJECT_DIR$/Graph.jack" />
         <option value="$PROJECT_DIR$/Point.jack" />
         <option value="$PROJECT_DIR$/Main.jack" />
+        <option value="$PROJECT_DIR$/Equation.jack" />
+        <option value="$PROJECT_DIR$/Fraction.jack" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="218" />
+    <option name="x" value="210" />
     <option name="y" value="23" />
     <option name="width" value="1282" />
     <option name="height" value="819" />
@@ -294,7 +280,7 @@
     <option name="totallyTimeSpent" value="37207000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="218" y="23" width="1282" height="819" extended-state="0" />
+    <frame x="210" y="23" width="1282" height="819" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
@@ -670,20 +656,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Equation.jack">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1071">
-          <caret line="63" column="23" lean-forward="true" selection-start-line="63" selection-start-column="23" selection-end-line="63" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Graph.jack">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2414">
-          <caret line="142" column="38" lean-forward="true" selection-start-line="142" selection-start-column="38" selection-end-line="142" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Point.jack">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="748">
@@ -701,32 +673,42 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Main.jack">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-3">
+          <caret line="20" column="39" lean-forward="true" selection-start-line="20" selection-start-column="39" selection-end-line="20" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Equation.jack">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-78">
+          <caret line="175" column="5" lean-forward="true" selection-start-line="175" selection-start-column="5" selection-end-line="175" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Graph.jack">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1648">
+          <caret line="142" column="38" lean-forward="true" selection-start-line="142" selection-start-column="38" selection-end-line="142" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Int.jack">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="13" column="5" lean-forward="true" selection-start-line="13" selection-start-column="5" selection-end-line="13" selection-end-column="5" />
+        <state relative-caret-position="-673">
+          <caret line="42" column="37" lean-forward="true" selection-start-line="42" selection-start-column="37" selection-end-line="42" selection-end-column="37" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Fraction.jack">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1667">
-          <caret line="164" column="29" lean-forward="true" selection-start-line="161" selection-start-column="4" selection-end-line="164" selection-end-column="29" />
+        <state relative-caret-position="-76">
+          <caret line="61" column="37" selection-start-line="61" selection-start-column="37" selection-end-line="61" selection-end-column="37" />
           <folding>
             <element signature="e#0#6525#0" />
             <element signature="e#0#6525#0" />
-            <element signature="e#0#6525#0" />
-            <element signature="e#0#6525#0" />
-            <element signature="e#0#6525#0" />
-            <element signature="e#0#6525#0" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Main.jack">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="393">
-          <caret line="39" column="22" lean-forward="true" selection-start-line="39" selection-start-column="22" selection-end-line="39" selection-end-column="22" />
         </state>
       </provider>
     </entry>

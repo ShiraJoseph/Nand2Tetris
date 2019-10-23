@@ -14,6 +14,18 @@ push argument 0
 pop this 4
 push argument 1
 pop this 11
+call Const.i1 0
+call Const.i1 0
+call Fraction.new 2
+pop static 0
+call Const.i1 0
+call Const.i1 0
+call Fraction.new 2
+pop static 1
+call Const.i1 0
+call Const.i1 0
+call Fraction.new 2
+pop static 2
 push pointer 0
 return
 function Equation.getX 0
@@ -105,7 +117,7 @@ push argument 1
 pop this 10
 push constant 0
 return
-function Equation.solveForY 3
+function Equation.solveForY 0
 push argument 0
 pop pointer 0
 push this 11
@@ -120,12 +132,12 @@ label IF_TRUE0
 push this 15
 push argument 1
 call Fraction.times 2
-pop local 0
-push local 0
+pop static 0
+push static 0
 push this 14
 call Fraction.plus 2
-pop local 1
-push local 1
+pop static 1
+push static 1
 return
 label IF_FALSE0
 push this 11
@@ -140,16 +152,16 @@ label IF_TRUE1
 push this 12
 push argument 1
 call Fraction.minus 2
-pop local 0
+pop static 0
 push this 15
-push local 0
+push static 0
 call Fraction.times 2
-pop local 1
+pop static 1
 push this 13
-push local 1
+push static 1
 call Fraction.minus 2
-pop local 2
-push local 2
+pop static 2
+push static 2
 return
 label IF_FALSE1
 push this 11
@@ -164,23 +176,23 @@ label IF_TRUE2
 push this 12
 push argument 1
 call Fraction.times 2
-pop local 0
+pop static 0
 push this 14
-push local 0
+push static 0
 call Fraction.minus 2
-pop local 1
-push local 1
+pop static 1
+push static 1
 push this 13
 call Fraction.dividedBy 2
-pop local 2
-push local 2
+pop static 2
+push static 2
 return
 label IF_FALSE2
 push constant 0
 push constant 1
 call Fraction.new 2
 return
-function Equation.solveForX 3
+function Equation.solveForX 0
 push argument 0
 pop pointer 0
 push this 11
@@ -195,12 +207,12 @@ label IF_TRUE0
 push argument 1
 push this 14
 call Fraction.minus 2
-pop local 0
-push local 0
+pop static 0
+push static 0
 push this 15
 call Fraction.dividedBy 2
-pop local 1
-push local 1
+pop static 1
+push static 1
 return
 label IF_FALSE0
 push this 11
@@ -215,16 +227,16 @@ label IF_TRUE1
 push this 13
 push argument 1
 call Fraction.minus 2
-pop local 0
-push local 0
+pop static 0
+push static 0
 push this 15
 call Fraction.dividedBy 2
-pop local 1
+pop static 1
 push this 12
-push local 1
+push static 1
 call Fraction.minus 2
-pop local 2
-push local 2
+pop static 2
+push static 2
 return
 label IF_FALSE1
 push this 11
@@ -239,23 +251,23 @@ label IF_TRUE2
 push this 13
 push argument 1
 call Fraction.times 2
-pop local 0
+pop static 0
 push this 14
-push local 0
+push static 0
 call Fraction.minus 2
-pop local 1
-push local 1
+pop static 1
+push static 1
 push this 12
 call Fraction.dividedBy 2
-pop local 2
-push local 2
+pop static 2
+push static 2
 return
 label IF_FALSE2
 push constant 0
 push constant 1
 call Fraction.new 2
 return
-function Equation.getYIntercept 2
+function Equation.getYIntercept 0
 push argument 0
 pop pointer 0
 push constant 0
@@ -264,14 +276,14 @@ push constant 0
 call Int.new 2
 call Const.i1 0
 call Fraction.new 2
-pop local 1
+pop static 0
 push pointer 0
-push local 1
+push static 0
 call Equation.solveForY 2
-pop local 0
-push local 0
+pop static 1
+push static 1
 return
-function Equation.getXIntercept 2
+function Equation.getXIntercept 0
 push argument 0
 pop pointer 0
 push constant 0
@@ -280,12 +292,12 @@ push constant 0
 call Int.new 2
 call Const.i1 0
 call Fraction.new 2
-pop local 1
+pop static 0
 push pointer 0
-push local 1
+push static 0
 call Equation.solveForX 2
-pop local 0
-push local 0
+pop static 1
+push static 1
 return
 function Equation.convertToSlopeIntercept 8
 push argument 0
