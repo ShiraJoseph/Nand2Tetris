@@ -2,6 +2,7 @@
 class Const {
 	static Int i0, i1, i2, i255, i127, i256, i128, iNeg256, iNeg128;
 	static Fraction f1, f255, f127, f256, f128, f127th;
+	static Array memory;
   constructor Const new() {
 		return this;
   }
