@@ -2,7 +2,8 @@
 class Const {
 	static Int i0, i1, i2, i255, i127, i256, i128, iNeg256, iNeg128;
 	static Fraction f1, f255, f127, f256, f128, f127th;
-	static Array memory;
+//	static Array memory;
+//	static int mPointer;
   constructor Const new() {
 		return this;
   }
@@ -23,6 +24,7 @@ class Const {
 		let f256 = Fraction.new(i256, i1);
     let f128 = Fraction.new(i128, i1);
     let f127th = Fraction.new(i1, i127);
+//    let memory = Array.new(30);
     return;
 	}
 	function Int i0() { return i0; }
@@ -41,4 +43,5 @@ class Const {
   function Fraction f128() { return f128; }
   function Fraction f127th() { return f127th; }
 
+//	function push() {}
 }

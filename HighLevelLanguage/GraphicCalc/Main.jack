@@ -2,6 +2,7 @@ class Main {
   function void main() {
     do Const.init();
     do Int.init();
+    do Fraction.init();
     do Main.createEquation();
 		return;
   }

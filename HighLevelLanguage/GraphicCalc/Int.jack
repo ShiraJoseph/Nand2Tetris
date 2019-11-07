@@ -50,6 +50,20 @@ class Int {
      return Int.new(false, product);
   }
 
+  function void multiply(Int a, Int b, Int result){
+  // FOUND THE ISSUE: setting prod for the second time causes the first thing it was assigned to to change; that means that numer gets changed to denom once denom is done.
+     var int product;
+     let product = a.num() * b.num();
+     do result.setNum(product);
+     if ((a.pos() = b.pos()) | (product = 0)){
+       do result.setPos(true);
+//       return Int.new(true, product);
+				return;
+     }
+     do result.setPos(false);
+//     return Int.new(false, product);
+		return;
+  }
   method Int plus(Int x){
 //    let sum = compute(true, x);
     return compute(true, x);

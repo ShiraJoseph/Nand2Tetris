@@ -44,6 +44,26 @@ not
 push constant 1
 call Int.new 2
 pop static 6
+push constant 0
+not
+push constant 1
+call Int.new 2
+pop static 7
+push constant 0
+not
+push constant 1
+call Int.new 2
+pop static 8
+push constant 0
+not
+push constant 1
+call Int.new 2
+pop static 9
+push constant 0
+not
+push constant 1
+call Int.new 2
+pop static 10
 push pointer 0
 return
 function Equation.getX 0
@@ -152,7 +172,11 @@ push argument 1
 push static 0
 push static 5
 push static 6
-call Fraction.multiply 5
+push static 7
+push static 8
+push static 9
+push static 10
+call Fraction.multiply 9
 pop temp 0
 push static 0
 push this 14
@@ -179,7 +203,11 @@ push static 0
 push static 1
 push static 5
 push static 6
-call Fraction.multiply 5
+push static 7
+push static 8
+push static 9
+push static 10
+call Fraction.multiply 9
 pop temp 0
 push this 13
 push static 1
@@ -202,7 +230,11 @@ push argument 1
 push static 0
 push static 5
 push static 6
-call Fraction.multiply 5
+push static 7
+push static 8
+push static 9
+push static 10
+call Fraction.multiply 9
 pop temp 0
 push this 14
 push static 0
@@ -280,7 +312,11 @@ push argument 1
 push static 0
 push static 5
 push static 6
-call Fraction.multiply 5
+push static 7
+push static 8
+push static 9
+push static 10
+call Fraction.multiply 9
 pop temp 0
 push this 14
 push static 0
@@ -395,7 +431,11 @@ call Equation.getX 1
 push local 6
 push static 5
 push static 6
-call Fraction.multiply 5
+push static 7
+push static 8
+push static 9
+push static 10
+call Fraction.multiply 9
 pop temp 0
 push local 2
 push local 6

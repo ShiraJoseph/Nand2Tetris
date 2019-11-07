@@ -43,11 +43,11 @@ class Point {
 //    do Out.ln(")");
 //    do Sys.wait(500);
     if (isValidPoint()){
-      let xCoord = x.plus(Const.i255());
+      let xCoord = x.plus(Const.i255()); // Int sum
 //      do Out.log("xCoord = ", xCoord.toString());
       do coord.setX(xCoord.num());
 
-      let yCoord = y.plus(Const.i127());
+      let yCoord = y.plus(Const.i127()); // Int sum
 //      do Out.log("yCoord = ", yCoord.toString());
       do coord.setY(yCoord.num());
     } else {
