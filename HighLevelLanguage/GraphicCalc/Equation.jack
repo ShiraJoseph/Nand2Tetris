@@ -14,19 +14,39 @@ class Equation {
     let mExists = false;
     let degree = deg;
     let format = form;
-    let tempCalc1 = Fraction.new(Const.i1(), Const.i1());
-    let tempCalc2 = Fraction.new(Const.i1(), Const.i1());
-    let tempCalc3 = Fraction.new(Const.i1(), Const.i1());
-    let tempCalc4 = Fraction.new(Const.i1(), Const.i1());
-    let tempCalc5 = Fraction.new(Const.i1(), Const.i1());
-    let calc1 = Int.new(true, 1);
-    let calc2 = Int.new(true, 1);
-    let calc3 = Int.new(true, 1);
-    let calc4 = Int.new(true, 1);
-    let calc5 = Int.new(true, 1);
-    let calc6 = Int.new(true, 1);
-
     return this;
+  }
+
+  /** Initiates static variables */
+  function void init() {
+		let tempCalc1 = Fraction.new(Const.i1(), Const.i1());
+		let tempCalc2 = Fraction.new(Const.i1(), Const.i1());
+		let tempCalc3 = Fraction.new(Const.i1(), Const.i1());
+		let tempCalc4 = Fraction.new(Const.i1(), Const.i1());
+		let tempCalc5 = Fraction.new(Const.i1(), Const.i1());
+		let calc1 = Int.new(true, 1);
+		let calc2 = Int.new(true, 1);
+		let calc3 = Int.new(true, 1);
+		let calc4 = Int.new(true, 1);
+		let calc5 = Int.new(true, 1);
+		let calc6 = Int.new(true, 1);
+    return;
+  }
+
+  /** Disposes static variables */
+  function void deInit() {
+    do tempCalc1.dispose();
+    do tempCalc2.dispose();
+    do tempCalc3.dispose();
+    do tempCalc4.dispose();
+    do tempCalc5.dispose();
+    do calc1.dispose();
+    do calc2.dispose();
+    do calc3.dispose();
+    do calc4.dispose();
+    do calc5.dispose();
+    do calc6.dispose();
+    return;
   }
 
   /** Accessors */
@@ -308,4 +328,8 @@ class Equation {
     return stringified;
   }
 
+  method void dispose() {
+    do Memory.deAlloc(this);
+    return;
+  }
 }

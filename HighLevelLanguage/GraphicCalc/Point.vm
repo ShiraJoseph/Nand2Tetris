@@ -2,6 +2,13 @@ function Point.new 0
 push constant 3
 call Memory.alloc 1
 pop pointer 0
+push argument 0
+pop this 0
+push argument 1
+pop this 1
+push pointer 0
+return
+function Point.init 0
 push constant 1
 push constant 1
 call Coord.new 2
@@ -16,11 +23,19 @@ not
 push constant 1
 call Int.new 2
 pop static 2
-push argument 0
-pop this 0
-push argument 1
-pop this 1
-push pointer 0
+push constant 0
+return
+function Point.deInit 0
+push static 0
+call Coord.dispose 1
+pop temp 0
+push static 1
+call Int.dispose 1
+pop temp 0
+push static 2
+call Int.dispose 1
+pop temp 0
+push constant 0
 return
 function Point.x 0
 push argument 0
@@ -111,24 +126,11 @@ push constant 32
 call String.appendChar 2
 call Out.s 1
 pop temp 0
-push this 0
-call Int.toString 1
-call Out.s 1
-pop temp 0
-push constant 2
-call String.new 1
-push constant 44
-call String.appendChar 2
-push constant 32
-call String.appendChar 2
-call Out.s 1
-pop temp 0
-push this 1
-call Int.toString 1
+push pointer 0
+call Point.toString 1
 call Out.ln 1
 pop temp 0
-push constant 300
-call Sys.wait 1
+call Sys.halt 0
 pop temp 0
 label IF_END0
 push static 0

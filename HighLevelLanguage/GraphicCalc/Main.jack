@@ -1,15 +1,37 @@
+/** This graphing calculator was created for the Coursera computer architecture course, Nand2Tetris (part 2),
+* using Jack, a high level programming language written by Nisan and Schoken for education purposes.
+* More information can be found at www.nand2tetris.org
+* and in the book "The Elements of Computing Systems" by Nisan and Schocken, MIT Press.
+*/
+
 class Main {
   function void main() {
-    do Const.init();
-    do Int.init();
-    do Fraction.init();
     do Main.createEquation();
 		return;
+  }
+
+  function void init() {
+		do Const.init();
+		do Int.init();
+		do Fraction.init();
+		do Equation.init();
+		do Graph.init();
+		return;
+  }
+
+  function void deInit() {
+  	do Const.deInit();
+    do Int.deInit();
+    do Fraction.deInit();
+    do Equation.deInit();
+    do Graph.deInit();
+    return;
   }
 
   function void createEquation(){
     var Equation equation;
     var String format;
+    do Main.init();
     let format = Keyboard.readLine("[P]oint-Slope, Slope-[I]ntercept, or [S]tandard? ");
     while(~(S.equals(format, "S") | S.equals(format, "I") | S.equals(format, "P"))){
       if (S.equals(format, "Q")){
@@ -19,27 +41,23 @@ class Main {
     }
     let equation = Equation.new(1, format);
     do equation.getValues();
-        do Out.ln(equation.toString());
-        do Sys.wait(1000);
+    do Out.cls();
     do Main.draw(equation);
-    do Sys.wait(8000);
-//    do Screen.clearScreen();
-//    do Output.moveCursor(0, 0);
+    do Out.cls();
+    do Main.deInit();
     do Main.createEquation();
     return;
   }
 
   function void draw(Equation e){
     var Equation newE;
-    do Graph.init();
     let newE = Graph.getScaledLine(e);
-    do Screen.clearScreen();
 		do Graph.drawAxes();
-    do Output.moveCursor(0, 0);
+		do Sys.wait(200);
     do Out.ln(e.toString());
-//    do Out.ln(newE.toString());
-    do Sys.wait(1000);
+    do Sys.wait(200);
     do Graph.drawScaledLine(newE);
+    do Sys.wait(8000);
     return;
   }
 }

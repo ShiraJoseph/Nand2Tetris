@@ -10,9 +10,8 @@ class Graph {
     return this;
   }
 
+	/** Initiates static variables */
 	function void init() {
-		do Int.init();
-	  let currPoint = Point.new(Const.i1(), Const.i1());
 		let currX = Fraction.new(Const.i1(), Const.i1());
 		let currY = Fraction.new(Const.i1(), Const.i1());
 		let iX = Int.new(true, 1);
@@ -21,6 +20,21 @@ class Graph {
 		let coord = currPoint.toCoord();
 		return;
 	}
+
+	/** Disposes static variables */
+	function void deInit() {
+		do equation.dispose();
+		do currPoint.dispose();
+		do currX.dispose();
+		do currY.dispose();
+		do iX.dispose();
+		do iY.dispose();
+		do iIndex.dispose();
+		do deltaI.dispose();
+		do coord.dispose();
+		return;
+	}
+
 	/** Draws x- and y-axes with arrows */
 	function void drawAxes() {
     // x-axis
@@ -48,10 +62,15 @@ class Graph {
     return;
   }
 
-/** Returns an equation comparable to the given equation but scaled to fit within (-255, -127) to (255, 127) */
+  function void drawTicks() {
+//  TODO
+		return;
+  }
+
+	/** Returns an equation comparable to the given equation but scaled to fit within (-255, -127) to (255, 127) */
   function Equation getScaledLine(Equation e) {
     var Fraction CUTOFF, TWO, ONESEVENTY, yIncpt, xIncpt, xIncptTwice,
-    scale, b, m, cutoffTotal, newB, calc1, calc2, calc3, calc4, calc5, calc6, calc7, calc8, calc9, calc10, calc11, calc12, calc13, calc14, calc15, calc16, calc17, calc18;
+    scale, b, m, cutoffTotal, newB, calc1, calc2, calc3, calc4, calc5, calc6, calc7, calc8, calc9, calc10, calc11, calc12, calc13;
     var Equation scaledEquation;
     var boolean xIsGreater;
 		let CUTOFF = Fraction.new(Int.new(true, 3), Const.i2());
@@ -70,46 +89,26 @@ class Graph {
 		let calc11 = Fraction.new(Const.i1(), Const.i1());
 		let calc12 = Fraction.new(Const.i1(), Const.i1());
 		let calc13 = Fraction.new(Const.i1(), Const.i1());
-		let calc14 = Fraction.new(Const.i1(), Const.i1());
-		let calc15 = Fraction.new(Const.i1(), Const.i1());
-		let calc16 = Fraction.new(Const.i1(), Const.i1());
-		let calc17 = Fraction.new(Const.i1(), Const.i1());
-		let calc18 = Fraction.new(Const.i1(), Const.i1());
 		let newB = Fraction.new(Const.i1(), Const.i1());
     let yIncpt = e.getYIntercept(); // fraction getYIntercept
-//    do Out.log("e.yIncpt = ", yIncpt.toString());
     let xIncpt = e.getXIntercept(); // fraction getYIntercept
-//    do Out.log("e.xIncpt = ", xIncpt.toString());
 		do yIncpt.checkValid();
 		do xIncpt.checkValid();
 		let scaledEquation = Equation.convertToSlopeIntercept(e); // equation convertToSlopeIntercept
 		let m = scaledEquation.getSlope();
-//		let xIncptTwice = Fraction.new(Const.i1(), Const.i1());
-//		do Fraction.multiply(xIncpt, TWO, xIncptTwice, calc1, calc2, calc3, calc4, calc5, calc6); // fraction product
-//		let xIncptTwice = xIncpt.times(TWO);
-//		if(xIncptTwice.isGreaterThan(yIncpt)){
 		if (m.isLessThan(Const.f1())){
-			do Out.ln("y is greater!");
 			let xIsGreater = false;
 			let m = scaledEquation.getSlope();
-			do Out.log("getSlope = ", m.toString());
 			do Fraction.multiply(m, ONESEVENTY, newB, calc1, calc2, calc3, calc4, calc5, calc6); // fraction product
-do Out.log("slope * 170 = ", newB.toString());
-//	let newB = m.times(ONESEVENTY);
 		} else {
-			do Out.ln("x is greater!");
 			let b = scaledEquation.getYIntercept();
 			let xIsGreater = true;
 			let cutoffTotal = Fraction.new(Const.i1(), Const.i1());
 			let scale = Fraction.new(Const.i1(), Const.i1());
 			do Fraction.multiply(CUTOFF, b, cutoffTotal, calc1, calc2, calc3, calc4, calc5, calc6); // fraction product
-//			let cutoffTotal = CUTOFF.times(b);
 			let calc7 = Const.f127();
 			let scale = calc7.dividedBy(cutoffTotal);
-//			do Fraction.multiply(cutoffTotal, Const.f127th(), scale, calc7, calc8, calc9, calc10, calc11, calc12); // fraction product
-//			let scale = cutoffTotal.times(Const.f127th());
-			do Fraction.multiply(scale, b, newB, calc13, calc14, calc15, calc16, calc17, calc18); // fraction product
-//			let newB = scale.times(b);
+			do Fraction.multiply(scale, b, newB, calc8, calc9, calc10, calc11, calc12, calc13); // fraction product
 		}
 		do scaledEquation.setB(newB);
 		do scaledEquation.setXIsScreenCutoff(xIsGreater);
@@ -122,36 +121,27 @@ do Out.log("slope * 170 = ", newB.toString());
 		let equation = e;
 		if (equation.getXIsScreenCutoff()) {
 			do Graph.drawYCutoffLine(0, 255);
-//			do Graph.drawXCutoffLine(200, 205);
 		} else {
 			do Graph.drawXCutoffLine(0, 511);
-//			do Graph.drawYCutoffLine(100, 105);
 		}
 		return;
 	}
 
 
 	function void drawYCutoffLine(int i, int j) {
-//    var Int deltaI;
     while(i < j){
       do iIndex.set(true, i);
-//      do iIndex.setPos(true);
-//      do iIndex.setNum(i);
       let deltaI = iIndex.minus(Const.i127()); // Int difference
       do currY.set(deltaI, Const.i1());
       let currX = equation.solveForX(currY); // Frac solveForX
       do Graph.drawValidScaledPoint();
       let i = i + 1;
     }
-
     return;
 	}
 
 	function void drawXCutoffLine(int i, int j) {
-//		var Int deltaI;
     while(i < j){
-//      do iIndex.setPos(true);
-//      do iIndex.setNum(i);
       do iIndex.set(true, i);
       let deltaI = iIndex.minus(Const.i255()); // Int difference
       do currX.set(deltaI, Const.i1());
@@ -164,32 +154,30 @@ do Out.log("slope * 170 = ", newB.toString());
 
 	function void drawValidScaledPoint() {
 		do iX.set(currX.pos(), currX.toInt());
-//		do iX.setPos(currX.pos());
-//		do iX.setNum(currX.toInt());
 		do iY.set(currY.pos(), currY.toInt());
-//		do iY.setPos(currY.pos());
-//		do iY.setNum(currY.toInt());
 		do currPoint.setX(iX);
 		do currPoint.setY(iY);
-//		do Out.ln(currPoint.toString());
     if (currPoint.isValidPoint()){
       do Graph.drawPoint();
     }
   	return;
 	}
 
-	 function void drawPoint() {
-      let coord = currPoint.toCoord();
-//      do Out.log(" --> ", coord.toString());
-      do Graph.drawPixel();
+	function void drawPoint() {
+	  let coord = currPoint.toCoord();
+	  do Graph.drawPixel();
+	  return;
+	}
+
+  function void drawPixel() {
+    if (coord.isValidCoord()) {
+      do Screen.drawPixel(coord.x(), coord.y());
+    }
       return;
-    }
+  }
 
-    function void drawPixel() {
-      if (coord.isValidCoord()) {
-        do Screen.drawPixel(coord.x(), coord.y());
-      }
-        return;
-    }
-
+	method void dispose() {
+    do Memory.deAlloc(this);
+    return;
+  }
 }

@@ -1,12 +1,13 @@
+/**
+*	Handles coordinates on the screen
+*/
 class Coord {
 	field int x, y;
 
-	/** Constructs a coordinate on the Hack Emulated Screen, using positive x and y values */
+	/** Constructs a coordinate with positive x and y values on the Hack Emulated Screen */
   constructor Coord new(int xVal, int yVal){
     let x = xVal;
     let y = yVal;
-//    do Memory.deAlloc(xVal);
-//    do Memory.deAlloc(yVal);
     return this;
   }
 

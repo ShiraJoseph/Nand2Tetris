@@ -123,3 +123,12 @@ call Out.ln 1
 pop temp 0
 push constant 0
 return
+function Out.cls 0
+call Screen.clearScreen 0
+pop temp 0
+push constant 0
+push constant 0
+call Output.moveCursor 2
+pop temp 0
+push constant 0
+return

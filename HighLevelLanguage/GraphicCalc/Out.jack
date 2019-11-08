@@ -1,5 +1,5 @@
 /**
-* This class provides shortcuts for Output.print functions
+* Provides shorthand functions for Output
 */
 class Out {
 	/** Prints a string */
@@ -66,6 +66,12 @@ class Out {
   function void log(String a, String b){
 		do Out.s(a);
 		do Out.ln(b);
+    return;
+  }
+
+  function void cls() {
+    do Screen.clearScreen();
+    do Output.moveCursor(0, 0);
     return;
   }
 }

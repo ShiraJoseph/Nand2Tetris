@@ -14,6 +14,9 @@ push argument 0
 pop this 4
 push argument 1
 pop this 11
+push pointer 0
+return
+function Equation.init 0
 call Const.i1 0
 call Const.i1 0
 call Fraction.new 2
@@ -64,7 +67,43 @@ not
 push constant 1
 call Int.new 2
 pop static 10
-push pointer 0
+push constant 0
+return
+function Equation.deInit 0
+push static 0
+call Fraction.dispose 1
+pop temp 0
+push static 1
+call Fraction.dispose 1
+pop temp 0
+push static 2
+call Fraction.dispose 1
+pop temp 0
+push static 3
+call Fraction.dispose 1
+pop temp 0
+push static 4
+call Fraction.dispose 1
+pop temp 0
+push static 5
+call Int.dispose 1
+pop temp 0
+push static 6
+call Int.dispose 1
+pop temp 0
+push static 7
+call Int.dispose 1
+pop temp 0
+push static 8
+call Int.dispose 1
+pop temp 0
+push static 9
+call Int.dispose 1
+pop temp 0
+push static 10
+call Int.dispose 1
+pop temp 0
+push constant 0
 return
 function Equation.getX 0
 push argument 0
@@ -1034,4 +1073,12 @@ push local 2
 call S.append5 5
 pop local 3
 push local 3
+return
+function Equation.dispose 0
+push argument 0
+pop pointer 0
+push pointer 0
+call Memory.deAlloc 1
+pop temp 0
+push constant 0
 return

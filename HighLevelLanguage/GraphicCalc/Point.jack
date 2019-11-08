@@ -1,3 +1,6 @@
+/**
+*	Handles points in an equation
+*/
 class Point {
 	field Int x, y;
 	field boolean isCoord;
@@ -6,13 +9,24 @@ class Point {
 
 	/** Constructs a point on the cartesian plane */
   constructor Point new(Int xVal, Int yVal){
-    let coord = Coord.new(1, 1);
-    let xCoord = Int.new(true, 1);
-    let yCoord = Int.new(true, 1);
     let x = xVal;
     let y = yVal;
     return this;
   }
+  /** Initiates static variables */
+  function void init() {
+    let coord = Coord.new(1, 1);
+    let xCoord = Int.new(true, 1);
+    let yCoord = Int.new(true, 1);
+    return;
+  }
+	/** Disposes static variables */
+	function void deInit() {
+		do coord.dispose();
+		do xCoord.dispose();
+		do yCoord.dispose();
+		return;
+	}
 
   /** Accessors. */
   method Int x(){ return x; }
@@ -33,29 +47,15 @@ class Point {
    *  Example: the point (1, 1) would be drawn at (256, 126) on the Hack Screen
    */
   method Coord toCoord(){
-//		do Out.s(toString());
-//		do Out.s(" to (");
-
-
-//    do Out.i(add.num());
-//    do Out.s(", ");
-//    do Out.i(sub.num());
-//    do Out.ln(")");
-//    do Sys.wait(500);
     if (isValidPoint()){
       let xCoord = x.plus(Const.i255()); // Int sum
-//      do Out.log("xCoord = ", xCoord.toString());
       do coord.setX(xCoord.num());
-
       let yCoord = y.plus(Const.i127()); // Int sum
-//      do Out.log("yCoord = ", yCoord.toString());
       do coord.setY(yCoord.num());
     } else {
       do Out.s("Invalid Point ");
-      do Out.s(x.toString());
-      do Out.s(", ");
-      do Out.ln(y.toString());
-      do Sys.wait(300);
+      do Out.ln(toString());
+      do Sys.halt();
     }
     return coord;
   }

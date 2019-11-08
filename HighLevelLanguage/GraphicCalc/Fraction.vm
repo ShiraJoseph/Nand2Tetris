@@ -14,6 +14,16 @@ push constant 0
 not
 push constant 1
 call Int.new 2
+pop static 0
+push constant 0
+not
+push constant 1
+call Int.new 2
+pop static 1
+push constant 0
+not
+push constant 1
+call Int.new 2
 pop static 2
 push constant 0
 not
@@ -36,15 +46,29 @@ push constant 1
 call Int.new 2
 pop static 6
 push constant 0
-not
-push constant 1
-call Int.new 2
-pop static 7
-push constant 0
-not
-push constant 1
-call Int.new 2
-pop static 8
+return
+function Fraction.deInit 0
+push static 0
+call Int.dispose 1
+pop temp 0
+push static 1
+call Int.dispose 1
+pop temp 0
+push static 2
+call Int.dispose 1
+pop temp 0
+push static 3
+call Int.dispose 1
+pop temp 0
+push static 4
+call Int.dispose 1
+pop temp 0
+push static 5
+call Int.dispose 1
+pop temp 0
+push static 6
+call Int.dispose 1
+pop temp 0
 push constant 0
 return
 function Fraction.reduce 1
@@ -85,13 +109,6 @@ function Fraction.pos 0
 push argument 0
 pop pointer 0
 push this 2
-return
-function Fraction.setPos 0
-push argument 0
-pop pointer 0
-push argument 1
-pop this 2
-push constant 0
 return
 function Fraction.set 0
 push argument 0
@@ -149,45 +166,52 @@ pop temp 0
 label IF_END2
 push constant 0
 return
+function Fraction.setPos 0
+push argument 0
+pop pointer 0
+push argument 1
+pop this 2
+push constant 0
+return
 function Fraction.plus 0
 push argument 0
 pop pointer 0
-push static 2
+push static 0
 push this 2
 push this 0
 call Int.set 3
 pop temp 0
-push static 3
+push static 1
 push constant 0
 not
 push argument 1
 call Fraction.denominator 1
 call Int.set 3
 pop temp 0
+push static 0
+push static 1
 push static 2
-push static 3
-push static 4
 call Int.multiply 3
 pop temp 0
-push static 5
+push static 3
 push argument 1
 call Fraction.pos 1
 push argument 1
 call Fraction.numerator 1
 call Int.set 3
 pop temp 0
-push static 6
+push static 4
 push constant 0
 not
 push this 1
 call Int.set 3
 pop temp 0
+push static 3
+push static 4
 push static 5
-push static 6
-push static 7
 call Int.multiply 3
 pop temp 0
-push static 8
+push static 6
 push constant 0
 not
 push this 1
@@ -196,51 +220,51 @@ call Fraction.denominator 1
 call Math.multiply 2
 call Int.set 3
 pop temp 0
-push static 4
-push static 7
+push static 2
+push static 5
 call Int.plus 2
-push static 8
+push static 6
 call Fraction.new 2
 return
 function Fraction.minus 0
 push argument 0
 pop pointer 0
-push static 2
+push static 0
 push this 2
 push this 0
 call Int.set 3
 pop temp 0
-push static 3
+push static 1
 push constant 0
 not
 push argument 1
 call Fraction.denominator 1
 call Int.set 3
 pop temp 0
+push static 0
+push static 1
 push static 2
-push static 3
-push static 4
 call Int.multiply 3
 pop temp 0
-push static 5
+push static 3
 push argument 1
 call Fraction.pos 1
 push argument 1
 call Fraction.numerator 1
 call Int.set 3
 pop temp 0
-push static 6
+push static 4
 push constant 0
 not
 push this 1
 call Int.set 3
 pop temp 0
+push static 3
+push static 4
 push static 5
-push static 6
-push static 7
 call Int.multiply 3
 pop temp 0
-push static 8
+push static 6
 push constant 0
 not
 push this 1
@@ -249,10 +273,10 @@ call Fraction.denominator 1
 call Math.multiply 2
 call Int.set 3
 pop temp 0
-push static 4
-push static 7
+push static 2
+push static 5
 call Int.minus 2
-push static 8
+push static 6
 call Fraction.new 2
 return
 function Fraction.multiply 0
