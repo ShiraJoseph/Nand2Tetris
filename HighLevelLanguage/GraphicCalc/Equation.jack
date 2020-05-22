@@ -3,7 +3,7 @@ class Equation {
   field boolean xExists, yExists, bExists, mExists, xIsScreenCutoff, startLineNegative;
   field String format;
   field Fraction xF, yF, bF, mF;
-  static Fraction tempCalc1, tempCalc2, tempCalc3, tempCalc4, tempCalc5;
+  static Fraction eX, eY, eB, newSlope, newB, mx, tempCalc1, tempCalc2, tempCalc3, tempCalc4, tempCalc5;
   static Int calc1, calc2, calc3, calc4, calc5, calc6;
 
 	/** Constructs a new equation for graphing */
@@ -19,6 +19,12 @@ class Equation {
 
   /** Initiates static variables */
   function void init() {
+    let eX = Fraction.new(Const.i1(), Const.i1());
+    let eY = Fraction.new(Const.i1(), Const.i1());
+    let eB = Fraction.new(Const.i1(), Const.i1());
+    let newSlope = Fraction.new(Const.i1(), Const.i1());
+    let newB = Fraction.new(Const.i1(), Const.i1());
+    let mx = Fraction.new(Const.i1(), Const.i1());
 		let tempCalc1 = Fraction.new(Const.i1(), Const.i1());
 		let tempCalc2 = Fraction.new(Const.i1(), Const.i1());
 		let tempCalc3 = Fraction.new(Const.i1(), Const.i1());
@@ -35,6 +41,12 @@ class Equation {
 
   /** Disposes static variables */
   function void deInit() {
+    do eX.dispose();
+    do eY.dispose();
+    do eB.dispose();
+    do newSlope.dispose();
+    do newB.dispose();
+    do mx.dispose();
     do tempCalc1.dispose();
     do tempCalc2.dispose();
     do tempCalc3.dispose();
@@ -47,6 +59,34 @@ class Equation {
     do calc5.dispose();
     do calc6.dispose();
     return;
+  }
+
+  /** Turns an equation in the standard or point-slope format into one using the slope-intercept format */
+ function Equation convertToSlopeIntercept(Equation e){
+    var String f;
+    var Equation slopeIEquation;
+    let f = e.getFormat();
+    if (S.equals(f, Const.sI())){
+      return e;
+    }
+    let eX = e.getX();
+    let eY = e.getY();
+    let slopeIEquation = Equation.new(1, Const.sI());
+    if (S.equals(f, Const.sS())){
+			let newSlope = eX.dividedBy(eY); // fraction quotient
+			do newSlope.setPos(~newSlope.pos());
+			let eB = e.getB();
+			let newB = eB.dividedBy(eY); // fraction quotient
+		} else {
+			let newSlope = e.getSlope();
+			let mx = Fraction.new(Const.i1(), Const.i1());
+			do Fraction.multiply(newSlope, e.getX(), mx, calc1, calc2, calc3, calc4, calc5, calc6); // fraction product
+			let newB = eY.minus(mx);
+		}
+		do slopeIEquation.setSlope(newSlope);
+		do slopeIEquation.setB(newB);
+
+		return slopeIEquation;
   }
 
   /** Accessors */
@@ -88,53 +128,42 @@ class Equation {
 
 	/** Uses the value of x to solve for y */
 	method Fraction solveForY(Fraction xPoint){
-//		var Fraction tempCalc1, tempCalc2, tempCalc3;
-		if (S.equals(format, "I")){
-//			do Out.log("Eq.solveForY x = ", xPoint.toString());
+		if (S.equals(format, Const.sI())){
 			do Fraction.multiply(mF, xPoint, tempCalc1, calc1, calc2, calc3, calc4, calc5, calc6); //fraction product
-//			let tempCalc1 = mF.times(xPoint);
-//			do Out.log("Eq.solveForY got back slope * x = ", tempCalc1.toString());
 			let tempCalc2 = tempCalc1.plus(bF); // fraction sum
-//			do Out.log("Eq.solveForY mx + b = ", tempCalc2.toString());
 			return tempCalc2;
 		}
-		if (S.equals(format, "P")){
+		if (S.equals(format, Const.sP())){
 			let tempCalc1 = xF.minus(xPoint); // fraction difference
 			do Fraction.multiply(mF, tempCalc1, tempCalc2, calc1, calc2, calc3, calc4, calc5, calc6); // fraction product
-//			let tempCalc2 = mF.times(tempCalc1);
 			let tempCalc3 = yF.minus(tempCalc2); // fraction difference
 			return tempCalc3;
     }
-    if (S.equals(format, "S")){
+    if (S.equals(format, Const.sS())){
       do Fraction.multiply(xF, xPoint, tempCalc1, calc1, calc2, calc3, calc4, calc5, calc6); // fraction product
-//      let tempCalc1 = xF.times(xPoint);
       let tempCalc2 = bF.minus(tempCalc1); // fraction difference
       let tempCalc3 = tempCalc2.dividedBy(yF); // fraction quotient
       return tempCalc3;
     }
-    return Fraction.new(0, 1);
+    do Sys.halt();
+    return Const.f1();
 	}
 
 	/** Uses the value of y to solve for x */
 	method Fraction solveForX(Fraction yPoint){
-//		var Fraction tempCalc1, tempCalc2, tempCalc3;
-		if (S.equals(format, "I")){
-//			do Out.log("Solve for x with y = ", yPoint.toString());
+		if (S.equals(format, Const.sI())){
 			let tempCalc1 = yPoint.minus(bF); // fraction difference
-//			do Out.log("y - b = ", tempCalc1.toString());
 			let tempCalc2 = tempCalc1.dividedBy(mF); // fraction quotient
-//			do Out.log("(y - b)/m = ", tempCalc2.toString());
 			return tempCalc2;
 		}
-		if (S.equals(format, "P")){
+		if (S.equals(format, Const.sP())){
 			let tempCalc1 = yF.minus(yPoint); // fraction difference
 			let tempCalc2 = tempCalc1.dividedBy(mF); // fraction quotient
 			let tempCalc3 = xF.minus(tempCalc2); // fraction difference
 			return tempCalc3;
 		}
-		if (S.equals(format, "S")){
+		if (S.equals(format, Const.sS())){
 			do Fraction.multiply(yF, yPoint, tempCalc1, calc1, calc2, calc3, calc4, calc5, calc6); // fraction product
-//			let tempCalc1 = yF.times(yPoint);
 			let tempCalc2 = bF.minus(tempCalc1); // fraction difference
 			let tempCalc3 = tempCalc2.dividedBy(xF); // fraction quotient
 			return tempCalc3;
@@ -143,50 +172,18 @@ class Equation {
 	}
 
   method Fraction getYIntercept(){
-//    var Fraction yIntercept, x;
 		do tempCalc1.set(Const.i0(), Const.i1()); // fraction instance
-//    let tempCalc1 = Fraction.new( Int.new(true, 0), Const.i1());
     let tempCalc2 = solveForY(tempCalc1); // fraction solveForY
     return tempCalc2;
   }
 
   method Fraction getXIntercept(){
-//    var Fraction xIntercept, y;
 		do tempCalc1.set(Const.i0(), Const.i1()); // fraction instance
-//    let tempCalc1 = Fraction.new( Int.new(true, 0), Const.i1());
     let tempCalc2 = solveForX(tempCalc1); // fraction solveForX
     return tempCalc2;
   }
 
-  function Equation convertToSlopeIntercept(Equation e){
-    var String f;
-    var Fraction eX, eY, eB, newSlope, newB, mx;
-    var Equation slopeIEquation;
-    let f = e.getFormat();
-    if (S.equals(f, "I")){
-      return e;
-    }
-    let eX = e.getX();
-    let eY = e.getY();
-    let slopeIEquation = Equation.new(1, "I");
-    if (S.equals(f, "S")){
-			let newSlope = eX.dividedBy(eY); // fraction quotient
-			do newSlope.setPos(~newSlope.pos());
-			let eB = e.getB();
-			let newB = eB.dividedBy(eY); // fraction quotient
-		} else {
-			let newSlope = e.getSlope();
-			let mx = Fraction.new(Const.i1(), Const.i1());
-			do Fraction.multiply(newSlope, e.getX(), mx, calc1, calc2, calc3, calc4, calc5, calc6); // fraction product
-//			let mx = newSlope.times(e.getX());
-			let newB = eY.minus(mx);
-		}
-		do slopeIEquation.setSlope(newSlope);
-		do slopeIEquation.setB(newB);
-		do Out.ln(slopeIEquation.toString());
 
-		return slopeIEquation;
-  }
 
 	/****************************************************
 	**  Methods to build the equation with user input  **
@@ -195,21 +192,21 @@ class Equation {
 	// TODO: either prevent or figure out how to handle an input of 0
 	/** Stores the appropriate values from the user based on the chosen equation format */
 	method void getValues(){
-		if (S.equals(format, "P")){
-      do inputVar("y");
-      do inputVar("m");
-      do inputVar("x");
+		if (S.equals(format, Const.sP())){
+      do inputVar(Const.sY());
+      do inputVar(Const.sM());
+      do inputVar(Const.sX());
       return;
     }
-		if (S.equals(format, "I")){
-			do inputVar("m");
-			do inputVar("b");
+		if (S.equals(format, Const.sI())){
+			do inputVar(Const.sM());
+			do inputVar(Const.sB());
 			return;
 		}
-		if (S.equals(format, "S")){
-      do inputVar("x");
-      do inputVar("y");
-      do inputVar("b");
+		if (S.equals(format, Const.sS())){
+      do inputVar(Const.sX());
+      do inputVar(Const.sY());
+      do inputVar(Const.sB());
       return;
 		}
     return;
@@ -219,25 +216,25 @@ class Equation {
   method void inputVar(String v){
     var String xString, yString, bString, mString;
     var Fraction temp;
-    if (S.equals(v, "x")){
+    if (S.equals(v, Const.sX())){
       let xString = Keyboard.readLine("Enter an x:");
       let xF = Fraction.toFraction(xString);
       let temp = xF;
       let xExists = true;
     }
-    if (S.equals(v, "y")){
+    if (S.equals(v, Const.sY())){
       let yString = Keyboard.readLine("Enter a y:");
       let yF = Fraction.toFraction(yString);
       let yExists = true;
       let temp = yF;
     }
-    if (S.equals(v, "b")){
+    if (S.equals(v, Const.sB())){
       let bString = Keyboard.readLine("Enter an intercept:");
       let bF = Fraction.toFraction(bString);
       let bExists = true;
       let temp = bF;
     }
-    if (S.equals(v, "m")){
+    if (S.equals(v, Const.sM())){
       let mString = Keyboard.readLine("Enter a slope:");
       let mF = Fraction.toFraction(mString);
       let mExists = true;
@@ -254,13 +251,13 @@ class Equation {
 	/** Returns the current state of the equation as a string based on the chosen equation format */
   method String toString(){
     if (degree = 1){
-	    if (S.equals(format, "S")){
+	    if (S.equals(format, Const.sS())){
 	      return getStandardString();
 	    }
-	    if (S.equals(format, "I")){
+	    if (S.equals(format, Const.sI())){
 	      return getSlopeInterceptString();
 	    }
-	    if (S.equals(format, "P")){
+	    if (S.equals(format, Const.sP())){
 	      return getPointSlopeString();
 	    }
     }

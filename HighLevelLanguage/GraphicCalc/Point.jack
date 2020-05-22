@@ -50,6 +50,7 @@ class Point {
     if (isValidPoint()){
       let xCoord = x.plus(Const.i255()); // Int sum
       do coord.setX(xCoord.num());
+      let y = y.times(Const.iNeg1());
       let yCoord = y.plus(Const.i127()); // Int sum
       do coord.setY(yCoord.num());
     } else {

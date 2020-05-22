@@ -17,6 +17,8 @@ class Graph {
 		let iX = Int.new(true, 1);
 		let iY = Int.new(true, 1);
 		let iIndex = Int.new(true, 1);
+		let deltaI = Int.new(true, 1);
+		let currPoint = Point.new(iX, iY);
 		let coord = currPoint.toCoord();
 		return;
 	}
@@ -120,9 +122,9 @@ class Graph {
 	function void drawScaledLine(Equation e) {
 		let equation = e;
 		if (equation.getXIsScreenCutoff()) {
-			do Graph.drawYCutoffLine(0, 255);
+			do Graph.drawYCutoffLine(0, 256);
 		} else {
-			do Graph.drawXCutoffLine(0, 511);
+			do Graph.drawXCutoffLine(0, 512);
 		}
 		return;
 	}
@@ -178,6 +180,181 @@ class Graph {
 
 	method void dispose() {
     do Memory.deAlloc(this);
+    return;
+  }
+
+  function void labelTickMark(int x, int y, int number, int direction) {
+		return;
+  }
+
+  function void drawDigit(int number, int x, int y) {
+    if (number = 1){
+      do Screen.drawPixel(x + 1, y + 1);
+      do Screen.drawPixel(x + 1, y + 6);
+      do Screen.drawPixel(x + 2, y + 0);
+      do Screen.drawPixel(x + 2, y + 1);
+      do Screen.drawPixel(x + 2, y + 2);
+      do Screen.drawPixel(x + 2, y + 3);
+      do Screen.drawPixel(x + 2, y + 4);
+      do Screen.drawPixel(x + 2, y + 5);
+      do Screen.drawPixel(x + 2, y + 6);
+      do Screen.drawPixel(x + 3, y + 6);
+    }
+    if (number = 2){
+      do Screen.drawPixel(x + 0, y + 1);
+      do Screen.drawPixel(x + 0, y + 6);
+      do Screen.drawPixel(x + 1, y + 0);
+      do Screen.drawPixel(x + 1, y + 5);
+      do Screen.drawPixel(x + 1, y + 6);
+      do Screen.drawPixel(x + 2, y + 0);
+      do Screen.drawPixel(x + 2, y + 4);
+      do Screen.drawPixel(x + 2, y + 6);
+      do Screen.drawPixel(x + 3, y + 0);
+      do Screen.drawPixel(x + 3, y + 3);
+      do Screen.drawPixel(x + 3, y + 6);
+      do Screen.drawPixel(x + 4, y + 1);
+      do Screen.drawPixel(x + 4, y + 2);
+      do Screen.drawPixel(x + 4, y + 6);
+    }
+    if (number = 3){
+      do Screen.drawPixel(x + 0, y + 1);
+      do Screen.drawPixel(x + 0, y + 5);
+      do Screen.drawPixel(x + 1, y + 0);
+      do Screen.drawPixel(x + 1, y + 6);
+      do Screen.drawPixel(x + 2, y + 0);
+      do Screen.drawPixel(x + 2, y + 3);
+      do Screen.drawPixel(x + 2, y + 6);
+      do Screen.drawPixel(x + 3, y + 0);
+      do Screen.drawPixel(x + 3, y + 3);
+      do Screen.drawPixel(x + 3, y + 6);
+      do Screen.drawPixel(x + 4, y + 1);
+      do Screen.drawPixel(x + 4, y + 2);
+      do Screen.drawPixel(x + 4, y + 4);
+      do Screen.drawPixel(x + 4, y + 5);
+    }
+    if (number = 4){
+      do Screen.drawPixel(x + 0, y + 3);
+      do Screen.drawPixel(x + 0, y + 4);
+      do Screen.drawPixel(x + 1, y + 2);
+      do Screen.drawPixel(x + 1, y + 4);
+      do Screen.drawPixel(x + 2, y + 1);
+      do Screen.drawPixel(x + 2, y + 4);
+      do Screen.drawPixel(x + 3, y + 0);
+      do Screen.drawPixel(x + 3, y + 1);
+      do Screen.drawPixel(x + 3, y + 2);
+      do Screen.drawPixel(x + 3, y + 3);
+      do Screen.drawPixel(x + 3, y + 4);
+      do Screen.drawPixel(x + 3, y + 5);
+      do Screen.drawPixel(x + 3, y + 6);
+      do Screen.drawPixel(x + 4, y + 4);
+    }
+    if (number = 5){
+      do Screen.drawPixel(x + 0, y + 0);
+      do Screen.drawPixel(x + 0, y + 1);
+      do Screen.drawPixel(x + 0, y + 2);
+      do Screen.drawPixel(x + 0, y + 3);
+      do Screen.drawPixel(x + 0, y + 5);
+      do Screen.drawPixel(x + 1, y + 0);
+      do Screen.drawPixel(x + 1, y + 3);
+      do Screen.drawPixel(x + 1, y + 6);
+      do Screen.drawPixel(x + 2, y + 0);
+      do Screen.drawPixel(x + 2, y + 3);
+      do Screen.drawPixel(x + 2, y + 6);
+      do Screen.drawPixel(x + 3, y + 0);
+      do Screen.drawPixel(x + 3, y + 3);
+      do Screen.drawPixel(x + 3, y + 6);
+      do Screen.drawPixel(x + 4, y + 0);
+      do Screen.drawPixel(x + 4, y + 4);
+      do Screen.drawPixel(x + 4, y + 5);
+    }
+    if (number = 6){
+      do Screen.drawPixel(x + 0, y + 1);
+      do Screen.drawPixel(x + 0, y + 2);
+      do Screen.drawPixel(x + 0, y + 3);
+      do Screen.drawPixel(x + 0, y + 4);
+      do Screen.drawPixel(x + 0, y + 5);
+      do Screen.drawPixel(x + 1, y + 0);
+      do Screen.drawPixel(x + 1, y + 3);
+      do Screen.drawPixel(x + 1, y + 6);
+      do Screen.drawPixel(x + 2, y + 0);
+      do Screen.drawPixel(x + 2, y + 3);
+      do Screen.drawPixel(x + 2, y + 6);
+      do Screen.drawPixel(x + 3, y + 0);
+      do Screen.drawPixel(x + 3, y + 3);
+      do Screen.drawPixel(x + 3, y + 6);
+      do Screen.drawPixel(x + 4, y + 0);
+      do Screen.drawPixel(x + 4, y + 4);
+      do Screen.drawPixel(x + 4, y + 5);
+    }
+    if (number = 7){
+      do Screen.drawPixel(x + 0, y + 0);
+      do Screen.drawPixel(x + 1, y + 0);
+      do Screen.drawPixel(x + 1, y + 4);
+      do Screen.drawPixel(x + 1, y + 5);
+      do Screen.drawPixel(x + 1, y + 6);
+      do Screen.drawPixel(x + 2, y + 0);
+      do Screen.drawPixel(x + 2, y + 3);
+      do Screen.drawPixel(x + 3, y + 0);
+      do Screen.drawPixel(x + 3, y + 2);
+      do Screen.drawPixel(x + 4, y + 0);
+      do Screen.drawPixel(x + 4, y + 1);
+    }
+    if (number = 8){
+      do Screen.drawPixel(x + 0, y + 1);
+      do Screen.drawPixel(x + 0, y + 2);
+      do Screen.drawPixel(x + 0, y + 4);
+      do Screen.drawPixel(x + 0, y + 5);
+      do Screen.drawPixel(x + 1, y + 0);
+      do Screen.drawPixel(x + 1, y + 3);
+      do Screen.drawPixel(x + 1, y + 6);
+      do Screen.drawPixel(x + 2, y + 0);
+      do Screen.drawPixel(x + 2, y + 3);
+      do Screen.drawPixel(x + 2, y + 6);
+      do Screen.drawPixel(x + 3, y + 0);
+      do Screen.drawPixel(x + 3, y + 3);
+      do Screen.drawPixel(x + 3, y + 6);
+      do Screen.drawPixel(x + 4, y + 1);
+      do Screen.drawPixel(x + 4, y + 2);
+      do Screen.drawPixel(x + 4, y + 4);
+      do Screen.drawPixel(x + 4, y + 5);
+    }
+    if (number = 9){
+      do Screen.drawPixel(x + 0, y + 1);
+      do Screen.drawPixel(x + 0, y + 2);
+      do Screen.drawPixel(x + 0, y + 6);
+      do Screen.drawPixel(x + 1, y + 0);
+      do Screen.drawPixel(x + 1, y + 3);
+      do Screen.drawPixel(x + 1, y + 6);
+      do Screen.drawPixel(x + 2, y + 0);
+      do Screen.drawPixel(x + 2, y + 3);
+      do Screen.drawPixel(x + 2, y + 6);
+      do Screen.drawPixel(x + 3, y + 0);
+      do Screen.drawPixel(x + 3, y + 3);
+      do Screen.drawPixel(x + 3, y + 6);
+      do Screen.drawPixel(x + 4, y + 1);
+      do Screen.drawPixel(x + 4, y + 2);
+      do Screen.drawPixel(x + 4, y + 3);
+      do Screen.drawPixel(x + 4, y + 4);
+      do Screen.drawPixel(x + 4, y + 5);
+    }
+    if (number = 0){
+      do Screen.drawPixel(x + 0, y + 1);
+      do Screen.drawPixel(x + 0, y + 2);
+      do Screen.drawPixel(x + 0, y + 3);
+      do Screen.drawPixel(x + 0, y + 4);
+      do Screen.drawPixel(x + 0, y + 5);
+      do Screen.drawPixel(x + 1, y + 0);
+      do Screen.drawPixel(x + 1, y + 6);
+      do Screen.drawPixel(x + 2, y + 0);
+      do Screen.drawPixel(x + 2, y + 6);
+      do Screen.drawPixel(x + 3, y + 0);
+      do Screen.drawPixel(x + 3, y + 6);
+      do Screen.drawPixel(x + 4, y + 1);
+      do Screen.drawPixel(x + 4, y + 2);
+      do Screen.drawPixel(x + 4, y + 3);
+      do Screen.drawPixel(x + 4, y + 4);
+      do Screen.drawPixel(x + 4, y + 5);
+    }
     return;
   }
 }

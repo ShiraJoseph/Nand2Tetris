@@ -1,7 +1,8 @@
 /** Provides static constants to the rest of the app to help manage memory */
 class Const {
-	static Int i0, i1, i2, i127, i128, i255, i256, iNeg128, iNeg256;
+	static Int i0, i1, i2, i127, i128, i255, i256, iNeg1, iNeg128, iNeg256;
 	static Fraction f1, f127, f128, f255, f256;
+	static String sY, sX, sB, sM, sS, sP, sI, sQ;
 
   constructor Const new() {
 		return this;
@@ -16,6 +17,7 @@ class Const {
 		let i256 = Int.new(true, 256);
 		let i127 = Int.new(true, 127);
 		let i128 = Int.new(true, 128);
+		let iNeg1 = Int.new(false, 1);
 		let iNeg128 = Int.new(false, 128);
 		let iNeg256 = Int.new(false, 256);
 		let f1 = Fraction.new(i1, i1);
@@ -23,6 +25,14 @@ class Const {
     let f128 = Fraction.new(i128, i1);
 		let f255 = Fraction.new(i255, i1);
 		let f256 = Fraction.new(i256, i1);
+		let sS = "S";
+		let sP = "P";
+		let sI = "I";
+		let sQ = "Q";
+		let sX = "x";
+		let sY = "y";
+		let sM = "m";
+		let sB = "b";
     return;
 	}
 	/** Disposes static variables */
@@ -34,6 +44,7 @@ class Const {
 		do i127.dispose();
 		do i256.dispose();
 		do i128.dispose();
+		do iNeg1.dispose();
 		do iNeg128.dispose();
 		do iNeg256.dispose();
 		do f1.dispose();
@@ -41,6 +52,14 @@ class Const {
 		do f128.dispose();
 		do f255.dispose();
 		do f256.dispose();
+		do Memory.deAlloc(sS);
+		do Memory.deAlloc(sP);
+		do Memory.deAlloc(sI);
+		do Memory.deAlloc(sQ);
+		do Memory.deAlloc(sX);
+		do Memory.deAlloc(sY);
+		do Memory.deAlloc(sM);
+		do Memory.deAlloc(sB);
 		return;
 	}
 
@@ -52,6 +71,7 @@ class Const {
 	function Int i128() { return i128; }
 	function Int i255() { return i255; }
 	function Int i256() { return i256; }
+	function Int iNeg1() { return iNeg1; }
   function Int iNeg128() { return iNeg128; }
 	function Int iNeg256() { return iNeg256; }
   function Fraction f1() { return f1; }
@@ -59,5 +79,18 @@ class Const {
   function Fraction f128() { return f128; }
   function Fraction f255() { return f255; }
   function Fraction f256() { return f256; }
+  function String sX() { return sX; }
+  function String sY() { return sY; }
+  function String sM() { return sM; }
+  function String sB() { return sB; }
+  function String sP() { return sP; }
+  function String sS() { return sS; }
+  function String sI() { return sI; }
+  function String sQ() { return sQ; }
+
+  method void dispose() {
+    do Memory.deAlloc(this);
+    return;
+  }
 
 }

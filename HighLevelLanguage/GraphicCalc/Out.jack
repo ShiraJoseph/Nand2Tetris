@@ -69,6 +69,7 @@ class Out {
     return;
   }
 
+	/** Clears the screen */
   function void cls() {
     do Screen.clearScreen();
     do Output.moveCursor(0, 0);

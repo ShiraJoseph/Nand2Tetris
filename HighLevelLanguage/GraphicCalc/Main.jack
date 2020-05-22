@@ -6,7 +6,18 @@
 
 class Main {
   function void main() {
-    do Main.createEquation();
+  do Screen.clearScreen();
+//    do Main.createEquation();
+		do Graph.drawDigit(0, 10, 10);
+		do Graph.drawDigit(1, 16, 10);
+		do Graph.drawDigit(2, 22, 10);
+		do Graph.drawDigit(3, 28, 10);
+		do Graph.drawDigit(4, 34, 10);
+		do Graph.drawDigit(5, 40, 10);
+		do Graph.drawDigit(6, 46, 10);
+		do Graph.drawDigit(7, 52, 10);
+		do Graph.drawDigit(8, 58, 10);
+		do Graph.drawDigit(9, 64, 10);
 		return;
   }
 
@@ -14,6 +25,7 @@ class Main {
 		do Const.init();
 		do Int.init();
 		do Fraction.init();
+		do Point.init();
 		do Equation.init();
 		do Graph.init();
 		return;
@@ -23,6 +35,7 @@ class Main {
   	do Const.deInit();
     do Int.deInit();
     do Fraction.deInit();
+    do Point.deInit();
     do Equation.deInit();
     do Graph.deInit();
     return;
@@ -51,11 +64,9 @@ class Main {
 
   function void draw(Equation e){
     var Equation newE;
-    let newE = Graph.getScaledLine(e);
 		do Graph.drawAxes();
-		do Sys.wait(200);
     do Out.ln(e.toString());
-    do Sys.wait(200);
+    let newE = Graph.getScaledLine(e);
     do Graph.drawScaledLine(newE);
     do Sys.wait(8000);
     return;

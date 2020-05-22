@@ -84,6 +84,10 @@ call Int.num 1
 call Coord.setX 2
 pop temp 0
 push this 1
+call Const.iNeg1 0
+call Int.times 2
+pop this 1
+push this 1
 call Const.i127 0
 call Int.plus 2
 pop static 2
