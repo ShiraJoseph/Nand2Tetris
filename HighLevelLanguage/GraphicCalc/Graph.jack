@@ -61,11 +61,36 @@ class Graph {
     do Screen.drawLine(252, 251, 255, 255);
     do Screen.drawLine(258, 251, 255, 255);
 
+    do Graph.drawTicks();
     return;
   }
 
   function void drawTicks() {
-//  TODO
+    do Screen.drawLine(31, 126, 31, 128);
+    do Graph.drawDigit(0, 29, 130);
+    do Screen.drawLine(63, 124, 63, 130);
+    do Screen.drawLine(95, 126, 95, 128);
+    do Screen.drawLine(127, 124, 127, 130);
+    do Screen.drawLine(159, 126, 159, 128);
+    do Screen.drawLine(191, 124, 191, 130);
+    do Screen.drawLine(223, 126, 223, 128);
+
+    do Screen.drawLine(287, 126, 287, 128);
+    do Screen.drawLine(319, 124, 319, 130);
+    do Screen.drawLine(351, 126, 351, 128);
+    do Screen.drawLine(383, 124, 383, 130);
+    do Screen.drawLine(415, 126, 415, 128);
+    do Screen.drawLine(447, 124, 447, 130);
+    do Screen.drawLine(479, 126, 479, 128);
+
+    do Screen.drawLine(254, 31, 256, 31);
+    do Screen.drawLine(252, 63, 258, 63);
+    do Screen.drawLine(254, 95, 256, 95);
+
+    do Screen.drawLine(254, 159, 256, 159);
+    do Screen.drawLine(252, 191, 258, 191);
+    do Screen.drawLine(254, 223, 256, 223);
+
 		return;
   }
 
@@ -183,12 +208,28 @@ class Graph {
     return;
   }
 
-  function void labelTickMark(int x, int y, int number, int direction) {
+  function void labelTickMarks() {
+    int i;
+    let i = 0;
+    while(i<16){
+      do Graph.getTickLabel(i);
+    }
 		return;
+  }
+
+  function int getTickLabel(int tickNumber) {
+      Fraction val;
+      let val = Fraction.new(Const.i1(), Const.i1());
+//    first 14 are on the x axis, last 6 are on the y axis
+    if(tickNumber = 0){
+
+    }
   }
 
   function void drawDigit(int number, int x, int y) {
     if (number = 1){
+      do Screen.drawPixel(x + 0, y + 2);
+      do Screen.drawPixel(x + 0, y + 6);
       do Screen.drawPixel(x + 1, y + 1);
       do Screen.drawPixel(x + 1, y + 6);
       do Screen.drawPixel(x + 2, y + 0);
@@ -199,6 +240,7 @@ class Graph {
       do Screen.drawPixel(x + 2, y + 5);
       do Screen.drawPixel(x + 2, y + 6);
       do Screen.drawPixel(x + 3, y + 6);
+      do Screen.drawPixel(x + 4, y + 6);
     }
     if (number = 2){
       do Screen.drawPixel(x + 0, y + 1);

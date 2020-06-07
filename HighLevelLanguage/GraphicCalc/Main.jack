@@ -7,17 +7,17 @@
 class Main {
   function void main() {
   do Screen.clearScreen();
-//    do Main.createEquation();
-		do Graph.drawDigit(0, 10, 10);
-		do Graph.drawDigit(1, 16, 10);
-		do Graph.drawDigit(2, 22, 10);
-		do Graph.drawDigit(3, 28, 10);
-		do Graph.drawDigit(4, 34, 10);
-		do Graph.drawDigit(5, 40, 10);
-		do Graph.drawDigit(6, 46, 10);
-		do Graph.drawDigit(7, 52, 10);
-		do Graph.drawDigit(8, 58, 10);
-		do Graph.drawDigit(9, 64, 10);
+    do Main.createEquation();
+//		do Graph.drawDigit(0, 10, 10);
+//		do Graph.drawDigit(1, 16, 10);
+//		do Graph.drawDigit(2, 22, 10);
+//		do Graph.drawDigit(3, 28, 10);
+//		do Graph.drawDigit(4, 34, 10);
+//		do Graph.drawDigit(5, 40, 10);
+//		do Graph.drawDigit(6, 46, 10);
+//		do Graph.drawDigit(7, 52, 10);
+//		do Graph.drawDigit(8, 58, 10);
+//		do Graph.drawDigit(9, 64, 10);
 		return;
   }
 
@@ -56,9 +56,9 @@ class Main {
     do equation.getValues();
     do Out.cls();
     do Main.draw(equation);
-    do Out.cls();
-    do Main.deInit();
-    do Main.createEquation();
+//    do Out.cls();
+//    do Main.deInit();
+//    do Main.createEquation();
     return;
   }
 
