@@ -65,6 +65,7 @@ class Main {
   function void draw(Equation e){
     var Equation newE;
 		do Graph.drawAxes();
+//		do Graph.drawTicks(e);
     do Out.ln(e.toString());
     let newE = Graph.getScaledLine(e);
     do Graph.drawScaledLine(newE);

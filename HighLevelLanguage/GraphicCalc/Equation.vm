@@ -1,5 +1,5 @@
 function Equation.new 0
-push constant 16
+push constant 17
 call Memory.alloc 1
 pop pointer 0
 push constant 0
@@ -249,6 +249,11 @@ push argument 0
 pop pointer 0
 push this 15
 return
+function Equation.getScale 0
+push argument 0
+pop pointer 0
+push this 16
+return
 function Equation.getXIsScreenCutoff 0
 push argument 0
 pop pointer 0
@@ -302,6 +307,13 @@ pop this 15
 push constant 0
 not
 pop this 8
+push constant 0
+return
+function Equation.setScale 0
+push argument 0
+pop pointer 0
+push argument 1
+pop this 16
 push constant 0
 return
 function Equation.setXIsScreenCutoff 0

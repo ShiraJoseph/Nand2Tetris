@@ -67,7 +67,7 @@ class Graph {
 
   function void drawTicks() {
     do Screen.drawLine(31, 126, 31, 128);
-    do Graph.drawDigit(0, 29, 130);
+    do Out.drawDigit(0, 29, 130);
     do Screen.drawLine(63, 124, 63, 130);
     do Screen.drawLine(95, 126, 95, 128);
     do Screen.drawLine(127, 124, 127, 130);
@@ -97,9 +97,12 @@ class Graph {
 	/** Returns an equation comparable to the given equation but scaled to fit within (-255, -127) to (255, 127) */
   function Equation getScaledLine(Equation e) {
     var Fraction CUTOFF, TWO, ONESEVENTY, yIncpt, xIncpt, xIncptTwice,
-    scale, b, m, cutoffTotal, newB, calc1, calc2, calc3, calc4, calc5, calc6, calc7, calc8, calc9, calc10, calc11, calc12, calc13;
+    scale, b, m, cutoffTotal, newB, calc1, calc2, calc3, calc4, calc5,
+    calc6, calc7, calc8, calc9, calc10, calc11, calc12, calc13, absM;
     var Equation scaledEquation;
+    var Int int1, int2, int3, int4;
     var boolean xIsGreater;
+    var int n, d;
 		let CUTOFF = Fraction.new(Int.new(true, 3), Const.i2());
 		let ONESEVENTY = Fraction.new(Int.new(true, 170), Const.i1());
 		let TWO = Fraction.new(Const.i2(), Const.i1());
@@ -117,16 +120,37 @@ class Graph {
 		let calc12 = Fraction.new(Const.i1(), Const.i1());
 		let calc13 = Fraction.new(Const.i1(), Const.i1());
 		let newB = Fraction.new(Const.i1(), Const.i1());
+		let int1 = Int.new(true, 1);
+		let int2 = Int.new(true, 1);
+//		let absM = Fraction.new(Const.i1(), Const.i1());
     let yIncpt = e.getYIntercept(); // fraction getYIntercept
     let xIncpt = e.getXIntercept(); // fraction getYIntercept
 		do yIncpt.checkValid();
 		do xIncpt.checkValid();
 		let scaledEquation = Equation.convertToSlopeIntercept(e); // equation convertToSlopeIntercept
 		let m = scaledEquation.getSlope();
+
+
+//		TODO: I need to get these lines working! All I need is to set absM equal to |m|
+//    TODO: and replace m with it in the if statement, but I keep getting a heap error...
+//		do int1.set(m.numerator());
+//		let int1 = m.numerator();
+//		let int2 = m.denominator();
+//		let n = int1.num();
+//		let d = int2.num();
+//		let int3 = Int.new(true, n);
+//		let int4 = Int.new(true, d);
+//		let absM = Fraction.new(int3, int4);
+// if the |slope| is less than 1, the line will start at the bottom and go to the top
+//		if (absM.isLessThan(Const.f1())){
 		if (m.isLessThan(Const.f1())){
+//		TODO: end todo
+
+
 			let xIsGreater = false;
 			let m = scaledEquation.getSlope();
 			do Fraction.multiply(m, ONESEVENTY, newB, calc1, calc2, calc3, calc4, calc5, calc6); // fraction product
+// otherwise, it will start from the left and go to the right
 		} else {
 			let b = scaledEquation.getYIntercept();
 			let xIsGreater = true;
@@ -137,6 +161,7 @@ class Graph {
 			let scale = calc7.dividedBy(cutoffTotal);
 			do Fraction.multiply(scale, b, newB, calc8, calc9, calc10, calc11, calc12, calc13); // fraction product
 		}
+//		do scaledEquation.setScale(scale);
 		do scaledEquation.setB(newB);
 		do scaledEquation.setXIsScreenCutoff(xIsGreater);
 		do Sys.wait(2000);
@@ -209,194 +234,22 @@ class Graph {
   }
 
   function void labelTickMarks() {
-    int i;
+    var int i;
     let i = 0;
     while(i<16){
-      do Graph.getTickLabel(i);
+      do Graph.drawTickLabel(i);
     }
 		return;
   }
 
-  function int getTickLabel(int tickNumber) {
-      Fraction val;
+  function void drawTickLabel(int tickNumber) {
+      var Fraction val;
       let val = Fraction.new(Const.i1(), Const.i1());
+
 //    first 14 are on the x axis, last 6 are on the y axis
-    if(tickNumber = 0){
-
-    }
-  }
-
-  function void drawDigit(int number, int x, int y) {
-    if (number = 1){
-      do Screen.drawPixel(x + 0, y + 2);
-      do Screen.drawPixel(x + 0, y + 6);
-      do Screen.drawPixel(x + 1, y + 1);
-      do Screen.drawPixel(x + 1, y + 6);
-      do Screen.drawPixel(x + 2, y + 0);
-      do Screen.drawPixel(x + 2, y + 1);
-      do Screen.drawPixel(x + 2, y + 2);
-      do Screen.drawPixel(x + 2, y + 3);
-      do Screen.drawPixel(x + 2, y + 4);
-      do Screen.drawPixel(x + 2, y + 5);
-      do Screen.drawPixel(x + 2, y + 6);
-      do Screen.drawPixel(x + 3, y + 6);
-      do Screen.drawPixel(x + 4, y + 6);
-    }
-    if (number = 2){
-      do Screen.drawPixel(x + 0, y + 1);
-      do Screen.drawPixel(x + 0, y + 6);
-      do Screen.drawPixel(x + 1, y + 0);
-      do Screen.drawPixel(x + 1, y + 5);
-      do Screen.drawPixel(x + 1, y + 6);
-      do Screen.drawPixel(x + 2, y + 0);
-      do Screen.drawPixel(x + 2, y + 4);
-      do Screen.drawPixel(x + 2, y + 6);
-      do Screen.drawPixel(x + 3, y + 0);
-      do Screen.drawPixel(x + 3, y + 3);
-      do Screen.drawPixel(x + 3, y + 6);
-      do Screen.drawPixel(x + 4, y + 1);
-      do Screen.drawPixel(x + 4, y + 2);
-      do Screen.drawPixel(x + 4, y + 6);
-    }
-    if (number = 3){
-      do Screen.drawPixel(x + 0, y + 1);
-      do Screen.drawPixel(x + 0, y + 5);
-      do Screen.drawPixel(x + 1, y + 0);
-      do Screen.drawPixel(x + 1, y + 6);
-      do Screen.drawPixel(x + 2, y + 0);
-      do Screen.drawPixel(x + 2, y + 3);
-      do Screen.drawPixel(x + 2, y + 6);
-      do Screen.drawPixel(x + 3, y + 0);
-      do Screen.drawPixel(x + 3, y + 3);
-      do Screen.drawPixel(x + 3, y + 6);
-      do Screen.drawPixel(x + 4, y + 1);
-      do Screen.drawPixel(x + 4, y + 2);
-      do Screen.drawPixel(x + 4, y + 4);
-      do Screen.drawPixel(x + 4, y + 5);
-    }
-    if (number = 4){
-      do Screen.drawPixel(x + 0, y + 3);
-      do Screen.drawPixel(x + 0, y + 4);
-      do Screen.drawPixel(x + 1, y + 2);
-      do Screen.drawPixel(x + 1, y + 4);
-      do Screen.drawPixel(x + 2, y + 1);
-      do Screen.drawPixel(x + 2, y + 4);
-      do Screen.drawPixel(x + 3, y + 0);
-      do Screen.drawPixel(x + 3, y + 1);
-      do Screen.drawPixel(x + 3, y + 2);
-      do Screen.drawPixel(x + 3, y + 3);
-      do Screen.drawPixel(x + 3, y + 4);
-      do Screen.drawPixel(x + 3, y + 5);
-      do Screen.drawPixel(x + 3, y + 6);
-      do Screen.drawPixel(x + 4, y + 4);
-    }
-    if (number = 5){
-      do Screen.drawPixel(x + 0, y + 0);
-      do Screen.drawPixel(x + 0, y + 1);
-      do Screen.drawPixel(x + 0, y + 2);
-      do Screen.drawPixel(x + 0, y + 3);
-      do Screen.drawPixel(x + 0, y + 5);
-      do Screen.drawPixel(x + 1, y + 0);
-      do Screen.drawPixel(x + 1, y + 3);
-      do Screen.drawPixel(x + 1, y + 6);
-      do Screen.drawPixel(x + 2, y + 0);
-      do Screen.drawPixel(x + 2, y + 3);
-      do Screen.drawPixel(x + 2, y + 6);
-      do Screen.drawPixel(x + 3, y + 0);
-      do Screen.drawPixel(x + 3, y + 3);
-      do Screen.drawPixel(x + 3, y + 6);
-      do Screen.drawPixel(x + 4, y + 0);
-      do Screen.drawPixel(x + 4, y + 4);
-      do Screen.drawPixel(x + 4, y + 5);
-    }
-    if (number = 6){
-      do Screen.drawPixel(x + 0, y + 1);
-      do Screen.drawPixel(x + 0, y + 2);
-      do Screen.drawPixel(x + 0, y + 3);
-      do Screen.drawPixel(x + 0, y + 4);
-      do Screen.drawPixel(x + 0, y + 5);
-      do Screen.drawPixel(x + 1, y + 0);
-      do Screen.drawPixel(x + 1, y + 3);
-      do Screen.drawPixel(x + 1, y + 6);
-      do Screen.drawPixel(x + 2, y + 0);
-      do Screen.drawPixel(x + 2, y + 3);
-      do Screen.drawPixel(x + 2, y + 6);
-      do Screen.drawPixel(x + 3, y + 0);
-      do Screen.drawPixel(x + 3, y + 3);
-      do Screen.drawPixel(x + 3, y + 6);
-      do Screen.drawPixel(x + 4, y + 0);
-      do Screen.drawPixel(x + 4, y + 4);
-      do Screen.drawPixel(x + 4, y + 5);
-    }
-    if (number = 7){
-      do Screen.drawPixel(x + 0, y + 0);
-      do Screen.drawPixel(x + 1, y + 0);
-      do Screen.drawPixel(x + 1, y + 4);
-      do Screen.drawPixel(x + 1, y + 5);
-      do Screen.drawPixel(x + 1, y + 6);
-      do Screen.drawPixel(x + 2, y + 0);
-      do Screen.drawPixel(x + 2, y + 3);
-      do Screen.drawPixel(x + 3, y + 0);
-      do Screen.drawPixel(x + 3, y + 2);
-      do Screen.drawPixel(x + 4, y + 0);
-      do Screen.drawPixel(x + 4, y + 1);
-    }
-    if (number = 8){
-      do Screen.drawPixel(x + 0, y + 1);
-      do Screen.drawPixel(x + 0, y + 2);
-      do Screen.drawPixel(x + 0, y + 4);
-      do Screen.drawPixel(x + 0, y + 5);
-      do Screen.drawPixel(x + 1, y + 0);
-      do Screen.drawPixel(x + 1, y + 3);
-      do Screen.drawPixel(x + 1, y + 6);
-      do Screen.drawPixel(x + 2, y + 0);
-      do Screen.drawPixel(x + 2, y + 3);
-      do Screen.drawPixel(x + 2, y + 6);
-      do Screen.drawPixel(x + 3, y + 0);
-      do Screen.drawPixel(x + 3, y + 3);
-      do Screen.drawPixel(x + 3, y + 6);
-      do Screen.drawPixel(x + 4, y + 1);
-      do Screen.drawPixel(x + 4, y + 2);
-      do Screen.drawPixel(x + 4, y + 4);
-      do Screen.drawPixel(x + 4, y + 5);
-    }
-    if (number = 9){
-      do Screen.drawPixel(x + 0, y + 1);
-      do Screen.drawPixel(x + 0, y + 2);
-      do Screen.drawPixel(x + 0, y + 6);
-      do Screen.drawPixel(x + 1, y + 0);
-      do Screen.drawPixel(x + 1, y + 3);
-      do Screen.drawPixel(x + 1, y + 6);
-      do Screen.drawPixel(x + 2, y + 0);
-      do Screen.drawPixel(x + 2, y + 3);
-      do Screen.drawPixel(x + 2, y + 6);
-      do Screen.drawPixel(x + 3, y + 0);
-      do Screen.drawPixel(x + 3, y + 3);
-      do Screen.drawPixel(x + 3, y + 6);
-      do Screen.drawPixel(x + 4, y + 1);
-      do Screen.drawPixel(x + 4, y + 2);
-      do Screen.drawPixel(x + 4, y + 3);
-      do Screen.drawPixel(x + 4, y + 4);
-      do Screen.drawPixel(x + 4, y + 5);
-    }
-    if (number = 0){
-      do Screen.drawPixel(x + 0, y + 1);
-      do Screen.drawPixel(x + 0, y + 2);
-      do Screen.drawPixel(x + 0, y + 3);
-      do Screen.drawPixel(x + 0, y + 4);
-      do Screen.drawPixel(x + 0, y + 5);
-      do Screen.drawPixel(x + 1, y + 0);
-      do Screen.drawPixel(x + 1, y + 6);
-      do Screen.drawPixel(x + 2, y + 0);
-      do Screen.drawPixel(x + 2, y + 6);
-      do Screen.drawPixel(x + 3, y + 0);
-      do Screen.drawPixel(x + 3, y + 6);
-      do Screen.drawPixel(x + 4, y + 1);
-      do Screen.drawPixel(x + 4, y + 2);
-      do Screen.drawPixel(x + 4, y + 3);
-      do Screen.drawPixel(x + 4, y + 4);
-      do Screen.drawPixel(x + 4, y + 5);
-    }
+//    if(tickNumber = 0){
+//      do Graph.drawDigit(0);
+//    }
     return;
   }
 }
