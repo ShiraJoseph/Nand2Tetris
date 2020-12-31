@@ -98,9 +98,8 @@ class Graph {
   function Equation getScaledLine(Equation e) {
     var Fraction CUTOFF, TWO, ONESEVENTY, yIncpt, xIncpt, xIncptTwice,
     scale, b, m, cutoffTotal, newB, calc1, calc2, calc3, calc4, calc5,
-    calc6, calc7, calc8, calc9, calc10, calc11, calc12, calc13, absM;
+    calc6, calc7, calc8, calc9, calc10, calc11, calc12, calc13;
     var Equation scaledEquation;
-    var Int int1, int2, int3, int4;
     var boolean xIsGreater;
     var int n, d;
 		let CUTOFF = Fraction.new(Int.new(true, 3), Const.i2());
@@ -120,33 +119,14 @@ class Graph {
 		let calc12 = Fraction.new(Const.i1(), Const.i1());
 		let calc13 = Fraction.new(Const.i1(), Const.i1());
 		let newB = Fraction.new(Const.i1(), Const.i1());
-		let int1 = Int.new(true, 1);
-		let int2 = Int.new(true, 1);
-//		let absM = Fraction.new(Const.i1(), Const.i1());
     let yIncpt = e.getYIntercept(); // fraction getYIntercept
     let xIncpt = e.getXIntercept(); // fraction getYIntercept
 		do yIncpt.checkValid();
 		do xIncpt.checkValid();
 		let scaledEquation = Equation.convertToSlopeIntercept(e); // equation convertToSlopeIntercept
 		let m = scaledEquation.getSlope();
-
-
-//		TODO: I need to get these lines working! All I need is to set absM equal to |m|
-//    TODO: and replace m with it in the if statement, but I keep getting a heap error...
-//		do int1.set(m.numerator());
-//		let int1 = m.numerator();
-//		let int2 = m.denominator();
-//		let n = int1.num();
-//		let d = int2.num();
-//		let int3 = Int.new(true, n);
-//		let int4 = Int.new(true, d);
-//		let absM = Fraction.new(int3, int4);
-// if the |slope| is less than 1, the line will start at the bottom and go to the top
-//		if (absM.isLessThan(Const.f1())){
-		if (m.isLessThan(Const.f1())){
-//		TODO: end todo
-
-
+// if m is in between -1 and 1, draw from bottom to top
+		if ((m.pos() = true & m.isLessThan(Const.f1())) | (m.pos() = false & m.isGreaterThan(Const.fNeg1()))){
 			let xIsGreater = false;
 			let m = scaledEquation.getSlope();
 			do Fraction.multiply(m, ONESEVENTY, newB, calc1, calc2, calc3, calc4, calc5, calc6); // fraction product

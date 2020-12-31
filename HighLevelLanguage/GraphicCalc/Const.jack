@@ -1,7 +1,7 @@
 /** Provides static constants to the rest of the app to help manage memory */
 class Const {
 	static Int i0, i1, i2, i127, i128, i255, i256, iNeg1, iNeg128, iNeg256;
-	static Fraction f1, f127, f128, f255, f256;
+	static Fraction f1, f127, f128, f255, f256, fNeg1;
 	static String sY, sX, sB, sM, sS, sP, sI, sQ;
 
   constructor Const new() {
@@ -25,6 +25,7 @@ class Const {
     let f128 = Fraction.new(i128, i1);
 		let f255 = Fraction.new(i255, i1);
 		let f256 = Fraction.new(i256, i1);
+		let fNeg1 = Fraction.new(iNeg1, i1);
 		let sS = "S";
 		let sP = "P";
 		let sI = "I";
@@ -52,6 +53,7 @@ class Const {
 		do f128.dispose();
 		do f255.dispose();
 		do f256.dispose();
+		do fNeg1.dispose();
 		do Memory.deAlloc(sS);
 		do Memory.deAlloc(sP);
 		do Memory.deAlloc(sI);
@@ -79,6 +81,7 @@ class Const {
   function Fraction f128() { return f128; }
   function Fraction f255() { return f255; }
   function Fraction f256() { return f256; }
+  function Fraction fNeg1() { return fNeg1; }
   function String sX() { return sX; }
   function String sY() { return sY; }
   function String sM() { return sM; }
