@@ -181,6 +181,12 @@ class Fraction {
 
 	method String toString(){
 		var String appended, n, d, sign;
+//		do Out.s("before if pos pos = ");
+//		do Out.b(pos);
+		do Out.s(" and numerator = ");
+    		do Out.i(numerator);
+    		do Out.s(" and denominator = ");
+    		do Out.lnI(denominator);
 		if (pos) {
 		  let sign = "";
 		} else {
@@ -188,6 +194,7 @@ class Fraction {
 		}
 		let n = String.new(6);
 		let d = String.new(6);
+
 		do n.setInt(numerator);
 		do d.setInt(denominator);
 		if (denominator = 1){

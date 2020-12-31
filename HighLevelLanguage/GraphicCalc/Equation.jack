@@ -47,6 +47,7 @@ class Equation {
     do newSlope.dispose();
     do newB.dispose();
     do mx.dispose();
+    do scale.dispose();
     do tempCalc1.dispose();
     do tempCalc2.dispose();
     do tempCalc3.dispose();
@@ -73,14 +74,14 @@ class Equation {
     let eY = e.getY();
     let slopeIEquation = Equation.new(1, Const.sI());
     if (S.equals(f, Const.sS())){
-			let newSlope = eX.dividedBy(eY); // fraction quotient
+			let newSlope = eX.dividedBy(eY);
 			do newSlope.setPos(~newSlope.pos());
 			let eB = e.getB();
-			let newB = eB.dividedBy(eY); // fraction quotient
+			let newB = eB.dividedBy(eY);
 		} else {
 			let newSlope = e.getSlope();
 			let mx = Fraction.new(Const.i1(), Const.i1());
-			do Fraction.multiply(newSlope, e.getX(), mx, calc1, calc2, calc3, calc4, calc5, calc6); // fraction product
+			do Fraction.multiply(newSlope, e.getX(), mx, calc1, calc2, calc3, calc4, calc5, calc6);
 			let newB = eY.minus(mx);
 		}
 		do slopeIEquation.setSlope(newSlope);
@@ -134,20 +135,20 @@ class Equation {
 	/** Uses the value of x to solve for y */
 	method Fraction solveForY(Fraction xPoint){
 		if (S.equals(format, Const.sI())){
-			do Fraction.multiply(mF, xPoint, tempCalc1, calc1, calc2, calc3, calc4, calc5, calc6); //fraction product
-			let tempCalc2 = tempCalc1.plus(bF); // fraction sum
+			do Fraction.multiply(mF, xPoint, tempCalc1, calc1, calc2, calc3, calc4, calc5, calc6);
+			let tempCalc2 = tempCalc1.plus(bF);
 			return tempCalc2;
 		}
 		if (S.equals(format, Const.sP())){
-			let tempCalc1 = xF.minus(xPoint); // fraction difference
-			do Fraction.multiply(mF, tempCalc1, tempCalc2, calc1, calc2, calc3, calc4, calc5, calc6); // fraction product
-			let tempCalc3 = yF.minus(tempCalc2); // fraction difference
+			let tempCalc1 = xF.minus(xPoint);
+			do Fraction.multiply(mF, tempCalc1, tempCalc2, calc1, calc2, calc3, calc4, calc5, calc6);
+			let tempCalc3 = yF.minus(tempCalc2);
 			return tempCalc3;
     }
     if (S.equals(format, Const.sS())){
-      do Fraction.multiply(xF, xPoint, tempCalc1, calc1, calc2, calc3, calc4, calc5, calc6); // fraction product
-      let tempCalc2 = bF.minus(tempCalc1); // fraction difference
-      let tempCalc3 = tempCalc2.dividedBy(yF); // fraction quotient
+      do Fraction.multiply(xF, xPoint, tempCalc1, calc1, calc2, calc3, calc4, calc5, calc6);
+      let tempCalc2 = bF.minus(tempCalc1);
+      let tempCalc3 = tempCalc2.dividedBy(yF);
       return tempCalc3;
     }
     do Sys.halt();
@@ -157,20 +158,20 @@ class Equation {
 	/** Uses the value of y to solve for x */
 	method Fraction solveForX(Fraction yPoint){
 		if (S.equals(format, Const.sI())){
-			let tempCalc1 = yPoint.minus(bF); // fraction difference
-			let tempCalc2 = tempCalc1.dividedBy(mF); // fraction quotient
+			let tempCalc1 = yPoint.minus(bF);
+			let tempCalc2 = tempCalc1.dividedBy(mF);
 			return tempCalc2;
 		}
 		if (S.equals(format, Const.sP())){
-			let tempCalc1 = yF.minus(yPoint); // fraction difference
-			let tempCalc2 = tempCalc1.dividedBy(mF); // fraction quotient
-			let tempCalc3 = xF.minus(tempCalc2); // fraction difference
+			let tempCalc1 = yF.minus(yPoint);
+			let tempCalc2 = tempCalc1.dividedBy(mF);
+			let tempCalc3 = xF.minus(tempCalc2);
 			return tempCalc3;
 		}
 		if (S.equals(format, Const.sS())){
-			do Fraction.multiply(yF, yPoint, tempCalc1, calc1, calc2, calc3, calc4, calc5, calc6); // fraction product
-			let tempCalc2 = bF.minus(tempCalc1); // fraction difference
-			let tempCalc3 = tempCalc2.dividedBy(xF); // fraction quotient
+			do Fraction.multiply(yF, yPoint, tempCalc1, calc1, calc2, calc3, calc4, calc5, calc6);
+			let tempCalc2 = bF.minus(tempCalc1);
+			let tempCalc3 = tempCalc2.dividedBy(xF);
 			return tempCalc3;
 		}
 		return Fraction.new(0, 1);

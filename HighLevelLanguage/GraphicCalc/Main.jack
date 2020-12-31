@@ -64,10 +64,24 @@ class Main {
 
   function void draw(Equation e){
     var Equation newE;
-		do Graph.drawAxes();
+    var Fraction oldB, newB, scale;
+    var String oldBString, newBString, sNew, sOld;
+
 //		do Graph.drawTicks(e);
     do Out.ln(e.toString());
     let newE = Graph.getScaledLine(e);
+
+    let newB = newE.getB();
+    let newBString = newB.toString();
+    let sNew = S.append("newB = ", newBString);
+    do Out.ln(sNew);
+    let oldB = e.getB();
+        let oldBString = oldB.toString();
+        let sOld = S.append("oldB = ", oldBString);
+        do Out.ln(sOld);
+//    let scale = newB.dividedBy(oldB);
+		let scale = Fraction.new(Const.i1(), Const.i1());
+    do Graph.drawAxes(scale);
     do Graph.drawScaledLine(newE);
     do Sys.wait(8000);
     return;

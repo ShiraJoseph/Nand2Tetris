@@ -112,6 +112,8 @@ pop temp 0
 push static 5
 call Fraction.dispose 1
 pop temp 0
+call scale.dispose 0
+pop temp 0
 push static 6
 call Fraction.dispose 1
 pop temp 0
