@@ -70,17 +70,22 @@ class Main {
 //		do Graph.drawTicks(e);
     do Out.ln(e.toString());
     let newE = Graph.getScaledLine(e);
+    do Out.ln(newE.toString());
+//
+//    let newB = newE.getB();
+//    let newBString = newB.toString();
+//    do Out.s("newB = ");
+//    do Out.ln(newBString);
+//
+//    let oldB = e.getB();
+//    let oldBString = oldB.toString();
+//    do Out.s("oldB = ");
+//    do Out.ln(oldBString);
 
-    let newB = newE.getB();
-    let newBString = newB.toString();
-    let sNew = S.append("newB = ", newBString);
-    do Out.ln(sNew);
-    let oldB = e.getB();
-        let oldBString = oldB.toString();
-        let sOld = S.append("oldB = ", oldBString);
-        do Out.ln(sOld);
 //    let scale = newB.dividedBy(oldB);
-		let scale = Fraction.new(Const.i1(), Const.i1());
+//		let scale = Fraction.new(Const.i1(), Const.i1());
+		let scale = newE.getScale();
+		do Out.ln(scale.toString());
     do Graph.drawAxes(scale);
     do Graph.drawScaledLine(newE);
     do Sys.wait(8000);

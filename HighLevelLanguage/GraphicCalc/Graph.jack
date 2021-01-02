@@ -99,7 +99,7 @@ class Graph {
   function Equation getScaledLine(Equation e) {
     var Fraction CUTOFF, TWO, ONESEVENTY, yIncpt, xIncpt, xIncptTwice,
     scale, b, m, cutoffTotal, newB, calc1, calc2, calc3, calc4, calc5,
-    calc6, calc7, calc8, calc9, calc10, calc11, calc12, calc13;
+    calc6, calc7, calc8, calc9, calc10, calc11, calc12, calc13, oldB;
     var Equation scaledEquation;
     var boolean xIsGreater;
     var int n, d;
@@ -124,9 +124,10 @@ class Graph {
     let xIncpt = e.getXIntercept();
 		do yIncpt.checkValid();
 		do xIncpt.checkValid();
-		do e.setB()
 		let scaledEquation = Equation.convertToSlopeIntercept(e);
+		do Out.ln(scaledEquation.toString());
 		let m = scaledEquation.getSlope();
+		let oldB = scaledEquation.getB();
 // if m is in between -1 and 1, draw from bottom to top
 		if ((m.pos() = true & m.isLessThan(Const.f1())) | (m.pos() = false & m.isGreaterThan(Const.fNeg1()))){
 			let xIsGreater = false;
@@ -145,6 +146,7 @@ class Graph {
 			do Fraction.multiply(scale, b, newB, calc8, calc9, calc10, calc11, calc12, calc13);
 		}
 		do scaledEquation.setB(newB);
+		do scaledEquation.setScale(newB.dividedBy(oldB));
 		do scaledEquation.setXIsScreenCutoff(xIsGreater);
 		do Sys.wait(2000);
     return scaledEquation;

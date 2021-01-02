@@ -1,5 +1,5 @@
 class Equation {
-  field int x, y, m, b, degree;
+  field int degree;
   field boolean xExists, yExists, bExists, mExists, xIsScreenCutoff, startLineNegative;
   field String format;
   field Fraction xF, yF, bF, mF, scale;
@@ -64,7 +64,7 @@ class Equation {
 
   /** Turns an equation in the standard or point-slope format into one using the slope-intercept format */
  function Equation convertToSlopeIntercept(Equation e){
-    var String f;
+    var String f, eBString;
     var Equation slopeIEquation;
     let f = e.getFormat();
     if (S.equals(f, Const.sI())){
@@ -86,7 +86,6 @@ class Equation {
 		}
 		do slopeIEquation.setSlope(newSlope);
 		do slopeIEquation.setB(newB);
-
 		return slopeIEquation;
   }
 

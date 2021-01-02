@@ -181,12 +181,6 @@ class Fraction {
 
 	method String toString(){
 		var String appended, n, d, sign;
-//		do Out.s("before if pos pos = ");
-//		do Out.b(pos);
-		do Out.s(" and numerator = ");
-    		do Out.i(numerator);
-    		do Out.s(" and denominator = ");
-    		do Out.lnI(denominator);
 		if (pos) {
 		  let sign = "";
 		} else {
@@ -219,7 +213,7 @@ class Fraction {
 	}
 
 	method void checkValid() {
-		if(denominator > 9999 | denominator < -9999 | numerator > 9999 | numerator < -9999){
+		if(denominator > 9999 | denominator < -9999 | numerator > 9999 | numerator < -9999 | denominator = 0){
 			do Out.ln("Invalid fraction");
 		}
 		return;
