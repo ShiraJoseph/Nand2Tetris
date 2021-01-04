@@ -6,18 +6,8 @@
 
 class Main {
   function void main() {
-  do Screen.clearScreen();
+    do Screen.clearScreen();
     do Main.createEquation();
-//		do Graph.drawDigit(0, 10, 10);
-//		do Graph.drawDigit(1, 16, 10);
-//		do Graph.drawDigit(2, 22, 10);
-//		do Graph.drawDigit(3, 28, 10);
-//		do Graph.drawDigit(4, 34, 10);
-//		do Graph.drawDigit(5, 40, 10);
-//		do Graph.drawDigit(6, 46, 10);
-//		do Graph.drawDigit(7, 52, 10);
-//		do Graph.drawDigit(8, 58, 10);
-//		do Graph.drawDigit(9, 64, 10);
 		return;
   }
 
@@ -64,28 +54,10 @@ class Main {
 
   function void draw(Equation e){
     var Equation newE;
-    var Fraction oldB, newB, scale;
-    var String oldBString, newBString, sNew, sOld;
-
-//		do Graph.drawTicks(e);
+    var Fraction scale;
     do Out.ln(e.toString());
     let newE = Graph.getScaledLine(e);
-    do Out.ln(newE.toString());
-//
-//    let newB = newE.getB();
-//    let newBString = newB.toString();
-//    do Out.s("newB = ");
-//    do Out.ln(newBString);
-//
-//    let oldB = e.getB();
-//    let oldBString = oldB.toString();
-//    do Out.s("oldB = ");
-//    do Out.ln(oldBString);
-
-//    let scale = newB.dividedBy(oldB);
-//		let scale = Fraction.new(Const.i1(), Const.i1());
 		let scale = newE.getScale();
-		do Out.ln(scale.toString());
     do Graph.drawAxes(scale);
     do Graph.drawScaledLine(newE);
     do Sys.wait(8000);

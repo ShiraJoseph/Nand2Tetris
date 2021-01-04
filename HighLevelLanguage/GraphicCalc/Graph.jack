@@ -91,7 +91,6 @@ class Graph {
     do Screen.drawLine(252, 63, 258, 63);
     do Screen.drawLine(254, 31, 256, 31);
 
-
 		return;
   }
 
@@ -99,7 +98,7 @@ class Graph {
   function Equation getScaledLine(Equation e) {
     var Fraction CUTOFF, TWO, ONESEVENTY, yIncpt, xIncpt, xIncptTwice,
     scale, b, m, cutoffTotal, newB, calc1, calc2, calc3, calc4, calc5,
-    calc6, calc7, calc8, calc9, calc10, calc11, calc12, calc13, oldB;
+    calc6, calc7, calc8, calc9, calc10, calc11, calc12, calc13, oldB, XYLimit, negXYLimit;
     var Equation scaledEquation;
     var boolean xIsGreater;
     var int n, d;
@@ -120,20 +119,24 @@ class Graph {
 		let calc12 = Fraction.new(Const.i1(), Const.i1());
 		let calc13 = Fraction.new(Const.i1(), Const.i1());
 		let newB = Fraction.new(Const.i1(), Const.i1());
+
     let yIncpt = e.getYIntercept();
     let xIncpt = e.getXIntercept();
 		do yIncpt.checkValid();
 		do xIncpt.checkValid();
 		let scaledEquation = Equation.convertToSlopeIntercept(e);
-		do Out.ln(scaledEquation.toString());
 		let m = scaledEquation.getSlope();
 		let oldB = scaledEquation.getB();
-// if m is in between -1 and 1, draw from bottom to top
-		if ((m.pos() = true & m.isLessThan(Const.f1())) | (m.pos() = false & m.isGreaterThan(Const.fNeg1()))){
+		let XYLimit = Fraction.new(Int.new(true, 201), Int.new(true, 100));
+		let negXYLimit = Fraction.new(Int.new(false, 201), Int.new(true, 100));
+
+		// if m is in between -2 and 2, draw from bottom to top
+		if ((m.pos() = true & m.isLessThan(XYLimit)) | (m.pos() = false & m.isGreaterThan(negXYLimit))){
 			let xIsGreater = false;
 			let m = scaledEquation.getSlope();
 			do Fraction.multiply(m, ONESEVENTY, newB, calc1, calc2, calc3, calc4, calc5, calc6);
-// otherwise, it will start from the left and go to the right
+
+		// otherwise, it will start from the left and go to the right
 		} else {
 			let b = scaledEquation.getYIntercept();
 			let xIsGreater = true;
@@ -145,8 +148,9 @@ class Graph {
 			do scaledEquation.setScale(scale);
 			do Fraction.multiply(scale, b, newB, calc8, calc9, calc10, calc11, calc12, calc13);
 		}
+
 		do scaledEquation.setB(newB);
-		do scaledEquation.setScale(newB.dividedBy(oldB));
+		do scaledEquation.setScale(oldB.dividedBy(newB));
 		do scaledEquation.setXIsScreenCutoff(xIsGreater);
 		do Sys.wait(2000);
     return scaledEquation;
@@ -218,23 +222,67 @@ class Graph {
   }
 
   function void drawTickLabels(Fraction scale) {
-      var Fraction val;
-      var Array fLabels;
-      var int i;
-      var String label;
-      let val = Fraction.new(Const.i1(), Const.i1());
-      let fLabels = Graph.getTickLabelValues(scale);
-      let i = 0;
-      while(i < 20){
-        let val = fLabels[i];
-        let label = val.toString();
-        do Out.ln(label);
-        let i = i + 1;
-      }
-//    first 14 are on the x axis, last 6 are on the y axis
-//    if(tickNumber = 0){
-//      do Graph.drawDigit(0);
-//    }
+    var Fraction val;
+    var Int valInt;
+    var Array fLabels, ticks;
+    var int i, startX, startY, length, halfLength;
+    var String label;
+    let ticks = Array.new(20);
+    let ticks[0] = 31;
+    let ticks[1] = 63;
+    let ticks[2] = 95;
+    let ticks[3] = 127;
+    let ticks[4] = 159;
+    let ticks[5] = 191;
+    let ticks[6] = 223;
+    let ticks[7] = 287;
+    let ticks[8] = 319;
+    let ticks[9] = 351;
+    let ticks[10] = 383;
+    let ticks[11] = 415;
+    let ticks[12] = 447;
+    let ticks[13] = 479;
+    let ticks[14] = 31;
+    let ticks[15] = 63;
+    let ticks[16] = 95;
+    let ticks[17] = 159;
+    let ticks[18] = 191;
+    let ticks[19] = 223;
+
+    let val = Fraction.new(Const.i1(), Const.i1());
+    let fLabels = Graph.getTickLabelValues(scale);
+
+    let i = 0;
+    while(i < 20){
+      let val = fLabels[i];
+
+// TODO: this was me trying to make it print as an int if the fraction is greater than one.
+//        if ((val.pos() = true & val.isGreaterThan(Fraction.new(Const.i1(), Const.i1())))
+//          | (val.pos() = false & val.isLessThan(Fraction.new(Const.i1(), Const.i1())))){
+//          let valInt = val.toInt();
+//          do Out.ln(valInt.toString());
+//        } else {
+
+			let label = val.toString();
+			let length = label.length();
+			if (i < 14) {
+				let halfLength = length/2;
+				let startY = 132;
+
+				// if length is even
+				if (length = halfLength * 2){
+					let startX = ticks[i] - (halfLength * 6);
+				} else {
+					let startX = ticks[i] - 3 - (halfLength * 6);
+				}
+
+			} else {
+				let startX = 251 - (length * 6);
+				let startY = ticks[i] - 3;
+			}
+      do Out.drawWord(label, startX, startY);
+      let i = i + 1;
+    }
     return;
   }
 
@@ -302,6 +350,7 @@ class Graph {
 
     let i = 0;
     while (i < 20){
+      let tickPoints[i] = Fraction.new(Const.i1(), Const.i1());
       do Fraction.multiply(scale, labels[i], tickPoints[i], calc1, calc2, calc3, calc4, calc5, calc6);
       let i = i + 1;
     }

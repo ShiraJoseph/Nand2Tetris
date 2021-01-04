@@ -176,7 +176,7 @@ class Int {
   method String toString(){
   var String numS, mnumS, sign;
   let sign = "-";
-  let numS = String.new(6);
+  let numS = String.new(12);
     do numS.setInt(num);
     if (pos) {
       return numS;
