@@ -3,6 +3,7 @@ class Const {
 	static Int i0, i1, i2, i127, i128, i255, i256, iNeg1, iNeg128, iNeg256;
 	static Fraction f1, f127, f128, f255, f256, fNeg1;
 	static String sY, sX, sB, sM, sS, sP, sI, sQ;
+	static Array ticks;
 
   constructor Const new() {
 		return this;
@@ -34,6 +35,27 @@ class Const {
 		let sY = "y";
 		let sM = "m";
 		let sB = "b";
+		let ticks = Array.new(20);
+		let ticks[0] = 31;
+    let ticks[1] = 63;
+    let ticks[2] = 95;
+    let ticks[3] = 127;
+    let ticks[4] = 159;
+    let ticks[5] = 191;
+    let ticks[6] = 223;
+    let ticks[7] = 287;
+    let ticks[8] = 319;
+    let ticks[9] = 351;
+    let ticks[10] = 383;
+    let ticks[11] = 415;
+    let ticks[12] = 447;
+    let ticks[13] = 479;
+    let ticks[14] = 31;
+    let ticks[15] = 63;
+    let ticks[16] = 95;
+    let ticks[17] = 159;
+    let ticks[18] = 191;
+    let ticks[19] = 223;
     return;
 	}
 	/** Disposes static variables */
@@ -62,6 +84,7 @@ class Const {
 		do Memory.deAlloc(sY);
 		do Memory.deAlloc(sM);
 		do Memory.deAlloc(sB);
+		do Memory.deAlloc(ticks);
 		return;
 	}
 
@@ -90,6 +113,7 @@ class Const {
   function String sS() { return sS; }
   function String sI() { return sI; }
   function String sQ() { return sQ; }
+  function Array ticks() { return ticks; }
 
   method void dispose() {
     do Memory.deAlloc(this);

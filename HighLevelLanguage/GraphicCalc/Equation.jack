@@ -12,6 +12,7 @@ class Equation {
     let yExists = false;
     let bExists = false;
     let mExists = false;
+    let scale = Fraction.new(Const.i1(), Const.i1());
     let degree = deg;
     let format = form;
     return this;
@@ -47,7 +48,6 @@ class Equation {
     do newSlope.dispose();
     do newB.dispose();
     do mx.dispose();
-    do scale.dispose();
     do tempCalc1.dispose();
     do tempCalc2.dispose();
     do tempCalc3.dispose();
@@ -177,17 +177,16 @@ class Equation {
 	}
 
   method Fraction getYIntercept(){
-		do tempCalc1.set(Const.i0(), Const.i1()); // fraction instance
-    let tempCalc2 = solveForY(tempCalc1); // fraction solveForY
+		do tempCalc1.set(Const.i0(), Const.i1());
+    let tempCalc2 = solveForY(tempCalc1);
     return tempCalc2;
   }
 
   method Fraction getXIntercept(){
-		do tempCalc1.set(Const.i0(), Const.i1()); // fraction instance
-    let tempCalc2 = solveForX(tempCalc1); // fraction solveForX
+		do tempCalc1.set(Const.i0(), Const.i1());
+    let tempCalc2 = solveForX(tempCalc1);
     return tempCalc2;
   }
-
 
 
 	/****************************************************

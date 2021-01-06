@@ -212,6 +212,52 @@ class Fraction {
 		return a;
 	}
 
+	method String toDecimal (int places) {
+    var int numLength, remainder, i, dividend, decIndex, j, digit;
+    var String numString,  answer, c, dividendString;
+    let numString = String.new(12);
+    let dividendString = String.new(12);
+    let answer = String.new(12);
+    let remainder = 0;
+    let dividend = 0;
+
+    do numString.setInt(numerator);
+    let numLength = numString.length();
+
+    let i = 0;
+    while (i < (numLength + places)) {
+      if (i < numLength) {
+        let c = S.substr(numString, i, i + 1);
+        let digit = c.intValue();
+      } else {
+        let digit = 0;
+      }
+
+      if (i = numLength) {
+        let answer = S.append(answer, ".");
+      }
+      let dividend = (digit + (remainder * 10)) / denominator;
+      do dividendString.setInt(dividend);
+      let answer = S.append(answer, dividendString);
+      let remainder = digit + (remainder * 10) - (dividend * denominator);
+      let i = i + 1;
+    }
+
+    let decIndex = S.indexOf(answer, 46);
+    let j = 0;
+    while (j < (decIndex-1)) {
+      let c = S.substr(answer, 0, 1);
+      if (S.equals(c, "0") = true) {
+        let answer = S.substr(answer, 1, answer.length());
+        let j = j + 1;
+      } else {
+        let j = decIndex;
+      }
+
+    }
+    return answer;
+  }
+
 	method void checkValid() {
 		if(denominator > 9999 | denominator < -9999 | numerator > 9999 | numerator < -9999 | denominator = 0){
 			do Out.ln("Invalid fraction");
@@ -219,12 +265,6 @@ class Fraction {
 		return;
 	}
 
-//	method boolean equals(Fraction f2) {
-//		if (numerator = f2.numerator() & denominator = f2.denominator() & pos = f2.pos()){
-//			return true;
-//		}
-//		return false;
-//	}
 	method boolean isGreaterThan(Fraction f2) {
 		if (pos = f2.pos()){
 			if (numerator = f2.numerator() & denominator = f2.denominator()){
@@ -250,7 +290,6 @@ class Fraction {
 		}
 		return ~pos;
 	}
-
 
   /** Disposes this fraction. */
   method void dispose() {

@@ -77,13 +77,19 @@ class Out {
   }
 
 	function void drawWord(String w, int x, int y){
-		var int i;
+		var int i, nextX;
 		var char c;
 		let i = 0;
 		while (i < w.length()) {
 			let c = w.charAt(i);
 			do Out.drawChar(c, x, y);
-			let x = x + 6;
+			if (c = 46){
+				let nextX = 2;
+			} else {
+				let nextX = 6;
+			}
+			let x = x + nextX;
+
 			let i = i + 1;
 		}
 		return;
@@ -130,6 +136,9 @@ class Out {
       do Screen.drawPixel(x + 2, y + 3);
       do Screen.drawPixel(x + 3, y + 3);
       do Screen.drawPixel(x + 4, y + 3);
+    }
+    if (c = 46){ // .
+      do Screen.drawPixel(x + 0, y + 6);
     }
     if (c = 47){ // /
       do Screen.drawPixel(x + 0, y + 6);

@@ -68,7 +68,6 @@ class Graph {
 
   function void drawTicks() {
     do Screen.drawLine(31, 126, 31, 128);
-    do Out.drawDigit(0, 29, 130);
     do Screen.drawLine(63, 124, 63, 130);
     do Screen.drawLine(95, 126, 95, 128);
     do Screen.drawLine(127, 124, 127, 130);
@@ -225,62 +224,32 @@ class Graph {
     var Fraction val;
     var Int valInt;
     var Array fLabels, ticks;
-    var int i, startX, startY, length, halfLength;
+    var int i, x, y, length;
     var String label;
-    let ticks = Array.new(20);
-    let ticks[0] = 31;
-    let ticks[1] = 63;
-    let ticks[2] = 95;
-    let ticks[3] = 127;
-    let ticks[4] = 159;
-    let ticks[5] = 191;
-    let ticks[6] = 223;
-    let ticks[7] = 287;
-    let ticks[8] = 319;
-    let ticks[9] = 351;
-    let ticks[10] = 383;
-    let ticks[11] = 415;
-    let ticks[12] = 447;
-    let ticks[13] = 479;
-    let ticks[14] = 31;
-    let ticks[15] = 63;
-    let ticks[16] = 95;
-    let ticks[17] = 159;
-    let ticks[18] = 191;
-    let ticks[19] = 223;
-
+    let ticks = Const.ticks();
     let val = Fraction.new(Const.i1(), Const.i1());
     let fLabels = Graph.getTickLabelValues(scale);
 
     let i = 0;
     while(i < 20){
       let val = fLabels[i];
-
-// TODO: this was me trying to make it print as an int if the fraction is greater than one.
-//        if ((val.pos() = true & val.isGreaterThan(Fraction.new(Const.i1(), Const.i1())))
-//          | (val.pos() = false & val.isLessThan(Fraction.new(Const.i1(), Const.i1())))){
-//          let valInt = val.toInt();
-//          do Out.ln(valInt.toString());
-//        } else {
-
-			let label = val.toString();
+			let label = val.toDecimal(1);
 			let length = label.length();
+
+			if (S.includes(label, ".") = true){
+				let length = ((length - 1) * 6) + 2;
+      } else {
+        let length = length * 6;
+      }
+
 			if (i < 14) {
-				let halfLength = length/2;
-				let startY = 132;
-
-				// if length is even
-				if (length = halfLength * 2){
-					let startX = ticks[i] - (halfLength * 6);
-				} else {
-					let startX = ticks[i] - 3 - (halfLength * 6);
-				}
-
+				let x = ticks[i] - (length/2);
+				let y = 132;
 			} else {
-				let startX = 251 - (length * 6);
-				let startY = ticks[i] - 3;
+				let x = 253 - length;
+				let y = ticks[i] - 3;
 			}
-      do Out.drawWord(label, startX, startY);
+      do Out.drawWord(label, x, y);
       let i = i + 1;
     }
     return;
@@ -291,7 +260,7 @@ class Graph {
       yTick1, yTick2, yTick3, yTick4, yTick5, yTick6;
     var Fraction calc1, calc2, calc3, calc4, calc5, calc6;
 
-    var Array labels, tickPoints;
+    var Array labels, tickPoints, tickInts;
     var int i;
 
     let calc1 = Fraction.new(Const.i1(), Const.i1());
@@ -303,7 +272,7 @@ class Graph {
 
     let labels = Array.new(20);
     let tickPoints = Array.new(20);
-
+// TODO: put these into tickInts array instead
     let xTick1 = Int.new(false, 224);
     let xTick2 = Int.new(false, 192);
     let xTick3 = Int.new(false, 160);
@@ -319,13 +288,14 @@ class Graph {
     let xTick13 = Int.new(true, 192);
     let xTick14 = Int.new(true, 224);
 
-    let yTick1 = Int.new(false, 96);
-    let yTick2 = Int.new(false, 64);
-    let yTick3 = Int.new(false, 32);
-    let yTick4 = Int.new(true, 32);
-    let yTick5 = Int.new(true, 64);
-    let yTick6 = Int.new(true, 96);
+    let yTick1 = Int.new(true, 96);
+    let yTick2 = Int.new(true, 64);
+    let yTick3 = Int.new(true, 32);
+    let yTick4 = Int.new(false, 32);
+    let yTick5 = Int.new(false, 64);
+    let yTick6 = Int.new(false, 96);
 
+// TODO: then I can do this in a loop:
     let labels[0] = Fraction.new(xTick1, Const.i1());
     let labels[1] = Fraction.new(xTick2, Const.i1());
     let labels[2] = Fraction.new(xTick3, Const.i1());

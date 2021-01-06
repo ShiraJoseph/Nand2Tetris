@@ -46,9 +46,9 @@ class Main {
     do equation.getValues();
     do Out.cls();
     do Main.draw(equation);
-//    do Out.cls();
-//    do Main.deInit();
-//    do Main.createEquation();
+    do Out.cls();
+    do Main.deInit();
+    do Main.createEquation();
     return;
   }
 
