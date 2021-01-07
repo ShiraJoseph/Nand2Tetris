@@ -13,7 +13,7 @@ Mux
   
 DMux
   
-Not16
+[Not16](https://github.com/ShiraJoseph/Nand2Tetris/blob/high-level-language/ElementaryLogicGates/Not16.hdl)
   
 And16
   
