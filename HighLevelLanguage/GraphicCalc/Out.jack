@@ -1,73 +1,290 @@
 /**
-* This class provides shortcuts for Output.print functions
+* Provides shorthand functions for Output
 */
 class Out {
 	/** Prints a string */
-  function void s (String msg1){
-    do Output.printString(msg1);
-    return;
-  }
+	function void s (String msg1){
+		do Output.printString(msg1);
+		return;
+	}
 
 	/** Prints an integer */
-  function void i (int msg2){
-    do Output.printInt(msg2);
-    return;
-  }
+	function void i (int msg2){
+		do Output.printInt(msg2);
+		return;
+	}
 
 	/** Prints a char */
-  function void c (char msg3){
-    do Output.printChar(msg3);
-    return;
-  }
+	function void c (char msg3){
+		do Output.printChar(msg3);
+		return;
+	}
 
 	/** Prints a boolean */
-  function void b (boolean msg4){
-    if (msg4) {
-      do Out.s("true");
-    } else {
-      do Out.s("false");
-    }
-    return;
-  }
+	function void b (boolean msg4){
+		if (msg4) {
+			do Out.s("true");
+		} else {
+			do Out.s("false");
+		}
+		return;
+	}
 
 	/** Prints a string and then carriage return */
-  function void ln (String msg5) {
-    do Output.printString(msg5);
-    do Output.println();
-    return;
-  }
+	function void ln (String msg5) {
+		do Output.printString(msg5);
+		do Output.println();
+		return;
+	}
 
 	/** Prints an integer and then carriage return */
-  function void lnI (int msg6) {
-    do Output.printInt(msg6);
-    do Output.println();
-    return;
-  }
+	function void lnI (int msg6) {
+		do Output.printInt(msg6);
+		do Output.println();
+		return;
+	}
 
 	/** Prints a char and then carriage return */
-  function void lnC (char msg7) {
-    do Output.printChar(msg7);
-    do Output.println();
-    return;
-  }
+	function void lnC (char msg7) {
+		do Output.printChar(msg7);
+		do Output.println();
+		return;
+	}
 
 	/** Prints a boolean and then carriage return */
-  function void lnB (boolean msg8) {
-    if (msg8) {
-      do Out.s("true");
-    } else {
-      do Out.s("false");
-    }
-    do Output.println();
-    return;
-  }
+	function void lnB (boolean msg8) {
+		if (msg8) {
+			do Out.s("true");
+		} else {
+			do Out.s("false");
+		}
+		do Output.println();
+		return;
+	}
 
-  /** Prints two strings and then carriage return */
-  function void log(String a, String b){
-    var String a1, b1;
-    let a1 = a;
-    let b1 = b;
-    do Out.ln(S.append(a1, b1));
-    return;
-  }
+	/** Prints two strings and then carriage return */
+	function void log(String a, String b){
+		do Out.s(a);
+		do Out.ln(b);
+		return;
+	}
+
+	/** Clears the screen */
+	function void cls() {
+		do Screen.clearScreen();
+		do Output.moveCursor(0, 0);
+		return;
+	}
+
+	function void drawWord(String w, int x, int y){
+		var int i, nextX;
+		var char c;
+		let i = 0;
+		while (i < w.length()) {
+			let c = w.charAt(i);
+			do Out.drawChar(c, x, y);
+			if (c = 46){
+				let nextX = 2;
+			} else {
+				let nextX = 6;
+			}
+			let x = x + nextX;
+
+			let i = i + 1;
+		}
+		return;
+	}
+
+	function void drawChar(char c, int x, int y) {
+		if (c = 45){ // -
+			do Screen.drawPixel(x + 0, y + 3);
+			do Screen.drawPixel(x + 1, y + 3);
+			do Screen.drawPixel(x + 2, y + 3);
+			do Screen.drawPixel(x + 3, y + 3);
+			do Screen.drawPixel(x + 4, y + 3);
+		}
+		if (c = 46){ // .
+			do Screen.drawPixel(x + 0, y + 6);
+		}
+		if (c = 47){ // /
+			do Screen.drawPixel(x + 0, y + 6);
+			do Screen.drawPixel(x + 1, y + 4);
+			do Screen.drawPixel(x + 1, y + 5);
+			do Screen.drawPixel(x + 2, y + 3);
+			do Screen.drawPixel(x + 3, y + 2);
+			do Screen.drawPixel(x + 3, y + 1);
+			do Screen.drawPixel(x + 4, y + 0);
+		}
+		if (c = 48){ // 0
+			do Screen.drawPixel(x + 0, y + 1);
+			do Screen.drawPixel(x + 0, y + 2);
+			do Screen.drawPixel(x + 0, y + 3);
+			do Screen.drawPixel(x + 0, y + 4);
+			do Screen.drawPixel(x + 0, y + 5);
+			do Screen.drawPixel(x + 1, y + 0);
+			do Screen.drawPixel(x + 1, y + 6);
+			do Screen.drawPixel(x + 2, y + 0);
+			do Screen.drawPixel(x + 2, y + 6);
+			do Screen.drawPixel(x + 3, y + 0);
+			do Screen.drawPixel(x + 3, y + 6);
+			do Screen.drawPixel(x + 4, y + 1);
+			do Screen.drawPixel(x + 4, y + 2);
+			do Screen.drawPixel(x + 4, y + 3);
+			do Screen.drawPixel(x + 4, y + 4);
+			do Screen.drawPixel(x + 4, y + 5);
+		}
+		if (c = 49){ // 1
+			do Screen.drawPixel(x + 0, y + 2);
+			do Screen.drawPixel(x + 0, y + 6);
+			do Screen.drawPixel(x + 1, y + 1);
+			do Screen.drawPixel(x + 1, y + 6);
+			do Screen.drawPixel(x + 2, y + 0);
+			do Screen.drawPixel(x + 2, y + 1);
+			do Screen.drawPixel(x + 2, y + 2);
+			do Screen.drawPixel(x + 2, y + 3);
+			do Screen.drawPixel(x + 2, y + 4);
+			do Screen.drawPixel(x + 2, y + 5);
+			do Screen.drawPixel(x + 2, y + 6);
+			do Screen.drawPixel(x + 3, y + 6);
+			do Screen.drawPixel(x + 4, y + 6);
+		}
+		if (c = 50){ // 2
+			do Screen.drawPixel(x + 0, y + 1);
+			do Screen.drawPixel(x + 0, y + 6);
+			do Screen.drawPixel(x + 1, y + 0);
+			do Screen.drawPixel(x + 1, y + 5);
+			do Screen.drawPixel(x + 1, y + 6);
+			do Screen.drawPixel(x + 2, y + 0);
+			do Screen.drawPixel(x + 2, y + 4);
+			do Screen.drawPixel(x + 2, y + 6);
+			do Screen.drawPixel(x + 3, y + 0);
+			do Screen.drawPixel(x + 3, y + 3);
+			do Screen.drawPixel(x + 3, y + 6);
+			do Screen.drawPixel(x + 4, y + 1);
+			do Screen.drawPixel(x + 4, y + 2);
+			do Screen.drawPixel(x + 4, y + 6);
+		}
+		if (c = 51){ // 3
+			do Screen.drawPixel(x + 0, y + 1);
+			do Screen.drawPixel(x + 0, y + 5);
+			do Screen.drawPixel(x + 1, y + 0);
+			do Screen.drawPixel(x + 1, y + 6);
+			do Screen.drawPixel(x + 2, y + 0);
+			do Screen.drawPixel(x + 2, y + 3);
+			do Screen.drawPixel(x + 2, y + 6);
+			do Screen.drawPixel(x + 3, y + 0);
+			do Screen.drawPixel(x + 3, y + 3);
+			do Screen.drawPixel(x + 3, y + 6);
+			do Screen.drawPixel(x + 4, y + 1);
+			do Screen.drawPixel(x + 4, y + 2);
+			do Screen.drawPixel(x + 4, y + 4);
+			do Screen.drawPixel(x + 4, y + 5);
+		}
+		if (c = 52){ // 4
+			do Screen.drawPixel(x + 0, y + 3);
+			do Screen.drawPixel(x + 0, y + 4);
+			do Screen.drawPixel(x + 1, y + 2);
+			do Screen.drawPixel(x + 1, y + 4);
+			do Screen.drawPixel(x + 2, y + 1);
+			do Screen.drawPixel(x + 2, y + 4);
+			do Screen.drawPixel(x + 3, y + 0);
+			do Screen.drawPixel(x + 3, y + 1);
+			do Screen.drawPixel(x + 3, y + 2);
+			do Screen.drawPixel(x + 3, y + 3);
+			do Screen.drawPixel(x + 3, y + 4);
+			do Screen.drawPixel(x + 3, y + 5);
+			do Screen.drawPixel(x + 3, y + 6);
+			do Screen.drawPixel(x + 4, y + 4);
+		}
+		if (c = 53){ // 5
+			do Screen.drawPixel(x + 0, y + 0);
+			do Screen.drawPixel(x + 0, y + 1);
+			do Screen.drawPixel(x + 0, y + 2);
+			do Screen.drawPixel(x + 0, y + 3);
+			do Screen.drawPixel(x + 0, y + 5);
+			do Screen.drawPixel(x + 1, y + 0);
+			do Screen.drawPixel(x + 1, y + 3);
+			do Screen.drawPixel(x + 1, y + 6);
+			do Screen.drawPixel(x + 2, y + 0);
+			do Screen.drawPixel(x + 2, y + 3);
+			do Screen.drawPixel(x + 2, y + 6);
+			do Screen.drawPixel(x + 3, y + 0);
+			do Screen.drawPixel(x + 3, y + 3);
+			do Screen.drawPixel(x + 3, y + 6);
+			do Screen.drawPixel(x + 4, y + 0);
+			do Screen.drawPixel(x + 4, y + 4);
+			do Screen.drawPixel(x + 4, y + 5);
+		}
+		if (c = 54){ // 6
+			do Screen.drawPixel(x + 0, y + 1);
+			do Screen.drawPixel(x + 0, y + 2);
+			do Screen.drawPixel(x + 0, y + 3);
+			do Screen.drawPixel(x + 0, y + 4);
+			do Screen.drawPixel(x + 0, y + 5);
+			do Screen.drawPixel(x + 1, y + 0);
+			do Screen.drawPixel(x + 1, y + 3);
+			do Screen.drawPixel(x + 1, y + 6);
+			do Screen.drawPixel(x + 2, y + 0);
+			do Screen.drawPixel(x + 2, y + 3);
+			do Screen.drawPixel(x + 2, y + 6);
+			do Screen.drawPixel(x + 3, y + 0);
+			do Screen.drawPixel(x + 3, y + 3);
+			do Screen.drawPixel(x + 3, y + 6);
+			do Screen.drawPixel(x + 4, y + 0);
+			do Screen.drawPixel(x + 4, y + 4);
+			do Screen.drawPixel(x + 4, y + 5);
+		}
+		if (c = 55){ // 7
+			do Screen.drawPixel(x + 0, y + 0);
+			do Screen.drawPixel(x + 1, y + 0);
+			do Screen.drawPixel(x + 1, y + 4);
+			do Screen.drawPixel(x + 1, y + 5);
+			do Screen.drawPixel(x + 1, y + 6);
+			do Screen.drawPixel(x + 2, y + 0);
+			do Screen.drawPixel(x + 2, y + 3);
+			do Screen.drawPixel(x + 3, y + 0);
+			do Screen.drawPixel(x + 3, y + 2);
+			do Screen.drawPixel(x + 4, y + 0);
+			do Screen.drawPixel(x + 4, y + 1);
+		}
+		if (c = 56){ // 8
+			do Screen.drawPixel(x + 0, y + 1);
+			do Screen.drawPixel(x + 0, y + 2);
+			do Screen.drawPixel(x + 0, y + 4);
+			do Screen.drawPixel(x + 0, y + 5);
+			do Screen.drawPixel(x + 1, y + 0);
+			do Screen.drawPixel(x + 1, y + 3);
+			do Screen.drawPixel(x + 1, y + 6);
+			do Screen.drawPixel(x + 2, y + 0);
+			do Screen.drawPixel(x + 2, y + 3);
+			do Screen.drawPixel(x + 2, y + 6);
+			do Screen.drawPixel(x + 3, y + 0);
+			do Screen.drawPixel(x + 3, y + 3);
+			do Screen.drawPixel(x + 3, y + 6);
+			do Screen.drawPixel(x + 4, y + 1);
+			do Screen.drawPixel(x + 4, y + 2);
+			do Screen.drawPixel(x + 4, y + 4);
+			do Screen.drawPixel(x + 4, y + 5);
+		}
+		if (c = 57){ // 9
+			do Screen.drawPixel(x + 0, y + 1);
+			do Screen.drawPixel(x + 0, y + 2);
+			do Screen.drawPixel(x + 0, y + 6);
+			do Screen.drawPixel(x + 1, y + 0);
+			do Screen.drawPixel(x + 1, y + 3);
+			do Screen.drawPixel(x + 1, y + 6);
+			do Screen.drawPixel(x + 2, y + 0);
+			do Screen.drawPixel(x + 2, y + 3);
+			do Screen.drawPixel(x + 2, y + 6);
+			do Screen.drawPixel(x + 3, y + 0);
+			do Screen.drawPixel(x + 3, y + 3);
+			do Screen.drawPixel(x + 3, y + 6);
+			do Screen.drawPixel(x + 4, y + 1);
+			do Screen.drawPixel(x + 4, y + 2);
+			do Screen.drawPixel(x + 4, y + 3);
+			do Screen.drawPixel(x + 4, y + 4);
+			do Screen.drawPixel(x + 4, y + 5);
+		}
+		return;
+	}
 }

@@ -1,185 +1,305 @@
 class Graph {
+	static Equation equation;
+	static Point currPoint;
+	static Fraction currX, currY;
+	static Int iX, iY, iIndex, deltaI;
+	static Coord coord;
 
 	/** Constructs a new graph */
-  constructor Graph new() {
-    return this;
-  }
+	constructor Graph new() {
+		return this;
+	}
 
-  function void drawPoint(Int x, Int y) {
-    var Point p;
-    var Coord c;
-    let p = Point.new(x, y);
-    let c = p.toCoord();
-    do Graph.drawPixel(c);
-    return;
-  }
+	/** Initiates static variables */
+	function void init() {
+		let currX = Fraction.new(Const.i1(), Const.i1());
+		let currY = Fraction.new(Const.i1(), Const.i1());
+		let iX = Int.new(true, 1);
+		let iY = Int.new(true, 1);
+		let iIndex = Int.new(true, 1);
+		let deltaI = Int.new(true, 1);
+		let currPoint = Point.new(iX, iY);
+		let coord = currPoint.toCoord();
+		return;
+	}
 
-  function void drawPixel(Coord coord) {
-    if (coord.isValidCoord()) {
-      do Screen.drawPixel(coord.x(), coord.y());
-    }
-      return;
-  }
+	/** Disposes static variables */
+	function void deInit() {
+		do equation.dispose();
+		do currPoint.dispose();
+		do currX.dispose();
+		do currY.dispose();
+		do iX.dispose();
+		do iY.dispose();
+		do iIndex.dispose();
+		do deltaI.dispose();
+		do coord.dispose();
+		return;
+	}
 
 	/** Draws x- and y-axes with arrows */
-	function void drawAxes() {
-    // x-axis
-    do Screen.drawLine(255, 0, 255, 255);
+	function void drawAxes(Fraction scale) {
+		// x-axis
+		do Screen.drawLine(255, 0, 255, 255);
 
-    // y-axis
-    do Screen.drawLine(0, 127, 511, 127);
+		// y-axis
+		do Screen.drawLine(0, 127, 511, 127);
 
-    // left arrow
-    do Screen.drawLine(4, 124, 0, 127);
-    do Screen.drawLine(4, 130, 0, 127);
+		// left arrow
+		do Screen.drawLine(4, 124, 0, 127);
+		do Screen.drawLine(4, 130, 0, 127);
 
-    // right arrow
-    do Screen.drawLine(507, 124, 511, 127);
-    do Screen.drawLine(507, 130, 511, 127);
+		// right arrow
+		do Screen.drawLine(507, 124, 511, 127);
+		do Screen.drawLine(507, 130, 511, 127);
 
-    // top arrow
-    do Screen.drawLine(252, 4, 255, 0);
-    do Screen.drawLine(258, 4, 255, 0);
+		// top arrow
+		do Screen.drawLine(252, 4, 255, 0);
+		do Screen.drawLine(258, 4, 255, 0);
 
-    // bottom arrow
-    do Screen.drawLine(252, 251, 255, 255);
-    do Screen.drawLine(258, 251, 255, 255);
+		// bottom arrow
+		do Screen.drawLine(252, 251, 255, 255);
+		do Screen.drawLine(258, 251, 255, 255);
 
-    return;
-  }
+		do Graph.drawTicks();
+		do Graph.drawTickLabels(scale);
+		return;
+	}
 
+	function void drawTicks() {
+		do Screen.drawLine(31, 126, 31, 128);
+		do Screen.drawLine(63, 124, 63, 130);
+		do Screen.drawLine(95, 126, 95, 128);
+		do Screen.drawLine(127, 124, 127, 130);
+		do Screen.drawLine(159, 126, 159, 128);
+		do Screen.drawLine(191, 124, 191, 130);
+		do Screen.drawLine(223, 126, 223, 128);
+
+		do Screen.drawLine(287, 126, 287, 128);
+		do Screen.drawLine(319, 124, 319, 130);
+		do Screen.drawLine(351, 126, 351, 128);
+		do Screen.drawLine(383, 124, 383, 130);
+		do Screen.drawLine(415, 126, 415, 128);
+		do Screen.drawLine(447, 124, 447, 130);
+		do Screen.drawLine(479, 126, 479, 128);
+
+		do Screen.drawLine(254, 223, 256, 223);
+		do Screen.drawLine(252, 191, 258, 191);
+		do Screen.drawLine(254, 159, 256, 159);
+		do Screen.drawLine(254, 95, 256, 95);
+		do Screen.drawLine(252, 63, 258, 63);
+		do Screen.drawLine(254, 31, 256, 31);
+
+		return;
+	}
+
+	/** Returns an equation comparable to the given equation but scaled to fit within (-255, -127) and (255, 127) */
+	function Equation getScaledLine(Equation e) {
+		var Fraction CUTOFF, TWO, ONESEVENTY, yIncpt, xIncpt, xIncptTwice,
+		scale, b, m, cutoffTotal, newB, calc1, calc2, calc3, calc4, calc5,
+		calc6, calc7, calc8, calc9, calc10, calc11, calc12, calc13, oldB, XYLimit, negXYLimit;
+		var Equation scaledEquation;
+		var boolean xIsGreater;
+		var int n, d;
+		let CUTOFF = Fraction.new(Int.new(true, 3), Const.i2());
+		let ONESEVENTY = Fraction.new(Int.new(true, 170), Const.i1());
+		let TWO = Fraction.new(Const.i2(), Const.i1());
+		let calc1 = Fraction.new(Const.i1(), Const.i1());
+		let calc2 = Fraction.new(Const.i1(), Const.i1());
+		let calc3 = Fraction.new(Const.i1(), Const.i1());
+		let calc4 = Fraction.new(Const.i1(), Const.i1());
+		let calc5 = Fraction.new(Const.i1(), Const.i1());
+		let calc6 = Fraction.new(Const.i1(), Const.i1());
+		let calc7 = Fraction.new(Const.i1(), Const.i1());
+		let calc8 = Fraction.new(Const.i1(), Const.i1());
+		let calc9 = Fraction.new(Const.i1(), Const.i1());
+		let calc10 = Fraction.new(Const.i1(), Const.i1());
+		let calc11 = Fraction.new(Const.i1(), Const.i1());
+		let calc12 = Fraction.new(Const.i1(), Const.i1());
+		let calc13 = Fraction.new(Const.i1(), Const.i1());
+		let newB = Fraction.new(Const.i1(), Const.i1());
+
+		let yIncpt = e.getYIntercept();
+		let xIncpt = e.getXIntercept();
+		do yIncpt.checkValid();
+		do xIncpt.checkValid();
+		let scaledEquation = Equation.convertToSlopeIntercept(e);
+		let m = scaledEquation.getSlope();
+		let oldB = scaledEquation.getB();
+		let XYLimit = Fraction.new(Int.new(true, 201), Int.new(true, 100));
+		let negXYLimit = Fraction.new(Int.new(false, 201), Int.new(true, 100));
+
+		// if m is in between -2 and 2, draw from bottom to top
+		if ((m.pos() = true & m.isLessThan(XYLimit)) | (m.pos() = false & m.isGreaterThan(negXYLimit))){
+			let xIsGreater = false;
+			let m = scaledEquation.getSlope();
+			do Fraction.multiply(m, ONESEVENTY, newB, calc1, calc2, calc3, calc4, calc5, calc6);
+
+		// otherwise, it will start from the left and go to the right
+		} else {
+			let b = scaledEquation.getYIntercept();
+			let xIsGreater = true;
+			let cutoffTotal = Fraction.new(Const.i1(), Const.i1());
+			let scale = Fraction.new(Const.i1(), Const.i1());
+			do Fraction.multiply(CUTOFF, b, cutoffTotal, calc1, calc2, calc3, calc4, calc5, calc6);
+			let calc7 = Const.f127();
+			let scale = calc7.dividedBy(cutoffTotal);
+			do scaledEquation.setScale(scale);
+			do Fraction.multiply(scale, b, newB, calc8, calc9, calc10, calc11, calc12, calc13);
+		}
+
+		do scaledEquation.setB(newB);
+		do scaledEquation.setScale(oldB.dividedBy(newB));
+		do scaledEquation.setXIsScreenCutoff(xIsGreater);
+		do Sys.wait(2000);
+		return scaledEquation;
+	}
 
 	/** Draws a line using an equation scaled to fit within (-255, -127) to (255, 127) */
-	function void drawScaledLine(Equation equation) {
-		var Int x, y, oneI, zeroI, diffInt;
-		var Fraction xF, yF, one, tff, ots, diff;
-		var boolean continue;
-		let one = Fraction.new(Int.new(true, 1), Int.new(true, 1));
-		let tff = Fraction.new(Int.new(true, 255), Int.new(true, 1));
-		let ots = Fraction.new(Int.new(true, 127), Int.new(true, 1));
-		let zeroI = Int.new(true, 0);
-		let continue = true;
+	function void drawScaledLine(Equation e) {
+		let equation = e;
 		if (equation.getXIsScreenCutoff()) {
-			let xF = tff;
-			do xF.setPos(false);
-			while(continue){
-				let yF = equation.solveForY(xF);
-				let y = Int.new(yF.pos(), yF.toInt());
-				let x = Int.new(xF.pos(), xF.toInt());
-				do Graph.drawPoint(x, y);
-
-				let xF = xF.plus(one);
-				let diff = xF.minus(tff);
-				let diffInt = Int.new(diff.pos(), diff.toInt());
-				let continue = diffInt.isGreaterThan(zeroI);
-			}
+			do Graph.drawYCutoffLine(0, 256);
 		} else {
-			let yF = ots;
-			do yF.setPos(false);
-			while(continue){
-    	  let xF = equation.solveForX(yF);
-   			let x = Int.new(xF.pos(), xF.toInt());
-        let y = Int.new(yF.pos(), yF.toInt());
-				do Graph.drawPoint(x, y);
-
-   			let yF = yF.plus(one);
-        let diff = yF.minus(ots);
-        let diffInt = Int.new(diff.pos(), diff.toInt());
-        let continue = diffInt.isGreaterThan(zeroI);
-      }
+			do Graph.drawXCutoffLine(0, 512);
 		}
 		return;
 	}
 
-	/** Returns an equation comparable to the given equation but scaled to fit within (-255, -127) to (255, 127) */
-  function Equation getScaledLine(Equation e) {
-    var Fraction yIncpt, xIncpt, xIncptTwice, limXAxis, limYAxis, scale, slope, CUTOFF, scaledXIncpt,
-    scaledYIncpt, scaledSlope, TWOFIFTYFIVE, ONETWENTYSEVEN, TWO, NEGTWOFIFTYFIVE, NEGONETWENTYSEVEN;
-    var Equation scaledEquation;
-    var boolean xIsGreater;
 
-		let CUTOFF = Fraction.new(Int.new(true, 3), Int.new(true, 2));
-    let TWOFIFTYFIVE = Fraction.new(Int.new(true, 255), Int.new(true, 1));
-    let NEGTWOFIFTYFIVE = Fraction.new(Int.new(false, 255), Int.new(true, 1));
-    let ONETWENTYSEVEN = Fraction.new(Int.new(true, 127), Int.new(true, 1));
-    let NEGONETWENTYSEVEN = Fraction.new(Int.new(false, 127), Int.new(true, 1));
-		let TWO = Fraction.new(Int.new(true, 2), Int.new(true, 1));
+	function void drawYCutoffLine(int i, int j) {
+		while(i < j){
+			do iIndex.set(true, i);
+			let deltaI = iIndex.minus(Const.i127());
+			do currY.set(deltaI, Const.i1());
+			let currX = equation.solveForX(currY);
+			do Graph.drawValidScaledPoint();
+			let i = i + 1;
+		}
+		return;
+	}
 
-    let yIncpt = e.getYIntercept();
-    let xIncpt = e.getXIntercept();
-		do yIncpt.checkValid();
-		do xIncpt.checkValid();
-		let xIncptTwice = xIncpt.times(TWO);
+	function void drawXCutoffLine(int i, int j) {
+		while(i < j){
+			do iIndex.set(true, i);
+			let deltaI = iIndex.minus(Const.i255());
+			do currX.set(deltaI, Const.i1());
+			let currY = equation.solveForY(currX);
+			do Graph.drawValidScaledPoint();
+			let i = i + 1;
+		}
+		return;
+	}
 
-		if(xIncptTwice.isGreaterThan(yIncpt)){
-			let xIsGreater = true;
-			let limXAxis = CUTOFF.times(xIncpt);
-			let limYAxis = CUTOFF.times(xIncpt.dividedBy(TWO));
-			let scale = TWOFIFTYFIVE.dividedBy(limXAxis);
-		} else {
-			let xIsGreater = false;
-			let limYAxis = CUTOFF.times(yIncpt);
-     	let limXAxis = CUTOFF.times(yIncpt.times(TWO));
- 			let scale = ONETWENTYSEVEN.dividedBy(limYAxis);
+	function void drawValidScaledPoint() {
+		do iX.set(currX.pos(), currX.toInt());
+		do iY.set(currY.pos(), currY.toInt());
+		do currPoint.setX(iX);
+		do currPoint.setY(iY);
+		if (currPoint.isValidPoint()){
+			do Graph.drawPoint();
+		}
+		return;
+	}
+
+	function void drawPoint() {
+		let coord = currPoint.toCoord();
+		do Graph.drawPixel();
+		return;
+	}
+
+	function void drawPixel() {
+		if (coord.isValidCoord()) {
+			do Screen.drawPixel(coord.x(), coord.y());
+		}
+			return;
+	}
+
+	method void dispose() {
+		do Memory.deAlloc(this);
+		return;
+	}
+
+	function void drawTickLabels(Fraction scale) {
+		var Fraction val;
+		var Int valInt;
+		var Array fLabels, ticks;
+		var int i, x, y, length;
+		var String label;
+		let ticks = Const.ticks();
+		let val = Fraction.new(Const.i1(), Const.i1());
+		let fLabels = Graph.getTickLabelValues(scale);
+
+		let i = 0;
+		while(i < 20){
+			let val = fLabels[i];
+			let label = val.toDecimal(1);
+			let length = label.length();
+
+			if (S.includes(label, ".") = true){
+				let length = ((length - 1) * 6) + 2;
+			} else {
+				let length = length * 6;
+			}
+
+			if (i < 14) {
+				let x = ticks[i] - (length/2);
+				let y = 132;
+			} else {
+				let x = 253 - length;
+				let y = ticks[i] - 3;
+			}
+			do Out.drawWord(label, x, y);
+			let i = i + 1;
+		}
+		return;
+	}
+
+	function Array getTickLabelValues(Fraction scale) {
+		var Fraction calc1, calc2, calc3, calc4, calc5, calc6, label;
+		var Array labels, tickPoints, tickInts;
+		var int i;
+
+		let calc1 = Fraction.new(Const.i1(), Const.i1());
+		let calc2 = Fraction.new(Const.i1(), Const.i1());
+		let calc3 = Fraction.new(Const.i1(), Const.i1());
+		let calc4 = Fraction.new(Const.i1(), Const.i1());
+		let calc5 = Fraction.new(Const.i1(), Const.i1());
+		let calc6 = Fraction.new(Const.i1(), Const.i1());
+
+		let labels = Array.new(20);
+		let tickPoints = Array.new(20);
+		let tickInts = Array.new(20);
+
+		let tickInts[0] = Int.new(false, 224);
+		let tickInts[1] = Int.new(false, 192);
+		let tickInts[2] = Int.new(false, 160);
+		let tickInts[3] = Int.new(false, 128);
+		let tickInts[4] = Int.new(false, 96);
+		let tickInts[5] = Int.new(false, 64);
+		let tickInts[6] = Int.new(false, 32);
+		let tickInts[7] = Int.new(true, 32);
+		let tickInts[8] = Int.new(true, 64);
+		let tickInts[9] = Int.new(true, 96);
+		let tickInts[10] = Int.new(true, 128);
+		let tickInts[11] = Int.new(true, 160);
+		let tickInts[12] = Int.new(true, 192);
+		let tickInts[13] = Int.new(true, 224);
+		let tickInts[14] = Int.new(true, 96);
+		let tickInts[15] = Int.new(true, 64);
+		let tickInts[16] = Int.new(true, 32);
+		let tickInts[17] = Int.new(false, 32);
+		let tickInts[18] = Int.new(false, 64);
+		let tickInts[19] = Int.new(false, 96);
+
+		let i = 0;
+		while (i < 20){
+			let label = Fraction.new(tickInts[i], Const.i1());
+			let tickPoints[i] = Fraction.new(Const.i1(), Const.i1());
+			do Fraction.multiply(scale, label, tickPoints[i], calc1, calc2, calc3, calc4, calc5, calc6);
+			let i = i + 1;
 		}
 
-		let scaledXIncpt = xIncpt.times(scale);
-		let scaledYIncpt = yIncpt.times(scale);
-		let slope = e.getSlope();
-		let scaledSlope = slope.times(scale);
-		let scaledEquation = Equation.new(1, "P");
-		do scaledEquation.setX(scaledXIncpt);
-		do scaledEquation.setY(scaledXIncpt);
-		do scaledEquation.setSlope(scaledSlope);
-		do scaledEquation.setXIsScreenCutoff(xIsGreater);
-
-    return scaledEquation;
-  }
+		return tickPoints;
+	}
 }
-
-
-/**
-(Get xIncpt and yIncpt)
-if either is <.0001 or >10000, throw an error (it may already do that)
-(Let cutoff=1.5 or other const)
- (if(2xIncpt>yIncpt)
-        limXAxis=cutoff*xIncpt
-        limYAxis=cutoff*xIncpt/2;
-        scale=256/limXAxis;
-        h2=limXAxis
-else
-        limYAxis=cutoff*yIncpt;
-        limXAxis=cutoff*yIncpt*2
-        scale=128/limYAxis;
-        h2=limYAxis
-        )
-(get scaledIncpts)
-get tickmarks
-
-get x of -limXAxis if xincept is greatest = -15*17
-get y of -limYAxis if yincept is greatest = -7.5*17
-from either that x or that y, solve for the missing value (y or x) and plot that point,
-repeatedly increasing by 1 pixel to and resolving with the new value, through to the other edge of the screen
-
-(needs a floor function) (just using division, for now)
-
-(get scaledIncpts(
-scaledXIncpt=floor(xIncpt*scale)
-scaledYIncpt=floor(yIncpt*scale))
-
-
-get tick marks:
-
-tickDist=if(H2<0.0001, "too small", if(H2<0.001, 0.0001 , if(H2<0.01, 0.001, if(H2<0.1, 0.01, if(H2<1, 0.1, if(H2<10, 1, if(H2<100, 10, if(H2<1000, 100, if(H2<10000, 1000, "too high")))))))))
-scaledTickDist=tickDist*scale
-
-let dist=scaledTickDist,
-while dist < 256
-        draw tickmark going up down at dist,0
-        draw tickmark going up down at -dist,0
-        if dist < 128
-                draw tickmark going left right at 0, dist
-                draw tickmark going left right at 0, -dist
-        increase dist by scaledTickDist
-
-}*/

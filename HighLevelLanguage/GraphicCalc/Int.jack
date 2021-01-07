@@ -1,123 +1,193 @@
 /**
-* A replacement integer class to handle negative numbers
+* A replacement Integer class that can handle negative numbers
 */
 class Int {
 	field boolean pos;
-  field int num;
+	field int num;
+	static Int solution, prod;
 
-  constructor Int new(boolean isPos, int x){
-    let pos = isPos;
-    let num = x;
-    return this;
-  }
+	constructor Int new(boolean isPos, int x){
+		do set(isPos, x);
+		return this;
+	}
 
-  /** accessors */
-  method boolean pos(){ return pos; }
-  method int num(){ return num; }
+	/** Initiates static variables */
+	function void init(){
+		let solution = Int.new(true, 1);
+		let prod = Int.new(true, 1);
+		return;
+	}
 
-  function Int multiply(Int x, Int y){
-     var int product;
-     let product = x.num() * y.num();
-     if (x.pos() = y.pos()){
-       return Int.new(true, product);
-     }
-     return Int.new(false, product);
-  }
+	/** Disposes static variables */
+	function void deInit(){
+		do solution.dispose();
+		do prod.dispose();
+		return;
+	}
 
-  function Int add(Int x, Int y){
-    var Int sum;
-    let sum = Int.compute(true, x, y);
-    return sum;
-  }
+	/** accessors */
+	method boolean pos(){ return pos; }
+	method int num(){ return num; }
+	method void set(boolean isPos, int x){
+		let pos = isPos;
+		let num = x;
+		if (num = 0){
+			let pos = true;
+		}
+		return;
+	}
+	method void setPos(boolean val){
+		let pos = val;
+		return;
+	}
+	method void setNum(int numVal){
+		let num = numVal;
+		return;
+	}
 
-  function Int subtract(Int x, Int y){
-    var Int diff;
-    let diff = Int.compute(false, x, y);
-    return diff;
-  }
+// TODO: needs to be removed
+	method Int times(Int x){
+		 var int product;
+		 let product = x.num() * num;
+		 if ((x.pos() = pos) | (product = 0)){
+			 return Int.new(true, product);
+		 }
+		 return Int.new(false, product);
+	}
 
-	/** Adds or subtracts two integers following rules of negatives */
-  function Int compute(boolean add, Int a, Int b){
-    var int x, y, bigger, smaller, result;
-    var boolean biggerPos, smallerPos, posPos, posNeg, negPos, negNeg;
+	/** Multiplies two Ints */
+	function void multiply(Int a, Int b, Int result){
+		 var int product;
+		 let product = a.num() * b.num();
+		 do result.setNum(product);
+		 if ((a.pos() = b.pos()) | (product = 0)){
+			 do result.setPos(true);
+				return;
+		 }
+		 do result.setPos(false);
+		return;
+	}
 
-    let x = a.num();
-    let y = b.num();
-    let smallerPos = false;
-    let biggerPos = false;
-    let posPos = false;
-    let posNeg = false;
-    let negPos = false;
-    let negNeg = false;
-    let result = 0;
+	method Int plus(Int x){
+		return compute(true, x);
+	}
 
-    if (((x = 0) & (y = 0)) | ((x = y) & ((add & ~(a.pos() = b.pos())) | (~add & (a.pos() = b.pos()))))){
-      do Out.ln("returning 0!");
-      return Int.new(true, result);
-    }
+	method Int minus(Int x){
+		return compute(false, x);
+	}
 
-    if (x > y){
-      let bigger = x;
-      let biggerPos = a.pos();
-      let smaller = y;
-      let smallerPos = b.pos();
-    } else {
-      let bigger = y;
-      let biggerPos = b.pos();
-      let smaller = x;
-      let smallerPos = a.pos();
-    }
-    if (biggerPos){
-      if (smallerPos){
-        let posPos = true;
-      } else {
-        let posNeg = true;
-      }
-    } else {
-      if (smallerPos){
-        let negPos = true;
-      } else {
-        let negNeg = true;
-      }
-    }
+	/** Adds or subtracts two integers following the rules of negatives */
+	method Int compute(boolean add, Int b){
+		var int x, y, bigger, smaller;
+		var boolean biggerPos, smallerPos, posPos, posNeg, negPos, negNeg;
 
-    let result = bigger + smaller;
-    if((add & posPos) | (~add & ((posNeg & ~(x < y)) | (negPos & (x < y))))){
-      return Int.new(true, result);
-    }
-    if((add & negNeg) | (~add & ((posNeg & (x < y)) | (negPos & ~(x < y))))){
-      return Int.new(false, result);
-    }
+		let x = num;
+		let y = b.num();
+		let smallerPos = false;
+		let posPos = false;
+		let posNeg = false;
+		let negPos = false;
+		let negNeg = false;
 
-    let result = bigger - smaller;
-    if((add & posNeg) | (~add & ((negNeg & (x < y)) | (posPos & (x > y))))){
-      return Int.new(true, result);
-    }
-    if((add & negPos) | (~add & ((negNeg & (x > y)) | (posPos & (x < y))))){
-      return Int.new(false, result);
-    }
-    do Sys.halt();
-    return Int.new(true, 10000);
-  }
+		// (0)+(0) or (0)-(0), (-2)+(2), (2)-(2) = 0
+		if (((x = 0) & (y = 0)) | ((x = y) & ((add & ~(pos = b.pos())) | (~add & (pos = b.pos()))))){
+			do solution.setPos(true);
+			do solution.setNum(0);
+			return solution;
+		}
 
-  method boolean equals(Int b){
-    return (pos = b.pos()) & (num = b.num());
-  }
+		// determine which (absolute) number is bigger and which is smaller, and store which signs
+		if (x > y){
+			let bigger = x;
+			let biggerPos = pos;
+			let smaller = y;
+			let smallerPos = b.pos();
+		} else {
+			let bigger = y;
+			let biggerPos = b.pos();
+			let smaller = x;
+			let smallerPos = pos;
+		}
+		if (biggerPos){
+			if (smallerPos){
+				let posPos = true;
+			} else {
+				let posNeg = true;
+			}
+		} else {
+			if (smallerPos){
+				let negPos = true;
+			} else {
+				let negNeg = true;
+			}
+		}
+//    TODO: At some point, for fun, I may want to try just converting every case to addition, making double negatives positive, etc.
+		do solution.setNum(bigger + smaller);	// |2+1| = |3|
+		// (1)+(2), (2)+(1), (2)-(-1), (1)-(-2) = +3
+		if((add & posPos) | (~add & ((posNeg & ~(x < y)) | (negPos & (x < y))))){
+			do solution.setPos(true);
+			return solution;
+		}
+		// (-1)+(-2), (-2)+(-1), (-1)-(2), (-2)-(1) = -3
+		if((add & negNeg) | (~add & ((posNeg & (x < y)) | (negPos & ~(x < y))))){
+			do solution.setPos(false);
+			return solution;
+		}
 
-  method boolean isLessThan(Int b){
-    if (pos = b.pos()){
-      if (pos){
-        return (num < b.num());
-      }
-      return (num > b.num());
-    }
-    if (pos){
-      return false;
-    }
-    return true;
-  }
+		do solution.setNum(bigger - smaller); // |2-1| = |1|
+		// (-1)+(2), (2)+(-1), (-1)-(-2), (2)-(1) = +1
+		if((add & posNeg) | (~add & ((negNeg & (x < y)) | (posPos & (x > y))))){
+			do solution.setPos(true);
+			return solution;
+		}
+		// (1)+(-2), (-2)+(1), (-2)-(-1), (1)-(2) = -1
+		if((add & negPos) | (~add & ((negNeg & (x > y)) | (posPos & (x < y))))){
+			do solution.setPos(false);
+			return solution;
+		}
+		do Out.ln("Invalid Int calculation!");
+		return null;
+	}
 
-  method boolean isGreaterThan(Int b){
-    return ~(isLessThan(b) | equals(b));
-  }
+	/** Returns whether this Int equals another */
+	method boolean equals(Int b){
+		return (pos = b.pos()) & (num = b.num());
+	}
+
+	/** Returns whether this Int is less than another */
+	method boolean isLessThan(Int b){
+		if (pos = b.pos()){
+			if (pos){
+				return (num < b.num());
+			}
+			return (num > b.num());
+		}
+		if (pos){
+			return false;
+		}
+		return true;
+	}
+
+	/** Returns whether this Int is greater than another */
+	method boolean isGreaterThan(Int b){
+		return ~(isLessThan(b) | equals(b));
+	}
+
+	method String toString(){
+	var String numS, mnumS, sign;
+	let sign = "-";
+	let numS = String.new(12);
+		do numS.setInt(num);
+		if (pos) {
+			return numS;
+		} else {
+			let mnumS = S.append(sign, numS);
+			return mnumS;
+		}
+	}
+
+	 method void dispose() {
+			do Memory.deAlloc(this);
+			return;
+		}
 }

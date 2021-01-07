@@ -1,35 +1,66 @@
+/** This graphing calculator was created for the Coursera computer architecture course, Nand2Tetris (part 2),
+* using Jack, a high level programming language written by Nisan and Schoken for education purposes.
+* More information can be found at www.nand2tetris.org
+* and in the book "The Elements of Computing Systems" by Nisan and Schocken, MIT Press.
+*/
+
 class Main {
-  function void main() {
-    do Main.createEquation();
+	function void main() {
+		do Screen.clearScreen();
+		do Main.createEquation();
 		return;
-  }
+	}
 
-  function void createEquation(){
-    var Equation equation;
-    var String format;
-    let format = Keyboard.readLine("[P]oint-Slope, or Slope-[I]ntercept? ");
-    while(~(S.equals(format, "O") | S.equals(format, "I") | S.equals(format, "P"))){
-      if (S.equals(format, "Q")){
-        return;
-      }
-      let format = Keyboard.readLine("Please type P or I.");
-    }
-    let equation = Equation.new(1, format);
-    do equation.getValues();
-    do Out.ln(equation.toString());
-//    do Main.draw(equation);
-    do Main.createEquation();
-    return;
-  }
+	function void init() {
+		do Const.init();
+		do Int.init();
+		do Fraction.init();
+		do Point.init();
+		do Equation.init();
+		do Graph.init();
+		return;
+	}
 
-  function void draw(Equation e){
-    var Equation newE;
-    let newE = Graph.getScaledLine(e);
-    do Screen.clearScreen();
-		do Graph.drawAxes();
-    do Output.moveCursor(0, 0);
-    do Out.ln(newE.toString());
-    do Graph.drawScaledLine(newE);
-    return;
-  }
+	function void deInit() {
+		do Const.deInit();
+		do Int.deInit();
+		do Fraction.deInit();
+		do Point.deInit();
+		do Equation.deInit();
+		do Graph.deInit();
+		return;
+	}
+
+	function void createEquation(){
+		var Equation equation;
+		var String format;
+		do Main.init();
+		let format = Keyboard.readLine("[P]oint-Slope, Slope-[I]ntercept, or [S]tandard? ");
+		while(~(S.equals(format, "S") | S.equals(format, "I") | S.equals(format, "P"))){
+			if (S.equals(format, "Q")){
+				return;
+			}
+			let format = Keyboard.readLine("Please type P, I, or S.");
+		}
+		let equation = Equation.new(1, format);
+		do equation.getValues();
+		do Out.cls();
+		do Main.draw(equation);
+		do Out.cls();
+		do Main.deInit();
+		do Main.createEquation();
+		return;
+	}
+
+	function void draw(Equation e){
+		var Equation newE;
+		var Fraction scale;
+		do Out.ln(e.toString());
+		let newE = Graph.getScaledLine(e);
+		let scale = newE.getScale();
+		do Graph.drawAxes(scale);
+		do Graph.drawScaledLine(newE);
+		do Sys.wait(8000);
+		return;
+	}
 }

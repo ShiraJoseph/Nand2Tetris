@@ -1,5 +1,5 @@
 function Equation.new 0
-push constant 15
+push constant 17
 call Memory.alloc 1
 pop pointer 0
 push constant 0
@@ -13,34 +13,269 @@ pop this 8
 push argument 0
 pop this 4
 push argument 1
-pop this 10
+pop this 11
 push pointer 0
+return
+function Equation.init 0
+call Const.i1 0
+call Const.i1 0
+call Fraction.new 2
+pop static 0
+call Const.i1 0
+call Const.i1 0
+call Fraction.new 2
+pop static 1
+call Const.i1 0
+call Const.i1 0
+call Fraction.new 2
+pop static 2
+call Const.i1 0
+call Const.i1 0
+call Fraction.new 2
+pop static 3
+call Const.i1 0
+call Const.i1 0
+call Fraction.new 2
+pop static 4
+call Const.i1 0
+call Const.i1 0
+call Fraction.new 2
+pop static 5
+call Const.i1 0
+call Const.i1 0
+call Fraction.new 2
+pop static 6
+call Const.i1 0
+call Const.i1 0
+call Fraction.new 2
+pop static 7
+call Const.i1 0
+call Const.i1 0
+call Fraction.new 2
+pop static 8
+call Const.i1 0
+call Const.i1 0
+call Fraction.new 2
+pop static 9
+call Const.i1 0
+call Const.i1 0
+call Fraction.new 2
+pop static 10
+push constant 0
+not
+push constant 1
+call Int.new 2
+pop static 11
+push constant 0
+not
+push constant 1
+call Int.new 2
+pop static 12
+push constant 0
+not
+push constant 1
+call Int.new 2
+pop static 13
+push constant 0
+not
+push constant 1
+call Int.new 2
+pop static 14
+push constant 0
+not
+push constant 1
+call Int.new 2
+pop static 15
+push constant 0
+not
+push constant 1
+call Int.new 2
+pop static 16
+push constant 0
+return
+function Equation.deInit 0
+push static 0
+call Fraction.dispose 1
+pop temp 0
+push static 1
+call Fraction.dispose 1
+pop temp 0
+push static 2
+call Fraction.dispose 1
+pop temp 0
+push static 3
+call Fraction.dispose 1
+pop temp 0
+push static 4
+call Fraction.dispose 1
+pop temp 0
+push static 5
+call Fraction.dispose 1
+pop temp 0
+call scale.dispose 0
+pop temp 0
+push static 6
+call Fraction.dispose 1
+pop temp 0
+push static 7
+call Fraction.dispose 1
+pop temp 0
+push static 8
+call Fraction.dispose 1
+pop temp 0
+push static 9
+call Fraction.dispose 1
+pop temp 0
+push static 10
+call Fraction.dispose 1
+pop temp 0
+push static 11
+call Int.dispose 1
+pop temp 0
+push static 12
+call Int.dispose 1
+pop temp 0
+push static 13
+call Int.dispose 1
+pop temp 0
+push static 14
+call Int.dispose 1
+pop temp 0
+push static 15
+call Int.dispose 1
+pop temp 0
+push static 16
+call Int.dispose 1
+pop temp 0
+push constant 0
+return
+function Equation.convertToSlopeIntercept 2
+push argument 0
+call Equation.getFormat 1
+pop local 0
+push local 0
+call Const.sI 0
+call S.equals 2
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push argument 0
+return
+label IF_FALSE0
+push argument 0
+call Equation.getX 1
+pop static 0
+push argument 0
+call Equation.getY 1
+pop static 1
+push constant 1
+call Const.sI 0
+call Equation.new 2
+pop local 1
+push local 0
+call Const.sS 0
+call S.equals 2
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push static 0
+push static 1
+call Fraction.dividedBy 2
+pop static 3
+push static 3
+push static 3
+call Fraction.pos 1
+not
+call Fraction.setPos 2
+pop temp 0
+push argument 0
+call Equation.getB 1
+pop static 2
+push static 2
+push static 1
+call Fraction.dividedBy 2
+pop static 4
+goto IF_END1
+label IF_FALSE1
+push argument 0
+call Equation.getSlope 1
+pop static 3
+call Const.i1 0
+call Const.i1 0
+call Fraction.new 2
+pop static 5
+push static 3
+push argument 0
+call Equation.getX 1
+push static 5
+push static 11
+push static 12
+push static 13
+push static 14
+push static 15
+push static 16
+call Fraction.multiply 9
+pop temp 0
+push static 1
+push static 5
+call Fraction.minus 2
+pop static 4
+label IF_END1
+push local 1
+push static 3
+call Equation.setSlope 2
+pop temp 0
+push local 1
+push static 4
+call Equation.setB 2
+pop temp 0
+push local 1
 return
 function Equation.getX 0
 push argument 0
 pop pointer 0
-push this 11
+push this 12
 return
 function Equation.getY 0
 push argument 0
 pop pointer 0
-push this 12
+push this 13
+return
+function Equation.getB 0
+push argument 0
+pop pointer 0
+push this 14
 return
 function Equation.getSlope 0
 push argument 0
 pop pointer 0
-push this 14
+push this 15
+return
+function Equation.getScale 0
+push argument 0
+pop pointer 0
+push this 16
 return
 function Equation.getXIsScreenCutoff 0
 push argument 0
 pop pointer 0
 push this 9
 return
+function Equation.getStartLineNegative 0
+push argument 0
+pop pointer 0
+push this 10
+return
+function Equation.getFormat 0
+push argument 0
+pop pointer 0
+push this 11
+return
 function Equation.setX 0
 push argument 0
 pop pointer 0
 push argument 1
-pop this 11
+pop this 12
 push constant 0
 not
 pop this 5
@@ -50,7 +285,7 @@ function Equation.setY 0
 push argument 0
 pop pointer 0
 push argument 1
-pop this 12
+pop this 13
 push constant 0
 not
 pop this 6
@@ -60,7 +295,7 @@ function Equation.setB 0
 push argument 0
 pop pointer 0
 push argument 1
-pop this 13
+pop this 14
 push constant 0
 not
 pop this 7
@@ -70,10 +305,17 @@ function Equation.setSlope 0
 push argument 0
 pop pointer 0
 push argument 1
-pop this 14
+pop this 15
 push constant 0
 not
 pop this 8
+push constant 0
+return
+function Equation.setScale 0
+push argument 0
+pop pointer 0
+push argument 1
+pop this 16
 push constant 0
 return
 function Equation.setXIsScreenCutoff 0
@@ -83,246 +325,258 @@ push argument 1
 pop this 9
 push constant 0
 return
-function Equation.solveForY 3
+function Equation.setStartLineNegative 0
 push argument 0
 pop pointer 0
-push this 10
-push constant 1
-call String.new 1
-push constant 73
-call String.appendChar 2
+push argument 1
+pop this 10
+push constant 0
+return
+function Equation.solveForY 0
+push argument 0
+pop pointer 0
+push this 11
+call Const.sI 0
 call S.equals 2
 if-goto IF_TRUE0
 goto IF_FALSE0
 label IF_TRUE0
-push this 14
+push this 15
 push argument 1
-call Fraction.times 2
-pop local 0
-push local 0
-push this 13
+push static 6
+push static 11
+push static 12
+push static 13
+push static 14
+push static 15
+push static 16
+call Fraction.multiply 9
+pop temp 0
+push static 6
+push this 14
 call Fraction.plus 2
-pop local 1
-push local 1
+pop static 7
+push static 7
 return
 label IF_FALSE0
-push this 10
-push constant 1
-call String.new 1
-push constant 80
-call String.appendChar 2
+push this 11
+call Const.sP 0
 call S.equals 2
 if-goto IF_TRUE1
 goto IF_FALSE1
 label IF_TRUE1
-push this 11
+push this 12
 push argument 1
 call Fraction.minus 2
-pop local 0
-push this 14
-push local 0
-call Fraction.times 2
-pop local 1
-push this 12
-push local 1
+pop static 6
+push this 15
+push static 6
+push static 7
+push static 11
+push static 12
+push static 13
+push static 14
+push static 15
+push static 16
+call Fraction.multiply 9
+pop temp 0
+push this 13
+push static 7
 call Fraction.minus 2
-pop local 2
-push local 2
+pop static 8
+push static 8
 return
 label IF_FALSE1
-push this 10
-push constant 1
-call String.new 1
-push constant 79
-call String.appendChar 2
+push this 11
+call Const.sS 0
 call S.equals 2
 if-goto IF_TRUE2
 goto IF_FALSE2
 label IF_TRUE2
-push this 11
-push argument 1
-call Fraction.times 2
-pop local 0
-push this 13
-push local 0
-call Fraction.minus 2
-pop local 1
-push local 1
 push this 12
+push argument 1
+push static 6
+push static 11
+push static 12
+push static 13
+push static 14
+push static 15
+push static 16
+call Fraction.multiply 9
+pop temp 0
+push this 14
+push static 6
+call Fraction.minus 2
+pop static 7
+push static 7
+push this 13
 call Fraction.dividedBy 2
-pop local 2
-push local 2
+pop static 8
+push static 8
 return
 label IF_FALSE2
-push constant 0
-push constant 1
-call Fraction.new 2
+call Sys.halt 0
+pop temp 0
+call Const.f1 0
 return
-function Equation.solveForX 3
+function Equation.solveForX 0
 push argument 0
 pop pointer 0
-push this 10
-push constant 1
-call String.new 1
-push constant 73
-call String.appendChar 2
+push this 11
+call Const.sI 0
 call S.equals 2
 if-goto IF_TRUE0
 goto IF_FALSE0
 label IF_TRUE0
 push argument 1
-push this 13
-call Fraction.minus 2
-pop local 0
-push local 0
 push this 14
+call Fraction.minus 2
+pop static 6
+push static 6
+push this 15
 call Fraction.dividedBy 2
-pop local 1
-push local 1
+pop static 7
+push static 7
 return
 label IF_FALSE0
-push this 10
-push constant 1
-call String.new 1
-push constant 80
-call String.appendChar 2
+push this 11
+call Const.sP 0
 call S.equals 2
 if-goto IF_TRUE1
 goto IF_FALSE1
 label IF_TRUE1
-push this 12
+push this 13
 push argument 1
 call Fraction.minus 2
-pop local 0
-push local 0
-push this 14
+pop static 6
+push static 6
+push this 15
 call Fraction.dividedBy 2
-pop local 1
-push this 11
-push local 1
+pop static 7
+push this 12
+push static 7
 call Fraction.minus 2
-pop local 2
-push local 2
+pop static 8
+push static 8
 return
 label IF_FALSE1
-push this 10
-push constant 1
-call String.new 1
-push constant 79
-call String.appendChar 2
+push this 11
+call Const.sS 0
 call S.equals 2
 if-goto IF_TRUE2
 goto IF_FALSE2
 label IF_TRUE2
-push this 12
-push argument 1
-call Fraction.times 2
-pop local 0
 push this 13
-push local 0
+push argument 1
+push static 6
+push static 11
+push static 12
+push static 13
+push static 14
+push static 15
+push static 16
+call Fraction.multiply 9
+pop temp 0
+push this 14
+push static 6
 call Fraction.minus 2
-pop local 1
-push local 1
-push this 11
+pop static 7
+push static 7
+push this 12
 call Fraction.dividedBy 2
-pop local 2
-push local 2
+pop static 8
+push static 8
 return
 label IF_FALSE2
 push constant 0
 push constant 1
 call Fraction.new 2
+return
+function Equation.getYIntercept 0
+push argument 0
+pop pointer 0
+push static 6
+call Const.i0 0
+call Const.i1 0
+call Fraction.set 3
+pop temp 0
+push pointer 0
+push static 6
+call Equation.solveForY 2
+pop static 7
+push static 7
+return
+function Equation.getXIntercept 0
+push argument 0
+pop pointer 0
+push static 6
+call Const.i0 0
+call Const.i1 0
+call Fraction.set 3
+pop temp 0
+push pointer 0
+push static 6
+call Equation.solveForX 2
+pop static 7
+push static 7
 return
 function Equation.getValues 0
 push argument 0
 pop pointer 0
-push this 10
-push constant 1
-call String.new 1
-push constant 80
-call String.appendChar 2
+push this 11
+call Const.sP 0
 call S.equals 2
 if-goto IF_TRUE0
 goto IF_FALSE0
 label IF_TRUE0
 push pointer 0
-push constant 1
-call String.new 1
-push constant 121
-call String.appendChar 2
+call Const.sY 0
 call Equation.inputVar 2
 pop temp 0
 push pointer 0
-push constant 1
-call String.new 1
-push constant 109
-call String.appendChar 2
+call Const.sM 0
 call Equation.inputVar 2
 pop temp 0
 push pointer 0
-push constant 1
-call String.new 1
-push constant 120
-call String.appendChar 2
+call Const.sX 0
 call Equation.inputVar 2
 pop temp 0
 push constant 0
 return
 label IF_FALSE0
-push this 10
-push constant 1
-call String.new 1
-push constant 73
-call String.appendChar 2
+push this 11
+call Const.sI 0
 call S.equals 2
 if-goto IF_TRUE1
 goto IF_FALSE1
 label IF_TRUE1
 push pointer 0
-push constant 1
-call String.new 1
-push constant 109
-call String.appendChar 2
+call Const.sM 0
 call Equation.inputVar 2
 pop temp 0
 push pointer 0
-push constant 1
-call String.new 1
-push constant 98
-call String.appendChar 2
+call Const.sB 0
 call Equation.inputVar 2
 pop temp 0
 push constant 0
 return
 label IF_FALSE1
-push this 10
-push constant 1
-call String.new 1
-push constant 79
-call String.appendChar 2
+push this 11
+call Const.sS 0
 call S.equals 2
 if-goto IF_TRUE2
 goto IF_FALSE2
 label IF_TRUE2
 push pointer 0
-push constant 1
-call String.new 1
-push constant 120
-call String.appendChar 2
+call Const.sX 0
 call Equation.inputVar 2
 pop temp 0
 push pointer 0
-push constant 1
-call String.new 1
-push constant 121
-call String.appendChar 2
+call Const.sY 0
 call Equation.inputVar 2
 pop temp 0
 push pointer 0
-push constant 1
-call String.new 1
-push constant 98
-call String.appendChar 2
+call Const.sB 0
 call Equation.inputVar 2
 pop temp 0
 push constant 0
@@ -334,10 +588,7 @@ function Equation.inputVar 5
 push argument 0
 pop pointer 0
 push argument 1
-push constant 1
-call String.new 1
-push constant 120
-call String.appendChar 2
+call Const.sX 0
 call S.equals 2
 if-goto IF_TRUE0
 goto IF_FALSE0
@@ -370,22 +621,15 @@ call Keyboard.readLine 1
 pop local 0
 push local 0
 call Fraction.toFraction 1
-pop this 11
-push this 11
+pop this 12
+push this 12
 pop local 4
-push local 4
-call Fraction.toString 1
-call Out.ln 1
-pop temp 0
 push constant 0
 not
 pop this 5
 label IF_FALSE0
 push argument 1
-push constant 1
-call String.new 1
-push constant 121
-call String.appendChar 2
+call Const.sY 0
 call S.equals 2
 if-goto IF_TRUE1
 goto IF_FALSE1
@@ -416,22 +660,15 @@ call Keyboard.readLine 1
 pop local 1
 push local 1
 call Fraction.toFraction 1
-pop this 12
+pop this 13
 push constant 0
 not
 pop this 6
-push this 12
+push this 13
 pop local 4
-push local 4
-call Fraction.toString 1
-call Out.ln 1
-pop temp 0
 label IF_FALSE1
 push argument 1
-push constant 1
-call String.new 1
-push constant 98
-call String.appendChar 2
+call Const.sB 0
 call S.equals 2
 if-goto IF_TRUE2
 goto IF_FALSE2
@@ -480,22 +717,15 @@ call Keyboard.readLine 1
 pop local 2
 push local 2
 call Fraction.toFraction 1
-pop this 13
+pop this 14
 push constant 0
 not
 pop this 7
-push this 13
+push this 14
 pop local 4
-push local 4
-call Fraction.toString 1
-call Out.ln 1
-pop temp 0
 label IF_FALSE2
 push argument 1
-push constant 1
-call String.new 1
-push constant 109
-call String.appendChar 2
+call Const.sM 0
 call S.equals 2
 if-goto IF_TRUE3
 goto IF_FALSE3
@@ -534,16 +764,12 @@ call Keyboard.readLine 1
 pop local 3
 push local 3
 call Fraction.toFraction 1
-pop this 14
+pop this 15
 push constant 0
 not
 pop this 8
-push this 14
+push this 15
 pop local 4
-push local 4
-call Fraction.toString 1
-call Out.ln 1
-pop temp 0
 label IF_FALSE3
 push constant 0
 return
@@ -556,24 +782,18 @@ eq
 if-goto IF_TRUE0
 goto IF_FALSE0
 label IF_TRUE0
-push this 10
-push constant 1
-call String.new 1
-push constant 79
-call String.appendChar 2
+push this 11
+call Const.sS 0
 call S.equals 2
 if-goto IF_TRUE1
 goto IF_FALSE1
 label IF_TRUE1
 push pointer 0
-call Equation.getOldString 1
+call Equation.getStandardString 1
 return
 label IF_FALSE1
-push this 10
-push constant 1
-call String.new 1
-push constant 73
-call String.appendChar 2
+push this 11
+call Const.sI 0
 call S.equals 2
 if-goto IF_TRUE2
 goto IF_FALSE2
@@ -582,11 +802,8 @@ push pointer 0
 call Equation.getSlopeInterceptString 1
 return
 label IF_FALSE2
-push this 10
-push constant 1
-call String.new 1
-push constant 80
-call String.appendChar 2
+push this 11
+call Const.sP 0
 call S.equals 2
 if-goto IF_TRUE3
 goto IF_FALSE3
@@ -608,7 +825,7 @@ push this 8
 if-goto IF_TRUE0
 goto IF_FALSE0
 label IF_TRUE0
-push this 14
+push this 15
 call Fraction.toString 1
 pop local 0
 goto IF_END0
@@ -623,7 +840,7 @@ push this 7
 if-goto IF_TRUE1
 goto IF_FALSE1
 label IF_TRUE1
-push this 13
+push this 14
 call Fraction.toString 1
 pop local 1
 goto IF_END1
@@ -667,7 +884,7 @@ push this 6
 if-goto IF_TRUE0
 goto IF_FALSE0
 label IF_TRUE0
-push this 12
+push this 13
 call Fraction.toString 1
 pop local 1
 goto IF_END0
@@ -682,7 +899,7 @@ push this 8
 if-goto IF_TRUE1
 goto IF_FALSE1
 label IF_TRUE1
-push this 14
+push this 15
 call Fraction.toString 1
 pop local 2
 goto IF_END1
@@ -697,7 +914,7 @@ push this 5
 if-goto IF_TRUE2
 goto IF_FALSE2
 label IF_TRUE2
-push this 11
+push this 12
 call Fraction.toString 1
 pop local 0
 goto IF_END2
@@ -753,14 +970,14 @@ call S.append7 7
 pop local 3
 push local 3
 return
-function Equation.getOldString 4
+function Equation.getStandardString 4
 push argument 0
 pop pointer 0
 push this 5
 if-goto IF_TRUE0
 goto IF_FALSE0
 label IF_TRUE0
-push this 11
+push this 12
 call Fraction.toString 1
 pop local 0
 goto IF_END0
@@ -775,7 +992,7 @@ push this 6
 if-goto IF_TRUE1
 goto IF_FALSE1
 label IF_TRUE1
-push this 12
+push this 13
 call Fraction.toString 1
 pop local 1
 goto IF_END1
@@ -790,7 +1007,7 @@ push this 7
 if-goto IF_TRUE2
 goto IF_FALSE2
 label IF_TRUE2
-push this 13
+push this 14
 call Fraction.toString 1
 pop local 2
 goto IF_END2
@@ -828,49 +1045,11 @@ call S.append5 5
 pop local 3
 push local 3
 return
-function Equation.getYIntercept 4
+function Equation.dispose 0
 push argument 0
 pop pointer 0
-push constant 0
-not
-push constant 0
-call Int.new 2
-pop local 2
-push constant 0
-not
-push constant 1
-call Int.new 2
-pop local 3
-push local 2
-push local 3
-call Fraction.new 2
-pop local 1
 push pointer 0
-push local 1
-call Equation.solveForY 2
-pop local 0
-push local 0
-return
-function Equation.getXIntercept 4
-push argument 0
-pop pointer 0
+call Memory.deAlloc 1
+pop temp 0
 push constant 0
-not
-push constant 0
-call Int.new 2
-pop local 2
-push constant 0
-not
-push constant 1
-call Int.new 2
-pop local 3
-push local 2
-push local 3
-call Fraction.new 2
-pop local 1
-push pointer 0
-push local 1
-call Equation.solveForX 2
-pop local 0
-push local 0
 return
