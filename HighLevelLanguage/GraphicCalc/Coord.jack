@@ -5,45 +5,45 @@ class Coord {
 	field int x, y;
 
 	/** Constructs a coordinate with positive x and y values on the Hack Emulated Screen */
-  constructor Coord new(int xVal, int yVal){
-    let x = xVal;
-    let y = yVal;
-    return this;
-  }
+	constructor Coord new(int xVal, int yVal){
+		let x = xVal;
+		let y = yVal;
+		return this;
+	}
 
-  /** Accessors. */
-  method int x(){ return x; }
-  method int y(){ return y; }
-  method void setX(int xint){
-    let x = xint;
-    return;
-  }
-  method void setY(int yint){
-    let y = yint;
-    return;
-  }
+	/** Accessors. */
+	method int x(){ return x; }
+	method int y(){ return y; }
+	method void setX(int xint){
+		let x = xint;
+		return;
+	}
+	method void setY(int yint){
+		let y = yint;
+		return;
+	}
 
 
-  method boolean isValidCoord(){
-    if (((x > 0) | (x = 0)) & (x < 512) & ((y > 0) | (y = 0)) & (y < 256)){
-      return true;
-    }
-    return false;
-  }
+	method boolean isValidCoord(){
+		if (((x > 0) | (x = 0)) & (x < 512) & ((y > 0) | (y = 0)) & (y < 256)){
+			return true;
+		}
+		return false;
+	}
 
-  method void dispose(){
-    do Memory.deAlloc(this);
-    return;
-  }
+	method void dispose(){
+		do Memory.deAlloc(this);
+		return;
+	}
 
-  method String toString(){
-    var String xS, yS, sS;
+	method String toString(){
+		var String xS, yS, sS;
 
-    let xS = String.new(3);
-    let yS = String.new(3);
-    do xS.setInt(x);
-    do yS.setInt(y);
-    let sS = S.append5("(", xS, ", ", yS, ")");
-    return sS;
-  }
+		let xS = String.new(3);
+		let yS = String.new(3);
+		do xS.setInt(x);
+		do yS.setInt(y);
+		let sS = S.append5("(", xS, ", ", yS, ")");
+		return sS;
+	}
 }

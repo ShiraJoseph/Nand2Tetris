@@ -5,9 +5,9 @@ class Const {
 	static String sY, sX, sB, sM, sS, sP, sI, sQ;
 	static Array ticks;
 
-  constructor Const new() {
+	constructor Const new() {
 		return this;
-  }
+	}
 
 	/** Initiates static variables */
 	function void init() {
@@ -23,7 +23,7 @@ class Const {
 		let iNeg256 = Int.new(false, 256);
 		let f1 = Fraction.new(i1, i1);
 		let f127 = Fraction.new(i127, i1);
-    let f128 = Fraction.new(i128, i1);
+		let f128 = Fraction.new(i128, i1);
 		let f255 = Fraction.new(i255, i1);
 		let f256 = Fraction.new(i256, i1);
 		let fNeg1 = Fraction.new(iNeg1, i1);
@@ -37,26 +37,26 @@ class Const {
 		let sB = "b";
 		let ticks = Array.new(20);
 		let ticks[0] = 31;
-    let ticks[1] = 63;
-    let ticks[2] = 95;
-    let ticks[3] = 127;
-    let ticks[4] = 159;
-    let ticks[5] = 191;
-    let ticks[6] = 223;
-    let ticks[7] = 287;
-    let ticks[8] = 319;
-    let ticks[9] = 351;
-    let ticks[10] = 383;
-    let ticks[11] = 415;
-    let ticks[12] = 447;
-    let ticks[13] = 479;
-    let ticks[14] = 31;
-    let ticks[15] = 63;
-    let ticks[16] = 95;
-    let ticks[17] = 159;
-    let ticks[18] = 191;
-    let ticks[19] = 223;
-    return;
+		let ticks[1] = 63;
+		let ticks[2] = 95;
+		let ticks[3] = 127;
+		let ticks[4] = 159;
+		let ticks[5] = 191;
+		let ticks[6] = 223;
+		let ticks[7] = 287;
+		let ticks[8] = 319;
+		let ticks[9] = 351;
+		let ticks[10] = 383;
+		let ticks[11] = 415;
+		let ticks[12] = 447;
+		let ticks[13] = 479;
+		let ticks[14] = 31;
+		let ticks[15] = 63;
+		let ticks[16] = 95;
+		let ticks[17] = 159;
+		let ticks[18] = 191;
+		let ticks[19] = 223;
+		return;
 	}
 	/** Disposes static variables */
 	function void deInit(){
@@ -97,27 +97,27 @@ class Const {
 	function Int i255() { return i255; }
 	function Int i256() { return i256; }
 	function Int iNeg1() { return iNeg1; }
-  function Int iNeg128() { return iNeg128; }
+	function Int iNeg128() { return iNeg128; }
 	function Int iNeg256() { return iNeg256; }
-  function Fraction f1() { return f1; }
-  function Fraction f127() { return f127; }
-  function Fraction f128() { return f128; }
-  function Fraction f255() { return f255; }
-  function Fraction f256() { return f256; }
-  function Fraction fNeg1() { return fNeg1; }
-  function String sX() { return sX; }
-  function String sY() { return sY; }
-  function String sM() { return sM; }
-  function String sB() { return sB; }
-  function String sP() { return sP; }
-  function String sS() { return sS; }
-  function String sI() { return sI; }
-  function String sQ() { return sQ; }
-  function Array ticks() { return ticks; }
+	function Fraction f1() { return f1; }
+	function Fraction f127() { return f127; }
+	function Fraction f128() { return f128; }
+	function Fraction f255() { return f255; }
+	function Fraction f256() { return f256; }
+	function Fraction fNeg1() { return fNeg1; }
+	function String sX() { return sX; }
+	function String sY() { return sY; }
+	function String sM() { return sM; }
+	function String sB() { return sB; }
+	function String sP() { return sP; }
+	function String sS() { return sS; }
+	function String sI() { return sI; }
+	function String sQ() { return sQ; }
+	function Array ticks() { return ticks; }
 
-  method void dispose() {
-    do Memory.deAlloc(this);
-    return;
-  }
+	method void dispose() {
+		do Memory.deAlloc(this);
+		return;
+	}
 
 }

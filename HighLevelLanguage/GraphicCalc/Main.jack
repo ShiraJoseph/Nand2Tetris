@@ -5,13 +5,13 @@
 */
 
 class Main {
-  function void main() {
-    do Screen.clearScreen();
-    do Main.createEquation();
+	function void main() {
+		do Screen.clearScreen();
+		do Main.createEquation();
 		return;
-  }
+	}
 
-  function void init() {
+	function void init() {
 		do Const.init();
 		do Int.init();
 		do Fraction.init();
@@ -19,48 +19,48 @@ class Main {
 		do Equation.init();
 		do Graph.init();
 		return;
-  }
+	}
 
-  function void deInit() {
-  	do Const.deInit();
-    do Int.deInit();
-    do Fraction.deInit();
-    do Point.deInit();
-    do Equation.deInit();
-    do Graph.deInit();
-    return;
-  }
+	function void deInit() {
+		do Const.deInit();
+		do Int.deInit();
+		do Fraction.deInit();
+		do Point.deInit();
+		do Equation.deInit();
+		do Graph.deInit();
+		return;
+	}
 
-  function void createEquation(){
-    var Equation equation;
-    var String format;
-    do Main.init();
-    let format = Keyboard.readLine("[P]oint-Slope, Slope-[I]ntercept, or [S]tandard? ");
-    while(~(S.equals(format, "S") | S.equals(format, "I") | S.equals(format, "P"))){
-      if (S.equals(format, "Q")){
-        return;
-      }
-      let format = Keyboard.readLine("Please type P, I, or S.");
-    }
-    let equation = Equation.new(1, format);
-    do equation.getValues();
-    do Out.cls();
-    do Main.draw(equation);
-    do Out.cls();
-    do Main.deInit();
-    do Main.createEquation();
-    return;
-  }
+	function void createEquation(){
+		var Equation equation;
+		var String format;
+		do Main.init();
+		let format = Keyboard.readLine("[P]oint-Slope, Slope-[I]ntercept, or [S]tandard? ");
+		while(~(S.equals(format, "S") | S.equals(format, "I") | S.equals(format, "P"))){
+			if (S.equals(format, "Q")){
+				return;
+			}
+			let format = Keyboard.readLine("Please type P, I, or S.");
+		}
+		let equation = Equation.new(1, format);
+		do equation.getValues();
+		do Out.cls();
+		do Main.draw(equation);
+		do Out.cls();
+		do Main.deInit();
+		do Main.createEquation();
+		return;
+	}
 
-  function void draw(Equation e){
-    var Equation newE;
-    var Fraction scale;
-    do Out.ln(e.toString());
-    let newE = Graph.getScaledLine(e);
+	function void draw(Equation e){
+		var Equation newE;
+		var Fraction scale;
+		do Out.ln(e.toString());
+		let newE = Graph.getScaledLine(e);
 		let scale = newE.getScale();
-    do Graph.drawAxes(scale);
-    do Graph.drawScaledLine(newE);
-    do Sys.wait(8000);
-    return;
-  }
+		do Graph.drawAxes(scale);
+		do Graph.drawScaledLine(newE);
+		do Sys.wait(8000);
+		return;
+	}
 }

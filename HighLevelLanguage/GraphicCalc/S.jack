@@ -4,174 +4,174 @@
 class S {
 
 	/** Returns whether two strings contain the same value */
-  function boolean equals (String first, String second){
-    var int i;
-    if (first.length() = second.length()){
-      let i = 0;
-      while (i < first.length()){
-        if (~(first.charAt(i) = second.charAt(i))) {
-          return false;
-        }
-        let i = i + 1;
-      }
-      return true;
-    }
-    return false;
-  }
+	function boolean equals (String first, String second){
+		var int i;
+		if (first.length() = second.length()){
+			let i = 0;
+			while (i < first.length()){
+				if (~(first.charAt(i) = second.charAt(i))) {
+					return false;
+				}
+				let i = i + 1;
+			}
+			return true;
+		}
+		return false;
+	}
 
-  /** Returns whether the given char can be found in a string */
-  function boolean includes (String string, char c){
-    var int i;
-    let i = 0;
-    while (i < string.length()) {
-      if (string.charAt(i) = c) {
-        return true;
-      }
-      let i = i + 1;
-    }
-    return false;
-  }
+	/** Returns whether the given char can be found in a string */
+	function boolean includes (String string, char c){
+		var int i;
+		let i = 0;
+		while (i < string.length()) {
+			if (string.charAt(i) = c) {
+				return true;
+			}
+			let i = i + 1;
+		}
+		return false;
+	}
 
-  /** Returns the index of the first time the given char appears in a string or -1 if not found */
-  function int indexOf (String string, char c){
-    var int i;
-    let i = 0;
-    while (i < string.length()) {
-      if (string.charAt(i) = c) {
-        return i;
-      }
-      let i = i + 1;
-    }
-    return -1;
-  }
+	/** Returns the index of the first time the given char appears in a string or -1 if not found */
+	function int indexOf (String string, char c){
+		var int i;
+		let i = 0;
+		while (i < string.length()) {
+			if (string.charAt(i) = c) {
+				return i;
+			}
+			let i = i + 1;
+		}
+		return -1;
+	}
 
-  /** Returns a portion of a string from the start index inclusive to the end index exclusive */
-  function String substr (String fullStr, int start, int end) {
-    var int i, len;
-    var String sub;
-    var char c;
+	/** Returns a portion of a string from the start index inclusive to the end index exclusive */
+	function String substr (String fullStr, int start, int end) {
+		var int i, len;
+		var String sub;
+		var char c;
 		let len = String.length(fullStr);
-    if (start > -1) {
-      if (start < (end + 1)){
-        if (end < (len + 1)) {
+		if (start > -1) {
+			if (start < (end + 1)){
+				if (end < (len + 1)) {
 					let i = start;
-          let sub = String.new(end - start + 1);
+					let sub = String.new(end - start + 1);
 					while(i < end){
-            do sub.appendChar(fullStr.charAt(i));
-            let i = i + 1;
-          }
-          return sub;
-        }
-      }
-    }
-    return "";
-  }
+						do sub.appendChar(fullStr.charAt(i));
+						let i = i + 1;
+					}
+					return sub;
+				}
+			}
+		}
+		return "";
+	}
 
 	/** Deprecated due to too many errors, use append functions instead */
 	/** Takes an array of strings and concatenates them together into a single string */
-  function String concat (int end, Array strings){
-    var int i;
-    var Array builder;
-    var String newStr;
-    let builder = Array.new(end);
-    let builder[0] = strings[0];
-    let i = 1;
-    while (i < end) {
-      let builder[i] = S.append(builder[i - 1], strings[i]);
-      let i = i + 1;
-    }
-    let newStr = builder[i - 1];
-    return newStr;
-  }
+	function String concat (int end, Array strings){
+		var int i;
+		var Array builder;
+		var String newStr;
+		let builder = Array.new(end);
+		let builder[0] = strings[0];
+		let i = 1;
+		while (i < end) {
+			let builder[i] = S.append(builder[i - 1], strings[i]);
+			let i = i + 1;
+		}
+		let newStr = builder[i - 1];
+		return newStr;
+	}
 
-  /** Takes two strings and appends them together into a single string */
-  function String append (String a, String b){
-    var int aLength, bLength, abLength, i;
-    var String ab;
-    var char c;
-    let aLength = a.length();
-    let bLength = b.length();
-    let abLength = aLength + bLength;
-    let ab = String.new(abLength);
-    let i = 0;
-    while (i < aLength){
-      let c = a.charAt(i);
-      do ab.appendChar(c);
-      let i = i + 1;
-    }
-    let i = 0;
-    while (i < bLength){
-      let c = b.charAt(i);
-      do ab.appendChar(c);
-      let i = i + 1;
-    }
-    return ab;
-  }
+	/** Takes two strings and appends them together into a single string */
+	function String append (String a, String b){
+		var int aLength, bLength, abLength, i;
+		var String ab;
+		var char c;
+		let aLength = a.length();
+		let bLength = b.length();
+		let abLength = aLength + bLength;
+		let ab = String.new(abLength);
+		let i = 0;
+		while (i < aLength){
+			let c = a.charAt(i);
+			do ab.appendChar(c);
+			let i = i + 1;
+		}
+		let i = 0;
+		while (i < bLength){
+			let c = b.charAt(i);
+			do ab.appendChar(c);
+			let i = i + 1;
+		}
+		return ab;
+	}
 
-  /** Unfortunately, Jack does not allow overriding, so these last functions are as close as you can get. */
+	/** Unfortunately, Jack does not allow overriding, so these last functions are as close as you can get. */
 
-  function String append3 (String a, String b, String c){
-    var Array strings;
-    var String appended;
-    let strings = Array.new(3);
-    let strings[0] = a;
-    let strings[1] = b;
-    let strings[2] = c;
-    let appended = S.concat(3, strings);
-    return appended;
-  }
+	function String append3 (String a, String b, String c){
+		var Array strings;
+		var String appended;
+		let strings = Array.new(3);
+		let strings[0] = a;
+		let strings[1] = b;
+		let strings[2] = c;
+		let appended = S.concat(3, strings);
+		return appended;
+	}
 
-  function String append4 (String a, String b, String c, String d){
-    var Array strings;
-    var String appended;
-    let strings = Array.new(4);
-    let strings[0] = a;
-    let strings[1] = b;
-    let strings[2] = c;
-    let strings[3] = d;
-    let appended = S.concat(4, strings);
-    return appended;
-  }
+	function String append4 (String a, String b, String c, String d){
+		var Array strings;
+		var String appended;
+		let strings = Array.new(4);
+		let strings[0] = a;
+		let strings[1] = b;
+		let strings[2] = c;
+		let strings[3] = d;
+		let appended = S.concat(4, strings);
+		return appended;
+	}
 
-  function String append5 (String a, String b, String c, String d, String e){
-    var Array strings;
-    var String appended;
-    let strings = Array.new(5);
-    let strings[0] = a;
-    let strings[1] = b;
-    let strings[2] = c;
-    let strings[3] = d;
-    let strings[4] = e;
-    let appended = S.concat(5, strings);
-    return appended;
-  }
+	function String append5 (String a, String b, String c, String d, String e){
+		var Array strings;
+		var String appended;
+		let strings = Array.new(5);
+		let strings[0] = a;
+		let strings[1] = b;
+		let strings[2] = c;
+		let strings[3] = d;
+		let strings[4] = e;
+		let appended = S.concat(5, strings);
+		return appended;
+	}
 
-  function String append6 (String a, String b, String c, String d, String e, String f){
-    var Array strings;
-    var String appended;
-    let strings = Array.new(6);
-    let strings[0] = a;
-    let strings[1] = b;
-    let strings[2] = c;
-    let strings[3] = d;
-    let strings[4] = e;
-    let strings[5] = f;
-    let appended = S.concat(6, strings);
-    return appended;
-  }
+	function String append6 (String a, String b, String c, String d, String e, String f){
+		var Array strings;
+		var String appended;
+		let strings = Array.new(6);
+		let strings[0] = a;
+		let strings[1] = b;
+		let strings[2] = c;
+		let strings[3] = d;
+		let strings[4] = e;
+		let strings[5] = f;
+		let appended = S.concat(6, strings);
+		return appended;
+	}
 
-  function String append7 (String a, String b, String c, String d, String e, String f, String g){
-    var Array strings;
-    var String appended;
-    let strings = Array.new(7);
-    let strings[0] = a;
-    let strings[1] = b;
-    let strings[2] = c;
-    let strings[3] = d;
-    let strings[4] = e;
-    let strings[5] = f;
-    let strings[6] = g;
-    let appended = S.concat(7, strings);
-    return appended;
-  }
+	function String append7 (String a, String b, String c, String d, String e, String f, String g){
+		var Array strings;
+		var String appended;
+		let strings = Array.new(7);
+		let strings[0] = a;
+		let strings[1] = b;
+		let strings[2] = c;
+		let strings[3] = d;
+		let strings[4] = e;
+		let strings[5] = f;
+		let strings[6] = g;
+		let appended = S.concat(7, strings);
+		return appended;
+	}
 }
