@@ -13,7 +13,6 @@ class Main {
 
 	function void init() {
 		do Const.init();
-		do Int.init();
 		do Fraction.init();
 		do Point.init();
 		do Equation.init();
@@ -23,7 +22,6 @@ class Main {
 
 	function void deInit() {
 		do Const.deInit();
-		do Int.deInit();
 		do Fraction.deInit();
 		do Point.deInit();
 		do Equation.deInit();
@@ -48,7 +46,7 @@ class Main {
 		do Main.draw(equation);
 		do Out.cls();
 		do Main.deInit();
-		do Main.createEquation();
+		// do Main.createEquation();
 		return;
 	}
 

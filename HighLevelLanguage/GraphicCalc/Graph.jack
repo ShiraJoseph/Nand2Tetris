@@ -2,7 +2,7 @@ class Graph {
 	static Equation equation;
 	static Point currPoint;
 	static Fraction currX, currY;
-	static Int iX, iY, iIndex, deltaI;
+	static int iX, iY, iIndex, deltaI;
 	static Coord coord;
 
 	/** Constructs a new graph */
@@ -12,12 +12,12 @@ class Graph {
 
 	/** Initiates static variables */
 	function void init() {
-		let currX = Fraction.new(Const.i1(), Const.i1());
-		let currY = Fraction.new(Const.i1(), Const.i1());
-		let iX = Int.new(true, 1);
-		let iY = Int.new(true, 1);
-		let iIndex = Int.new(true, 1);
-		let deltaI = Int.new(true, 1);
+		let currX = Const.f1();
+		let currY = Const.f1();
+		let iX = 1;
+		let iY = 1;
+		let iIndex = 1;
+		let deltaI = 1;
 		let currPoint = Point.new(iX, iY);
 		let coord = currPoint.toCoord();
 		return;
@@ -29,10 +29,6 @@ class Graph {
 		do currPoint.dispose();
 		do currX.dispose();
 		do currY.dispose();
-		do iX.dispose();
-		do iY.dispose();
-		do iIndex.dispose();
-		do deltaI.dispose();
 		do coord.dispose();
 		return;
 	}
@@ -95,61 +91,45 @@ class Graph {
 
 	/** Returns an equation comparable to the given equation but scaled to fit within (-255, -127) and (255, 127) */
 	function Equation getScaledLine(Equation e) {
-		var Fraction CUTOFF, TWO, ONESEVENTY, yIncpt, xIncpt, xIncptTwice,
-		scale, b, m, cutoffTotal, newB, calc1, calc2, calc3, calc4, calc5,
-		calc6, calc7, calc8, calc9, calc10, calc11, calc12, calc13, oldB, XYLimit, negXYLimit;
+		var Fraction CUTOFF, yIncpt, xIncpt, xIncptTwice, scale, b, m, cutoffTotal, newB, oldB, XYLimit, negXYLimit;
 		var Equation scaledEquation;
 		var boolean xIsGreater;
 		var int n, d;
-		let CUTOFF = Fraction.new(Int.new(true, 3), Const.i2());
-		let ONESEVENTY = Fraction.new(Int.new(true, 170), Const.i1());
-		let TWO = Fraction.new(Const.i2(), Const.i1());
-		let calc1 = Fraction.new(Const.i1(), Const.i1());
-		let calc2 = Fraction.new(Const.i1(), Const.i1());
-		let calc3 = Fraction.new(Const.i1(), Const.i1());
-		let calc4 = Fraction.new(Const.i1(), Const.i1());
-		let calc5 = Fraction.new(Const.i1(), Const.i1());
-		let calc6 = Fraction.new(Const.i1(), Const.i1());
-		let calc7 = Fraction.new(Const.i1(), Const.i1());
-		let calc8 = Fraction.new(Const.i1(), Const.i1());
-		let calc9 = Fraction.new(Const.i1(), Const.i1());
-		let calc10 = Fraction.new(Const.i1(), Const.i1());
-		let calc11 = Fraction.new(Const.i1(), Const.i1());
-		let calc12 = Fraction.new(Const.i1(), Const.i1());
-		let calc13 = Fraction.new(Const.i1(), Const.i1());
-		let newB = Fraction.new(Const.i1(), Const.i1());
+
+		let CUTOFF = Fraction.new(3, 2);
+		let XYLimit = Fraction.new(201, 100);
+    let negXYLimit = Fraction.new(-201, 100);
+    let newB = Const.f1();
+    let scale = Const.f1();
 
 		let yIncpt = e.getYIntercept();
 		let xIncpt = e.getXIntercept();
 		do yIncpt.checkValid();
 		do xIncpt.checkValid();
+
 		let scaledEquation = Equation.convertToSlopeIntercept(e);
 		let m = scaledEquation.getSlope();
 		let oldB = scaledEquation.getB();
-		let XYLimit = Fraction.new(Int.new(true, 201), Int.new(true, 100));
-		let negXYLimit = Fraction.new(Int.new(false, 201), Int.new(true, 100));
 
 		// if m is in between -2 and 2, draw from bottom to top
 		if ((m.pos() = true & m.isLessThan(XYLimit)) | (m.pos() = false & m.isGreaterThan(negXYLimit))){
 			let xIsGreater = false;
 			let m = scaledEquation.getSlope();
-			do Fraction.multiply(m, ONESEVENTY, newB, calc1, calc2, calc3, calc4, calc5, calc6);
+			do newB.setProduct(m, Const.f170());
+			do scale.setQuotient(oldB, newB);
+			do scaledEquation.setScale(scale);
 
 		// otherwise, it will start from the left and go to the right
 		} else {
 			let b = scaledEquation.getYIntercept();
 			let xIsGreater = true;
-			let cutoffTotal = Fraction.new(Const.i1(), Const.i1());
-			let scale = Fraction.new(Const.i1(), Const.i1());
-			do Fraction.multiply(CUTOFF, b, cutoffTotal, calc1, calc2, calc3, calc4, calc5, calc6);
-			let calc7 = Const.f127();
-			let scale = calc7.dividedBy(cutoffTotal);
+			do cutoffTotal.setProduct(CUTOFF, b);
+			do scale.setQuotient(Const.f127(), cutoffTotal);
 			do scaledEquation.setScale(scale);
-			do Fraction.multiply(scale, b, newB, calc8, calc9, calc10, calc11, calc12, calc13);
+			do newB.setProduct(scale, b);
 		}
 
 		do scaledEquation.setB(newB);
-		do scaledEquation.setScale(oldB.dividedBy(newB));
 		do scaledEquation.setXIsScreenCutoff(xIsGreater);
 		do Sys.wait(2000);
 		return scaledEquation;
@@ -169,9 +149,8 @@ class Graph {
 
 	function void drawYCutoffLine(int i, int j) {
 		while(i < j){
-			do iIndex.set(true, i);
-			let deltaI = iIndex.minus(Const.i127());
-			do currY.set(deltaI, Const.i1());
+			let deltaI = i - 127;
+			do currY.set(deltaI, 1);
 			let currX = equation.solveForX(currY);
 			do Graph.drawValidScaledPoint();
 			let i = i + 1;
@@ -181,9 +160,8 @@ class Graph {
 
 	function void drawXCutoffLine(int i, int j) {
 		while(i < j){
-			do iIndex.set(true, i);
-			let deltaI = iIndex.minus(Const.i255());
-			do currX.set(deltaI, Const.i1());
+			let deltaI = i - 255;
+			do currX.set(deltaI, 1);
 			let currY = equation.solveForY(currX);
 			do Graph.drawValidScaledPoint();
 			let i = i + 1;
@@ -192,10 +170,8 @@ class Graph {
 	}
 
 	function void drawValidScaledPoint() {
-		do iX.set(currX.pos(), currX.toInt());
-		do iY.set(currY.pos(), currY.toInt());
-		do currPoint.setX(iX);
-		do currPoint.setY(iY);
+		do currPoint.setX(currX.toInt());
+		do currPoint.setY(currY.toInt());
 		if (currPoint.isValidPoint()){
 			do Graph.drawPoint();
 		}
@@ -222,17 +198,18 @@ class Graph {
 
 	function void drawTickLabels(Fraction scale) {
 		var Fraction val;
-		var Int valInt;
 		var Array fLabels, ticks;
 		var int i, x, y, length;
 		var String label;
+
 		let ticks = Const.ticks();
-		let val = Fraction.new(Const.i1(), Const.i1());
+		let val = Const.f1();
 		let fLabels = Graph.getTickLabelValues(scale);
 
 		let i = 0;
 		while(i < 20){
 			let val = fLabels[i];
+			// TODO: conditionally set the decimal places according to how big the space is between each tick
 			let label = val.toDecimal(1);
 			let length = label.length();
 
@@ -256,47 +233,43 @@ class Graph {
 	}
 
 	function Array getTickLabelValues(Fraction scale) {
-		var Fraction calc1, calc2, calc3, calc4, calc5, calc6, label;
+		var Fraction label;
 		var Array labels, tickPoints, tickInts;
-		var int i;
-
-		let calc1 = Fraction.new(Const.i1(), Const.i1());
-		let calc2 = Fraction.new(Const.i1(), Const.i1());
-		let calc3 = Fraction.new(Const.i1(), Const.i1());
-		let calc4 = Fraction.new(Const.i1(), Const.i1());
-		let calc5 = Fraction.new(Const.i1(), Const.i1());
-		let calc6 = Fraction.new(Const.i1(), Const.i1());
+		var int i, tickPos;
 
 		let labels = Array.new(20);
 		let tickPoints = Array.new(20);
 		let tickInts = Array.new(20);
 
-		let tickInts[0] = Int.new(false, 224);
-		let tickInts[1] = Int.new(false, 192);
-		let tickInts[2] = Int.new(false, 160);
-		let tickInts[3] = Int.new(false, 128);
-		let tickInts[4] = Int.new(false, 96);
-		let tickInts[5] = Int.new(false, 64);
-		let tickInts[6] = Int.new(false, 32);
-		let tickInts[7] = Int.new(true, 32);
-		let tickInts[8] = Int.new(true, 64);
-		let tickInts[9] = Int.new(true, 96);
-		let tickInts[10] = Int.new(true, 128);
-		let tickInts[11] = Int.new(true, 160);
-		let tickInts[12] = Int.new(true, 192);
-		let tickInts[13] = Int.new(true, 224);
-		let tickInts[14] = Int.new(true, 96);
-		let tickInts[15] = Int.new(true, 64);
-		let tickInts[16] = Int.new(true, 32);
-		let tickInts[17] = Int.new(false, 32);
-		let tickInts[18] = Int.new(false, 64);
-		let tickInts[19] = Int.new(false, 96);
+		let tickInts[0] = -224;
+		let tickInts[1] = -192;
+		let tickInts[2] = -160;
+		let tickInts[3] = -128;
+		let tickInts[4] = -96;
+		let tickInts[5] = -64;
+		let tickInts[6] = -32;
+		let tickInts[7] = 32;
+		let tickInts[8] = 64;
+		let tickInts[9] = 96;
+		let tickInts[10] = 128;
+		let tickInts[11] = 160;
+		let tickInts[12] = 192;
+		let tickInts[13] = 224;
+		let tickInts[14] = 96;
+		let tickInts[15] = 64;
+		let tickInts[16] = 32;
+		let tickInts[17] = -32;
+		let tickInts[18] = -64;
+		let tickInts[19] = -96;
 
 		let i = 0;
 		while (i < 20){
-			let label = Fraction.new(tickInts[i], Const.i1());
-			let tickPoints[i] = Fraction.new(Const.i1(), Const.i1());
-			do Fraction.multiply(scale, label, tickPoints[i], calc1, calc2, calc3, calc4, calc5, calc6);
+			let label = Fraction.new(tickInts[i], 1);
+			let tickPos = 1;
+			if (~(scale.pos() = label.pos())){
+				let tickPos = -1;
+			}
+			let tickPoints[i] = Fraction.new(tickPos * scale.numerator() * label.numerator(), scale.denominator() * label.denominator());
 			let i = i + 1;
 		}
 

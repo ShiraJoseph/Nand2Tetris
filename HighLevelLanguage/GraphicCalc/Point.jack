@@ -2,13 +2,13 @@
 *	Handles points in an equation
 */
 class Point {
-	field Int x, y;
+	field int x, y;
 	field boolean isCoord;
 	static Coord coord;
-	static Int xCoord, yCoord;
+	static int xCoord, yCoord;
 
 	/** Constructs a point on the cartesian plane */
-	constructor Point new(Int xVal, Int yVal){
+	constructor Point new(int xVal, int yVal){
 		let x = xVal;
 		let y = yVal;
 		return this;
@@ -17,28 +17,26 @@ class Point {
 	/** Initiates static variables */
 	function void init() {
 		let coord = Coord.new(1, 1);
-		let xCoord = Int.new(true, 1);
-		let yCoord = Int.new(true, 1);
+		let xCoord = 1;
+		let yCoord = 1;
 		return;
 	}
 
 	/** Disposes static variables */
 	function void deInit() {
 		do coord.dispose();
-		do xCoord.dispose();
-		do yCoord.dispose();
 		return;
 	}
 
 	/** Accessors. */
-	method Int x(){ return x; }
-	method Int y(){ return y; }
-	method Int coord(){ return coord; }
-	method void setX(Int val){
+	method int x(){ return x; }
+	method int y(){ return y; }
+	method Coord coord(){ return coord; }
+	method void setX(int val){
 		let x = val;
 		return;
 	}
-	method void setY(Int val){
+	method void setY(int val){
 		let y = val;
 		return;
 	}
@@ -50,11 +48,10 @@ class Point {
 	 */
 	method Coord toCoord(){
 		if (isValidPoint()){
-			let xCoord = x.plus(Const.i255()); // Int sum
-			do coord.setX(xCoord.num());
-			let y = y.times(Const.iNeg1());
-			let yCoord = y.plus(Const.i127()); // Int sum
-			do coord.setY(yCoord.num());
+			let xCoord = x + 255;
+			do coord.setX(xCoord);
+			let yCoord = (-1 * y) + 127;
+			do coord.setY(yCoord);
 		} else {
 			do Out.s("Invalid Point ");
 			do Out.ln(toString());
@@ -64,12 +61,7 @@ class Point {
 	}
 
 	method boolean isValidPoint() {
-		if (
-			x.isLessThan(Const.i256()) &
-			x.isGreaterThan(Const.iNeg256()) &
-			y.isLessThan(Const.i128()) &
-			y.isGreaterThan(Const.iNeg128())
-		){
+		if (x < 256 & x > -256 & y < 128 & y > -128){
 			return true;
 		}
 		return false;
@@ -77,8 +69,10 @@ class Point {
 
 	method String toString() {
 		var String xS, yS, sS;
-		let xS = x.toString();
-		let yS = y.toString();
+		let xS = String.new(12);
+		let yS = String.new(12);
+		do xS.setInt(x);
+		do yS.setInt(y);
 		let sS = S.append5("(", xS, ", ", yS, ")");
 		return sS;
 	}
