@@ -95,9 +95,8 @@ class Graph {
 
 	/** Returns an equation comparable to the given equation but scaled to fit within (-255, -127) and (255, 127) */
 	function Equation getScaledLine(Equation e) {
-		var Fraction CUTOFF, TWO, ONESEVENTY, yIncpt, xIncpt, xIncptTwice,
-		scale, b, m, cutoffTotal, newB, calc1, calc2, calc3, calc4, calc5,
-		calc6, calc7, calc8, calc9, calc10, calc11, calc12, calc13, oldB, XYLimit, negXYLimit;
+		var Fraction CUTOFF, TWO, ONESEVENTY, yIncpt, xIncpt, yIncptTwice, scale, b, m, cutoffTotal, newB, calc1, calc2,
+		calc3, calc4, calc5, calc6, calc7, calc8, calc9, calc10, calc11, calc12, calc13, oldB, XYLimit, negXYLimit;
 		var Equation scaledEquation;
 		var boolean xIsGreater;
 		var int n, d;
@@ -126,10 +125,10 @@ class Graph {
 		let scaledEquation = Equation.convertToSlopeIntercept(e);
 		let m = scaledEquation.getSlope();
 		let oldB = scaledEquation.getB();
-		let XYLimit = Fraction.new(Int.new(true, 201), Int.new(true, 100));
-		let negXYLimit = Fraction.new(Int.new(false, 201), Int.new(true, 100));
+		let XYLimit = Fraction.new(Int.new(true, 101), Int.new(true, 100));
+		let negXYLimit = Fraction.new(Int.new(false, 101), Int.new(true, 100));
 
-		// if m is in between -2 and 2, draw from bottom to top
+		// if m is in between -1 and 1, draw from bottom to top
 		if ((m.pos() = true & m.isLessThan(XYLimit)) | (m.pos() = false & m.isGreaterThan(negXYLimit))){
 			let xIsGreater = false;
 			let m = scaledEquation.getSlope();
@@ -159,9 +158,9 @@ class Graph {
 	function void drawScaledLine(Equation e) {
 		let equation = e;
 		if (equation.getXIsScreenCutoff()) {
-			do Graph.drawYCutoffLine(0, 256);
+			do Graph.drawYCutoffLine(0, 255);
 		} else {
-			do Graph.drawXCutoffLine(0, 512);
+			do Graph.drawXCutoffLine(0, 511);
 		}
 		return;
 	}
@@ -236,16 +235,17 @@ class Graph {
 			let label = val.toDecimal(1);
 			let length = label.length();
 
+			// width of each numeral is 6px and the width of a decimal is 2px
 			if (S.includes(label, ".") = true){
 				let length = ((length - 1) * 6) + 2;
 			} else {
 				let length = length * 6;
 			}
-
-			if (i < 14) {
+			// determines where to start the label based on its length
+			if (i < 14) { // x-axis ticks
 				let x = ticks[i] - (length/2);
 				let y = 132;
-			} else {
+			} else { // y-axis ticks
 				let x = 253 - length;
 				let y = ticks[i] - 3;
 			}
@@ -257,8 +257,9 @@ class Graph {
 
 	function Array getTickLabelValues(Fraction scale) {
 		var Fraction calc1, calc2, calc3, calc4, calc5, calc6, label;
-		var Array labels, tickPoints, tickInts;
-		var int i;
+		var Array tickPoints;
+		var int i, mult;
+		var boolean isPos;
 
 		let calc1 = Fraction.new(Const.i1(), Const.i1());
 		let calc2 = Fraction.new(Const.i1(), Const.i1());
@@ -266,35 +267,27 @@ class Graph {
 		let calc4 = Fraction.new(Const.i1(), Const.i1());
 		let calc5 = Fraction.new(Const.i1(), Const.i1());
 		let calc6 = Fraction.new(Const.i1(), Const.i1());
-
-		let labels = Array.new(20);
 		let tickPoints = Array.new(20);
-		let tickInts = Array.new(20);
-
-		let tickInts[0] = Int.new(false, 224);
-		let tickInts[1] = Int.new(false, 192);
-		let tickInts[2] = Int.new(false, 160);
-		let tickInts[3] = Int.new(false, 128);
-		let tickInts[4] = Int.new(false, 96);
-		let tickInts[5] = Int.new(false, 64);
-		let tickInts[6] = Int.new(false, 32);
-		let tickInts[7] = Int.new(true, 32);
-		let tickInts[8] = Int.new(true, 64);
-		let tickInts[9] = Int.new(true, 96);
-		let tickInts[10] = Int.new(true, 128);
-		let tickInts[11] = Int.new(true, 160);
-		let tickInts[12] = Int.new(true, 192);
-		let tickInts[13] = Int.new(true, 224);
-		let tickInts[14] = Int.new(true, 96);
-		let tickInts[15] = Int.new(true, 64);
-		let tickInts[16] = Int.new(true, 32);
-		let tickInts[17] = Int.new(false, 32);
-		let tickInts[18] = Int.new(false, 64);
-		let tickInts[19] = Int.new(false, 96);
 
 		let i = 0;
 		while (i < 20){
-			let label = Fraction.new(tickInts[i], Const.i1());
+			if ((i < 7) | ((i > 13) & (i < 17))){
+				let isPos = false;
+				if (i < 7) {
+					let mult = 7 - i;
+				} else {
+					let mult = 17 - i;
+				}
+			} else {
+				let isPos = true;
+				if (i < 14) {
+					let mult = i - 6;
+				} else {
+					let mult = i - 16;
+				}
+			}
+
+			let label = Fraction.new(Int.new(isPos, mult * 32), Const.i1());
 			let tickPoints[i] = Fraction.new(Const.i1(), Const.i1());
 			do Fraction.multiply(scale, label, tickPoints[i], calc1, calc2, calc3, calc4, calc5, calc6);
 			let i = i + 1;

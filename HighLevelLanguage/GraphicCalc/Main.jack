@@ -46,9 +46,9 @@ class Main {
 		do equation.getValues();
 		do Out.cls();
 		do Main.draw(equation);
-		do Out.cls();
+//		do Out.cls();
 		do Main.deInit();
-		do Main.createEquation();
+		// do Main.createEquation(); // so far memory does not work with this
 		return;
 	}
 
