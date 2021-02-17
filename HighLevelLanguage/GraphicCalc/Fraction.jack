@@ -68,9 +68,9 @@ class Fraction {
 		} else {
 			let pos = false;
 		}
-		if (d.num() = 0) {
-			do Sys.error(3);
-		}
+//		if (d.num() = 0) {
+//			do Sys.error(3);
+//		}
 		if (n.num() = 0) {
 			let denominator = 1;
 			let pos = true;
@@ -289,6 +289,13 @@ class Fraction {
 			return true;
 		}
 		return ~pos;
+	}
+
+	method boolean equals(Fraction f2) {
+		if ((numerator = f2.numerator()) & (denominator = f2.denominator()) & (pos = f2.pos())){
+      return true;
+    }
+    return false;
 	}
 
 	/** Disposes this fraction. */

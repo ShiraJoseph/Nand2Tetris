@@ -128,13 +128,13 @@ class Graph {
 		let XYLimit = Fraction.new(Int.new(true, 101), Int.new(true, 100));
 		let negXYLimit = Fraction.new(Int.new(false, 101), Int.new(true, 100));
 
-		// if m is in between -1 and 1, draw from bottom to top
+		// if m is in between -1 and 1, draw from bottom to top (includes perfectly vertical lines)
 		if ((m.pos() = true & m.isLessThan(XYLimit)) | (m.pos() = false & m.isGreaterThan(negXYLimit))){
 			let xIsGreater = false;
 			let m = scaledEquation.getSlope();
 			do Fraction.multiply(m, ONESEVENTY, newB, calc1, calc2, calc3, calc4, calc5, calc6);
 
-		// otherwise, it will start from the left and go to the right
+		// otherwise, it will start from the left and go to the right (includes perfectly horizontal lines)
 		} else {
 			let b = scaledEquation.getYIntercept();
 			let xIsGreater = true;
@@ -148,7 +148,10 @@ class Graph {
 		}
 
 		do scaledEquation.setB(newB);
+		// if oldB and newB are not 0
 		do scaledEquation.setScale(oldB.dividedBy(newB));
+		// otherwise...?
+
 		do scaledEquation.setXIsScreenCutoff(xIsGreater);
 		do Sys.wait(2000);
 		return scaledEquation;
@@ -158,15 +161,15 @@ class Graph {
 	function void drawScaledLine(Equation e) {
 		let equation = e;
 		if (equation.getXIsScreenCutoff()) {
-			do Graph.drawYCutoffLine(0, 255);
+			do Graph.drawLineVertically(0, 255);
 		} else {
-			do Graph.drawXCutoffLine(0, 511);
+			do Graph.drawLineHorizontally(0, 511);
 		}
 		return;
 	}
 
-
-	function void drawYCutoffLine(int i, int j) {
+	// a line that is drawn from the bottom of the screen to the top (includes perfectly vertical lines x = b)
+	function void drawLineVertically(int i, int j) {
 		while(i < j){
 			do iIndex.set(true, i);
 			let deltaI = iIndex.minus(Const.i127());
@@ -178,7 +181,8 @@ class Graph {
 		return;
 	}
 
-	function void drawXCutoffLine(int i, int j) {
+	// a line that is drawn from the left of the screen to the right (includes perfectly horizontal lines y = b)
+	function void drawLineHorizontally(int i, int j) {
 		while(i < j){
 			do iIndex.set(true, i);
 			let deltaI = iIndex.minus(Const.i255());

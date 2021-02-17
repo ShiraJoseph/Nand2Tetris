@@ -1,7 +1,7 @@
 /** Provides static constants to the rest of the app to help manage memory */
 class Const {
 	static Int i0, i1, i2, i127, i128, i255, i256, iNeg1, iNeg128, iNeg256;
-	static Fraction f1, f127, f128, f255, f256, fNeg1;
+	static Fraction f0, f1, f127, f128, f255, f256, fNeg1;
 	static String sY, sX, sB, sM, sS, sP, sI, sQ;
 	static Array ticks;
 
@@ -21,6 +21,7 @@ class Const {
 		let iNeg1 = Int.new(false, 1);
 		let iNeg128 = Int.new(false, 128);
 		let iNeg256 = Int.new(false, 256);
+		let f0 = Fraction.new(i0, i1);
 		let f1 = Fraction.new(i1, i1);
 		let f127 = Fraction.new(i127, i1);
 		let f128 = Fraction.new(i128, i1);
@@ -70,6 +71,7 @@ class Const {
 		do iNeg1.dispose();
 		do iNeg128.dispose();
 		do iNeg256.dispose();
+		do f0.dispose();
 		do f1.dispose();
 		do f127.dispose();
 		do f128.dispose();
@@ -99,6 +101,7 @@ class Const {
 	function Int iNeg1() { return iNeg1; }
 	function Int iNeg128() { return iNeg128; }
 	function Int iNeg256() { return iNeg256; }
+	function Fraction f0() { return f0; }
 	function Fraction f1() { return f1; }
 	function Fraction f127() { return f127; }
 	function Fraction f128() { return f128; }
