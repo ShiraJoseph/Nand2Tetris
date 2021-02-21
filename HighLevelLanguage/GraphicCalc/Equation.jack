@@ -66,6 +66,10 @@ class Equation {
 		return;
 	}
 
+	method void dispose() {
+		do Memory.deAlloc(this);
+		return;
+	}
 
 	/** Accessors */
 	method Fraction getX(){ return xF; }
@@ -390,67 +394,150 @@ class Equation {
 
 	/** Returns a string version of the equation in slope-intercept form: y = mx + b */
 	method String getSlopeInterceptString(){
-		var String mS, bS, stringified;
+		var String mS, bS, plusMinusB, stringified;
 		if (mExists){
-			let mS = mF.toString();
+			let mS = Equation.simplifyMX(mF, "x");
 		} else {
 			let mS = "_";
 		}
 		if (bExists){
-			let bS = bF.toString();
+			let plusMinusB = Equation.simplifySecondTerm(bF);
 		} else {
-			let bS = "_";
+			let bS = " + _";
 		}
-		let stringified = S.append4("y = ", mS, "x + ", bS);
+		let stringified = S.append3("y = ", mS, plusMinusB);
 		return stringified;
 	}
 
 	/** Returns a string version of the equation in point-slope form: (y - y1) = m(x - x1) */
 	method String getPointSlopeString(){
-		var String xS, yS, mS, stringified;
+		var String plusMinusY, plusMinusX, fullX, mTermS, stringified;
+		var Fraction negY, negX;
 		if (yExists){
-			let yS = yF.toString();
+			let negY = yF;
+			do negY.setPos(~(yF.pos()));
+			let plusMinusY = Equation.simplifySecondTerm(negY);
 		} else {
-			let yS = "_";
-		}
-		if (mExists){
-			let mS = mF.toString();
-		} else {
-			let mS = "_";
+			let plusMinusY = " - _";
 		}
 		if (xExists){
-			let xS = xF.toString();
+			let negX = xF;
+			do negX.setPos(~(xF.pos()));
+			let plusMinusX = Equation.simplifySecondTerm(negX);
+			let fullX = S.append3("(x", plusMinusX, ")");
+    } else {
+      let fullX = "(x - _)";
+    }
+		if (mExists){
+			let mTermS = Equation.simplifyMX(mF, fullX);
 		} else {
-			let xS = "_";
+			let mTermS = S.append("_", fullX);
 		}
-		let stringified = S.append7("(y - ", yS, ") = ", mS, "(x - ", xS, ")");
+
+		let stringified = S.append4("y", plusMinusY, " = ", mTermS);
 		return stringified;
 	}
 
 	/** Returns a string version of the equation in standard form: x1x + y1y = b */
 	method String getStandardString(){
-		var String xS, yS, bS, stringified;
+		var String xS, plusMinusY, bS, stringified;
 		if (xExists){
-			let xS = xF.toString();
+
+			let xS = Equation.simplifyMX(xF, "x");
 		} else {
 			let xS = "_";
 		}
 		if (yExists){
-			let yS = yF.toString();
+			let plusMinusY = Equation.simplifySecondYTerm(xF, yF);
 		} else {
-			let yS = "_";
+			let plusMinusY = " + _";
 		}
 		if (bExists){
 			let bS = bF.toString();
 		} else {
 			let bS = "_";
 		}
-		let stringified = S.append5(xS, "x + ", yS, "y = ", bS);
+		let stringified = S.append4(xS, plusMinusY, " = ", bS);
 		return stringified;
 	}
 
-	method void dispose() {
-		do Memory.deAlloc(this);
-		return;
-	}
+	function String simplifyMX(Fraction m, String x){
+    var String mS, d, n;
+    if (m.equals(Const.f1())){ // y = x + b or y - y1 = (x - x1)
+      return x;
+    }
+    if (m.equals(Const.fNeg1())){ // y = -x + b or y - y1 = -(x - x1)
+      return S.append("-", x);
+    }
+    if (m.numerator() = 0){
+      if (x.length() > 1){ // y - y1 = 0
+        return "0";
+      } // y = b
+      return "";
+    }
+    if (m.numerator() = 1){
+      let d = String.new(6);
+      do d.setInt(m.denominator());
+      if (m.pos() = true){ // y = x/d + b or y - y1 = (x - x1)/d
+        return S.append3(x, "/", d);
+      } // y = -x/d + b or y - y1 = -(x - x1)/d
+      return S.append4("-", x, "/", d);
+    }
+    if (~(m.denominator() = 1)){
+      let n = String.new(6);
+      let d = String.new(6);
+      do n.setInt(m.numerator());
+      do d.setInt(m.denominator());
+      if (m.pos() = true){ // y = nx/d + b or y - y1 = n(x - x1)/d
+        return S.append4(n, x, "/", d);
+      } // y = -nx/d + b or y - y1 = -n(x - x1)/d
+      return S.append5("-", n, x, "/", d);
+    }
+    let mS = m.toString();
+    return S.append(mS, x); // m is not a fraction, 1, -1, or 0 (y = mx + b or y - y1 = m(x - x1))
+  }
+
+  function String simplifySecondTerm(Fraction fraction){ // turns into " - n" or " + n"
+    var String plusMinusF, sF;
+    var Fraction posF;
+    if (fraction.numerator() = 0){
+      return "";
+    }
+    if (fraction.pos() = true){
+      let sF = fraction.toString();
+      let plusMinusF = S.append(" + ", sF);
+    } else {
+      let posF = fraction;
+      do posF.setPos(true);
+      let sF = posF.toString();
+      let plusMinusF = S.append(" - ", sF);
+    }
+    return plusMinusF;
+  }
+
+  function String simplifySecondYTerm(Fraction x, Fraction y){ // turns into " - ny" or " + ny"
+    var String plusMinusY, sY;
+    var Fraction posY;
+    if (y.numerator() = 0){
+      return "";
+    }
+    if (y.pos() = true){
+      let sY = Equation.simplifyMX(y, "y");
+      if (x.equals(Const.f0())){
+        let plusMinusY = sY;
+      } else {
+        let plusMinusY = S.append(" + ", sY);
+      }
+    } else {
+      let posY = y;
+      do posY.setPos(true);
+      let sY = Equation.simplifyMX(posY, "y");
+      if (x.equals(Const.f0())){
+        let plusMinusY = sY;
+      } else {
+        let plusMinusY = S.append(" - ", sY);
+      }
+    }
+    return plusMinusY;
+  }
 }

@@ -259,7 +259,7 @@ class Fraction {
 	}
 
 	method void checkValid() {
-		if(denominator > 9999 | denominator < -9999 | numerator > 9999 | numerator < -9999 | denominator = 0){
+		if(denominator > 9999 | denominator < -9999 | numerator > 9999 | numerator < -9999){
 			do Out.ln("Invalid fraction");
 		}
 		return;

@@ -44,7 +44,7 @@ class Main {
 		}
 		let equation = Equation.new(1, format);
 		do equation.getValues();
-		do Out.cls();
+//		do Out.cls();
 		do Main.draw(equation);
 //		do Out.cls();
 //		do Main.deInit();
@@ -57,6 +57,7 @@ class Main {
 		var Fraction scale;
 		do Out.ln(e.toString());
 		let newE = Graph.getScaledLine(e);
+		do Out.ln(newE.toString());
 //		let scale = newE.getScale();
 //		do Graph.drawAxes(scale);
 //		do Graph.drawScaledLine(newE);
