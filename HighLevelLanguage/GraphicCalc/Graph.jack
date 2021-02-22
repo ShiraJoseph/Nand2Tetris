@@ -123,15 +123,16 @@ class Graph {
 		do yIncpt.checkValid();
 		do xIncpt.checkValid();
 		let scaledEquation = Equation.convertToSlopeIntercept(e);
-		let m = scaledEquation.getSlope();
-		let oldB = scaledEquation.getB();
+		do Out.ln(EquationWriter.toString(scaledEquation));
+		let m = scaledEquation.slope();
+		let oldB = scaledEquation.b();
 		let XYLimit = Fraction.new(Int.new(true, 101), Int.new(true, 100));
 		let negXYLimit = Fraction.new(Int.new(false, 101), Int.new(true, 100));
 
 		// if m is in between -1 and 1, draw from bottom to top (includes perfectly vertical lines)
 		if ((m.pos() = true & m.isLessThan(XYLimit)) | (m.pos() = false & m.isGreaterThan(negXYLimit))){
 			let xIsGreater = false;
-			let m = scaledEquation.getSlope();
+			let m = scaledEquation.slope();
 			do Fraction.multiply(m, ONESEVENTY, newB, calc1, calc2, calc3, calc4, calc5, calc6);
 
 		// otherwise, it will start from the left and go to the right (includes perfectly horizontal lines)
@@ -160,7 +161,7 @@ class Graph {
 	/** Draws a line using an equation scaled to fit within (-255, -127) to (255, 127) */
 	function void drawScaledLine(Equation e) {
 		let equation = e;
-		if (equation.getXIsScreenCutoff()) {
+		if (equation.xIsScreenCutoff()) {
 			do Graph.drawLineVertically(0, 255);
 		} else {
 			do Graph.drawLineHorizontally(0, 511);

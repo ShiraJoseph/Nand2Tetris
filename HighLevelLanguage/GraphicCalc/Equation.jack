@@ -72,18 +72,23 @@ class Equation {
 	}
 
 	/** Accessors */
-	method Fraction getX(){ return xF; }
-	method Fraction getY(){ return yF; }
-	method Fraction getB(){ return bF; }
-	method Fraction getSlope(){ return mF; }
-	method Fraction getScale(){ return scale; }
-	method boolean getXIsScreenCutoff(){ return xIsScreenCutoff; }
-	method boolean getStartLineNegative(){ return startLineNegative; }
-	method boolean getIsVertical(){ return isVertical; }
-	method boolean getIsHorizontal(){ return isHorizontal; }
-	method boolean getIsXAxis(){ return isXAxis; }
-	method boolean getIsYAxis(){ return isYAxis; }
-	method String getFormat(){ return format; }
+	method int degree(){ return degree; }
+	method Fraction x(){ return xF; }
+	method Fraction y(){ return yF; }
+	method Fraction b(){ return bF; }
+	method Fraction slope(){ return mF; }
+	method Fraction scale(){ return scale; }
+	method boolean xIsScreenCutoff(){ return xIsScreenCutoff; }
+	method boolean startLineNegative(){ return startLineNegative; }
+	method boolean isVertical(){ return isVertical; }
+	method boolean isHorizontal(){ return isHorizontal; }
+	method boolean isXAxis(){ return isXAxis; }
+	method boolean isYAxis(){ return isYAxis; }
+	method String format(){ return format; }
+	method void setDegree(int deg){
+		let degree = deg;
+		return;
+	}
 	method void setX(Fraction xSet){
 		let xF = xSet;
 		let xExists = true;
@@ -136,7 +141,7 @@ class Equation {
 	/** Turns an equation in the standard or point-slope format into one using the slope-intercept format */
   function Equation convertToSlopeIntercept(Equation e){
     var String f;
-    let f = e.getFormat();
+    let f = e.format();
     if (S.equals(f, Const.sI())){
       return Equation.setSlopeInterceptDirection(e);
     }
@@ -151,8 +156,8 @@ class Equation {
 
 	function Equation setSlopeInterceptDirection(Equation e){
 		var Fraction slope, b;
-		let slope = e.getSlope();
-		let b = e.getB();
+		let slope = e.slope();
+		let b = e.b();
 		if (slope.equals(Const.f0())){
       do e.setIsHorizontal(true);
       if (b.equals(Const.f0())){
@@ -166,10 +171,10 @@ class Equation {
 		var Equation newE;
 		var Fraction O;
 
-		let xCalc = oldE.getX();
-    let yCalc = oldE.getY();
+		let xCalc = oldE.x();
+    let yCalc = oldE.y();
     let newE = Equation.new(1, Const.sI());
-    let newSlope = oldE.getSlope();
+    let newSlope = oldE.slope();
     let O = Const.f0();
 
 		// slope remains the same
@@ -204,9 +209,9 @@ class Equation {
 		var Equation newE;
 		var Fraction O;
 
-		let xCalc = oldE.getX();
-    let yCalc = oldE.getY();
-    let bCalc = oldE.getB();
+		let xCalc = oldE.x();
+    let yCalc = oldE.y();
+    let bCalc = oldE.b();
     let newE = Equation.new(1, Const.sI());
     let O = Const.f0();
 
@@ -242,7 +247,6 @@ class Equation {
         }
       }
     }
-
     return newE;
 	}
 
@@ -370,174 +374,4 @@ class Equation {
 		}
 		return;
 	}
-
-
-	/************************************************************************************
-	**  Methods to create a string version of the equation for printing to the screen  **
-	************************************************************************************/
-
-	/** Returns the current state of the equation as a string based on the chosen equation format */
-	method String toString(){
-		if (degree = 1){
-			if (S.equals(format, Const.sS())){
-				return getStandardString();
-			}
-			if (S.equals(format, Const.sI())){
-				return getSlopeInterceptString();
-			}
-			if (S.equals(format, Const.sP())){
-				return getPointSlopeString();
-			}
-		}
-		return "x";
-	}
-
-	/** Returns a string version of the equation in slope-intercept form: y = mx + b */
-	method String getSlopeInterceptString(){
-		var String mS, bS, plusMinusB, stringified;
-		if (mExists){
-			let mS = Equation.simplifyMX(mF, "x");
-		} else {
-			let mS = "_";
-		}
-		if (bExists){
-			let plusMinusB = Equation.simplifySecondTerm(bF);
-		} else {
-			let bS = " + _";
-		}
-		let stringified = S.append3("y = ", mS, plusMinusB);
-		return stringified;
-	}
-
-	/** Returns a string version of the equation in point-slope form: (y - y1) = m(x - x1) */
-	method String getPointSlopeString(){
-		var String plusMinusY, plusMinusX, fullX, mTermS, stringified;
-		var Fraction negY, negX;
-		if (yExists){
-			let negY = yF;
-			do negY.setPos(~(yF.pos()));
-			let plusMinusY = Equation.simplifySecondTerm(negY);
-		} else {
-			let plusMinusY = " - _";
-		}
-		if (xExists){
-			let negX = xF;
-			do negX.setPos(~(xF.pos()));
-			let plusMinusX = Equation.simplifySecondTerm(negX);
-			let fullX = S.append3("(x", plusMinusX, ")");
-    } else {
-      let fullX = "(x - _)";
-    }
-		if (mExists){
-			let mTermS = Equation.simplifyMX(mF, fullX);
-		} else {
-			let mTermS = S.append("_", fullX);
-		}
-
-		let stringified = S.append4("y", plusMinusY, " = ", mTermS);
-		return stringified;
-	}
-
-	/** Returns a string version of the equation in standard form: x1x + y1y = b */
-	method String getStandardString(){
-		var String xS, plusMinusY, bS, stringified;
-		if (xExists){
-
-			let xS = Equation.simplifyMX(xF, "x");
-		} else {
-			let xS = "_";
-		}
-		if (yExists){
-			let plusMinusY = Equation.simplifySecondYTerm(xF, yF);
-		} else {
-			let plusMinusY = " + _";
-		}
-		if (bExists){
-			let bS = bF.toString();
-		} else {
-			let bS = "_";
-		}
-		let stringified = S.append4(xS, plusMinusY, " = ", bS);
-		return stringified;
-	}
-
-	function String simplifyMX(Fraction m, String x){
-    var String mS, d, n;
-    if (m.equals(Const.f1())){ // y = x + b or y - y1 = (x - x1)
-      return x;
-    }
-    if (m.equals(Const.fNeg1())){ // y = -x + b or y - y1 = -(x - x1)
-      return S.append("-", x);
-    }
-    if (m.numerator() = 0){
-      if (x.length() > 1){ // y - y1 = 0
-        return "0";
-      } // y = b
-      return "";
-    }
-    if (m.numerator() = 1){
-      let d = String.new(6);
-      do d.setInt(m.denominator());
-      if (m.pos() = true){ // y = x/d + b or y - y1 = (x - x1)/d
-        return S.append3(x, "/", d);
-      } // y = -x/d + b or y - y1 = -(x - x1)/d
-      return S.append4("-", x, "/", d);
-    }
-    if (~(m.denominator() = 1)){
-      let n = String.new(6);
-      let d = String.new(6);
-      do n.setInt(m.numerator());
-      do d.setInt(m.denominator());
-      if (m.pos() = true){ // y = nx/d + b or y - y1 = n(x - x1)/d
-        return S.append4(n, x, "/", d);
-      } // y = -nx/d + b or y - y1 = -n(x - x1)/d
-      return S.append5("-", n, x, "/", d);
-    }
-    let mS = m.toString();
-    return S.append(mS, x); // m is not a fraction, 1, -1, or 0 (y = mx + b or y - y1 = m(x - x1))
-  }
-
-  function String simplifySecondTerm(Fraction fraction){ // turns into " - n" or " + n"
-    var String plusMinusF, sF;
-    var Fraction posF;
-    if (fraction.numerator() = 0){
-      return "";
-    }
-    if (fraction.pos() = true){
-      let sF = fraction.toString();
-      let plusMinusF = S.append(" + ", sF);
-    } else {
-      let posF = fraction;
-      do posF.setPos(true);
-      let sF = posF.toString();
-      let plusMinusF = S.append(" - ", sF);
-    }
-    return plusMinusF;
-  }
-
-  function String simplifySecondYTerm(Fraction x, Fraction y){ // turns into " - ny" or " + ny"
-    var String plusMinusY, sY;
-    var Fraction posY;
-    if (y.numerator() = 0){
-      return "";
-    }
-    if (y.pos() = true){
-      let sY = Equation.simplifyMX(y, "y");
-      if (x.equals(Const.f0())){
-        let plusMinusY = sY;
-      } else {
-        let plusMinusY = S.append(" + ", sY);
-      }
-    } else {
-      let posY = y;
-      do posY.setPos(true);
-      let sY = Equation.simplifyMX(posY, "y");
-      if (x.equals(Const.f0())){
-        let plusMinusY = sY;
-      } else {
-        let plusMinusY = S.append(" - ", sY);
-      }
-    }
-    return plusMinusY;
-  }
 }

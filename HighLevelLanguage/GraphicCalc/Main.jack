@@ -55,9 +55,9 @@ class Main {
 	function void draw(Equation e){
 		var Equation newE;
 		var Fraction scale;
-		do Out.ln(e.toString());
+		do Out.ln(EquationWriter.toString(e));
 		let newE = Graph.getScaledLine(e);
-		do Out.ln(newE.toString());
+		do Out.ln(EquationWriter.toString(newE));
 //		let scale = newE.getScale();
 //		do Graph.drawAxes(scale);
 //		do Graph.drawScaledLine(newE);
