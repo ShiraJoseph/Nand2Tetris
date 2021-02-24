@@ -44,7 +44,7 @@ class Main {
 		}
 		let equation = Equation.new(1, format);
 		do equation.getValues();
-//		do Out.cls();
+		do Out.cls();
 		do Main.draw(equation);
 //		do Out.cls();
 //		do Main.deInit();
@@ -58,9 +58,9 @@ class Main {
 		do Out.ln(EquationWriter.toString(e));
 		let newE = Graph.getScaledLine(e);
 		do Out.ln(EquationWriter.toString(newE));
-//		let scale = newE.getScale();
-//		do Graph.drawAxes(scale);
-//		do Graph.drawScaledLine(newE);
+		let scale = newE.scale();
+		do Graph.drawAxes(scale);
+		do Graph.drawScaledLine(newE);
 		do Sys.wait(8000);
 		return;
 	}

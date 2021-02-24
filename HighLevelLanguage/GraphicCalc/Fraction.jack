@@ -85,7 +85,7 @@ class Fraction {
 	}
 
 	/** Adds this fraction and another */
-	method Fraction plus(Fraction other) {
+	method void plus(Fraction other, Fraction result) {
 		do calc1.set(pos, numerator);
 		do calc2.set(true, other.denominator());
 		do Int.multiply(calc1, calc2, calc3);
@@ -93,11 +93,13 @@ class Fraction {
 		do calc5.set(true, denominator);
 		do Int.multiply(calc4, calc5, calc6);
 		do calc7.set(true, denominator * other.denominator());
-		return Fraction.new(calc3.plus(calc6), calc7);
+		do result.set(calc3.plus(calc6), calc7);
+		return;
+//		return Fraction.new(calc3.plus(calc6), calc7);
 	}
 
 	/** Subtracts this fraction from another */
-	method Fraction minus(Fraction other) {
+	method void minus(Fraction other, Fraction result) {
 		do calc1.set(pos, numerator);
 		do calc2.set(true, other.denominator());
 		do Int.multiply(calc1, calc2, calc3);
@@ -105,7 +107,8 @@ class Fraction {
 		do calc5.set(true, denominator);
 		do Int.multiply(calc4, calc5, calc6);
 		do calc7.set(true, denominator * other.denominator());
-		return Fraction.new(calc3.minus(calc6), calc7);
+		do result.set(calc3.minus(calc6), calc7);
+		return;
 	}
 
 	/** Multiplies two fractions */
@@ -121,11 +124,12 @@ class Fraction {
 	}
 
 	/** Divides one fraction by another */
-	method Fraction dividedBy (Fraction divisor) {
+	method void dividedBy(Fraction divisor, Fraction result) {
 		var Int a, b;
 		let a = Int.new(true, divisor.denominator());
 		let b = Int.new(divisor.pos(), divisor.numerator());
-		return Fraction.new(a.times(Int.new(pos, numerator)), b.times(Int.new(true, denominator)));
+		do result.set(a.times(Int.new(pos, numerator)), b.times(Int.new(true, denominator)));
+		return;
 	}
 
 	/** Turns a string into a Fraction. Accepts these formats: x, -x, x/y, x\y, -x/y, -x\y, x/-y, x\-y, -x/-y, -x\-y */
@@ -181,6 +185,9 @@ class Fraction {
 
 	method String toString(){
 		var String appended, n, d, sign;
+		if (numerator = 0){
+			return "0";
+		}
 		if (pos) {
 			let sign = "";
 		} else {
@@ -214,13 +221,17 @@ class Fraction {
 
 	method String toDecimal (int places) {
 		var int numLength, remainder, i, dividend, decIndex, j, digit;
-		var String numString,  answer, c, dividendString;
+		var String numString, answer, c, dividendString;
+
+		if (numerator = 0 | denominator = 0){
+			return "0";
+		}
+
 		let numString = String.new(12);
 		let dividendString = String.new(12);
 		let answer = String.new(12);
 		let remainder = 0;
 		let dividend = 0;
-
 		do numString.setInt(numerator);
 		let numLength = numString.length();
 
@@ -292,6 +303,9 @@ class Fraction {
 	}
 
 	method boolean equals(Fraction f2) {
+		if ((numerator = 0) & (f2.numerator() = 0)){
+			return true;
+		}
 		if ((numerator = f2.numerator()) & (denominator = f2.denominator()) & (pos = f2.pos())){
       return true;
     }

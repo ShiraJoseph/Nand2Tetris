@@ -123,36 +123,38 @@ class Graph {
 		do yIncpt.checkValid();
 		do xIncpt.checkValid();
 		let scaledEquation = Equation.convertToSlopeIntercept(e);
-		do Out.ln(EquationWriter.toString(scaledEquation));
 		let m = scaledEquation.slope();
 		let oldB = scaledEquation.b();
-		let XYLimit = Fraction.new(Int.new(true, 101), Int.new(true, 100));
-		let negXYLimit = Fraction.new(Int.new(false, 101), Int.new(true, 100));
+		let XYLimit = Fraction.new(Int.new(true, 1), Int.new(true, 2));
+		let negXYLimit = Fraction.new(Int.new(false, 1), Int.new(true, 2));
 
-		// if m is in between -1 and 1, draw from bottom to top (includes perfectly vertical lines)
-		if ((m.pos() = true & m.isLessThan(XYLimit)) | (m.pos() = false & m.isGreaterThan(negXYLimit))){
+		// if the equation is y = 0 or x = 0, keep the scale at 1:1
+		if(scaledEquation.isXAxis() | scaledEquation.isYAxis()){
+			do scaledEquation.setScale(Const.f1());
+			return scaledEquation;
+		}
+		// if m is in between -1/2 and 1/2 (but not 0 or undefined), m is the same but newB = m * 512/3 (~170) and scale = newB/oldB
+		if (((m.pos() = true & m.isLessThan(XYLimit)) | (m.pos() = false & m.isGreaterThan(negXYLimit))) & ~scaledEquation.isPerpendicular()){
 			let xIsGreater = false;
 			let m = scaledEquation.slope();
 			do Fraction.multiply(m, ONESEVENTY, newB, calc1, calc2, calc3, calc4, calc5, calc6);
-
-		// otherwise, it will start from the left and go to the right (includes perfectly horizontal lines)
+			do scaledEquation.setB(newB);
+			do oldB.dividedBy(newB, scale);
+			do scaledEquation.setScale(scale);
+		// otherwise, it will start from the left and go to the right
 		} else {
-			let b = scaledEquation.getYIntercept();
+			let b = scaledEquation.b();
 			let xIsGreater = true;
 			let cutoffTotal = Fraction.new(Const.i1(), Const.i1());
 			let scale = Fraction.new(Const.i1(), Const.i1());
 			do Fraction.multiply(CUTOFF, b, cutoffTotal, calc1, calc2, calc3, calc4, calc5, calc6);
 			let calc7 = Const.f127();
-			let scale = calc7.dividedBy(cutoffTotal);
+			do calc7.dividedBy(cutoffTotal, scale);
+			do scale.setPos(true);
 			do scaledEquation.setScale(scale);
 			do Fraction.multiply(scale, b, newB, calc8, calc9, calc10, calc11, calc12, calc13);
+			do scaledEquation.setB(newB);
 		}
-
-		do scaledEquation.setB(newB);
-		// if oldB and newB are not 0
-		do scaledEquation.setScale(oldB.dividedBy(newB));
-		// otherwise...?
-
 		do scaledEquation.setXIsScreenCutoff(xIsGreater);
 		do Sys.wait(2000);
 		return scaledEquation;

@@ -1,6 +1,6 @@
 class Equation {
 	field int degree;
-	field boolean xExists, yExists, bExists, mExists, xIsScreenCutoff, startLineNegative, isVertical, isHorizontal, isXAxis, isYAxis;
+	field boolean xExists, yExists, bExists, mExists, xIsScreenCutoff, startLineNegative, isPerpendicular, isVertical, isHorizontal, isXAxis, isYAxis;
 	field String format;
 	field Fraction xF, yF, bF, mF, scale;
 	static Fraction xCalc, yCalc, bCalc, newSlope, newB, mx, tempCalc1, tempCalc2, tempCalc3, tempCalc4, tempCalc5;
@@ -80,6 +80,12 @@ class Equation {
 	method Fraction scale(){ return scale; }
 	method boolean xIsScreenCutoff(){ return xIsScreenCutoff; }
 	method boolean startLineNegative(){ return startLineNegative; }
+	method boolean isPerpendicular(){
+		if(isVertical | isHorizontal){
+			return true;
+		}
+		return false;
+	}
 	method boolean isVertical(){ return isVertical; }
 	method boolean isHorizontal(){ return isHorizontal; }
 	method boolean isXAxis(){ return isXAxis; }
@@ -169,7 +175,7 @@ class Equation {
 
 	function Equation convertFromPointSlopeToSlopeIntercept(Equation oldE){
 		var Equation newE;
-		var Fraction O;
+		var Fraction O, calc1;
 
 		let xCalc = oldE.x();
     let yCalc = oldE.y();
@@ -180,10 +186,11 @@ class Equation {
 		// slope remains the same
     do newE.setSlope(newSlope);
 
-		// neither x, y, or m are 0; y = mx + y1 - mx1
+		// none of x, y, or m are 0; y = mx + y1 - mx1
     if (~(newSlope.equals(O) | xCalc.equals(O) | yCalc.equals(O))){
       do Fraction.multiply(newSlope, xCalc, mx, calc1, calc2, calc3, calc4, calc5, calc6);
-      do newE.setB(yCalc.minus(mx));
+      do yCalc.minus(mx, calc1);
+      do newE.setB(calc1);
       return newE;
     }
 
@@ -207,7 +214,7 @@ class Equation {
 
 	function Equation convertFromStandardToSlopeIntercept(Equation oldE){
 		var Equation newE;
-		var Fraction O;
+		var Fraction O, newB;
 
 		let xCalc = oldE.x();
     let yCalc = oldE.y();
@@ -216,6 +223,7 @@ class Equation {
     let O = Const.f0();
 
     if (xCalc.equals(O) & yCalc.equals(O)){ // throw an error if both x and y are 0
+      do Out.ln("x and y cannot both be 0");
       do Sys.error(3);
     }
 
@@ -230,14 +238,16 @@ class Equation {
       if (bCalc.equals(O)) { // both y and b are 0
         do newE.setIsYAxis(true);
       } else { // just y is 0
-        do newE.setB(bCalc.dividedBy(xCalc));
+        do bCalc.dividedBy(xCalc, newB);
+        do newE.setB(newB);
       }
     } else { // y is not 0
       if (~(bCalc.equals(O))){ // both y and b are not 0; b becomes b/y1
-        do newE.setB(bCalc.dividedBy(yCalc));
+        do bCalc.dividedBy(yCalc, newB);
+        do newE.setB(newB);
       }
       if (~(xCalc.equals(O))){ // both y and x are not 0;
-        let tempCalc1 = xCalc.dividedBy(yCalc);
+        do xCalc.dividedBy(yCalc, tempCalc1);
         do tempCalc1.setPos(~(tempCalc1.pos()));
         do newE.setSlope(tempCalc1);
       } else { // y is not 0 but x is 0;
@@ -257,19 +267,19 @@ class Equation {
     }
     if (S.equals(format, Const.sI())){
       do Fraction.multiply(mF, xPoint, tempCalc1, calc1, calc2, calc3, calc4, calc5, calc6);
-      let tempCalc2 = tempCalc1.plus(bF);
+      do tempCalc1.plus(bF, tempCalc2);
       return tempCalc2;
     }
     if (S.equals(format, Const.sP())){
-      let tempCalc1 = xF.minus(xPoint);
+      do xF.minus(xPoint, tempCalc1);
       do Fraction.multiply(mF, tempCalc1, tempCalc2, calc1, calc2, calc3, calc4, calc5, calc6);
-      let tempCalc3 = yF.minus(tempCalc2);
+      do yF.minus(tempCalc2, tempCalc3);
       return tempCalc3;
     }
     if (S.equals(format, Const.sS())){
       do Fraction.multiply(xF, xPoint, tempCalc1, calc1, calc2, calc3, calc4, calc5, calc6);
-      let tempCalc2 = bF.minus(tempCalc1);
-      let tempCalc3 = tempCalc2.dividedBy(yF);
+      do bF.minus(tempCalc1, tempCalc2);
+      do tempCalc2.dividedBy(yF, tempCalc3);
       return tempCalc3;
     }
     do Sys.halt();
@@ -282,20 +292,20 @@ class Equation {
 			return bF;
 		}
 		if (S.equals(format, Const.sI())){
-			let tempCalc1 = yPoint.minus(bF);
-			let tempCalc2 = tempCalc1.dividedBy(mF);
+			do yPoint.minus(bF, tempCalc1);
+			do tempCalc1.dividedBy(mF, tempCalc2);
 			return tempCalc2;
 		}
 		if (S.equals(format, Const.sP())){
-			let tempCalc1 = yF.minus(yPoint);
-			let tempCalc2 = tempCalc1.dividedBy(mF);
-			let tempCalc3 = xF.minus(tempCalc2);
+			do yF.minus(yPoint, tempCalc1);
+			do tempCalc1.dividedBy(mF, tempCalc2);
+			do xF.minus(tempCalc2, tempCalc3);
 			return tempCalc3;
 		}
 		if (S.equals(format, Const.sS())){
 			do Fraction.multiply(yF, yPoint, tempCalc1, calc1, calc2, calc3, calc4, calc5, calc6);
-			let tempCalc2 = bF.minus(tempCalc1);
-			let tempCalc3 = tempCalc2.dividedBy(xF);
+			do bF.minus(tempCalc1, tempCalc2);
+			do tempCalc2.dividedBy(xF, tempCalc3);
 			return tempCalc3;
 		}
 		return Fraction.new(0, 1);
@@ -353,6 +363,9 @@ class Equation {
 			let xF = Fraction.toFraction(xString);
 			let temp = xF;
 			let xExists = true;
+			if (xF.equals(Const.f0())){
+				do Out.ln("it thinks x is 0");
+			}
 		}
 		if (S.equals(v, Const.sY())){
 			let yString = Keyboard.readLine("Enter a y:");
