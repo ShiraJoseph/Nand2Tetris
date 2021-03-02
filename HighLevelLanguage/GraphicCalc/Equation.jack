@@ -175,7 +175,7 @@ class Equation {
 
 	function Equation convertFromPointSlopeToSlopeIntercept(Equation oldE){
 		var Equation newE;
-		var Fraction O, calc1;
+		var Fraction O;
 
 		let xCalc = oldE.x();
     let yCalc = oldE.y();
