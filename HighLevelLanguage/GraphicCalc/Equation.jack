@@ -219,6 +219,7 @@ class Equation {
 		let xCalc = oldE.x();
     let yCalc = oldE.y();
     let bCalc = oldE.b();
+    let newB = Fraction.new(Const.i1(), Const.i1());
     let newE = Equation.new(1, Const.sI());
     let O = Const.f0();
 
