@@ -19,7 +19,7 @@ class Fraction {
 		return this;
 	}
 
-	/** Initiates static variables */
+	/** Initializes static variables */
 	function void init(){
 		let calc1 = Int.new(true, 1);
 		let calc2 = Int.new(true, 1);

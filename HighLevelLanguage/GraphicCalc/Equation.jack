@@ -22,7 +22,7 @@ class Equation {
 		return this;
 	}
 
-	/** Initiates static variables */
+	/** Initializes static variables */
 	function void init() {
 		let xCalc = Fraction.new(Const.i1(), Const.i1());
 		let yCalc = Fraction.new(Const.i1(), Const.i1());

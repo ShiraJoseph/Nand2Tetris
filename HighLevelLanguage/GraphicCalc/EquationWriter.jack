@@ -1,7 +1,7 @@
+/**
+* Functions to create a string version of an equation for printing to the screen
+*/
 class EquationWriter {
-/************************************************************************************
-	**  Methods to create a string version of the equation for printing to the screen  **
-	************************************************************************************/
 
 	/** Returns the current state of the equation as a string based on the chosen equation format */
 	function String toString(Equation e){

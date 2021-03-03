@@ -14,7 +14,7 @@ class Point {
 		return this;
 	}
 
-	/** Initiates static variables */
+	/** Initializes static variables */
 	function void init() {
 		let coord = Coord.new(1, 1);
 		let xCoord = Int.new(true, 1);

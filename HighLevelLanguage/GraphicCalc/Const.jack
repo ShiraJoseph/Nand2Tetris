@@ -9,7 +9,7 @@ class Const {
 		return this;
 	}
 
-	/** Initiates static variables */
+	/** Initializes static variables */
 	function void init() {
 		let i0 = Int.new(true, 0);
 		let i1 = Int.new(true, 1);

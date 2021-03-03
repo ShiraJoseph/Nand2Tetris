@@ -11,7 +11,7 @@ class Int {
 		return this;
 	}
 
-	/** Initiates static variables */
+	/** Initializes static variables */
 	function void init(){
 		let solution = Int.new(true, 1);
 		let prod = Int.new(true, 1);
