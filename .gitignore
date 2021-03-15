@@ -1,2 +1,3 @@
 nand2tetris/
-*.VM
+*.vm
+*.xml

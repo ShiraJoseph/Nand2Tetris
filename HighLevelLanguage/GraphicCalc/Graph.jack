@@ -10,7 +10,7 @@ class Graph {
 		return this;
 	}
 
-	/** Initiates static variables */
+	/** Initializes static variables */
 	function void init() {
 		let currX = Fraction.new(Const.i1(), Const.i1());
 		let currY = Fraction.new(Const.i1(), Const.i1());
@@ -123,32 +123,38 @@ class Graph {
 		do yIncpt.checkValid();
 		do xIncpt.checkValid();
 		let scaledEquation = Equation.convertToSlopeIntercept(e);
-		let m = scaledEquation.getSlope();
-		let oldB = scaledEquation.getB();
-		let XYLimit = Fraction.new(Int.new(true, 101), Int.new(true, 100));
-		let negXYLimit = Fraction.new(Int.new(false, 101), Int.new(true, 100));
+		let m = scaledEquation.slope();
+		let oldB = scaledEquation.b();
+		let XYLimit = Fraction.new(Int.new(true, 1), Int.new(true, 2));
+		let negXYLimit = Fraction.new(Int.new(false, 1), Int.new(true, 2));
 
-		// if m is in between -1 and 1, draw from bottom to top
-		if ((m.pos() = true & m.isLessThan(XYLimit)) | (m.pos() = false & m.isGreaterThan(negXYLimit))){
+		// if the equation is y = 0 or x = 0, keep the scale at 1:1
+		if(scaledEquation.isXAxis() | scaledEquation.isYAxis()){
+			do scaledEquation.setScale(Const.f1());
+			return scaledEquation;
+		}
+		// if m is in between -1/2 and 1/2 (but not 0 or undefined), m is the same but newB = m * 512/3 (~170) and scale = newB/oldB
+		if (((m.pos() = true & m.isLessThan(XYLimit)) | (m.pos() = false & m.isGreaterThan(negXYLimit))) & ~scaledEquation.isPerpendicular()){
 			let xIsGreater = false;
-			let m = scaledEquation.getSlope();
+			let m = scaledEquation.slope();
 			do Fraction.multiply(m, ONESEVENTY, newB, calc1, calc2, calc3, calc4, calc5, calc6);
-
+			do scaledEquation.setB(newB);
+			do oldB.dividedBy(newB, scale);
+			do scaledEquation.setScale(scale);
 		// otherwise, it will start from the left and go to the right
 		} else {
-			let b = scaledEquation.getYIntercept();
+			let b = scaledEquation.b();
 			let xIsGreater = true;
 			let cutoffTotal = Fraction.new(Const.i1(), Const.i1());
 			let scale = Fraction.new(Const.i1(), Const.i1());
 			do Fraction.multiply(CUTOFF, b, cutoffTotal, calc1, calc2, calc3, calc4, calc5, calc6);
 			let calc7 = Const.f127();
-			let scale = calc7.dividedBy(cutoffTotal);
+			do calc7.dividedBy(cutoffTotal, scale);
+			do scale.setPos(true);
 			do scaledEquation.setScale(scale);
 			do Fraction.multiply(scale, b, newB, calc8, calc9, calc10, calc11, calc12, calc13);
+			do scaledEquation.setB(newB);
 		}
-
-		do scaledEquation.setB(newB);
-		do scaledEquation.setScale(oldB.dividedBy(newB));
 		do scaledEquation.setXIsScreenCutoff(xIsGreater);
 		do Sys.wait(2000);
 		return scaledEquation;
@@ -157,16 +163,56 @@ class Graph {
 	/** Draws a line using an equation scaled to fit within (-255, -127) to (255, 127) */
 	function void drawScaledLine(Equation e) {
 		let equation = e;
-		if (equation.getXIsScreenCutoff()) {
-			do Graph.drawYCutoffLine(0, 255);
+		if (equation.isXAxis()){
+			do Graph.drawXAxisLine();
+			return;
+		}
+		if (equation.isYAxis()){
+			do Graph.drawYAxisLine();
+			return;
+		}
+		if (equation.xIsScreenCutoff()) {
+			do Graph.drawLineVertically(0, 255);
 		} else {
-			do Graph.drawXCutoffLine(0, 511);
+			do Graph.drawLineHorizontally(0, 511);
 		}
 		return;
 	}
 
+	/** draws y = 0 by drawing it a pixel above x-axis to make it look bolded */
+	function void drawXAxisLine() {
+		var int i;
+		let i = 0;
+		while(i < 512){
+			do iIndex.set(true, i);
+			let deltaI = iIndex.minus(Const.i255());
+			do currX.set(deltaI, Const.i1());
+			do currY.set(Const.i1(), Const.i1());
+			do Graph.drawValidScaledPoint();
+			let i = i + 1;
+			do Sys.wait(1);
+		}
+		return;
+	}
 
-	function void drawYCutoffLine(int i, int j) {
+	/** draws x = 0 by drawing it a pixel to the right of the y-axis to make it look bolded */
+	function void drawYAxisLine() {
+		var int i;
+		let i = 0;
+		while(i < 256){
+			do iIndex.set(true, i);
+			let deltaI = iIndex.minus(Const.i127());
+			do currY.set(deltaI, Const.i1());
+			do currX.set(Const.i1(), Const.i1());
+			do Graph.drawValidScaledPoint();
+			let i = i + 1;
+			do Sys.wait(1);
+		}
+		return;
+	}
+
+	/** draws a line from the bottom of the screen to the top (includes perfectly vertical lines x = b) */
+	function void drawLineVertically(int i, int j) {
 		while(i < j){
 			do iIndex.set(true, i);
 			let deltaI = iIndex.minus(Const.i127());
@@ -178,7 +224,8 @@ class Graph {
 		return;
 	}
 
-	function void drawXCutoffLine(int i, int j) {
+	/** draws a line from the left of the screen to the right (includes perfectly horizontal lines y = b) */
+	function void drawLineHorizontally(int i, int j) {
 		while(i < j){
 			do iIndex.set(true, i);
 			let deltaI = iIndex.minus(Const.i255());

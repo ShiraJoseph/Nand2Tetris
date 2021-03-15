@@ -47,7 +47,7 @@ class Main {
 		do Out.cls();
 		do Main.draw(equation);
 //		do Out.cls();
-		do Main.deInit();
+//		do Main.deInit();
 		// do Main.createEquation(); // so far memory does not work with this
 		return;
 	}
@@ -55,9 +55,10 @@ class Main {
 	function void draw(Equation e){
 		var Equation newE;
 		var Fraction scale;
-		do Out.ln(e.toString());
+		do Out.ln(EquationWriter.toString(e));
 		let newE = Graph.getScaledLine(e);
-		let scale = newE.getScale();
+		do Out.ln(EquationWriter.toString(newE));
+		let scale = newE.scale();
 		do Graph.drawAxes(scale);
 		do Graph.drawScaledLine(newE);
 		do Sys.wait(8000);
