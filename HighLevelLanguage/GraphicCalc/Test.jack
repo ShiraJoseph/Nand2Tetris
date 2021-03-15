@@ -1,0 +1,144 @@
+/** Unit tester class */
+class Test {
+
+	function void runTests(){
+		do Test.testConst();
+		return;
+	}
+
+	function boolean expectS(String a, String b){
+		if (S.equals(a, b)){
+			return true;
+		}
+		do Out.s("FAIL: Expected ");
+		do Out.s(a);
+		do Out.s(" to equal ");
+		do Out.ln(b);
+		return false;
+	}
+
+	function boolean expectB(boolean a, boolean b){
+		if (a = b){
+			return true;
+		}
+		do Out.s("FAIL: Expected ");
+		do Out.b(a);
+		do Out.s(" to equal ");
+		do Out.lnB(b);
+		return false;
+	}
+
+	function boolean expectI(int a, int b){
+		if (a = b){
+			return true;
+		}
+		do Out.s("FAIL: Expected ");
+		do Out.i(a);
+		do Out.s(" to equal ");
+		do Out.lnI(b);
+		return false;
+	}
+
+	function void printResults(String suiteName, Array results, int arrSize){
+		var int i, countPass;
+		let i = 0;
+		let countPass = 0;
+		while(i<arrSize){
+			if(results[i]=true){
+				let countPass = countPass + 1;
+			}
+			let i = i + 1;
+		}
+		do Out.s(suiteName);
+		do Out.s(" suite pass rate: ");
+		do Out.i(countPass);
+		do Out.s("/");
+		do Out.lnI(arrSize);
+		return;
+	}
+
+	function void testConst(){
+		var Int const0, const1, const2, const3, const4, const5, const6, const7, const8, const9;
+		var Fraction const10, const11, const12, const13, const14, const15, const16;
+		var String const17, const18, const19, const20, const21, const22, const23, const24;
+		var Array const25, results;
+		var int i, countPass;
+		let results = Array.new(45);
+		let const0 = Const.i0();
+		let const1 = Const.i1();
+		let const2 = Const.i2();
+		let const3 = Const.i127();
+		let const4 = Const.i128();
+		let const5 = Const.i255();
+		let const6 = Const.i256();
+		let const7 = Const.iNeg1();
+		let const8 = Const.iNeg128();
+		let const9 = Const.iNeg256();
+		let const10 = Const.f0();
+		let const11 = Const.f1();
+		let const12 = Const.f127();
+		let const13 = Const.f128();
+		let const14 = Const.f255();
+		let const15 = Const.f256();
+		let const16 = Const.fNeg1();
+		let const17 = Const.sS();
+		let const18 = Const.sP();
+		let const19 = Const.sI();
+		let const20 = Const.sQ();
+		let const21 = Const.sX();
+		let const22 = Const.sY();
+		let const23 = Const.sM();
+		let const24 = Const.sB();
+		let const25 = Const.ticks();
+		let results[0] = Test.expectS(const0.toString(), "0");
+		let results[1] = Test.expectS(const1.toString(), "1");
+		let results[2] = Test.expectS(const2.toString(), "2");
+		let results[3] = Test.expectS(const3.toString(), "127");
+		let results[4] = Test.expectS(const4.toString(), "128");
+		let results[5] = Test.expectS(const5.toString(), "255");
+		let results[6] = Test.expectS(const6.toString(), "256");
+		let results[7] = Test.expectS(const7.toString(), "-1");
+		let results[8] = Test.expectS(const8.toString(), "-128");
+		let results[9] = Test.expectS(const9.toString(), "-256");
+		let results[10] = Test.expectS(const10.toString(), "0");
+		let results[11] = Test.expectS(const11.toString(), "1");
+		let results[12] = Test.expectS(const12.toString(), "127");
+		let results[13] = Test.expectS(const13.toString(), "128");
+		let results[14] = Test.expectS(const14.toString(), "255");
+		let results[15] = Test.expectS(const15.toString(), "256");
+		let results[16] = Test.expectS(const16.toString(), "-1");
+		let results[17] = Test.expectS(const17, "S");
+		let results[18] = Test.expectS(const18, "P");
+		let results[19] = Test.expectS(const19, "I");
+		let results[20] = Test.expectS(const20, "Q");
+		let results[21] = Test.expectS(const21, "x");
+		let results[22] = Test.expectS(const22, "y");
+		let results[23] = Test.expectS(const23, "m");
+		let results[24] = Test.expectS(const24, "b");
+		let results[25] = Test.expectI(const25[0], 31);
+		let results[26] = Test.expectI(const25[1], 63);
+		let results[27] = Test.expectI(const25[2], 95);
+		let results[28] = Test.expectI(const25[3], 127);
+		let results[29] = Test.expectI(const25[4], 159);
+		let results[30] = Test.expectI(const25[5], 191);
+		let results[31] = Test.expectI(const25[6], 223);
+		let results[32] = Test.expectI(const25[7], 287);
+		let results[33] = Test.expectI(const25[8], 319);
+		let results[34] = Test.expectI(const25[9], 351);
+		let results[35] = Test.expectI(const25[10], 383);
+		let results[36] = Test.expectI(const25[11], 415);
+		let results[37] = Test.expectI(const25[12], 447);
+		let results[38] = Test.expectI(const25[13], 479);
+		let results[39] = Test.expectI(const25[14], 31);
+		let results[40] = Test.expectI(const25[15], 63);
+		let results[41] = Test.expectI(const25[16], 95);
+		let results[42] = Test.expectI(const25[17], 159);
+		let results[43] = Test.expectI(const25[18], 191);
+		let results[44] = Test.expectI(const25[19], 223);
+		do Test.printResults("Const", results, 45);
+		return;
+	}
+
+
+
+}

@@ -6,8 +6,13 @@
 
 class Main {
 	function void main() {
-		do Screen.clearScreen();
-		do Main.createEquation();
+		if(true){
+			do Main.init();
+			do Test.runTests();
+		} else {
+			do Screen.clearScreen();
+			do Main.createEquation();
+		}
 		return;
 	}
 
