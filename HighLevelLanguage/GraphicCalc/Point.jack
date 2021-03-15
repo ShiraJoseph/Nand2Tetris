@@ -44,9 +44,9 @@ class Point {
 	}
 
 	/**
-	 *  Takes an x,y point on the cartesian plane and converts it into Hack screen coordinates.
-	 *  The center of the screen is considered the origin.
-	 *  Example: the point (1, 1) would be drawn at (256, 126) on the Hack Screen
+	 * Takes an x,y point on the cartesian plane and converts it into Hack screen coordinates.
+	 * The center of the screen is considered the origin.
+	 * Example: the point (1, 1) would be drawn at (256, 126) on the Hack Screen
 	 */
 	method Coord toCoord(){
 		if (isValidPoint()){

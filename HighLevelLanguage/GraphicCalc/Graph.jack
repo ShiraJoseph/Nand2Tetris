@@ -185,31 +185,31 @@ class Graph {
 		let i = 0;
 		while(i < 512){
 			do iIndex.set(true, i);
-   		let deltaI = iIndex.minus(Const.i255());
+			let deltaI = iIndex.minus(Const.i255());
 			do currX.set(deltaI, Const.i1());
 			do currY.set(Const.i1(), Const.i1());
 			do Graph.drawValidScaledPoint();
-    	let i = i + 1;
-    	do Sys.wait(1);
-    }
-    return;
+			let i = i + 1;
+			do Sys.wait(1);
+		}
+		return;
 	}
 
 	/** draws x = 0 by drawing it a pixel to the right of the y-axis to make it look bolded */
 	function void drawYAxisLine() {
-    var int i;
-    let i = 0;
-    while(i < 256){
-      do iIndex.set(true, i);
-      let deltaI = iIndex.minus(Const.i127());
-      do currY.set(deltaI, Const.i1());
-      do currX.set(Const.i1(), Const.i1());
-      do Graph.drawValidScaledPoint();
-      let i = i + 1;
-      do Sys.wait(1);
-    }
-    return;
-  }
+		var int i;
+		let i = 0;
+		while(i < 256){
+			do iIndex.set(true, i);
+			let deltaI = iIndex.minus(Const.i127());
+			do currY.set(deltaI, Const.i1());
+			do currX.set(Const.i1(), Const.i1());
+			do Graph.drawValidScaledPoint();
+			let i = i + 1;
+			do Sys.wait(1);
+		}
+		return;
+	}
 
 	/** draws a line from the bottom of the screen to the top (includes perfectly vertical lines x = b) */
 	function void drawLineVertically(int i, int j) {

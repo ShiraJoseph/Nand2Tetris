@@ -121,7 +121,7 @@ class Int {
 				let negNeg = true;
 			}
 		}
-//    TODO: At some point, for fun, I may want to try just converting every case to addition, making double negatives positive, etc.
+// TODO: At some point, for fun, I may want to try just converting every case to addition, making double negatives positive, etc.
 		do solution.setNum(bigger + smaller);	// |2+1| = |3|
 		// (1)+(2), (2)+(1), (2)-(-1), (1)-(-2) = +3
 		if((add & posPos) | (~add & ((posNeg & ~(x < y)) | (negPos & (x < y))))){
@@ -186,8 +186,8 @@ class Int {
 		}
 	}
 
-	 method void dispose() {
-			do Memory.deAlloc(this);
-			return;
-		}
+	method void dispose() {
+		do Memory.deAlloc(this);
+		return;
+	}
 }

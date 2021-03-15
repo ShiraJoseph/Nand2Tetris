@@ -145,32 +145,32 @@ class Equation {
 	}
 
 	/** Turns an equation in the standard or point-slope format into one using the slope-intercept format */
-  function Equation convertToSlopeIntercept(Equation e){
-    var String f;
-    let f = e.format();
-    if (S.equals(f, Const.sI())){
-      return Equation.setSlopeInterceptDirection(e);
-    }
-    if (S.equals(f, Const.sP())){
-      return Equation.convertFromPointSlopeToSlopeIntercept(e);
-    }
-    if (S.equals(f, Const.sS())){
-      return Equation.convertFromStandardToSlopeIntercept(e);
-    }
-    return e;
-  }
+	function Equation convertToSlopeIntercept(Equation e){
+		var String f;
+		let f = e.format();
+		if (S.equals(f, Const.sI())){
+			return Equation.setSlopeInterceptDirection(e);
+		}
+		if (S.equals(f, Const.sP())){
+			return Equation.convertFromPointSlopeToSlopeIntercept(e);
+		}
+		if (S.equals(f, Const.sS())){
+			return Equation.convertFromStandardToSlopeIntercept(e);
+		}
+		return e;
+	}
 
 	function Equation setSlopeInterceptDirection(Equation e){
 		var Fraction slope, b;
 		let slope = e.slope();
 		let b = e.b();
 		if (slope.equals(Const.f0())){
-      do e.setIsHorizontal(true);
-      if (b.equals(Const.f0())){
-        do e.setIsXAxis(true);
-      }
-    }
-    return e;
+			do e.setIsHorizontal(true);
+			if (b.equals(Const.f0())){
+				do e.setIsXAxis(true);
+			}
+		}
+		return e;
 	}
 
 	function Equation convertFromPointSlopeToSlopeIntercept(Equation oldE){
@@ -178,38 +178,39 @@ class Equation {
 		var Fraction O;
 
 		let xCalc = oldE.x();
-    let yCalc = oldE.y();
-    let newE = Equation.new(1, Const.sI());
-    let newSlope = oldE.slope();
-    let O = Const.f0();
+		let yCalc = oldE.y();
+		let newE = Equation.new(1, Const.sI());
+		let newSlope = oldE.slope();
+		let O = Const.f0();
 
 		// slope remains the same
-    do newE.setSlope(newSlope);
+		do newE.setSlope(newSlope);
 
 		// none of x, y, or m are 0; y = mx + y1 - mx1
-    if (~(newSlope.equals(O) | xCalc.equals(O) | yCalc.equals(O))){
-      do Fraction.multiply(newSlope, xCalc, mx, calc1, calc2, calc3, calc4, calc5, calc6);
-      do yCalc.minus(mx, calc1);
-      do newE.setB(calc1);
-      return newE;
-    }
+		if (~(newSlope.equals(O) | xCalc.equals(O) | yCalc.equals(O))){
+			do Fraction.multiply(newSlope, xCalc, mx, calc1, calc2, calc3, calc4, calc5, calc6);
+			do yCalc.minus(mx, calc1);
+			do newE.setB(calc1);
+			return newE;
+		}
 
 		// x and/or m is 0; y = mx + y1
-    if (xCalc.equals(O) | newSlope.equals(O)){
-      do newE.setB(yCalc);
-      if (newSlope.equals(O)){ // m is 0; y = y1
-        do newE.setIsHorizontal(true);
-        if (yCalc.equals(O)){ // m and y are 0; y = 0
-          do newE.setIsXAxis(true);
-        }
-      }
-      return newE;
-    }
+		if (xCalc.equals(O) | newSlope.equals(O)){
+			do newE.setB(yCalc);
+			if (newSlope.equals(O)){ // m is 0; y = y1
+				do newE.setIsHorizontal(true);
+				if (yCalc.equals(O)){ // m and y are 0; y = 0
+					do newE.setIsXAxis(true);
+				}
+			}
+			return newE;
+		}
+
 		// just y is 0; y = mx - mx1
-    do Fraction.multiply(newSlope, xCalc, mx, calc1, calc2, calc3, calc4, calc5, calc6);
-    do mx.setPos(~(mx.pos()));
-    do newE.setB(mx);
-    return newE;
+		do Fraction.multiply(newSlope, xCalc, mx, calc1, calc2, calc3, calc4, calc5, calc6);
+		do mx.setPos(~(mx.pos()));
+		do newE.setB(mx);
+		return newE;
 	}
 
 	function Equation convertFromStandardToSlopeIntercept(Equation oldE){
@@ -217,75 +218,75 @@ class Equation {
 		var Fraction O, newB;
 
 		let xCalc = oldE.x();
-    let yCalc = oldE.y();
-    let bCalc = oldE.b();
-    let newB = Fraction.new(Const.i1(), Const.i1());
-    let newE = Equation.new(1, Const.sI());
-    let O = Const.f0();
+		let yCalc = oldE.y();
+		let bCalc = oldE.b();
+		let newB = Fraction.new(Const.i1(), Const.i1());
+		let newE = Equation.new(1, Const.sI());
+		let O = Const.f0();
 
-    if (xCalc.equals(O) & yCalc.equals(O)){ // throw an error if both x and y are 0
-      do Out.ln("x and y cannot both be 0");
-      do Sys.error(3);
-    }
+		if (xCalc.equals(O) & yCalc.equals(O)){ // throw an error if both x and y are 0
+			do Out.ln("x and y cannot both be 0");
+			do Sys.error(3);
+		}
 
-    if (bCalc.equals(O)) { // if b is 0, it remains 0
-      do newE.setB(O);
-    }
-    if ((xCalc.equals(O) | yCalc.equals(O)) & ~(xCalc.equals(yCalc))){ // x=0 XOR y=0; m becomes 0
-      do newE.setSlope(O);
-    }
-    if (yCalc.equals(O)) { // y is 0
-      do newE.setIsVertical(true);
-      if (bCalc.equals(O)) { // both y and b are 0
-        do newE.setIsYAxis(true);
-      } else { // just y is 0
-        do bCalc.dividedBy(xCalc, newB);
-        do newE.setB(newB);
-      }
-    } else { // y is not 0
-      if (~(bCalc.equals(O))){ // both y and b are not 0; b becomes b/y1
-        do bCalc.dividedBy(yCalc, newB);
-        do newE.setB(newB);
-      }
-      if (~(xCalc.equals(O))){ // both y and x are not 0;
-        do xCalc.dividedBy(yCalc, tempCalc1);
-        do tempCalc1.setPos(~(tempCalc1.pos()));
-        do newE.setSlope(tempCalc1);
-      } else { // y is not 0 but x is 0;
-        do newE.setIsHorizontal(true);
-        if (bCalc.equals(O)) { // y is not 0 but both x and b are 0;
-          do newE.setIsXAxis(true);
-        }
-      }
-    }
-    return newE;
+		if (bCalc.equals(O)) { // if b is 0, it remains 0
+			do newE.setB(O);
+		}
+		if ((xCalc.equals(O) | yCalc.equals(O)) & ~(xCalc.equals(yCalc))){ // x=0 XOR y=0; m becomes 0
+			do newE.setSlope(O);
+		}
+		if (yCalc.equals(O)) { // y is 0
+			do newE.setIsVertical(true);
+			if (bCalc.equals(O)) { // both y and b are 0
+				do newE.setIsYAxis(true);
+			} else { // just y is 0
+				do bCalc.dividedBy(xCalc, newB);
+				do newE.setB(newB);
+			}
+		} else { // y is not 0
+			if (~(bCalc.equals(O))){ // both y and b are not 0; b becomes b/y1
+				do bCalc.dividedBy(yCalc, newB);
+				do newE.setB(newB);
+			}
+			if (~(xCalc.equals(O))){ // both y and x are not 0;
+				do xCalc.dividedBy(yCalc, tempCalc1);
+				do tempCalc1.setPos(~(tempCalc1.pos()));
+				do newE.setSlope(tempCalc1);
+			} else { // y is not 0 but x is 0;
+				do newE.setIsHorizontal(true);
+				if (bCalc.equals(O)) { // y is not 0 but both x and b are 0;
+					do newE.setIsXAxis(true);
+				}
+			}
+		}
+		return newE;
 	}
 
 	/** Uses the value of x to solve for y */ // includes horizontal
-  method Fraction solveForY(Fraction xPoint){
-    if (isHorizontal){
-      return bF;
-    }
-    if (S.equals(format, Const.sI())){
-      do Fraction.multiply(mF, xPoint, tempCalc1, calc1, calc2, calc3, calc4, calc5, calc6);
-      do tempCalc1.plus(bF, tempCalc2);
-      return tempCalc2;
-    }
-    if (S.equals(format, Const.sP())){
-      do xF.minus(xPoint, tempCalc1);
-      do Fraction.multiply(mF, tempCalc1, tempCalc2, calc1, calc2, calc3, calc4, calc5, calc6);
-      do yF.minus(tempCalc2, tempCalc3);
-      return tempCalc3;
-    }
-    if (S.equals(format, Const.sS())){
-      do Fraction.multiply(xF, xPoint, tempCalc1, calc1, calc2, calc3, calc4, calc5, calc6);
-      do bF.minus(tempCalc1, tempCalc2);
-      do tempCalc2.dividedBy(yF, tempCalc3);
-      return tempCalc3;
-    }
-    do Sys.halt();
-    return Const.f1();
-  }
+	method Fraction solveForY(Fraction xPoint){
+		if (isHorizontal){
+			return bF;
+		}
+		if (S.equals(format, Const.sI())){
+			do Fraction.multiply(mF, xPoint, tempCalc1, calc1, calc2, calc3, calc4, calc5, calc6);
+			do tempCalc1.plus(bF, tempCalc2);
+			return tempCalc2;
+		}
+		if (S.equals(format, Const.sP())){
+			do xF.minus(xPoint, tempCalc1);
+			do Fraction.multiply(mF, tempCalc1, tempCalc2, calc1, calc2, calc3, calc4, calc5, calc6);
+			do yF.minus(tempCalc2, tempCalc3);
+			return tempCalc3;
+		}
+		if (S.equals(format, Const.sS())){
+			do Fraction.multiply(xF, xPoint, tempCalc1, calc1, calc2, calc3, calc4, calc5, calc6);
+			do bF.minus(tempCalc1, tempCalc2);
+			do tempCalc2.dividedBy(yF, tempCalc3);
+			return tempCalc3;
+		}
+		do Sys.halt();
+		return Const.f1();
+	}
 
 	/** Uses the value of y to solve for x */
 	method Fraction solveForX(Fraction yPoint){ // includes vertical

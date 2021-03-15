@@ -309,9 +309,9 @@ class Fraction {
 			return true;
 		}
 		if ((numerator = f2.numerator()) & (denominator = f2.denominator()) & (pos = f2.pos())){
-      return true;
-    }
-    return false;
+			return true;
+		}
+		return false;
 	}
 
 	/** Disposes this fraction. */
@@ -320,11 +320,11 @@ class Fraction {
 		return;
 	}
 
-	// Computes the greatest common divisor of the given integers.
+	/** Computes the greatest common divisor of the given integers. */
 	function int gcd(int a, int b) {
 		var int r;
-		while (~(b = 0)) {             // applies Euclid's algorithm
-			 let r = a - (b * (a / b));  // r = remainder of the integer division a/b
+		while (~(b = 0)) { // applies Euclid's algorithm
+			 let r = a - (b * (a / b)); // r = remainder of the integer division a/b
 			 let a = b; let b = r;
 		}
 		return a;
