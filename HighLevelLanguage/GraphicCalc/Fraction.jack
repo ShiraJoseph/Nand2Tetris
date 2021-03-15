@@ -68,9 +68,11 @@ class Fraction {
 		} else {
 			let pos = false;
 		}
-//		if (d.num() = 0) {
-//			do Sys.error(3);
-//		}
+		if (d.num() = 0) {
+			let numerator = 0;
+			let denominator = 1;
+			let pos = true;
+		}
 		if (n.num() = 0) {
 			let denominator = 1;
 			let pos = true;

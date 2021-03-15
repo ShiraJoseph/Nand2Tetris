@@ -22,12 +22,13 @@ class EquationWriter {
 	/** Returns a string version of the equation in slope-intercept form: y = mx + b */
 	function String getSlopeInterceptString(Equation e){
 		var String mS, bS, plusMinusB, stringified;
-		var Fraction bF;
+		var Fraction bF, mF;
 		let bF = e.b();
+		let mF = e.slope();
 		if (e.isVertical()) {
       return S.append("x = ", bF.toString());
     }
-    if (e.isHorizontal()) {
+    if (e.isHorizontal() | mF.equals(Const.f0())) {
       return S.append("y = ", bF.toString());
     }
 		let mS = EquationWriter.simplifyMX(e.slope(), "x");

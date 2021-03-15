@@ -364,9 +364,6 @@ class Equation {
 			let xF = Fraction.toFraction(xString);
 			let temp = xF;
 			let xExists = true;
-			if (xF.equals(Const.f0())){
-				do Out.ln("it thinks x is 0");
-			}
 		}
 		if (S.equals(v, Const.sY())){
 			let yString = Keyboard.readLine("Enter a y:");
