@@ -3,6 +3,9 @@ class Test {
 
 	function void runTests(){
 		do Test.testConst();
+		do Test.testCoord();
+		do Test.testPoint();
+		do Test.testInt();
 		return;
 	}
 
@@ -139,6 +142,184 @@ class Test {
 		return;
 	}
 
+	function void testCoord() {
+		var Array results;
+		var Coord coord;
+		let results = Array.new(10);
+		let coord = Coord.new(17, 29);
+		// Coord.x()
+		let results[0] = Test.expectI(coord.x(), 17);
+		// Coord.y()
+		let results[1] = Test.expectI(coord.y(), 29);
+		// Coord.setX()
+		do coord.setX(15);
+		let results[2] = Test.expectI(coord.x(), 15);
+		// Coord.setY()
+		do coord.setY(39);
+		let results[3] = Test.expectI(coord.y(), 39);
+		// Coord.isValidCoord()
+		//    x and y are valid
+		let results[4] = Test.expectB(coord.isValidCoord(), true);
+		//    x < 0
+		do coord.setX(-2);
+		let results[5] = Test.expectB(coord.isValidCoord(), false);
+		//    x >= 512
+		do coord.setX(1000);
+		let results[6] = Test.expectB(coord.isValidCoord(), false);
+		//    y < 0
+		do coord.setX(10);
+		do coord.setY(-5);
+		let results[7] = Test.expectB(coord.isValidCoord(), false);
+		//    y >= 256
+		do coord.setY(300);
+		let results[8] = Test.expectB(coord.isValidCoord(), false);
+		// Coord.isValidCoord()
+		do coord.setY(12);
+		let results[9] = Test.expectS(coord.toString(), "(10, 12)");
+		do Test.printResults("Coord", results, 10);
+		return;
+	}
 
+	function void testPoint(){
+		var Array results;
+		var Point point;
+		var Int x, y;
+		var Coord coord;
+		let results = Array.new(10);
+		let point = Point.new(Int.new(true, 31), Int.new(true, 22));
+		// Point.toString()
+		let results[0] = Test.expectS(point.toString(), "(31, 22)");
+		// Point.x()
+		let x = point.x();
+		let results[1] = Test.expectS(x.toString(), "31");
+		// Point.y()
+		let y = point.y();
+		let results[2] = Test.expectS(y.toString(), "22");
+		// Point.setX()
+		do point.setX(Int.new(false, 5));
+		let x = point.x();
+		let results[3] = Test.expectS(x.toString(), "-5");
+		// Point.setY()
+		do point.setY(Int.new(true, 200));
+		let y = point.y();
+		let results[4] = Test.expectS(y.toString(), "200");
+		// Point.isValidPoint()
+		//    y >= 128
+		let results[5] = Test.expectB(point.isValidPoint(), false);
+		//    y <= -128
+		do point.setY(Int.new(false, 128));
+		let results[6] = Test.expectB(point.isValidPoint(), false);
+		//    x >= 256
+		do point.setY(Int.new(true, 50));
+		do point.setX(Int.new(true, 257));
+		let results[7] = Test.expectB(point.isValidPoint(), false);
+		//    x <= -256
+		do point.setX(Int.new(false, 340));
+		let results[8] = Test.expectB(point.isValidPoint(), false);
+		//    x and y are valid
+		do point.setX(Int.new(false, 255));
+		let results[9] = Test.expectB(point.isValidPoint(), true);
+		// Point.toCoord()
+		let coord = point.toCoord();
+		let results[9] = Test.expectS(coord.toString(), "(0, 177)");
+		do Test.printResults("Point", results, 10);
+		return;
+	}
 
+	function void testInt() {
+		var Array results;
+		var Int integer, product, sum, a, b;
+		let results = Array.new(37);
+		let integer = Int.new(true, 1);
+		// Int.pos()
+		let results[0] = Test.expectB(integer.pos(), true);
+		// Int.num()
+		let results[1] = Test.expectI(integer.num(), 1);
+		// Int.toString()
+		let results[2] = Test.expectS(integer.toString(), "1");
+		// Int.set(-0)
+		do integer.set(false, 0);
+		let results[3] = Test.expectS(integer.toString(), "0");
+		// Int.set()
+		do integer.set(false, 25);
+		let results[4] = Test.expectS(integer.toString(), "-25");
+		// Int.setPos()
+		do integer.setPos(true);
+		let results[5] = Test.expectS(integer.toString(), "25");
+		// Int.setNum()
+		do integer.setNum(1000);
+		let results[6] = Test.expectS(integer.toString(), "1000");
+		// Int.multiply()
+		let product = Const.i1();
+		do Int.multiply(integer, Int.new(false, 2), product);
+		let results[7] = Test.expectS(product.toString(), "-2000");
+		// Int.compute()
+		//    0 + 0
+		let results[8] = Test.testCompute(true, 0, true, 0, true, "0");
+		//    0 - 0
+		let results[9] = Test.testCompute(true, 0, true, 0, false, "0");
+		//    a + (-a)
+		let results[10] = Test.testCompute(true, 15, false, 15, true, "0");
+		//    a - a
+		let results[11] = Test.testCompute(true, 15, true, 15, false, "0");
+		//    a + b
+		let results[12] = Test.testCompute(true, 4, true, 5, true, "9");
+		//    b + a
+		let results[13] = Test.testCompute(true, 5, true, 4, true, "9");
+		//    a - -b
+		let results[14] = Test.testCompute(true, 4, false, 5, false, "9");
+		//    b - -a
+		let results[15] = Test.testCompute(true, 5, false, 4, false, "9");
+		//    -a + -b
+		let results[16] = Test.testCompute(false, 3, false, 7, true, "-10");
+		//    -b + -a
+		let results[17] = Test.testCompute(false, 7, false, 3, true, "-10");
+		//    -a - b
+		let results[18] = Test.testCompute(false, 3, true, 7, false, "-10");
+		//    -b - a
+		let results[19] = Test.testCompute(false, 7, true, 3, false, "-10");
+		//    -a + b
+		let results[20] = Test.testCompute(false, 99, true, 246, true, "147");
+		//    b + -a
+		let results[21] = Test.testCompute(true, 246, false, 99, true, "147");
+		//    -a - -b
+		let results[22] = Test.testCompute(false, 99, false, 246, false, "147");
+		//    b - a
+		let results[23] = Test.testCompute(true, 246, true, 99, false, "147");
+		//    a + -b
+		let results[24] = Test.testCompute(true, 2, false, 16, true, "-14");
+		//    -b + a
+		let results[25] = Test.testCompute(false, 16, true, 2, true, "-14");
+		//    -b - -a
+		let results[26] = Test.testCompute(false, 16, false, 2, false, "-14");
+		//    a - b
+		let results[27] = Test.testCompute(true, 2, true, 16, false, "-14");
+		// Int.equals()
+		let results[28] = Test.expectB(integer.equals(Int.new(true, 1000)), true);
+		let results[29] = Test.expectB(integer.equals(Int.new(false, 1000)), false);
+		let results[30] = Test.expectB(integer.equals(Int.new(true, 3)), false);
+		// Int.isLessThan()
+		let results[31] = Test.expectB(integer.isLessThan(Int.new(true, 1001)), true);
+		do integer.setPos(false);
+		let results[32] = Test.expectB(integer.isLessThan(Int.new(false, 1001)), false);
+		do integer.setPos(true);
+		let results[33] = Test.expectB(integer.isLessThan(Int.new(false, 1001)), false);
+		do integer.setPos(false);
+		let results[34] = Test.expectB(integer.isLessThan(Int.new(true, 1001)), true);
+		// Int.isGreaterThan()
+		let results[35] = Test.expectB(integer.isGreaterThan(Int.new(false, 1000)), false);
+		let results[37] = Test.expectB(integer.isGreaterThan(Int.new(false, 4)), false);
+		let results[36] = Test.expectB(integer.isGreaterThan(Int.new(false, 1001)), true);
+
+		do Test.printResults("Int", results, 37);
+		return;
+	}
+
+	function boolean testCompute(boolean aPos, int aNum, boolean bPos, int bNum, boolean add, String expected){
+		var Int a, b, sum;
+		let a = Int.new(aPos, aNum);
+		let b = Int.new(bPos, bNum);
+		let sum = a.compute(add, b);
+		return Test.expectS(sum.toString(), expected);
+	}
 }

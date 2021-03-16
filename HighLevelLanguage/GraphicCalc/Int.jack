@@ -55,7 +55,9 @@ class Int {
 		 return Int.new(false, product);
 	}
 
-	/** Multiplies two Ints */
+	/** Multiplies two Ints
+	 * Int result must be initialized before calling this function
+	 */
 	function void multiply(Int a, Int b, Int result){
 		 var int product;
 		 let product = a.num() * b.num();
