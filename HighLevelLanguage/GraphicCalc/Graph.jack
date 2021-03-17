@@ -137,7 +137,8 @@ class Graph {
 		if (((m.pos() = true & m.isLessThan(XYLimit)) | (m.pos() = false & m.isGreaterThan(negXYLimit))) & ~scaledEquation.isPerpendicular()){
 			let xIsGreater = false;
 			let m = scaledEquation.slope();
-			do Fraction.multiply(m, ONESEVENTY, newB, calc1, calc2, calc3, calc4, calc5, calc6);
+//			do Fraction.multiply(m, ONESEVENTY, newB, calc1, calc2, calc3, calc4, calc5, calc6);
+			do m.times(ONESEVENTY, newB);
 			do scaledEquation.setB(newB);
 			do oldB.dividedBy(newB, scale);
 			do scaledEquation.setScale(scale);
@@ -147,12 +148,14 @@ class Graph {
 			let xIsGreater = true;
 			let cutoffTotal = Fraction.new(Const.i1(), Const.i1());
 			let scale = Fraction.new(Const.i1(), Const.i1());
-			do Fraction.multiply(CUTOFF, b, cutoffTotal, calc1, calc2, calc3, calc4, calc5, calc6);
+//			do Fraction.multiply(CUTOFF, b, cutoffTotal, calc1, calc2, calc3, calc4, calc5, calc6);
+			do CUTOFF.times(b, cutoffTotal);
 			let calc7 = Const.f127();
 			do calc7.dividedBy(cutoffTotal, scale);
 			do scale.setPos(true);
 			do scaledEquation.setScale(scale);
-			do Fraction.multiply(scale, b, newB, calc8, calc9, calc10, calc11, calc12, calc13);
+//			do Fraction.multiply(scale, b, newB, calc8, calc9, calc10, calc11, calc12, calc13);
+			do scale.times(b, newB);
 			do scaledEquation.setB(newB);
 		}
 		do scaledEquation.setXIsScreenCutoff(xIsGreater);
@@ -336,7 +339,8 @@ class Graph {
 
 			let label = Fraction.new(Int.new(isPos, mult * 32), Const.i1());
 			let tickPoints[i] = Fraction.new(Const.i1(), Const.i1());
-			do Fraction.multiply(scale, label, tickPoints[i], calc1, calc2, calc3, calc4, calc5, calc6);
+//			do Fraction.multiply(scale, label, tickPoints[i], calc1, calc2, calc3, calc4, calc5, calc6);
+			do scale.times(label, tickPoints[i]);
 			let i = i + 1;
 		}
 

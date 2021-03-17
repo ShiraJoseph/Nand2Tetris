@@ -58,7 +58,6 @@ class Fraction {
 	method int numerator(){ return numerator; }
 	method int denominator(){ return denominator; }
 	method boolean pos(){ return pos; }
-
 	method void set(Int n, Int d){
 		let numerator = n.num();
 		let denominator = d.num();
@@ -114,14 +113,14 @@ class Fraction {
 	}
 
 	/** Multiplies two fractions */
-	function void multiply(Fraction frac1, Fraction frac2, Fraction result, Int mcalc1, Int mcalc2, Int mcalc3, Int mcalc4, Int mcalc5, Int mcalc6) {
-		do mcalc1.set(frac1.pos(), frac1.numerator());
-		do mcalc2.set(true, frac1.denominator());
-		do mcalc3.set(frac2.pos(), frac2.numerator());
-		do Int.multiply(mcalc1, mcalc3, mcalc4);
-		do mcalc5.set(true, frac2.denominator());
-		do Int.multiply(mcalc2, mcalc5, mcalc6);
-		do result.set(mcalc4, mcalc6);
+	method void times(Fraction other, Fraction result) {
+		do calc1.set(pos(), numerator());
+		do calc2.set(true, denominator());
+		do calc3.set(other.pos(), other.numerator());
+		do Int.multiply(calc1, calc3, calc4);
+		do calc5.set(true, other.denominator());
+		do Int.multiply(calc2, calc5, calc6);
+		do result.set(calc4, calc6);
 		return;
 	}
 
@@ -134,9 +133,9 @@ class Fraction {
 		return;
 	}
 
-	/** Turns a string into a Fraction. Accepts these formats: x, -x, x/y, x\y, -x/y, -x\y, x/-y, x\-y, -x/-y, -x\-y */
+	/** Turns a string into a Fraction. Accepts these formats: x, -x, x/y, -x/y, x/-y, -x/-y */
 	function Fraction toFraction (String num) {
-		var int delimiter, forwardSlash, backSlash, n, d, start, end, negative, negative2;
+		var int slash, n, d, start, end, negative, negative2;
 		var Int nInt, dInt;
 		var String nS, dS, num2, num3;
 		var char fChar, bChar, negChar;
@@ -147,7 +146,6 @@ class Fraction {
 		let denomPos = true;
 		let negChar = 45;
 		let fChar = 47;
-		let bChar = 92;
 
 		let negative = S.indexOf(num, negChar);
 		if (negative = 0) {
@@ -155,23 +153,16 @@ class Fraction {
 			let num2 = num;
 			let num = S.substr(num2, 1, num2.length());
 		}
-		let forwardSlash = S.indexOf(num, fChar);
-		let num3 = num;
-		let backSlash = S.indexOf(num3, bChar);
-		if (forwardSlash = -1 & backSlash = -1) {
+		let slash = S.indexOf(num, fChar);
+		if (slash = -1) {
 			let n = num.intValue();
 			let nInt = Int.new(numerPos, n);
 			let dInt = Int.new(true, 1);
 			let frac = Fraction.new(nInt, dInt);
 			return frac;
 		}
-		if (forwardSlash > -1) {
-			let delimiter = forwardSlash;
-		} else {
-			let delimiter = backSlash;
-		}
-		let nS = S.substr(num, 0, delimiter);
-		let start = delimiter + 1;
+		let nS = S.substr(num, 0, slash);
+		let start = slash + 1;
 		let end = String.length(num);
 		let dS = S.substr(num, start, end);
 		let negative2 = S.indexOf(dS, negChar);
@@ -266,7 +257,9 @@ class Fraction {
 			} else {
 				let j = decIndex;
 			}
-
+		}
+		if (~pos()){
+			let answer = S.append("-", answer);
 		}
 		return answer;
 	}
@@ -283,7 +276,7 @@ class Fraction {
 			if (numerator = f2.numerator() & denominator = f2.denominator()){
 				return false;
 			}
-			if (numerator * f2.denominator() < f2.numerator() * denominator){
+			if ((pos & (numerator * f2.denominator() < f2.numerator() * denominator)) | (~pos & (numerator * f2.denominator() > f2.numerator() * denominator))){
 				return false;
 			}
 			return true;
@@ -292,16 +285,10 @@ class Fraction {
 	}
 
 	method boolean isLessThan(Fraction f2) {
-		if (pos = f2.pos()){
-			if (numerator = f2.numerator() & denominator = f2.denominator()){
-				return false;
-			}
-			if (numerator * f2.denominator() > f2.numerator() * denominator){
-				return false;
-			}
+		if (~(isGreaterThan(f2) | equals(f2))){
 			return true;
 		}
-		return ~pos;
+		return false;
 	}
 
 	method boolean equals(Fraction f2) {
@@ -325,7 +312,8 @@ class Fraction {
 		var int r;
 		while (~(b = 0)) { // applies Euclid's algorithm
 			 let r = a - (b * (a / b)); // r = remainder of the integer division a/b
-			 let a = b; let b = r;
+			 let a = b;
+			 let b = r;
 		}
 		return a;
 	}

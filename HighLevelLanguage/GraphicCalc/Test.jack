@@ -1,4 +1,4 @@
-/** Unit tester class */
+/** Unit tests for GraphicCalc classes */
 class Test {
 
 	function void runTests(){
@@ -6,6 +6,7 @@ class Test {
 		do Test.testCoord();
 		do Test.testPoint();
 		do Test.testInt();
+		do Test.testFraction();
 		return;
 	}
 
@@ -42,16 +43,29 @@ class Test {
 		return false;
 	}
 
+	function boolean testCompute(boolean aPos, int aNum, boolean bPos, int bNum, boolean add, String expected){
+		var Int a, b, sum;
+		let a = Int.new(aPos, aNum);
+		let b = Int.new(bPos, bNum);
+		let sum = a.compute(add, b);
+		return Test.expectS(sum.toString(), expected);
+	}
+
 	function void printResults(String suiteName, Array results, int arrSize){
 		var int i, countPass;
 		let i = 0;
 		let countPass = 0;
+		do Out.s("Failures: ");
 		while(i<arrSize){
 			if(results[i]=true){
 				let countPass = countPass + 1;
+			} else {
+				do Out.i(i);
+				do Out.s(" ");
 			}
 			let i = i + 1;
 		}
+		do Out.ln("");
 		do Out.s(suiteName);
 		do Out.s(" suite pass rate: ");
 		do Out.i(countPass);
@@ -221,7 +235,7 @@ class Test {
 		let results[9] = Test.expectB(point.isValidPoint(), true);
 		// Point.toCoord()
 		let coord = point.toCoord();
-		let results[9] = Test.expectS(coord.toString(), "(0, 177)");
+		let results[9] = Test.expectS(coord.toString(), "(0, 77)");
 		do Test.printResults("Point", results, 10);
 		return;
 	}
@@ -229,7 +243,7 @@ class Test {
 	function void testInt() {
 		var Array results;
 		var Int integer, product, sum, a, b;
-		let results = Array.new(37);
+		let results = Array.new(40);
 		let integer = Int.new(true, 1);
 		// Int.pos()
 		let results[0] = Test.expectB(integer.pos(), true);
@@ -308,18 +322,120 @@ class Test {
 		let results[34] = Test.expectB(integer.isLessThan(Int.new(true, 1001)), true);
 		// Int.isGreaterThan()
 		let results[35] = Test.expectB(integer.isGreaterThan(Int.new(false, 1000)), false);
-		let results[37] = Test.expectB(integer.isGreaterThan(Int.new(false, 4)), false);
-		let results[36] = Test.expectB(integer.isGreaterThan(Int.new(false, 1001)), true);
+		let results[36] = Test.expectB(integer.isGreaterThan(Int.new(false, 4)), false);
+		let results[37] = Test.expectB(integer.isGreaterThan(Int.new(false, 1001)), true);
+		// Int.plus()
+		do integer.setPos(true);
+		let sum = integer.plus(Int.new(false, 40));
+		let results[38] = Test.expectS(sum.toString(), "960");
+		// Int.minus()
+		let sum = integer.minus(Int.new(false, 40));
+		let results[39] = Test.expectS(sum.toString(), "1040");
 
-		do Test.printResults("Int", results, 37);
+		do Test.printResults("Int", results, 40);
 		return;
 	}
 
-	function boolean testCompute(boolean aPos, int aNum, boolean bPos, int bNum, boolean add, String expected){
-		var Int a, b, sum;
-		let a = Int.new(aPos, aNum);
-		let b = Int.new(bPos, bNum);
-		let sum = a.compute(add, b);
-		return Test.expectS(sum.toString(), expected);
+
+	function void testFraction() {
+		var Array results;
+		var Fraction fraction, other, answer;
+		var int gcd;
+		let results = Array.new(36);
+		let fraction = Fraction.new(Const.i1(), Const.i1());
+		// Fraction.numerator()
+		let results[0] = Test.expectI(fraction.numerator(), 1);
+		// Fraction.denominator()
+		let results[1] = Test.expectI(fraction.denominator(), 1);
+		// Fraction.pos()
+		let results[2] = Test.expectB(fraction.pos(), true);
+		// Fraction.toString()
+		let results[3] = Test.expectS(fraction.toString(), "1");
+		// Fraction.set()
+		do fraction.set(Const.i127(), Const.iNeg1());
+		let results[4] = Test.expectS(fraction.toString(), "-127");
+		// Fraction.setPos()
+		do fraction.setPos(true);
+		let results[5] = Test.expectS(fraction.toString(), "127");
+		// Fraction.set() --> 0
+		do fraction.set(Int.new(true, 0), Int.new(false, 4));
+		let results[5] = Test.expectS(fraction.toString(), "0");
+		// Fraction.reduce()
+		do fraction.set(Int.new(false, 2), Int.new(false, 4));
+		let results[6] = Test.expectS(fraction.toString(), "1/2");
+		// Fraction.plus()
+		let answer = Const.f1();
+		let other = Fraction.new(Int.new(false, 5), Int.new(true, 3));
+		do fraction.plus(other, answer);
+		let results[7] = Test.expectS(answer.toString(), "-7/6");
+		// Fraction.minus()
+		do fraction.minus(other, answer);
+		let results[8] = Test.expectS(answer.toString(), "13/6");
+		// Fraction.times()
+		do fraction.times(other, answer);
+		let results[9] = Test.expectS(answer.toString(), "-5/6");
+		// Fraction.dividedBy()
+		do fraction.dividedBy(other, answer);
+		let results[10] = Test.expectS(answer.toString(), "-3/10");
+		// Fraction.toFraction()
+		let fraction = Fraction.toFraction("10");
+		let results[11] = Test.expectS(fraction.toString(), "10");
+		let fraction = Fraction.toFraction("-10");
+		let results[12] = Test.expectS(fraction.toString(), "-10");
+		let fraction = Fraction.toFraction("10/4");
+		let results[13] = Test.expectS(fraction.toString(), "5/2");
+		let fraction = Fraction.toFraction("-10/3");
+		let results[14] = Test.expectS(fraction.toString(), "-10/3");
+		let fraction = Fraction.toFraction("10/-7");
+		let results[15] = Test.expectS(fraction.toString(), "-10/7");
+		let fraction = Fraction.toFraction("-10/-20");
+		let results[16] = Test.expectS(fraction.toString(), "1/2");
+		// Fraction.toInt()
+		let results[17] = Test.expectI(fraction.toInt(), 0);
+		let fraction = Const.f0();
+		let results[18] = Test.expectI(fraction.toInt(), 0);
+		do fraction.set(Int.new(true, 2), Int.new(true, 1));
+		let results[19] = Test.expectI(fraction.toInt(), 2);
+		// Fraction.toDecimal()
+		let results[20] = Test.expectS(fraction.toDecimal(2), "2.00");
+		do fraction.set(Int.new(true, 29), Int.new(true, 6));
+		let results[21] = Test.expectS(fraction.toDecimal(5), "4.83333");
+		do fraction.setPos(false);
+		let results[22] = Test.expectS(fraction.toDecimal(3), "-4.833");
+		// Fraction.isGreaterThan()
+		do fraction.set(Int.new(true, 5), Int.new(true, 4));
+		do other.set(Int.new(true, 1), Int.new(true, 3));
+		let results[23] = Test.expectB(fraction.isGreaterThan(other), true);
+		do fraction.set(Int.new(true, 2), Int.new(true, 6));
+		let results[24] = Test.expectB(fraction.isGreaterThan(other), false);
+		do other.setPos(false);
+		let results[25] = Test.expectB(fraction.isGreaterThan(other), true);
+		do fraction.set(Int.new(false, 2), Int.new(true, 3));
+		let results[26] = Test.expectB(fraction.isGreaterThan(other), false);
+		// Fraction.isLessThan()
+		do fraction.set(Int.new(true, 5), Int.new(true, 4));
+		do other.set(Int.new(true, 1), Int.new(true, 3));
+		let results[27] = Test.expectB(fraction.isLessThan(other), false);
+		do fraction.set(Int.new(true, 2), Int.new(true, 6));
+		let results[28] = Test.expectB(fraction.isLessThan(other), false);
+		do other.setPos(false);
+		let results[29] = Test.expectB(fraction.isLessThan(other), false);
+		do fraction.set(Int.new(false, 2), Int.new(true, 3));
+		let results[30] = Test.expectB(fraction.isLessThan(other), true);
+		// Fraction.equals()
+		do other.set(Int.new(false, 2), Int.new(true, 3));
+		let results[31] = Test.expectB(fraction.equals(other), true);
+		do other.setPos(true);
+		let results[32] = Test.expectB(fraction.equals(other), false);
+		do fraction.set(Int.new(true, 4), Int.new(true, 6));
+		let results[33] = Test.expectB(fraction.equals(other), true);
+		// Fraction.gcd()
+		let gcd = Fraction.gcd(7, 21);
+		let results[34] = Test.expectI(gcd, 7);
+		let gcd = Fraction.gcd(240, 150);
+		let results[35] = Test.expectI(gcd, 30);
+
+		do Test.printResults("Fraction", results, 36);
+		return;
 	}
 }

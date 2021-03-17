@@ -52,7 +52,7 @@ class Point {
 		if (isValidPoint()){
 			let xCoord = x.plus(Const.i255());
 			do coord.setX(xCoord.num());
-//			let y = y.times(Const.iNeg1());
+			let y = y.times(Const.iNeg1());
 			let yCoord = y.plus(Const.i127());
 			do coord.setY(yCoord.num());
 		} else {
