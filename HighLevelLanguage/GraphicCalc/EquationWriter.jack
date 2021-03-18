@@ -40,12 +40,15 @@ class EquationWriter {
 	/** Returns a string version of the equation in point-slope form: (y - y1) = m(x - x1) */
 	function String getPointSlopeString(Equation e){
 		var String plusMinusY, plusMinusX, fullX, mTermS, stringified;
-		var Fraction negY, negX;
-		let negY = e.y();
-		do negY.setPos(~(negY.pos()));
+		var Fraction negY, negX, y, x;
+		let y = e.y();
+		let negY = Fraction.new(Int.new(true, y.numerator()), Int.new(true, y.denominator()));
+
+		do negY.setPos(~(y.pos()));
 		let plusMinusY = EquationWriter.simplifySecondTerm(negY);
-		let negX = e.x();
-		do negX.setPos(~(negX.pos()));
+		let x = e.x();
+		let negX = Fraction.new(Int.new(true, x.numerator()), Int.new(true, x.denominator()));
+		do negX.setPos(~(x.pos()));
 		let plusMinusX = EquationWriter.simplifySecondTerm(negX);
 		let fullX = S.append3("(x", plusMinusX, ")");
 		let mTermS = EquationWriter.simplifyMX(e.slope(), fullX);
@@ -67,6 +70,51 @@ class EquationWriter {
 		let bS = bF.toString();
 		let stringified = S.append4(xS, plusMinusY, " = ", bS);
 		return stringified;
+	}
+
+
+
+	function String simplifySecondTerm(Fraction fraction){ // turns into " - n" or " + n"
+		var String plusMinusF, sF;
+		var Fraction posF;
+		if (fraction.numerator() = 0){
+			return "";
+		}
+		if (fraction.pos() = true){
+			let sF = fraction.toString();
+			let plusMinusF = S.append(" + ", sF);
+		} else {
+			let posF = Fraction.new(Int.new(true, fraction.numerator()), Int.new(true, fraction.denominator()));
+			do posF.setPos(true);
+			let sF = posF.toString();
+			let plusMinusF = S.append(" - ", sF);
+		}
+		return plusMinusF;
+	}
+
+	function String simplifySecondYTerm(Fraction x, Fraction y){ // turns into " - ny" or " + ny"
+		var String plusMinusY, sY;
+		var Fraction posY;
+		if (y.numerator() = 0){
+			return "";
+		}
+		if (y.pos()){
+			let sY = EquationWriter.simplifyMX(y, "y");
+			if (x.equals(Const.f0())){
+				let plusMinusY = sY;
+			} else {
+				let plusMinusY = S.append(" + ", sY);
+			}
+		} else {
+			let posY = Fraction.new(Int.new(true, y.numerator()), Int.new(true, y.denominator()));
+			let sY = EquationWriter.simplifyMX(posY, "y");
+			if (x.equals(Const.f0())){
+				let plusMinusY = S.append("-", sY);
+			} else {
+				let plusMinusY = S.append(" - ", sY);
+			}
+		}
+		return plusMinusY;
 	}
 
 	/** Returns a string that concatenates a coefficient to a string that is in the format x, (x - x1), etc. */
@@ -104,49 +152,5 @@ class EquationWriter {
 		}
 		let mS = m.toString();
 		return S.append(mS, x); // m is not a fraction, 1, -1, or 0 (y = mx + b or y - y1 = m(x - x1))
-	}
-
-	function String simplifySecondTerm(Fraction fraction){ // turns into " - n" or " + n"
-		var String plusMinusF, sF;
-		var Fraction posF;
-		if (fraction.numerator() = 0){
-			return "";
-		}
-		if (fraction.pos() = true){
-			let sF = fraction.toString();
-			let plusMinusF = S.append(" + ", sF);
-		} else {
-			let posF = fraction;
-			do posF.setPos(true);
-			let sF = posF.toString();
-			let plusMinusF = S.append(" - ", sF);
-		}
-		return plusMinusF;
-	}
-
-	function String simplifySecondYTerm(Fraction x, Fraction y){ // turns into " - ny" or " + ny"
-		var String plusMinusY, sY;
-		var Fraction posY;
-		if (y.numerator() = 0){
-			return "";
-		}
-		if (y.pos() = true){
-			let sY = EquationWriter.simplifyMX(y, "y");
-			if (x.equals(Const.f0())){
-				let plusMinusY = sY;
-			} else {
-				let plusMinusY = S.append(" + ", sY);
-			}
-		} else {
-			let posY = y;
-			do posY.setPos(true);
-			let sY = EquationWriter.simplifyMX(posY, "y");
-			if (x.equals(Const.f0())){
-				let plusMinusY = sY;
-			} else {
-				let plusMinusY = S.append(" - ", sY);
-			}
-		}
-		return plusMinusY;
 	}
 }
