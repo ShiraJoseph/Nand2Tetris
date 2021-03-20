@@ -96,7 +96,6 @@ class Fraction {
 		do calc7.set(true, denominator * other.denominator());
 		do result.set(calc3.plus(calc6), calc7);
 		return;
-//		return Fraction.new(calc3.plus(calc6), calc7);
 	}
 
 	/** Subtracts this fraction from another */

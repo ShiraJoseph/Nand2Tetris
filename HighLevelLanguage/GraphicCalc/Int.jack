@@ -91,10 +91,16 @@ class Int {
 		let negPos = false;
 		let negNeg = false;
 
-		// (0)+(0) or (0)-(0), (-2)+(2), (2)-(2) = 0
-		if (((x = 0) & (y = 0)) | ((x = y) & ((add & ~(pos = b.pos())) | (~add & (pos = b.pos()))))){
-			do solution.setPos(true);
-			do solution.setNum(0);
+		if (x = y){
+			// (2)+(-2), (-2)+(2), (-2)-(-2), (2)-(2) = 0
+			if (~(add = (pos = b.pos()))){
+				do solution.setPos(true);
+				do solution.setNum(0);
+				return solution;
+			}
+			// (-2)+(-2), (-2)-(2) = -4, (2)+(2), (2)-(-2) = 4
+			do solution.setPos(pos);
+			do solution.setNum(x * 2);
 			return solution;
 		}
 

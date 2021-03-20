@@ -15,6 +15,10 @@ class Equation {
 		let isHorizontal = false;
 		let isXAxis = false;
 		let isYAxis = false;
+		let xF = Fraction.new(Const.i1(), Const.i1());
+		let yF = Fraction.new(Const.i1(), Const.i1());
+		let mF = Fraction.new(Const.i1(), Const.i1());
+		let bF = Fraction.new(Const.i1(), Const.i1());
 		let scale = Fraction.new(Const.i1(), Const.i1());
 		let degree = deg;
 		let format = form;
@@ -82,27 +86,28 @@ class Equation {
 		return;
 	}
 	method void setX(Fraction xSet){
-		let xF = xSet;
+		do xF.set(Int.new(xSet.pos(), xSet.numerator()), Int.new(true, xSet.denominator()));
 		let xExists = true;
 		return;
 	}
 	method void setY(Fraction ySet){
-		let yF = ySet;
+		do yF.set(Int.new(ySet.pos(), ySet.numerator()), Int.new(true, ySet.denominator()));
 		let yExists = true;
 		return;
 	}
 	method void setB(Fraction bSet){
-		let bF = bSet;
+		do bF.set(Int.new(bSet.pos(), bSet.numerator()), Int.new(true, bSet.denominator()));
 		let bExists = true;
 		return;
 	}
 	method void setSlope(Fraction mSet){
-		let mF = mSet;
+		do mF.set(Int.new(mSet.pos(), mSet.numerator()), Int.new(true, mSet.denominator()));
 		let mExists = true;
 		return;
 	}
 	method void setScale(Fraction sSet){
 		let scale = sSet;
+		do scale.set(Int.new(sSet.pos(), sSet.numerator()), Int.new(true, sSet.denominator()));
 		return;
 	}
 	method void setXIsScreenCutoff(boolean isX){
@@ -131,7 +136,7 @@ class Equation {
 		var String f;
 		let f = e.format();
 		if (S.equals(f, Const.sI())){
-			return Equation.setSlopeInterceptDirection(e);
+			return Equation.determineSlopeInterceptDirection(e);
 		}
 		if (S.equals(f, Const.sP())){
 			return Equation.convertFromPointSlopeToSlopeIntercept(e);
@@ -142,7 +147,7 @@ class Equation {
 		return e;
 	}
 
-	function Equation setSlopeInterceptDirection(Equation e){
+	function Equation determineSlopeInterceptDirection(Equation e){
 		var Fraction slope, b;
 		let slope = e.slope();
 		let b = e.b();
@@ -150,7 +155,12 @@ class Equation {
 			do e.setIsHorizontal(true);
 			if (b.equals(Const.f0())){
 				do e.setIsXAxis(true);
+			} else {
+				do e.setIsXAxis(false);
 			}
+		} else {
+			do e.setIsHorizontal(false);
+			do e.setIsXAxis(false);
 		}
 		return e;
 	}
@@ -173,6 +183,10 @@ class Equation {
 			do newSlope.times(xCalc, mx);
 			do yCalc.minus(mx, tempCalc1);
 			do newE.setB(tempCalc1);
+			do newE.setIsHorizontal(false);
+			do newE.setIsVertical(false);
+			do newE.setIsXAxis(false);
+			do newE.setIsYAxis(false);
 			return newE;
 		}
 
@@ -183,7 +197,12 @@ class Equation {
 				do newE.setIsHorizontal(true);
 				if (yCalc.equals(O)){ // m and y are 0; y = 0
 					do newE.setIsXAxis(true);
+				} else {
+					do newE.setIsXAxis(false);
 				}
+			} else {
+				do newE.setIsHorizontal(false);
+				do newE.setIsXAxis(false);
 			}
 			return newE;
 		}
@@ -222,10 +241,13 @@ class Equation {
 			if (bCalc.equals(O)) { // both y and b are 0
 				do newE.setIsYAxis(true);
 			} else { // just y is 0
+				do newE.setIsYAxis(false);
 				do bCalc.dividedBy(xCalc, newB);
 				do newE.setB(newB);
 			}
 		} else { // y is not 0
+			do newE.setIsVertical(false);
+			do newE.setIsYAxis(false);
 			if (~(bCalc.equals(O))){ // both y and b are not 0; b becomes b/y1
 				do bCalc.dividedBy(yCalc, newB);
 				do newE.setB(newB);
@@ -238,6 +260,8 @@ class Equation {
 				do newE.setIsHorizontal(true);
 				if (bCalc.equals(O)) { // y is not 0 but both x and b are 0;
 					do newE.setIsXAxis(true);
+				} else {
+					do newE.setIsXAxis(false);
 				}
 			}
 		}
@@ -292,7 +316,7 @@ class Equation {
 			do tempCalc2.dividedBy(xF, tempCalc3);
 			return tempCalc3;
 		}
-		return Fraction.new(0, 1);
+		return Fraction.new(Const.i1(), Const.i1());
 	}
 
 	method Fraction getYIntercept(){
