@@ -95,27 +95,14 @@ class Graph {
 
 	/** Returns an equation comparable to the given equation but scaled to fit within (-255, -127) and (255, 127) */
 	function Equation getScaledLine(Equation e) {
-		var Fraction CUTOFF, TWO, ONESEVENTY, yIncpt, xIncpt, yIncptTwice, scale, b, m, cutoffTotal, newB, calc1, calc2,
-		calc3, calc4, calc5, calc6, calc7, calc8, calc9, calc10, calc11, calc12, calc13, oldB, XYLimit, negXYLimit;
+		var Fraction CUTOFF, TWO, ONESEVENTY, yIncpt, xIncpt, yIncptTwice, scale, b, m, cutoffTotal, newB, calc127,
+			oldB, XYLimit, negXYLimit;
 		var Equation scaledEquation;
 		var boolean xIsGreater;
 		var int n, d;
 		let CUTOFF = Fraction.new(Int.new(true, 3), Const.i2());
 		let ONESEVENTY = Fraction.new(Int.new(true, 170), Const.i1());
 		let TWO = Fraction.new(Const.i2(), Const.i1());
-		let calc1 = Fraction.new(Const.i1(), Const.i1());
-		let calc2 = Fraction.new(Const.i1(), Const.i1());
-		let calc3 = Fraction.new(Const.i1(), Const.i1());
-		let calc4 = Fraction.new(Const.i1(), Const.i1());
-		let calc5 = Fraction.new(Const.i1(), Const.i1());
-		let calc6 = Fraction.new(Const.i1(), Const.i1());
-		let calc7 = Fraction.new(Const.i1(), Const.i1());
-		let calc8 = Fraction.new(Const.i1(), Const.i1());
-		let calc9 = Fraction.new(Const.i1(), Const.i1());
-		let calc10 = Fraction.new(Const.i1(), Const.i1());
-		let calc11 = Fraction.new(Const.i1(), Const.i1());
-		let calc12 = Fraction.new(Const.i1(), Const.i1());
-		let calc13 = Fraction.new(Const.i1(), Const.i1());
 		let newB = Fraction.new(Const.i1(), Const.i1());
 
 		let yIncpt = e.getYIntercept();
@@ -137,7 +124,6 @@ class Graph {
 		if (((m.pos() = true & m.isLessThan(XYLimit)) | (m.pos() = false & m.isGreaterThan(negXYLimit))) & ~scaledEquation.isPerpendicular()){
 			let xIsGreater = false;
 			let m = scaledEquation.slope();
-//			do Fraction.multiply(m, ONESEVENTY, newB, calc1, calc2, calc3, calc4, calc5, calc6);
 			do m.times(ONESEVENTY, newB);
 			do scaledEquation.setB(newB);
 			do oldB.dividedBy(newB, scale);
@@ -148,18 +134,15 @@ class Graph {
 			let xIsGreater = true;
 			let cutoffTotal = Fraction.new(Const.i1(), Const.i1());
 			let scale = Fraction.new(Const.i1(), Const.i1());
-//			do Fraction.multiply(CUTOFF, b, cutoffTotal, calc1, calc2, calc3, calc4, calc5, calc6);
+			let calc127 = Fraction.new(Const.i127(), Const.i1());
 			do CUTOFF.times(b, cutoffTotal);
-			let calc7 = Const.f127();
-			do calc7.dividedBy(cutoffTotal, scale);
+			do calc127.dividedBy(cutoffTotal, scale);
 			do scale.setPos(true);
 			do scaledEquation.setScale(scale);
-//			do Fraction.multiply(scale, b, newB, calc8, calc9, calc10, calc11, calc12, calc13);
 			do scale.times(b, newB);
 			do scaledEquation.setB(newB);
 		}
 		do scaledEquation.setXIsScreenCutoff(xIsGreater);
-		do Sys.wait(2000);
 		return scaledEquation;
 	}
 
@@ -306,17 +289,11 @@ class Graph {
 	}
 
 	function Array getTickLabelValues(Fraction scale) {
-		var Fraction calc1, calc2, calc3, calc4, calc5, calc6, label;
+		var Fraction label;
 		var Array tickPoints;
 		var int i, mult;
 		var boolean isPos;
 
-		let calc1 = Fraction.new(Const.i1(), Const.i1());
-		let calc2 = Fraction.new(Const.i1(), Const.i1());
-		let calc3 = Fraction.new(Const.i1(), Const.i1());
-		let calc4 = Fraction.new(Const.i1(), Const.i1());
-		let calc5 = Fraction.new(Const.i1(), Const.i1());
-		let calc6 = Fraction.new(Const.i1(), Const.i1());
 		let tickPoints = Array.new(20);
 
 		let i = 0;
@@ -339,7 +316,6 @@ class Graph {
 
 			let label = Fraction.new(Int.new(isPos, mult * 32), Const.i1());
 			let tickPoints[i] = Fraction.new(Const.i1(), Const.i1());
-//			do Fraction.multiply(scale, label, tickPoints[i], calc1, calc2, calc3, calc4, calc5, calc6);
 			do scale.times(label, tickPoints[i]);
 			let i = i + 1;
 		}

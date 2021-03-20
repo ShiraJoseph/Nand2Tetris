@@ -11,6 +11,7 @@ class Test {
 		do Test.testFraction();
 		do Test.testEquationWriter();
 		do Test.testEquation();
+		do Test.testGraph();
 		return;
 	}
 
@@ -799,5 +800,18 @@ class Test {
 		let results[88] = Test.expectB(equation.isYAxis(), false, 88);
 
 		return results;
+	}
+
+	function void testGraph(){
+		var Array results;
+		let results = Array.new(10);
+		// Graph.getScaledLine()
+		// TODO
+
+		// Graph.getTickLabelValues()
+		// TODO
+
+		do Test.printResults("Graph", results, 10);
+		return;
 	}
 }

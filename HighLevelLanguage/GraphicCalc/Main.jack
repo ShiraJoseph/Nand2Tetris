@@ -6,7 +6,7 @@
 
 class Main {
 	function void main() {
-		if(true){
+		if(false){
 			do Main.init();
 			do Test.runTests();
 		} else {
