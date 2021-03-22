@@ -10,8 +10,8 @@
 */
 class Fraction {
 	field int numerator, denominator;
-	field boolean pos;
-	static Int calc1, calc2, calc3, calc4, calc5, calc6, calc7;
+//	field boolean pos;
+//	static Int calc1, calc2, calc3, calc4, calc5, calc6, calc7;
 
 	/** Constructs a (reduced) fraction from the given numerator and denominator. */
 	constructor Fraction new(Int x, Int y) {
@@ -21,33 +21,35 @@ class Fraction {
 
 	/** Initializes static variables */
 	function void init(){
-		let calc1 = Int.new(true, 1);
-		let calc2 = Int.new(true, 1);
-		let calc3 = Int.new(true, 1);
-		let calc4 = Int.new(true, 1);
-		let calc5 = Int.new(true, 1);
-		let calc6 = Int.new(true, 1);
-		let calc7 = Int.new(true, 1);
+//		let calc1 = Int.new(true, 1);
+//		let calc2 = Int.new(true, 1);
+//		let calc3 = Int.new(true, 1);
+//		let calc4 = Int.new(true, 1);
+//		let calc5 = Int.new(true, 1);
+//		let calc6 = Int.new(true, 1);
+//		let calc7 = Int.new(true, 1);
 		return;
 	}
 
 	/** Disposes static variables */
 	function void deInit() {
-		do calc1.dispose();
-		do calc2.dispose();
-		do calc3.dispose();
-		do calc4.dispose();
-		do calc5.dispose();
-		do calc6.dispose();
-		do calc7.dispose();
+//		do calc1.dispose();
+//		do calc2.dispose();
+//		do calc3.dispose();
+//		do calc4.dispose();
+//		do calc5.dispose();
+//		do calc6.dispose();
+//		do calc7.dispose();
 		return;
 	}
 
 	/** Reduces this fraction. */
 	method void reduce() {
-		var int g;
+		var int g, n, d;
+		let n = numerator;
+		let d = denominator;
 		let g = Fraction.gcd(numerator, denominator);
-		if (g > 1) {
+		if (~(g = 1)) {
 			 let numerator = numerator / g;
 			 let denominator = denominator / g;
 		}
@@ -57,134 +59,86 @@ class Fraction {
 	/** Accessors. */
 	method int numerator(){ return numerator; }
 	method int denominator(){ return denominator; }
-	method boolean pos(){ return pos; }
-	method void set(Int n, Int d){
-		let numerator = n.num();
-		let denominator = d.num();
-
-		if (n.pos() = d.pos()){
-			let pos = true;
-		} else {
-			let pos = false;
-		}
-		if (d.num() = 0) {
-			let numerator = 0;
+	method void set(int n, int d){
+		let numerator = n;
+		let denominator = d;
+		if (numerator = 0){
 			let denominator = 1;
-			let pos = true;
 		}
-		if (n.num() = 0) {
-			let denominator = 1;
-			let pos = true;
-		} else {
-			do reduce();
-		}
-		return;
-	}
-	method void setPos(boolean value){
-		let pos = value;
+		do reduce();
 		return;
 	}
 
 	/** Adds this fraction and another */
 	method void plus(Fraction other, Fraction result) {
-		do calc1.set(pos, numerator);
-		do calc2.set(true, other.denominator());
-		do Int.multiply(calc1, calc2, calc3);
-		do calc4.set(other.pos(), other.numerator());
-		do calc5.set(true, denominator);
-		do Int.multiply(calc4, calc5, calc6);
-		do calc7.set(true, denominator * other.denominator());
-		do result.set(calc3.plus(calc6), calc7);
+		do result.set((numerator * other.denominator()) + (other.numerator() * denominator), numerator * denominator);
 		return;
 	}
 
 	/** Subtracts this fraction from another */
 	method void minus(Fraction other, Fraction result) {
-		do calc1.set(pos, numerator);
-		do calc2.set(true, other.denominator());
-		do Int.multiply(calc1, calc2, calc3);
-		do calc4.set(other.pos(), other.numerator());
-		do calc5.set(true, denominator);
-		do Int.multiply(calc4, calc5, calc6);
-		do calc7.set(true, denominator * other.denominator());
-		do result.set(calc3.minus(calc6), calc7);
+		do result.set((numerator * other.denominator()) - (other.numerator() * denominator), numerator * denominator);
 		return;
 	}
 
 	/** Multiplies two fractions */
 	method void times(Fraction other, Fraction result) {
-		do calc1.set(pos(), numerator());
-		do calc2.set(true, denominator());
-		do calc3.set(other.pos(), other.numerator());
-		do Int.multiply(calc1, calc3, calc4);
-		do calc5.set(true, other.denominator());
-		do Int.multiply(calc2, calc5, calc6);
-		do result.set(calc4, calc6);
+		do result.set(numerator * other.numerator(), denominator * other.denominator());
 		return;
 	}
 
 	/** Divides one fraction by another */
 	method void dividedBy(Fraction divisor, Fraction result) {
-		var Int a, b;
-		let a = Int.new(true, divisor.denominator());
-		let b = Int.new(divisor.pos(), divisor.numerator());
-		do result.set(a.times(Int.new(pos, numerator)), b.times(Int.new(true, denominator)));
+		do result.set(numerator * other.denominator(), denominator * other.numerator());
+
 		return;
 	}
 
 	/** Turns a string into a Fraction. Accepts these formats: x, -x, x/y, -x/y, x/-y, -x/-y */
 	function Fraction toFraction (String num) {
-		var int slash, n, d, start, end, negative, negative2;
-		var Int nInt, dInt;
-		var String nS, dS, num2, num3;
-		var char fChar, bChar, negChar;
+		var int slash, n, d, start, end;
+		var String nS, dS;
+		var char fChar;
 		var Fraction frac;
-		var boolean numerPos, denomPos;
+//		var boolean numerPos, denomPos;
 
-		let numerPos = true;
-		let denomPos = true;
-		let negChar = 45;
+//		let numerPos = true;
+//		let denomPos = true;
+//		let negChar = 45;
 		let fChar = 47;
 
-		let negative = S.indexOf(num, negChar);
-		if (negative = 0) {
-			let numerPos = false;
-			let num2 = num;
-			let num = S.substr(num2, 1, num2.length());
-		}
+//		let negative = S.indexOf(num, negChar);
+//		if (negative = 0) {
+//			let numerPos = false;
+//			let num2 = num;
+//			let num = S.substr(num2, 1, num2.length());
+//		}
 		let slash = S.indexOf(num, fChar);
 		if (slash = -1) {
 			let n = num.intValue();
-			let nInt = Int.new(numerPos, n);
-			let dInt = Int.new(true, 1);
-			let frac = Fraction.new(nInt, dInt);
+			let frac = Fraction.new(n, 1);
 			return frac;
 		}
 		let nS = S.substr(num, 0, slash);
 		let start = slash + 1;
 		let end = String.length(num);
 		let dS = S.substr(num, start, end);
-		let negative2 = S.indexOf(dS, negChar);
-		if (negative2 = 0) {
-			let denomPos = false;
-			let dS = S.substr(dS, 1, dS.length());
-		}
 		let n = nS.intValue();
 		let d = dS.intValue();
-		let frac = Fraction.new(Int.new(numerPos, n), Int.new(denomPos, d));
+		let frac = Fraction.new(n, d);
 		return frac;
 	}
 
 	method String toString(){
-		var String appended, n, d, sign;
+		var String appended, n, d;
 		if (numerator = 0){
 			return "0";
 		}
-		if (pos) {
-			let sign = "";
-		} else {
-			let sign = "-";
-		}
+//		if (pos) {
+//			let sign = "";
+//		} else {
+//			let sign = "-";
+//		}
 		let n = String.new(6);
 		let d = String.new(6);
 
@@ -192,12 +146,12 @@ class Fraction {
 		do d.setInt(denominator);
 		if (denominator = 1){
 			if (~(numerator = 1)) {
-				let appended = S.append(sign, n);
+				let appended = n;
 			} else {
-				let appended = S.append(sign, "1");
+				let appended = "1";
 			}
 		} else {
-			let appended = S.append4(sign, n, "/", d);
+			let appended = S.append3(n, "/", d);
 		}
 		return appended;
 	}
