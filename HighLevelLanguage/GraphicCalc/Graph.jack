@@ -123,24 +123,27 @@ class Graph {
 		// if m is in between -1/2 and 1/2 (but not 0 or undefined), m is the same but newB = m * 512/3 (~170) and scale = newB/oldB
 		if (((m.pos() = true & m.isLessThan(XYLimit)) | (m.pos() = false & m.isGreaterThan(negXYLimit))) & ~scaledEquation.isPerpendicular()){
 			let xIsGreater = false;
-			let m = scaledEquation.slope();
 			do m.times(ONESEVENTY, newB);
 			do scaledEquation.setB(newB);
 			do oldB.dividedBy(newB, scale);
 			do scaledEquation.setScale(scale);
 		// otherwise, it will start from the left and go to the right
 		} else {
-			let b = scaledEquation.b();
-			let xIsGreater = true;
 			let cutoffTotal = Fraction.new(Const.i1(), Const.i1());
 			let scale = Fraction.new(Const.i1(), Const.i1());
 			let calc127 = Fraction.new(Const.i127(), Const.i1());
-			do CUTOFF.times(b, cutoffTotal);
-			do calc127.dividedBy(cutoffTotal, scale);
+			let b = scaledEquation.b();
+			let xIsGreater = true;
+
+			do CUTOFF.times(b, cutoffTotal); // 3b/2
+			do calc127.dividedBy(cutoffTotal, scale); // scale = +254/b
 			do scale.setPos(true);
 			do scaledEquation.setScale(scale);
-			do scale.times(b, newB);
+			do scale.times(b, newB); // b = scale*b
 			do scaledEquation.setB(newB);
+		}
+		if (scale.equals(Const.f0())){
+			do scale.set(Const.i1(), Const.i1());
 		}
 		do scaledEquation.setXIsScreenCutoff(xIsGreater);
 		return scaledEquation;
@@ -289,13 +292,12 @@ class Graph {
 	}
 
 	function Array getTickLabelValues(Fraction scale) {
-		var Fraction label;
-		var Array tickPoints;
+		var Fraction label, tick;
+		var Array tickPoints, ticks;
 		var int i, mult;
 		var boolean isPos;
 
 		let tickPoints = Array.new(20);
-
 		let i = 0;
 		while (i < 20){
 			if ((i < 7) | ((i > 13) & (i < 17))){
@@ -315,8 +317,9 @@ class Graph {
 			}
 
 			let label = Fraction.new(Int.new(isPos, mult * 32), Const.i1());
-			let tickPoints[i] = Fraction.new(Const.i1(), Const.i1());
-			do scale.times(label, tickPoints[i]);
+			let tick = Fraction.new(Const.i1(), Const.i1());
+			do label.dividedBy(scale, tick);
+			let tickPoints[i] = tick;
 			let i = i + 1;
 		}
 

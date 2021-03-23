@@ -51,12 +51,12 @@ class Const {
 		let ticks[11] = 415;
 		let ticks[12] = 447;
 		let ticks[13] = 479;
-		let ticks[14] = 31;
-		let ticks[15] = 63;
-		let ticks[16] = 95;
-		let ticks[17] = 159;
-		let ticks[18] = 191;
-		let ticks[19] = 223;
+		let ticks[14] = 223;
+		let ticks[15] = 191;
+		let ticks[16] = 159;
+		let ticks[17] = 95;
+		let ticks[18] = 63;
+		let ticks[19] = 31;
 		return;
 	}
 	/** Disposes static variables */

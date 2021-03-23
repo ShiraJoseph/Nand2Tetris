@@ -150,12 +150,12 @@ class Test {
 		let results[36] = Test.expectI(const25[11], 415, 36);
 		let results[37] = Test.expectI(const25[12], 447, 37);
 		let results[38] = Test.expectI(const25[13], 479, 38);
-		let results[39] = Test.expectI(const25[14], 31, 39);
-		let results[40] = Test.expectI(const25[15], 63, 40);
-		let results[41] = Test.expectI(const25[16], 95, 41);
-		let results[42] = Test.expectI(const25[17], 159, 42);
-		let results[43] = Test.expectI(const25[18], 191, 43);
-		let results[44] = Test.expectI(const25[19], 223, 44);
+		let results[39] = Test.expectI(const25[14], 223, 39);
+		let results[40] = Test.expectI(const25[15], 191, 40);
+		let results[41] = Test.expectI(const25[16], 159, 41);
+		let results[42] = Test.expectI(const25[17], 95, 42);
+		let results[43] = Test.expectI(const25[18], 63, 43);
+		let results[44] = Test.expectI(const25[19], 31, 44);
 		do Test.printResults("Const", results, 45);
 		return;
 	}

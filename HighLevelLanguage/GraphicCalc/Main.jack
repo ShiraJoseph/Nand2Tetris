@@ -62,7 +62,6 @@ class Main {
 		var Fraction scale;
 		do Out.ln(EquationWriter.toString(e));
 		let newE = Graph.getScaledLine(e);
-		do Out.ln(EquationWriter.toString(newE));
 		let scale = newE.scale();
 		do Graph.drawAxes(scale);
 		do Graph.drawScaledLine(newE);

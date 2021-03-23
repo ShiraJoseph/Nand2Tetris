@@ -125,10 +125,11 @@ class Fraction {
 
 	/** Divides one fraction by another */
 	method void dividedBy(Fraction divisor, Fraction result) {
-		var Int a, b;
-		let a = Int.new(true, divisor.denominator());
-		let b = Int.new(divisor.pos(), divisor.numerator());
-		do result.set(a.times(Int.new(pos, numerator)), b.times(Int.new(true, denominator)));
+		do calc1.set(true, divisor.denominator());
+		do calc2.set(divisor.pos(), divisor.numerator());
+		do calc3.set(pos, numerator);
+		do calc4.set(true, denominator);
+		do result.set(calc1.times(Int.new(pos, numerator)), calc2.times(Int.new(true, denominator)));
 		return;
 	}
 
