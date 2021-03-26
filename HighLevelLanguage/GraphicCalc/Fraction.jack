@@ -273,10 +273,10 @@ class Fraction {
 
 	method boolean isGreaterThan(Fraction f2) {
 		if (pos = f2.pos()){
-			if (numerator = f2.numerator() & denominator = f2.denominator()){
+			if (equals(f2)){
 				return false;
 			}
-			if ((pos & (numerator * f2.denominator() < f2.numerator() * denominator)) | (~pos & (numerator * f2.denominator() > f2.numerator() * denominator))){
+			if ((pos & ((numerator * f2.denominator()) < (f2.numerator() * denominator))) | (~pos & ((numerator * f2.denominator()) > (f2.numerator() * denominator)))){
 				return false;
 			}
 			return true;

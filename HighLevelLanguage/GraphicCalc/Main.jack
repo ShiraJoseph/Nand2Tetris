@@ -65,7 +65,7 @@ class Main {
 		let scale = newE.scale();
 		do Graph.drawAxes(scale);
 		do Graph.drawScaledLine(newE);
-		do Sys.wait(8000);
+		do Sys.wait(2000);
 		return;
 	}
 }
