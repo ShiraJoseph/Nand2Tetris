@@ -98,7 +98,7 @@ class Graph {
 		var Fraction CUTOFF, ONESEVENTY, yIncpt, xIncpt, scale, b, m, cutoffTotal, newB, calc127,
 			oldB, XYLimit, negXYLimit, calc256;
 		var Equation scaledEquation;
-		var boolean xIsGreater;
+		var boolean xIsGreater, between1;
 		var int n, d;
 		let CUTOFF = Fraction.new(Int.new(true, 3), Const.i2());
 		let ONESEVENTY = Fraction.new(Int.new(true, 170), Const.i1());
@@ -109,22 +109,9 @@ class Graph {
 		let scale = Fraction.new(Const.i1(), Const.i1());
 		let calc127 = Fraction.new(Const.i127(), Const.i1());
 		let calc256 = Fraction.new(Const.i256(), Const.i1());
-		do Out.ln(EquationWriter.toString(e));
 		let yIncpt = e.getYIntercept();
-		do Out.s("yIncpt = ");
-		do Out.ln(yIncpt.toString());
 		let xIncpt = e.getXIntercept();
-		do Out.s("xIncpt = ");
-		do Out.ln(xIncpt.toString());
 		let scaledEquation = Equation.convertToSlopeIntercept(e);
-//		let yIncpt = scaledEquation.getYIntercept();
-//		let xIncpt = scaledEquation.getXIntercept();
-//		do yIncpt.checkValid();
-//		do xIncpt.checkValid();
-//		do Out.s("yIncpt = ");
-//		do Out.ln(yIncpt.toString());
-//		do Out.s("xIncpt = ");
-//		do Out.ln(xIncpt.toString());
 		let m = scaledEquation.slope();
 		let oldB = scaledEquation.b();
 
@@ -137,13 +124,9 @@ class Graph {
 		// if m is in between -1 and 1, draw the equation from left to right
 		if (((m.pos() & m.isLessThan(XYLimit)) | (~(m.pos()) & m.isGreaterThan(negXYLimit))) & ~(scaledEquation.isVertical())){
 			let xIsGreater = true;
-			if (m.equals(Const.f0())){ // all 0s, no line
+			if (m.equals(Const.f0())){
 				do oldB.times(CUTOFF, cutoffTotal);
 				do calc127.dividedBy(cutoffTotal, scale);
-				do scale.setPos(true);
-				do scaledEquation.setScale(scale);
-				do oldB.times(scale, newB);
-				do scaledEquation.setB(newB);
 			} else {
 				if (xIncpt.equals(Const.f0())){
 					do cutoffTotal.set(Int.new(true, m.denominator() * CUTOFF.numerator()), Int.new(true, CUTOFF.denominator()));
@@ -151,21 +134,12 @@ class Graph {
 					do xIncpt.times(CUTOFF, cutoffTotal);
 				}
 				do calc256.dividedBy(cutoffTotal, scale);
-				do scale.setPos(true);
-				do scaledEquation.setScale(scale);
-				do oldB.times(scale, newB);
-				do scaledEquation.setB(newB);
 			}
 		} else { // if m <= -1 or m >= 1, draw from the bottom to the top
 			let xIsGreater = false;
 			if (scaledEquation.isVertical()){
-				// scale is too big, no line
 				do xIncpt.times(CUTOFF, cutoffTotal);
 				do calc256.dividedBy(cutoffTotal, scale);
-				do scale.setPos(true);
-				do scaledEquation.setScale(scale);
-				do oldB.times(scale, newB);
-				do scaledEquation.setB(newB);
 			} else {
 				if (oldB.equals(Const.f0())){
 					do cutoffTotal.set(Int.new(true, m.numerator() * CUTOFF.numerator()), Int.new(true, CUTOFF.denominator()));
@@ -173,16 +147,12 @@ class Graph {
 					do CUTOFF.times(oldB, cutoffTotal);
 				}
 				do calc127.dividedBy(cutoffTotal, scale);
-				do scale.setPos(true);
-				do scaledEquation.setScale(scale);
-				do scale.times(oldB, newB);
-				do scaledEquation.setB(newB);
 			}
 		}
-		do Out.s("scale = ");
-		do Out.ln(scale.toString());
-		do Out.s("b = ");
-		do Out.ln(newB.toString());
+		do scale.setPos(true);
+		do scaledEquation.setScale(scale);
+		do oldB.times(scale, newB);
+		do scaledEquation.setB(newB);
 		do scaledEquation.setXIsScreenCutoff(xIsGreater);
 		return scaledEquation;
 	}
@@ -241,7 +211,6 @@ class Graph {
 
 	/** draws a line from the bottom of the screen to the top (includes perfectly vertical lines x = b) */
 	function void drawLineVertically(int i, int j) {
-		do Out.ln("down-up");
 		while(i < j){
 			do iIndex.set(true, i);
 			let deltaI = iIndex.minus(Const.i127());
@@ -255,7 +224,6 @@ class Graph {
 
 	/** draws a line from the left of the screen to the right (includes perfectly horizontal lines y = b) */
 	function void drawLineHorizontally(int i, int j) {
-		do Out.ln("left-right");
 		while(i < j){
 
 			do iIndex.set(true, i);
