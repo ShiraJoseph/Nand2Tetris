@@ -34,6 +34,10 @@ class Int {
 		if (num = 0){
 			let pos = true;
 		}
+		if (num < 0){
+			let pos = ~pos;
+			let num = -1 * num;
+		}
 		return;
 	}
 	method void setPos(boolean val){
@@ -184,12 +188,15 @@ class Int {
 	method String toString(){
 	var String numS, mnumS, sign;
 	let sign = "-";
-	let numS = String.new(12);
+	let numS = String.new(7);
 		do numS.setInt(num);
 		if (pos) {
+			do Memory.deAlloc(sign);
 			return numS;
 		} else {
 			let mnumS = S.append(sign, numS);
+			do Memory.deAlloc(numS);
+			do Memory.deAlloc(sign);
 			return mnumS;
 		}
 	}

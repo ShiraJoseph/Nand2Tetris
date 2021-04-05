@@ -6,13 +6,9 @@
 
 class Main {
 	function void main() {
-		if(false){
-			do Main.init();
-			do Test.runTests();
-		} else {
-			do Screen.clearScreen();
-			do Main.createEquation();
-		}
+		do Screen.clearScreen();
+		do Output.moveCursor(0,0);
+		do Main.createEquation();
 		return;
 	}
 
@@ -22,6 +18,7 @@ class Main {
 		do Fraction.init();
 		do Point.init();
 		do Equation.init();
+		do EquationWriter.init();
 		do Graph.init();
 		return;
 	}
@@ -43,6 +40,12 @@ class Main {
 		let format = Keyboard.readLine("[P]oint-Slope, Slope-[I]ntercept, or [S]tandard? ");
 		while(~(S.equals(format, "S") | S.equals(format, "I") | S.equals(format, "P"))){
 			if (S.equals(format, "Q")){
+				return;
+			}
+			if (S.equals(format, "T")){
+				do Screen.clearScreen();
+				do Output.moveCursor(0,0);
+				do Test.runTests();
 				return;
 			}
 			let format = Keyboard.readLine("Please type P, I, or S.");

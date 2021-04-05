@@ -61,7 +61,6 @@ class Fraction {
 	method void set(Int n, Int d){
 		let numerator = n.num();
 		let denominator = d.num();
-
 		if (n.pos() = d.pos()){
 			let pos = true;
 		} else {
@@ -87,6 +86,7 @@ class Fraction {
 
 	/** Adds this fraction and another */
 	method void plus(Fraction other, Fraction result) {
+		// TODO: check that each of these operations won't exceed 32767
 		do calc1.set(pos, numerator);
 		do calc2.set(true, other.denominator());
 		do Int.multiply(calc1, calc2, calc3);
@@ -100,6 +100,7 @@ class Fraction {
 
 	/** Subtracts this fraction from another */
 	method void minus(Fraction other, Fraction result) {
+		// TODO: check that each of these operations won't exceed 32767
 		do calc1.set(pos, numerator);
 		do calc2.set(true, other.denominator());
 		do Int.multiply(calc1, calc2, calc3);
@@ -113,6 +114,7 @@ class Fraction {
 
 	/** Multiplies two fractions */
 	method void times(Fraction other, Fraction result) {
+		// TODO: check that each of these operations won't exceed 32767
 		do calc1.set(pos(), numerator());
 		do calc2.set(true, denominator());
 		do calc3.set(other.pos(), other.numerator());
@@ -125,6 +127,7 @@ class Fraction {
 
 	/** Divides one fraction by another */
 	method void dividedBy(Fraction divisor, Fraction result) {
+		// TODO: check that each of these operations won't exceed 32767
 		do calc1.set(true, divisor.denominator());
 		do calc2.set(divisor.pos(), divisor.numerator());
 		do calc3.set(pos, numerator);
@@ -200,6 +203,9 @@ class Fraction {
 		} else {
 			let appended = S.append4(sign, n, "/", d);
 		}
+		do Memory.deAlloc(n);
+		do Memory.deAlloc(d);
+		do Memory.deAlloc(sign);
 		return appended;
 	}
 

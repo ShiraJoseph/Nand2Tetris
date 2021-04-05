@@ -81,6 +81,10 @@ class Equation {
 	method boolean isXAxis(){ return isXAxis; }
 	method boolean isYAxis(){ return isYAxis; }
 	method String format(){ return format; }
+	method void setFormat(String formSet){
+		let format = formSet;
+		return;
+	}
 	method void setDegree(int deg){
 		let degree = deg;
 		return;

@@ -1,5 +1,5 @@
 class Graph {
-	static Equation equation;
+	static Equation equation, scaledEquation;
 	static Point currPoint;
 	static Fraction currX, currY;
 	static Int iX, iY, iIndex, deltaI;
@@ -97,7 +97,6 @@ class Graph {
 	function Equation getScaledLine(Equation e) {
 		var Fraction CUTOFF, ONESEVENTY, yIncpt, xIncpt, scale, b, m, cutoffTotal, newB, calc127,
 			oldB, XYLimit, negXYLimit, calc256;
-		var Equation scaledEquation;
 		var boolean xIsGreater, between1;
 		var int n, d;
 		let CUTOFF = Fraction.new(Int.new(true, 3), Const.i2());
@@ -328,11 +327,10 @@ class Graph {
 
 			let label = Fraction.new(Int.new(isPos, mult * 32), Const.i1());
 			let tick = Fraction.new(Const.i1(), Const.i1());
-			do label.dividedBy(scale, tick);
+			do label.times(scale, tick);
 			let tickPoints[i] = tick;
 			let i = i + 1;
 		}
-
 		return tickPoints;
 	}
 }
