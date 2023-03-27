@@ -1,14 +1,14 @@
 /** This graphing calculator was created for the Coursera computer architecture course, Nand2Tetris (part 2),
 * using Jack, a high level programming language written by Nisan and Schoken for education purposes.
-* More information can be found at www.nand2tetris.org
-* and in the book "The Elements of Computing Systems" by Nisan and Schocken, MIT Press.
+* More information can be found at www.nand2tetris.org and in the book "The Elements of Computing
+* Systems" by Nisan and Schocken, MIT Press.
 */
 
 class Main {
 	function void main() {
-		do Screen.clearScreen();
-		do Output.moveCursor(0,0);
-		do Main.createEquation();
+		do Main.init();
+		do Out.cls();
+		do Main.start();
 		return;
 	}
 
@@ -33,10 +33,10 @@ class Main {
 		return;
 	}
 
-	function void createEquation(){
+	/** Begins the calculator by requesting equation values from the user */
+	function void start(){
 		var Equation equation;
 		var String format;
-		do Main.init();
 		let format = Keyboard.readLine("[P]oint-Slope, Slope-[I]ntercept, or [S]tandard? ");
 		while(~(S.equals(format, "S") | S.equals(format, "I") | S.equals(format, "P"))){
 			if (S.equals(format, "Q")){
@@ -53,22 +53,7 @@ class Main {
 		let equation = Equation.new(1, format);
 		do equation.getValues();
 		do Out.cls();
-		do Main.draw(equation);
-//		do Out.cls();
-//		do Main.deInit();
-		// do Main.createEquation(); // so far memory does not work with this
-		return;
-	}
-
-	function void draw(Equation e){
-		var Equation newE;
-		var Fraction scale;
-		do Out.ln(EquationWriter.toString(e));
-		let newE = Graph.getScaledLine(e);
-		let scale = newE.scale();
-		do Graph.drawAxes(scale);
-		do Graph.drawScaledLine(newE);
-		do Sys.wait(2000);
+		do Graph.drawGraph(equation);
 		return;
 	}
 }

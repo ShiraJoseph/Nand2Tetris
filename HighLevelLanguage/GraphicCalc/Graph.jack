@@ -37,6 +37,18 @@ class Graph {
 		return;
 	}
 
+	function void drawGraph(Equation e){
+		var Equation newE;
+		var Fraction scale;
+		do Out.ln(EquationWriter.toString(e));
+		let newE = Graph.getScaledLine(e);
+		let scale = newE.scale();
+		do Graph.drawAxes(scale);
+		do Graph.drawScaledLine(newE);
+		do Sys.wait(2000);
+		return;
+	}
+
 	/** Draws x- and y-axes with arrows */
 	function void drawAxes(Fraction scale) {
 		// x-axis
@@ -108,6 +120,7 @@ class Graph {
 		let scale = Fraction.new(Const.i1(), Const.i1());
 		let calc127 = Fraction.new(Const.i127(), Const.i1());
 		let calc256 = Fraction.new(Const.i256(), Const.i1());
+
 		let yIncpt = e.getYIntercept();
 		let xIncpt = e.getXIntercept();
 		let scaledEquation = Equation.convertToSlopeIntercept(e);
@@ -265,7 +278,7 @@ class Graph {
 	}
 
 	function void drawTickLabels(Fraction scale) {
-		var Fraction val;
+		var Fraction val, comp;
 		var Int valInt;
 		var Array fLabels, ticks;
 		var int i, x, y, length;
@@ -273,7 +286,6 @@ class Graph {
 		let ticks = Const.ticks();
 		let val = Fraction.new(Const.i1(), Const.i1());
 		let fLabels = Graph.getTickLabelValues(scale);
-
 		let i = 0;
 		while(i < 20){
 			let val = fLabels[i];
@@ -327,7 +339,7 @@ class Graph {
 
 			let label = Fraction.new(Int.new(isPos, mult * 32), Const.i1());
 			let tick = Fraction.new(Const.i1(), Const.i1());
-			do label.times(scale, tick);
+			do label.dividedBy(scale, tick);
 			let tickPoints[i] = tick;
 			let i = i + 1;
 		}

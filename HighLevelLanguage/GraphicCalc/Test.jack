@@ -388,7 +388,7 @@ class Test {
 		var Array results;
 		var Fraction fraction, other, answer;
 		var int gcd;
-		let results = Array.new(37);
+		let results = Array.new(38);
 		let fraction = Fraction.new(Const.i1(), Const.i1());
 		// Fraction.numerator()
 		let results[0] = Test.expectI(fraction.numerator(), 1, 0);
@@ -481,7 +481,9 @@ class Test {
 		// Fraction.set() --> 0
 		do fraction.set(Int.new(true, 0), Int.new(false, 4));
 		let results[36] = Test.expectS(fraction.toString(), "0", 36);
-		do Test.printResults("Fraction", results, 37);
+		do other.set(Int.new(false, 200), Int.new(true, 1));
+		let results[37] = Test.expectB(other.isLessThan(fraction), true, 37);
+		do Test.printResults("Fraction", results, 38);
 		return;
 	}
 
@@ -881,10 +883,10 @@ class Test {
 		let scale = Fraction.new(Const.i1(), Const.i1());
 		let tickPoints = Graph.getTickLabelValues(scale);
 		let results[8] = Test.testTicks(tickPoints, scale, "-224", "-192", "-160", "-128", "-96", "-64", "-32", "32", "64", "96", "128", "160", "192", "224", "-96", "-64", "-32", "32", "64", "96");
-		let scale = Fraction.new(Int.new(true, 3), Const.i2());
+		let scale = Fraction.new(Const.i2(), Int.new(true, 3));
 		let tickPoints = Graph.getTickLabelValues(scale);
 		let results[9] = Test.testTicks(tickPoints, scale, "-336", "-288", "-240", "-192", "-144", "-96", "-48", "48", "96", "144", "192", "240", "288", "336", "-144", "-96", "-48", "48", "96", "144");
-		let scale = Fraction.new(Const.i1(), Int.new(true, 15));
+		let scale = Fraction.new(Int.new(true, 15), Const.i1());
 		let tickPoints = Graph.getTickLabelValues(scale);
 		let results[10] = Test.testTicks(tickPoints, scale, "-224/15", "-64/5", "-32/3", "-128/15", "-32/5", "-64/15", "-32/15", "32/15", "64/15", "32/5", "128/15", "32/3", "64/5", "224/15", "-32/5", "-64/15", "-32/15", "32/15", "64/15", "32/5");
 		do Test.printResults("Graph", results, 11);
