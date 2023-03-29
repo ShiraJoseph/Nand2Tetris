@@ -1,0 +1,59 @@
+class UI {
+	/** Begins the calculator by requesting equation values from the user */
+	function void start(){
+		var Equation equation;
+		var String format, type;
+
+		do UI.showHeader();
+
+		let type = UI.getType();
+
+		if(S.equals(type, "")) {
+			return;
+		}
+
+		let equation = Equation.new(type);
+
+		do Out.cls();
+		do equation.getValues();
+		do Out.cls();
+		do Graph.drawGraph(equation);
+
+		return;
+	}
+
+	function void showHeader() {
+		do Out.ln("                    -----------------------");
+    do Out.ln("                    | Graphing Calculator |");
+    do Out.ln("                    -----------------------");
+    do Out.ln("");
+
+		return;
+	}
+
+	function String getType() {
+		var String type;
+
+		do Out.ln("         What linear equation format would you like to graph:");
+		do Out.ln("");
+
+		let type = Keyboard.readLine("       [P]oint-Slope, Slope-[I]ntercept, or [S]tandard? ");
+
+		while(~(S.equals(type, "S") | S.equals(type, "I") | S.equals(type, "P"))){
+      if (S.equals(type, Const.sQ())){
+        return "";
+      }
+
+      if (S.equals(type, "T")){
+        do Out.cls();
+        do Test.runTests();
+
+        return "";
+      }
+
+			let type = Keyboard.readLine("Please type P, I, or S.");
+    }
+
+		return type;
+	}
+}

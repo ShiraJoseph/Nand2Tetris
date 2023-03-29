@@ -4,6 +4,7 @@ class Test {
 
 	function void runTests(){
 		let testString = String.new(10);
+
 		do Test.testConst();
 		do Test.testCoord();
 		do Test.testPoint();
@@ -12,7 +13,7 @@ class Test {
 		do Test.testEquationWriter();
 		do Test.testEquation();
 		do Test.testGraph();
-		// todo: Test.testS();
+
 		return;
 	}
 
@@ -20,11 +21,13 @@ class Test {
 		if (S.equals(a, b)){
 			return true;
 		}
+
 		do Out.i(resultNum);
 		do Out.s(". FAIL: Expected ");
 		do Out.s(a);
 		do Out.s(" to equal ");
 		do Out.ln(b);
+
 		return false;
 	}
 
@@ -32,11 +35,13 @@ class Test {
 		if (a = b){
 			return true;
 		}
+
 		do Out.i(resultNum);
 		do Out.s(". FAIL: Expected ");
 		do Out.b(a);
 		do Out.s(" to equal ");
 		do Out.lnB(b);
+
 		return false;
 	}
 
@@ -44,38 +49,47 @@ class Test {
 		if (a = b){
 			return true;
 		}
+
 		do Out.i(resultNum);
 		do Out.s(". FAIL: Expected ");
 		do Out.i(a);
 		do Out.s(" to equal ");
 		do Out.lnI(b);
+
 		return false;
 	}
 
 	function boolean testCompute(boolean aPos, int aNum, boolean bPos, int bNum, boolean add, String expected){
 		var Int a, b, sum;
+
 		let a = Int.new(aPos, aNum);
 		let b = Int.new(bPos, bNum);
 		let sum = a.compute(add, b);
 		let testString = sum.toString();
+
 		return Test.expectS(testString, expected, 100);
 	}
 
 	function void printResults(String suiteName, Array results, int arrSize){
 		var int i, countPass;
+
 		let i = 0;
 		let countPass = 0;
+
 		while(i<arrSize){
 			if(results[i]=true){
 				let countPass = countPass + 1;
 			}
+
 			let i = i + 1;
 		}
+
 		do Out.s(suiteName);
 		do Out.s(" suite pass rate: ");
 		do Out.i(countPass);
 		do Out.s("/");
 		do Out.lnI(arrSize);
+
 		return;
 	}
 
@@ -85,6 +99,7 @@ class Test {
 		var String const17, const18, const19, const20, const21, const22, const23, const24;
 		var Array const25, results;
 		var int i, countPass;
+
 		let results = Array.new(45);
 		let const0 = Const.i0();
 		let const1 = Const.i1();
@@ -171,15 +186,19 @@ class Test {
 		let results[42] = Test.expectI(const25[17], 95, 42);
 		let results[43] = Test.expectI(const25[18], 63, 43);
 		let results[44] = Test.expectI(const25[19], 31, 44);
+
 		do Test.printResults("Const", results, 45);
+
 		return;
 	}
 
 	function void testCoord() {
 		var Array results;
 		var Coord coord;
+
 		let results = Array.new(10);
 		let coord = Coord.new(17, 29);
+
 		// Coord.x()
 		let results[0] = Test.expectI(coord.x(), 17, 0);
 		// Coord.y()
@@ -209,7 +228,9 @@ class Test {
 		// Coord.isValidCoord()
 		do coord.setY(12);
 		let results[9] = Test.expectS(coord.toString(), "(10, 12)", 9);
+
 		do Test.printResults("Coord", results, 10);
+
 		return;
 	}
 
@@ -218,8 +239,10 @@ class Test {
 		var Point point;
 		var Int x, y;
 		var Coord coord;
+
 		let results = Array.new(11);
 		let point = Point.new(Int.new(true, 31), Int.new(true, 22));
+
 		// Point.toString()
 		let results[0] = Test.expectS(point.toString(), "(31, 22)", 0);
 		// Point.x()
@@ -257,15 +280,19 @@ class Test {
 		// Point.toCoord()
 		let coord = point.toCoord();
 		let results[10] = Test.expectS(coord.toString(), "(0, 77)", 10);
+
 		do Test.printResults("Point", results, 11);
+
 		return;
 	}
 
 	function void testInt() {
 		var Array results;
 		var Int integer, product, sum, a, b;
+
 		let results = Array.new(52);
 		let integer = Int.new(true, 1);
+
 		// Int.pos()
 		let results[0] = Test.expectB(integer.pos(), true, 0);
 		// Int.num()
@@ -378,8 +405,9 @@ class Test {
 		// Int.minus()
 		let sum = integer.minus(Int.new(false, 40));
 		let results[51] = Test.expectS(sum.toString(), "1040", 39);
-		//
+
 		do Test.printResults("Int", results, 52);
+
 		return;
 	}
 
@@ -388,8 +416,10 @@ class Test {
 		var Array results;
 		var Fraction fraction, other, answer;
 		var int gcd;
+
 		let results = Array.new(38);
 		let fraction = Fraction.new(Const.i1(), Const.i1());
+
 		// Fraction.numerator()
 		let results[0] = Test.expectI(fraction.numerator(), 1, 0);
 		// Fraction.denominator()
@@ -483,7 +513,9 @@ class Test {
 		let results[36] = Test.expectS(fraction.toString(), "0", 36);
 		do other.set(Int.new(false, 200), Int.new(true, 1));
 		let results[37] = Test.expectB(other.isLessThan(fraction), true, 37);
+
 		do Test.printResults("Fraction", results, 38);
+
 		return;
 	}
 
@@ -492,7 +524,9 @@ class Test {
 		var Fraction x, y, m;
 		var String stringX;
 		var Equation e, eP, eS, eI;
+
 		let results = Array.new(28);
+
 		// EquationWriter.simplifyMX()
 		let m = Fraction.new(Const.i1(), Const.i1());
 		let stringX = "x";
@@ -535,7 +569,7 @@ class Test {
 		do y.set(Const.i0(), Const.i1());
 		let results[17] = Test.expectS(EquationWriter.simplifySecondTerm(y), "", 17);
 		// EquationWriter.getStandardString()
-		let eS = Equation.new(1, "S");
+		let eS = Equation.new("S");
 		do eS.setX(Fraction.new(Int.new(true, 3), Int.new(true, 1)));
 		do eS.setY(Fraction.new(Int.new(true, 2), Int.new(false, 3)));
 		do eS.setB(Fraction.new(Int.new(true, 1), Int.new(true, 1)));
@@ -543,13 +577,13 @@ class Test {
 		do eS.setIsVertical(true);
 		let results[19] = Test.expectS(EquationWriter.getStandardString(eS), "x = 1", 19);
 		// EquationWriter.getPointSlopeString()
-		let eP = Equation.new(1, "P");
+		let eP = Equation.new("P");
 		do eP.setX(Fraction.new(Int.new(true, 3), Int.new(true, 1)));
 		do eP.setY(Fraction.new(Int.new(true, 2), Int.new(false, 3)));
 		do eP.setSlope(Fraction.new(Int.new(true, 2), Int.new(true, 1)));
 		let results[20] = Test.expectS(EquationWriter.getPointSlopeString(eP), "y + 2/3 = 2(x - 3)", 20);
 		// EquationWriter.getSlopeInterceptString()
-		let eI = Equation.new(1, "I");
+		let eI = Equation.new("I");
 		do eI.setSlope(Fraction.new(Int.new(true, 2), Int.new(true, 1)));
 		do eI.setB(Fraction.new(Int.new(true, 1), Int.new(true, 1)));
 		let results[21] = Test.expectS(EquationWriter.getSlopeInterceptString(eI), "y = 2x + 1", 21);
@@ -567,6 +601,7 @@ class Test {
 		let results[27] = Test.expectS(EquationWriter.toString(eI), "y = 1", 27);
 
 		do Test.printResults("EquationWriter", results, 28);
+
 		return;
 	}
 
@@ -574,12 +609,13 @@ class Test {
 		var Array results;
 		var Equation equation, equationP, equationI, equationS;
 		var Fraction temp, x, y;
+
 		let results = Array.new(99);
-		let equationP = Equation.new(0, "P");
-		let equationI = Equation.new(1, "I");
-		let equationS = Equation.new(1, "S");
+		let equationP = Equation.new("P");
+		let equationI = Equation.new("I");
+		let equationS = Equation.new("S");
+
 		// Equation setters
-		do equationP.setDegree(1);
 		do equationP.setX(Fraction.new(Int.new(true, 0), Const.i1()));
 		do equationP.setY(Const.f1());
 		do equationP.setB(Const.f127());
@@ -590,7 +626,7 @@ class Test {
 		do equationP.setIsXAxis(true);
 		do equationP.setIsYAxis(true);
 		// Equation getters
-		let results[0] = Test.expectI(equationP.degree(), 1, 0);
+		let results[0] = true;
 		let temp = equationP.x();
 		let results[1] = Test.expectS(temp.toString(), "0", 1);
 		let temp = equationP.y();
@@ -607,13 +643,12 @@ class Test {
 		let results[9] = Test.expectB(equationP.isXAxis(), true, 9);
 		let results[10] = Test.expectB(equationP.isYAxis(), true, 10);
 		let results[11] = Test.expectS(equationP.format(), "P", 11);
-
 		do Test.testDetermineSlopeInterceptDirection(results);
 		do Test.testConvertFromStandardToSlopeIntercept(results);
 		do Test.testConvertFromPointSlopeToSlopeIntercept(results);
 		// Equation.solveForX/Y() and convertToSlopeIntercept()
 		//    horizontal line
-		let equation = Equation.new(1, "I");
+		let equation = Equation.new("I");
 		do equation.setSlope(Const.f0());
 		do equation.setB(Const.fNeg1());
 		do Equation.convertToSlopeIntercept(equation);
@@ -627,7 +662,7 @@ class Test {
 		let temp = equation.solveForX(Const.f127());
 		let results[91] = Test.expectS(temp.toString(), "128", 91);
 		//    point-slope convert/solveFor
-		let equation = Equation.new(1, "P");
+		let equation = Equation.new("P");
 		do equation.setSlope(Const.f1());
 		do equation.setX(Const.f128());
 		do equation.setY(Const.f1());
@@ -639,7 +674,7 @@ class Test {
 		let temp = equation.solveForY(Const.fNeg1());
 		let results[94] = Test.expectS(temp.toString(), "-128", 94);
 		//    standard convert/solveFor
-		let equation = Equation.new(1, "S");
+		let equation = Equation.new("S");
 		do equation.setB(Const.f1());
 		do equation.setX(Const.f127());
 		do equation.setY(Const.f1());
@@ -656,25 +691,28 @@ class Test {
 		let results[98] = Test.expectS(temp.toString(), "1", 98);
 
 		do Test.printResults("Equation", results, 99);
+
 		return;
 	}
 
 	function Array testDetermineSlopeInterceptDirection(Array results){
 		var Equation equationI, equation;
-		let equationI = Equation.new(1, "I");
-		//    slope is not 0
+
+		let equationI = Equation.new("I");
+
+		// slope is not 0
 		do equationI.setSlope(Fraction.new(Const.i2(), Const.i1()));
 		do equationI.setB(Fraction.new(Const.i1(), Const.i1()));
 		let equation = Equation.determineSlopeInterceptDirection(equationI);
 		let results[12] = Test.expectS(EquationWriter.toString(equation), "y = 2x + 1", 12);
 		let results[13] = Test.expectB(equation.isHorizontal(), false, 13);
 		let results[14] = Test.expectB(equation.isXAxis(), false, 14);
-		//    slope is 0
+		// slope is 0
 		do equationI.setSlope(Const.f0());
 		let equation = Equation.determineSlopeInterceptDirection(equationI);
 		let results[15] = Test.expectB(equation.isHorizontal(), true, 15);
 		let results[16] = Test.expectB(equation.isXAxis(), false, 16);
-		//    both slope and b are 0
+		// both slope and b are 0
 		do equationI.setB(Const.f0());
 		let equation = Equation.determineSlopeInterceptDirection(equationI);
 		let results[17] = Test.expectB(equation.isHorizontal(), true, 17);
@@ -684,7 +722,9 @@ class Test {
 
 	function Array testConvertFromStandardToSlopeIntercept(Array results){
 		var Equation equationS, equation;
-		let equationS = Equation.new(1, "S");
+
+		let equationS = Equation.new("S");
+
 		// none of x, y, or b are 0
 		do equationS.setX(Fraction.new(Int.new(true, 3), Const.i1()));
 		do equationS.setY(Fraction.new(Const.i1(), Const.i2()));
@@ -744,7 +784,9 @@ class Test {
 
 	function Array testConvertFromPointSlopeToSlopeIntercept(Array results){
 		var Equation equationP, equation;
-		let equationP = Equation.new(1, "P");
+
+		let equationP = Equation.new("P");
+
 		// none of x, y, or m are 0
 		do equationP.setX(Fraction.new(Int.new(true, 3), Const.i1()));
 		do equationP.setY(Fraction.new(Const.i1(), Const.i2()));
@@ -825,53 +867,55 @@ class Test {
 		var String string;
 		var Fraction scale, tick;
 		var int i;
+
 		let results = Array.new(11);
+
 		// Graph.getScaledLine()
-		let equation = Equation.new(1, Const.sI());
+		let equation = Equation.new(Const.sI());
 		do equation.setSlope(Const.f0());
 		do equation.setB(Const.f0());
 		let testString = EquationWriter.toString(Graph.getScaledLine(equation));
 		let results[0] = Test.expectS(testString, "y = 0", 0);
 
-		let equation = Equation.new(1, Const.sS());
+		let equation = Equation.new(Const.sS());
 		do equation.setX(Const.f1());
 		do equation.setY(Const.f0());
 		do equation.setB(Const.f0());
 		let testString = EquationWriter.toString(Graph.getScaledLine(equation));
 		let results[1] = Test.expectS(testString, "x = 0", 1);
 
-		let equation = Equation.new(1, Const.sI());
+		let equation = Equation.new(Const.sI());
 		do equation.setSlope(Const.fNeg1());
 		do equation.setB(Const.f0());
 		let testString = EquationWriter.toString(Graph.getScaledLine(equation));
 		let results[2] = Test.expectS(testString, "y = -x", 2);
 
-		let equation = Equation.new(1, Const.sI());
+		let equation = Equation.new(Const.sI());
 		do equation.setSlope(Fraction.new(Const.i2(), Const.i1()));
 		do equation.setB(Const.f0());
 		let testString = EquationWriter.toString(Graph.getScaledLine(equation));
 		let results[3] = Test.expectS(testString, "y = 2x", 3);
 
-		let equation = Equation.new(1, Const.sI());
+		let equation = Equation.new(Const.sI());
 		do equation.setSlope(Fraction.new(Const.i1(), Const.i2()));
 		do equation.setB(Fraction.new(Int.new(false, 4), Const.i1()));
 		let testString = EquationWriter.toString(Graph.getScaledLine(equation));
 		let results[4] = Test.expectS(testString, "y = x/2 - 256/3", 4);
 
-		let equation = Equation.new(1, Const.sI());
+		let equation = Equation.new(Const.sI());
 		do equation.setSlope(Const.f0());
 		do equation.setB(Fraction.new(Int.new(false, 29), Int.new(true, 50)));
 		let testString = EquationWriter.toString(Graph.getScaledLine(equation));
 		let results[5] = Test.expectS(testString, "y = 12458/2175", 5);
 
-		let equation = Equation.new(1, Const.sS());
+		let equation = Equation.new(Const.sS());
 		do equation.setX(Const.f1());
 		do equation.setY(Const.f0());
 		do equation.setB(Fraction.new(Int.new(true, 24), Const.i1()));
 		let testString = EquationWriter.toString(Graph.getScaledLine(equation));
 		let results[6] = Test.expectS(testString, "x = 512/3", 6);
 
-		let equation = Equation.new(1, Const.sP());
+		let equation = Equation.new(Const.sP());
 		do equation.setX(Const.f1());
 		do equation.setY(Const.f0());
 		do equation.setSlope(Fraction.new(Int.new(true, 5), Const.iNeg1()));
@@ -889,7 +933,9 @@ class Test {
 		let scale = Fraction.new(Int.new(true, 15), Const.i1());
 		let tickPoints = Graph.getTickLabelValues(scale);
 		let results[10] = Test.testTicks(tickPoints, scale, "-224/15", "-64/5", "-32/3", "-128/15", "-32/5", "-64/15", "-32/15", "32/15", "64/15", "32/5", "128/15", "32/3", "64/5", "224/15", "-32/5", "-64/15", "-32/15", "32/15", "64/15", "32/5");
+
 		do Test.printResults("Graph", results, 11);
+
 		return;
 	}
 
@@ -900,13 +946,16 @@ class Test {
 		var Fraction tick;
 		var boolean passes;
 		var int i;
+
 		let results = Array.new(20);
 		let i = 0;
+
 		while(i < 20){
 			let tick = tickPoints[i];
 			let tickPoints[i] = tick.toString();
 			let i = i + 1;
 		}
+
 		let results[0] = Test.expectS(tickPoints[0], tick0, 0);
 		let results[1] = Test.expectS(tickPoints[1], tick1, 1);
 		let results[2] = Test.expectS(tickPoints[2], tick2, 2);
@@ -927,6 +976,7 @@ class Test {
 		let results[17] = Test.expectS(tickPoints[17], tick17, 17);
 		let results[18] = Test.expectS(tickPoints[18], tick18, 18);
 		let results[19] = Test.expectS(tickPoints[19], tick19, 19);
+
 		if (~results[0] | ~results[1] | ~results[2] | ~results[3] | ~results[4] | ~results[5] | ~results[6] | ~results[7] |
 			~results[8] | ~results[9] | ~results[10] | ~results[11] | ~results[12] | ~results[13] | ~results[14] |
 			~results[15] | ~results[16] | ~results[17] | ~results[18] | ~results[19]){
@@ -936,6 +986,7 @@ class Test {
 		} else {
 			let passes = true;
 		}
+
 		do Memory.deAlloc(tickPoints);
 		do Memory.deAlloc(results);
 		do Memory.deAlloc(tickPoints);
@@ -960,6 +1011,7 @@ class Test {
 		do Memory.deAlloc(tick17);
 		do Memory.deAlloc(tick18);
 		do Memory.deAlloc(tick19);
+
 		return passes;
 	}
 }

@@ -5,18 +5,21 @@ class Out {
 	/** Prints a string */
 	function void s (String msg1){
 		do Output.printString(msg1);
+
 		return;
 	}
 
 	/** Prints an integer */
 	function void i (int msg2){
 		do Output.printInt(msg2);
+
 		return;
 	}
 
 	/** Prints a char */
 	function void c (char msg3){
 		do Output.printChar(msg3);
+
 		return;
 	}
 
@@ -27,6 +30,7 @@ class Out {
 		} else {
 			do Out.s("false");
 		}
+
 		return;
 	}
 
@@ -41,6 +45,7 @@ class Out {
 	function void lnI (int msg6) {
 		do Output.printInt(msg6);
 		do Output.println();
+
 		return;
 	}
 
@@ -48,6 +53,7 @@ class Out {
 	function void lnC (char msg7) {
 		do Output.printChar(msg7);
 		do Output.println();
+
 		return;
 	}
 
@@ -58,7 +64,9 @@ class Out {
 		} else {
 			do Out.s("false");
 		}
+
 		do Output.println();
+
 		return;
 	}
 
@@ -66,6 +74,7 @@ class Out {
 	function void log(String a, String b){
 		do Out.s(a);
 		do Out.ln(b);
+
 		return;
 	}
 
@@ -73,28 +82,37 @@ class Out {
 	function void cls() {
 		do Screen.clearScreen();
 		do Output.moveCursor(0, 0);
+
 		return;
 	}
 
+	/** Prints a sting using a custom font at the given x/y coordinates */
 	function void drawWord(String w, int x, int y){
 		var int i, nextX;
 		var char c;
+
 		let i = 0;
+
 		while (i < w.length()) {
 			let c = w.charAt(i);
+
 			do Out.drawChar(c, x, y);
+
 			if (c = 46){
 				let nextX = 2;
 			} else {
 				let nextX = 6;
 			}
+
 			let x = x + nextX;
 
 			let i = i + 1;
 		}
+
 		return;
 	}
 
+  /** Prints a character using a custom font at the given x/y coordinates */
 	function void drawChar(char c, int x, int y) {
 		if (c = 45){ // -
 			do Screen.drawPixel(x + 0, y + 3);
@@ -285,6 +303,7 @@ class Out {
 			do Screen.drawPixel(x + 4, y + 4);
 			do Screen.drawPixel(x + 4, y + 5);
 		}
+
 		return;
 	}
 }
