@@ -7,21 +7,24 @@ class EquationWriter {
 	/** Initializes static variables */
 	function void init() {
 		let stringified = "";
+
 		return;
 	}
+
 	/** Returns the current state of the equation as a string based on the chosen equation format */
 	function String toString(Equation e){
-		if (e.degree() = 1){
-			if (S.equals(e.format(), Const.sS())){
-				return EquationWriter.getStandardString(e);
-			}
-			if (S.equals(e.format(), Const.sI())){
-				return EquationWriter.getSlopeInterceptString(e);
-			}
-			if (S.equals(e.format(), Const.sP())){
-				return EquationWriter.getPointSlopeString(e);
-			}
+		if (S.equals(e.format(), Const.sS())){
+			return EquationWriter.getStandardString(e);
 		}
+
+		if (S.equals(e.format(), Const.sI())){
+			return EquationWriter.getSlopeInterceptString(e);
+		}
+
+		if (S.equals(e.format(), Const.sP())){
+			return EquationWriter.getPointSlopeString(e);
+		}
+
 		return "x";
 	}
 
@@ -29,19 +32,25 @@ class EquationWriter {
 	function String getSlopeInterceptString(Equation e){
 		var String mS, plusMinusB;
 		var Fraction bF, mF;
+
 		let bF = e.b();
 		let mF = e.slope();
+
 		if (e.isVertical()) {
 			return S.append("x = ", bF.toString());
 		}
+
 		if (e.isHorizontal() | mF.equals(Const.f0())) {
 			return S.append("y = ", bF.toString());
 		}
+
 		let mS = EquationWriter.simplifyMX(e.slope(), "x");
 		let plusMinusB = EquationWriter.simplifySecondTerm(bF);
 		let stringified = S.append3("y = ", mS, plusMinusB);
+
 		do Memory.deAlloc(mS);
 		do Memory.deAlloc(plusMinusB);
+
 		return stringified;
 	}
 
@@ -49,22 +58,28 @@ class EquationWriter {
 	function String getPointSlopeString(Equation e){
 		var String plusMinusY, plusMinusX, fullX, mTermS;
 		var Fraction negY, negX, y, x;
+
 		let y = e.y();
 		let negY = Fraction.new(Int.new(true, y.numerator()), Int.new(true, y.denominator()));
 
 		do negY.setPos(~(y.pos()));
+
 		let plusMinusY = EquationWriter.simplifySecondTerm(negY);
 		let x = e.x();
 		let negX = Fraction.new(Int.new(true, x.numerator()), Int.new(true, x.denominator()));
+
 		do negX.setPos(~(x.pos()));
+
 		let plusMinusX = EquationWriter.simplifySecondTerm(negX);
 		let fullX = S.append3("(x", plusMinusX, ")");
 		let mTermS = EquationWriter.simplifyMX(e.slope(), fullX);
 		let stringified = S.append4("y", plusMinusY, " = ", mTermS);
+
 		do Memory.deAlloc(plusMinusY);
 		do Memory.deAlloc(plusMinusX);
 		do Memory.deAlloc(fullX);
 		do Memory.deAlloc(mTermS);
+
 		return stringified;
 	}
 
@@ -72,50 +87,64 @@ class EquationWriter {
 	function String getStandardString(Equation e){
 		var String xS, plusMinusY, bS;
 		var Fraction bF, xF;
+
 		let bF = e.b();
 		let xF = e.x();
+
 		if (e.isVertical()) {
 			return S.append("x = ", bF.toString());
 		}
+
 		let xS = EquationWriter.simplifyMX(xF, "x");
 		let plusMinusY = EquationWriter.simplifySecondYTerm(xF, e.y());
 		let bS = bF.toString();
 		let stringified = S.append4(xS, plusMinusY, " = ", bS);
+
 		do Memory.deAlloc(xS);
 		do Memory.deAlloc(plusMinusY);
 		do Memory.deAlloc(bS);
+
 		return stringified;
 	}
 
-
-
-	function String simplifySecondTerm(Fraction fraction){ // turns into " - n" or " + n"
+	/** Returns " - n" or " + n" */
+	function String simplifySecondTerm(Fraction fraction){
 		var String plusMinusF, sF;
 		var Fraction posF;
+
 		if (fraction.numerator() = 0){
 			return "";
 		}
+
 		if (fraction.pos() = true){
 			let sF = fraction.toString();
 			let plusMinusF = S.append(" + ", sF);
 		} else {
 			let posF = Fraction.new(Int.new(true, fraction.numerator()), Int.new(true, fraction.denominator()));
+
 			do posF.setPos(true);
+
 			let sF = posF.toString();
 			let plusMinusF = S.append(" - ", sF);
 		}
+
 		do Memory.deAlloc(sF);
+
 		return plusMinusF;
 	}
 
-	function String simplifySecondYTerm(Fraction x, Fraction y){ // turns into " - ny" or " + ny"
+	/** Returns " - ny" or " + ny" */
+	function String simplifySecondYTerm(Fraction x, Fraction y){
 		var String plusMinusY, sY;
 		var Fraction posY;
+
 		if (y.numerator() = 0){
 			return "";
 		}
+
 		if (y.pos()){
 			let sY = EquationWriter.simplifyMX(y, "y");
+
 			if (x.equals(Const.f0())){
 				let plusMinusY = sY;
 			} else {
@@ -124,50 +153,69 @@ class EquationWriter {
 		} else {
 			let posY = Fraction.new(Int.new(true, y.numerator()), Int.new(true, y.denominator()));
 			let sY = EquationWriter.simplifyMX(posY, "y");
+
 			if (x.equals(Const.f0())){
 				let plusMinusY = S.append("-", sY);
 			} else {
 				let plusMinusY = S.append(" - ", sY);
 			}
 		}
+
 		do Memory.deAlloc(sY);
+
 		return plusMinusY;
 	}
 
 	/** Returns a string that concatenates a coefficient to a string that is in the format x, (x - x1), etc. */
 	function String simplifyMX(Fraction m, String x){
 		var String mS, d, n;
-		if (m.equals(Const.f1())){ // y = x + b or y - y1 = (x - x1)
+
+		if (m.equals(Const.f1())){ // y = x + b OR y - y1 = (x - x1)
 			return x;
 		}
-		if (m.equals(Const.fNeg1())){ // y = -x + b or y - y1 = -(x - x1)
+
+		if (m.equals(Const.fNeg1())){ // y = -x + b OR y - y1 = -(x - x1)
 			return S.append("-", x);
 		}
+
 		if (m.numerator() = 0){
 			if (x.length() > 1){ // y - y1 = 0
 				return "0";
-			} // y = b
+			}
+
+			// y = b
 			return "";
 		}
 		if (m.numerator() = 1){
 			let d = String.new(6);
+
 			do d.setInt(m.denominator());
-			if (m.pos() = true){ // y = x/d + b or y - y1 = (x - x1)/d
+
+			if (m.pos() = true){ // y = x/d + b OR y - y1 = (x - x1)/d
 				return S.append3(x, "/", d);
-			} // y = -x/d + b or y - y1 = -(x - x1)/d
+			}
+
+			// y = -x/d + b OR y - y1 = -(x - x1)/d
 			return S.append4("-", x, "/", d);
 		}
+
 		if (~(m.denominator() = 1)){
 			let n = String.new(6);
 			let d = String.new(6);
+
 			do n.setInt(m.numerator());
 			do d.setInt(m.denominator());
-			if (m.pos() = true){ // y = nx/d + b or y - y1 = n(x - x1)/d
+
+			if (m.pos() = true){ // y = nx/d + b OR y - y1 = n(x - x1)/d
 				return S.append4(n, x, "/", d);
-			} // y = -nx/d + b or y - y1 = -n(x - x1)/d
+			}
+
+			// y = -nx/d + b OR y - y1 = -n(x - x1)/d
 			return S.append5("-", n, x, "/", d);
 		}
+
 		let mS = m.toString();
+
 		return S.append(mS, x); // m is not a fraction, 1, -1, or 0 (y = mx + b or y - y1 = m(x - x1))
 	}
 }

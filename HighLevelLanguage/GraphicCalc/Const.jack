@@ -59,6 +59,7 @@ class Const {
 		let ticks[19] = 31;
 		return;
 	}
+
 	/** Disposes static variables */
 	function void deInit(){
 		do i0.dispose();
@@ -87,6 +88,7 @@ class Const {
 		do Memory.deAlloc(sM);
 		do Memory.deAlloc(sB);
 		do Memory.deAlloc(ticks);
+
 		return;
 	}
 
@@ -118,9 +120,10 @@ class Const {
 	function String sQ() { return sQ; }
 	function Array ticks() { return ticks; }
 
+	/** Destroys the class */
 	method void dispose() {
 		do Memory.deAlloc(this);
+
 		return;
 	}
-
 }

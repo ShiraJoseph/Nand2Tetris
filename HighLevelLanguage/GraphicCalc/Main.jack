@@ -8,7 +8,8 @@ class Main {
 	function void main() {
 		do Main.init();
 		do Out.cls();
-		do Main.start();
+		do UI.start();
+
 		return;
 	}
 
@@ -20,6 +21,7 @@ class Main {
 		do Equation.init();
 		do EquationWriter.init();
 		do Graph.init();
+
 		return;
 	}
 
@@ -30,30 +32,7 @@ class Main {
 		do Point.deInit();
 		do Equation.deInit();
 		do Graph.deInit();
-		return;
-	}
 
-	/** Begins the calculator by requesting equation values from the user */
-	function void start(){
-		var Equation equation;
-		var String format;
-		let format = Keyboard.readLine("[P]oint-Slope, Slope-[I]ntercept, or [S]tandard? ");
-		while(~(S.equals(format, "S") | S.equals(format, "I") | S.equals(format, "P"))){
-			if (S.equals(format, "Q")){
-				return;
-			}
-			if (S.equals(format, "T")){
-				do Screen.clearScreen();
-				do Output.moveCursor(0,0);
-				do Test.runTests();
-				return;
-			}
-			let format = Keyboard.readLine("Please type P, I, or S.");
-		}
-		let equation = Equation.new(1, format);
-		do equation.getValues();
-		do Out.cls();
-		do Graph.drawGraph(equation);
 		return;
 	}
 }

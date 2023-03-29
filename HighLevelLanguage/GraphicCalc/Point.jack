@@ -11,6 +11,7 @@ class Point {
 	constructor Point new(Int xVal, Int yVal){
 		let x = xVal;
 		let y = yVal;
+
 		return this;
 	}
 
@@ -19,6 +20,7 @@ class Point {
 		let coord = Coord.new(1, 1);
 		let xCoord = Int.new(true, 1);
 		let yCoord = Int.new(true, 1);
+
 		return;
 	}
 
@@ -27,6 +29,7 @@ class Point {
 		do coord.dispose();
 		do xCoord.dispose();
 		do yCoord.dispose();
+
 		return;
 	}
 
@@ -36,10 +39,12 @@ class Point {
 	method Int coord(){ return coord; }
 	method void setX(Int val){
 		let x = val;
+
 		return;
 	}
 	method void setY(Int val){
 		let y = val;
+
 		return;
 	}
 
@@ -51,18 +56,23 @@ class Point {
 	method Coord toCoord(){
 		if (isValidPoint()){
 			let xCoord = x.plus(Const.i255());
+
 			do coord.setX(xCoord.num());
+
 			let y = y.times(Const.iNeg1());
 			let yCoord = y.plus(Const.i127());
+
 			do coord.setY(yCoord.num());
 		} else {
 			do Out.s("Invalid Point ");
 			do Out.ln(toString());
 			do Sys.halt();
 		}
+
 		return coord;
 	}
 
+	/** Determines whether this is a point that would fit in the set of points (-256,-128) to (256, 128) */
 	method boolean isValidPoint() {
 		if (
 			x.isLessThan(Const.i256()) &
@@ -72,19 +82,25 @@ class Point {
 		){
 			return true;
 		}
+
 		return false;
 	}
 
+	/** Gets the String version of the Point*/
 	method String toString() {
 		var String xS, yS, sS;
+
 		let xS = x.toString();
 		let yS = y.toString();
 		let sS = S.append5("(", xS, ", ", yS, ")");
+
 		return sS;
 	}
 
+	/** Destroys the Point */
 	method void dispose() {
 		do Memory.deAlloc(this);
+
 		return;
 	}
 }

@@ -8,6 +8,7 @@ class Coord {
 	constructor Coord new(int xVal, int yVal){
 		let x = xVal;
 		let y = yVal;
+
 		return this;
 	}
 
@@ -16,24 +17,22 @@ class Coord {
 	method int y(){ return y; }
 	method void setX(int xint){
 		let x = xint;
+
 		return;
 	}
 	method void setY(int yint){
 		let y = yint;
+
 		return;
 	}
 
-
+	/** Whether the current coordinate exists on the Hack screen */
 	method boolean isValidCoord(){
 		if (((x > 0) | (x = 0)) & (x < 512) & ((y > 0) | (y = 0)) & (y < 256)){
 			return true;
 		}
-		return false;
-	}
 
-	method void dispose(){
-		do Memory.deAlloc(this);
-		return;
+		return false;
 	}
 
 	method String toString(){
@@ -41,9 +40,19 @@ class Coord {
 
 		let xS = String.new(3);
 		let yS = String.new(3);
+
 		do xS.setInt(x);
 		do yS.setInt(y);
+
 		let sS = S.append5("(", xS, ", ", yS, ")");
+
 		return sS;
+	}
+
+	/** Destroys the class */
+	method void dispose(){
+		do Memory.deAlloc(this);
+
+		return;
 	}
 }
