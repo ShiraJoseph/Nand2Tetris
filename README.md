@@ -18,3 +18,5 @@ Project 7: [Virtual Machine, part I](https://github.com/ShiraJoseph/Nand2Tetris/
 Project 8: [Virtual Machine, part II](https://github.com/ShiraJoseph/Nand2Tetris/tree/high-level-language/VirtualMachineII)
 
 Project 9: [High Level Language](https://github.com/ShiraJoseph/Nand2Tetris/tree/high-level-language/HighLevelLanguage)
+
+Project 10: [Compiler, part I](https://github.com/ShiraJoseph/Nand2Tetris/tree/high-level-language/Compiler1)

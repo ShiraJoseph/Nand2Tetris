@@ -1,0 +1,1017 @@
+/** Unit tests for GraphicCalc classes */
+class Test {
+	static String testString;
+
+	function void runTests(){
+		let testString = String.new(10);
+
+		do Test.testConst();
+		do Test.testCoord();
+		do Test.testPoint();
+		do Test.testInt();
+		do Test.testFraction();
+		do Test.testEquationWriter();
+		do Test.testEquation();
+		do Test.testGraph();
+
+		return;
+	}
+
+	function boolean expectS(String a, String b, int resultNum){
+		if (S.equals(a, b)){
+			return true;
+		}
+
+		do Out.i(resultNum);
+		do Out.s(". FAIL: Expected ");
+		do Out.s(a);
+		do Out.s(" to equal ");
+		do Out.ln(b);
+
+		return false;
+	}
+
+	function boolean expectB(boolean a, boolean b, int resultNum){
+		if (a = b){
+			return true;
+		}
+
+		do Out.i(resultNum);
+		do Out.s(". FAIL: Expected ");
+		do Out.b(a);
+		do Out.s(" to equal ");
+		do Out.lnB(b);
+
+		return false;
+	}
+
+	function boolean expectI(int a, int b, int resultNum){
+		if (a = b){
+			return true;
+		}
+
+		do Out.i(resultNum);
+		do Out.s(". FAIL: Expected ");
+		do Out.i(a);
+		do Out.s(" to equal ");
+		do Out.lnI(b);
+
+		return false;
+	}
+
+	function boolean testCompute(boolean aPos, int aNum, boolean bPos, int bNum, boolean add, String expected){
+		var Int a, b, sum;
+
+		let a = Int.new(aPos, aNum);
+		let b = Int.new(bPos, bNum);
+		let sum = a.compute(add, b);
+		let testString = sum.toString();
+
+		return Test.expectS(testString, expected, 100);
+	}
+
+	function void printResults(String suiteName, Array results, int arrSize){
+		var int i, countPass;
+
+		let i = 0;
+		let countPass = 0;
+
+		while(i<arrSize){
+			if(results[i]=true){
+				let countPass = countPass + 1;
+			}
+
+			let i = i + 1;
+		}
+
+		do Out.s(suiteName);
+		do Out.s(" suite pass rate: ");
+		do Out.i(countPass);
+		do Out.s("/");
+		do Out.lnI(arrSize);
+
+		return;
+	}
+
+	function void testConst(){
+		var Int const0, const1, const2, const3, const4, const5, const6, const7, const8, const9;
+		var Fraction const10, const11, const12, const13, const14, const15, const16;
+		var String const17, const18, const19, const20, const21, const22, const23, const24;
+		var Array const25, results;
+		var int i, countPass;
+
+		let results = Array.new(45);
+		let const0 = Const.i0();
+		let const1 = Const.i1();
+		let const2 = Const.i2();
+		let const3 = Const.i127();
+		let const4 = Const.i128();
+		let const5 = Const.i255();
+		let const6 = Const.i256();
+		let const7 = Const.iNeg1();
+		let const8 = Const.iNeg128();
+		let const9 = Const.iNeg256();
+		let const10 = Const.f0();
+		let const11 = Const.f1();
+		let const12 = Const.f127();
+		let const13 = Const.f128();
+		let const14 = Const.f255();
+		let const15 = Const.f256();
+		let const16 = Const.fNeg1();
+		let const17 = Const.sS();
+		let const18 = Const.sP();
+		let const19 = Const.sI();
+		let const20 = Const.sQ();
+		let const21 = Const.sX();
+		let const22 = Const.sY();
+		let const23 = Const.sM();
+		let const24 = Const.sB();
+		let const25 = Const.ticks();
+		let testString = const0.toString();
+		let results[0] = Test.expectS(testString, "0", 0);
+		let testString = const1.toString();
+
+		let results[1] = Test.expectS(testString, "1", 1);
+		let testString = const2.toString();
+
+		let results[2] = Test.expectS(testString, "2", 2);
+		let testString = const3.toString();
+		let results[3] = Test.expectS(testString, "127", 3);
+		let testString = const4.toString();
+		let results[4] = Test.expectS(testString, "128", 4);
+		let testString = const5.toString();
+		let results[5] = Test.expectS(testString, "255", 5);
+		let testString = const6.toString();
+		let results[6] = Test.expectS(testString, "256", 6);
+		let testString = const7.toString();
+		let results[7] = Test.expectS(testString, "-1", 7);
+		let testString = const8.toString();
+		let results[8] = Test.expectS(testString, "-128", 8);
+		let testString = const9.toString();
+		let results[9] = Test.expectS(testString, "-256", 9);
+		let testString = const10.toString();
+		let results[10] = Test.expectS(testString, "0", 10);
+		let testString = const11.toString();
+		let results[11] = Test.expectS(testString, "1", 11);
+		let results[12] = Test.expectS(const12.toString(), "127", 12);
+		let results[13] = Test.expectS(const13.toString(), "128", 13);
+		let results[14] = Test.expectS(const14.toString(), "255", 14);
+		let results[15] = Test.expectS(const15.toString(), "256", 15);
+		let results[16] = Test.expectS(const16.toString(), "-1", 16);
+		let results[17] = Test.expectS(const17, "S", 17);
+		let results[18] = Test.expectS(const18, "P", 18);
+		let results[19] = Test.expectS(const19, "I", 19);
+		let results[20] = Test.expectS(const20, "Q", 20);
+		let results[21] = Test.expectS(const21, "x", 21);
+		let results[22] = Test.expectS(const22, "y", 22);
+		let results[23] = Test.expectS(const23, "m", 23);
+		let results[24] = Test.expectS(const24, "b", 24);
+		let results[25] = Test.expectI(const25[0], 31, 25);
+		let results[26] = Test.expectI(const25[1], 63, 26);
+		let results[27] = Test.expectI(const25[2], 95, 27);
+		let results[28] = Test.expectI(const25[3], 127, 28);
+		let results[29] = Test.expectI(const25[4], 159, 29);
+		let results[30] = Test.expectI(const25[5], 191, 30);
+		let results[31] = Test.expectI(const25[6], 223, 31);
+		let results[32] = Test.expectI(const25[7], 287, 32);
+		let results[33] = Test.expectI(const25[8], 319, 33);
+		let results[34] = Test.expectI(const25[9], 351, 34);
+		let results[35] = Test.expectI(const25[10], 383, 35);
+		let results[36] = Test.expectI(const25[11], 415, 36);
+		let results[37] = Test.expectI(const25[12], 447, 37);
+		let results[38] = Test.expectI(const25[13], 479, 38);
+		let results[39] = Test.expectI(const25[14], 223, 39);
+		let results[40] = Test.expectI(const25[15], 191, 40);
+		let results[41] = Test.expectI(const25[16], 159, 41);
+		let results[42] = Test.expectI(const25[17], 95, 42);
+		let results[43] = Test.expectI(const25[18], 63, 43);
+		let results[44] = Test.expectI(const25[19], 31, 44);
+
+		do Test.printResults("Const", results, 45);
+
+		return;
+	}
+
+	function void testCoord() {
+		var Array results;
+		var Coord coord;
+
+		let results = Array.new(10);
+		let coord = Coord.new(17, 29);
+
+		// Coord.x()
+		let results[0] = Test.expectI(coord.x(), 17, 0);
+		// Coord.y()
+		let results[1] = Test.expectI(coord.y(), 29, 1);
+		// Coord.setX()
+		do coord.setX(15);
+		let results[2] = Test.expectI(coord.x(), 15, 2);
+		// Coord.setY()
+		do coord.setY(39);
+		let results[3] = Test.expectI(coord.y(), 39, 3);
+		// Coord.isValidCoord()
+		//    x and y are valid
+		let results[4] = Test.expectB(coord.isValidCoord(), true, 4);
+		//    x < 0
+		do coord.setX(-2);
+		let results[5] = Test.expectB(coord.isValidCoord(), false, 5);
+		//    x >= 512
+		do coord.setX(1000);
+		let results[6] = Test.expectB(coord.isValidCoord(), false, 6);
+		//    y < 0
+		do coord.setX(10);
+		do coord.setY(-5);
+		let results[7] = Test.expectB(coord.isValidCoord(), false, 7);
+		//    y >= 256
+		do coord.setY(300);
+		let results[8] = Test.expectB(coord.isValidCoord(), false, 8);
+		// Coord.isValidCoord()
+		do coord.setY(12);
+		let results[9] = Test.expectS(coord.toString(), "(10, 12)", 9);
+
+		do Test.printResults("Coord", results, 10);
+
+		return;
+	}
+
+	function void testPoint(){
+		var Array results;
+		var Point point;
+		var Int x, y;
+		var Coord coord;
+
+		let results = Array.new(11);
+		let point = Point.new(Int.new(true, 31), Int.new(true, 22));
+
+		// Point.toString()
+		let results[0] = Test.expectS(point.toString(), "(31, 22)", 0);
+		// Point.x()
+		let x = point.x();
+		let testString = x.toString();
+		let results[1] = Test.expectS(testString, "31", 1);
+		// Point.y()
+		let y = point.y();
+		let testString = y.toString();
+		let results[2] = Test.expectS(testString, "22", 2);
+		// Point.setX()
+		do point.setX(Int.new(false, 5));
+		let x = point.x();
+		let results[3] = Test.expectS(x.toString(), "-5", 3);
+		// Point.setY()
+		do point.setY(Int.new(true, 200));
+		let y = point.y();
+		let results[4] = Test.expectS(y.toString(), "200", 4);
+		// Point.isValidPoint()
+		//    y >= 128
+		let results[5] = Test.expectB(point.isValidPoint(), false, 5);
+		//    y <= -128
+		do point.setY(Int.new(false, 128));
+		let results[6] = Test.expectB(point.isValidPoint(), false, 6);
+		//    x >= 256
+		do point.setY(Int.new(true, 50));
+		do point.setX(Int.new(true, 257));
+		let results[7] = Test.expectB(point.isValidPoint(), false, 7);
+		//    x <= -256
+		do point.setX(Int.new(false, 340));
+		let results[8] = Test.expectB(point.isValidPoint(), false, 8);
+		//    x and y are valid
+		do point.setX(Int.new(false, 255));
+		let results[9] = Test.expectB(point.isValidPoint(), true, 9);
+		// Point.toCoord()
+		let coord = point.toCoord();
+		let results[10] = Test.expectS(coord.toString(), "(0, 77)", 10);
+
+		do Test.printResults("Point", results, 11);
+
+		return;
+	}
+
+	function void testInt() {
+		var Array results;
+		var Int integer, product, sum, a, b;
+
+		let results = Array.new(52);
+		let integer = Int.new(true, 1);
+
+		// Int.pos()
+		let results[0] = Test.expectB(integer.pos(), true, 0);
+		// Int.num()
+		let results[1] = Test.expectI(integer.num(), 1, 1);
+		// Int.toString()
+		let results[2] = Test.expectS(integer.toString(), "1", 2);
+		// Int.set(-0)
+		do integer.set(false, 0);
+		let results[3] = Test.expectS(integer.toString(), "0", 3);
+		// Int.set()
+		do integer.set(false, 25);
+		let results[4] = Test.expectS(integer.toString(), "-25", 4);
+		// Int.setPos()
+		do integer.setPos(true);
+		let results[5] = Test.expectS(integer.toString(), "25", 5);
+		// Int.setNum()
+		do integer.setNum(1000);
+		let results[6] = Test.expectS(integer.toString(), "1000", 6);
+		// Int.multiply()
+		let product = Int.new(true, 1);
+		do Int.multiply(integer, Int.new(false, 2), product);
+		let results[7] = Test.expectS(product.toString(), "-2000", 7);
+		// Int.compute()
+		//    both are 0
+		//      0 + 0
+		let results[8] = Test.testCompute(true, 0, true, 0, true, "0");
+		//      0 - 0
+		let results[9] = Test.testCompute(true, 0, true, 0, false, "0");
+		//      -0 + -0
+		let results[10] = Test.testCompute(false, 0, false, 0, true, "0");
+		//      -0 - -0
+		let results[11] = Test.testCompute(false, 0, false, 0, false, "0");
+		//      0 + -0
+		let results[12] = Test.testCompute(true, 0, false, 0, true, "0");
+		//      -0 + 0
+		let results[13] = Test.testCompute(false, 0, true, 0, true, "0");
+		//      0 - -0
+		let results[14] = Test.testCompute(true, 0, false, 0, false, "0");
+		//      -0 - 0
+		let results[15] = Test.testCompute(false, 0, true, 0, false, "0");
+		//    a = b
+		//      a + a
+		let results[16] = Test.testCompute(true, 15, true, 15, true, "30");
+		//      a - a
+		let results[17] = Test.testCompute(true, 15, true, 15, false, "0");
+		//      -a + -a
+		let results[18] = Test.testCompute(false, 15, false, 15, true, "-30");
+		//      -a - -a
+		let results[19] = Test.testCompute(false, 15, false, 15, false, "0");
+		//      a + -a
+		let results[20] = Test.testCompute(true, 15, false, 15, true, "0");
+		//      a - -a
+		let results[22] = Test.testCompute(true, 15, false, 15, false, "30");
+		//      -a + a
+		let results[21] = Test.testCompute(false, 15, true, 15, true, "0");
+		//      -a - a
+		let results[23] = Test.testCompute(false, 15, true, 15, false, "-30");
+		//    a + b
+		let results[24] = Test.testCompute(true, 4, true, 5, true, "9");
+		//    b + a
+		let results[25] = Test.testCompute(true, 5, true, 4, true, "9");
+		//    a - -b
+		let results[26] = Test.testCompute(true, 4, false, 5, false, "9");
+		//    b - -a
+		let results[27] = Test.testCompute(true, 5, false, 4, false, "9");
+		//    -a + -b
+		let results[28] = Test.testCompute(false, 3, false, 7, true, "-10");
+		//    -b + -a
+		let results[29] = Test.testCompute(false, 7, false, 3, true, "-10");
+		//    -a - b
+		let results[30] = Test.testCompute(false, 3, true, 7, false, "-10");
+		//    -b - a
+		let results[31] = Test.testCompute(false, 7, true, 3, false, "-10");
+		//    -a + b
+		let results[32] = Test.testCompute(false, 99, true, 246, true, "147");
+		//    b + -a
+		let results[33] = Test.testCompute(true, 246, false, 99, true, "147");
+		//    -a - -b
+		let results[34] = Test.testCompute(false, 99, false, 246, false, "147");
+		//    b - a
+		let results[35] = Test.testCompute(true, 246, true, 99, false, "147");
+		//    a + -b
+		let results[36] = Test.testCompute(true, 2, false, 16, true, "-14");
+		//    -b + a
+		let results[37] = Test.testCompute(false, 16, true, 2, true, "-14");
+		//    -b - -a
+		let results[38] = Test.testCompute(false, 16, false, 2, false, "-14");
+		//    a - b
+		let results[39] = Test.testCompute(true, 2, true, 16, false, "-14");
+		// Int.equals()
+		let results[40] = Test.expectB(integer.equals(Int.new(true, 1000)), true, 28);
+		let results[41] = Test.expectB(integer.equals(Int.new(false, 1000)), false, 29);
+		let results[42] = Test.expectB(integer.equals(Int.new(true, 3)), false, 30);
+		// Int.isLessThan()
+		let results[43] = Test.expectB(integer.isLessThan(Int.new(true, 1001)), true, 31);
+		do integer.setPos(false);
+		let results[44] = Test.expectB(integer.isLessThan(Int.new(false, 1001)), false, 32);
+		do integer.setPos(true);
+		let results[45] = Test.expectB(integer.isLessThan(Int.new(false, 1001)), false, 33);
+		do integer.setPos(false);
+		let results[46] = Test.expectB(integer.isLessThan(Int.new(true, 1001)), true, 34);
+		// Int.isGreaterThan()
+		let results[47] = Test.expectB(integer.isGreaterThan(Int.new(false, 1000)), false, 35);
+		let results[48] = Test.expectB(integer.isGreaterThan(Int.new(false, 4)), false, 36);
+		let results[49] = Test.expectB(integer.isGreaterThan(Int.new(false, 1001)), true, 37);
+		// Int.plus()
+		do integer.setPos(true);
+		let sum = integer.plus(Int.new(false, 40));
+		let results[50] = Test.expectS(sum.toString(), "960", 38);
+		// Int.minus()
+		let sum = integer.minus(Int.new(false, 40));
+		let results[51] = Test.expectS(sum.toString(), "1040", 39);
+
+		do Test.printResults("Int", results, 52);
+
+		return;
+	}
+
+
+	function void testFraction() {
+		var Array results;
+		var Fraction fraction, other, answer;
+		var int gcd;
+
+		let results = Array.new(38);
+		let fraction = Fraction.new(Const.i1(), Const.i1());
+
+		// Fraction.numerator()
+		let results[0] = Test.expectI(fraction.numerator(), 1, 0);
+		// Fraction.denominator()
+		let results[1] = Test.expectI(fraction.denominator(), 1, 1);
+		// Fraction.pos()
+		let results[2] = Test.expectB(fraction.pos(), true, 2);
+		// Fraction.toString()
+		let results[3] = Test.expectS(fraction.toString(), "1", 3);
+		// Fraction.set()
+		do fraction.set(Const.i127(), Const.iNeg1());
+		let results[4] = Test.expectS(fraction.toString(), "-127", 4);
+		// Fraction.setPos()
+		do fraction.setPos(true);
+		let results[5] = Test.expectS(fraction.toString(), "127", 5);
+		// Fraction.reduce()
+		do fraction.set(Int.new(false, 2), Int.new(false, 4));
+		let results[6] = Test.expectS(fraction.toString(), "1/2", 6);
+		// Fraction.plus()
+		let answer = Fraction.new(Const.i1(), Const.i1());
+		let other = Fraction.new(Int.new(false, 5), Int.new(true, 3));
+		do fraction.plus(other, answer);
+		let results[7] = Test.expectS(answer.toString(), "-7/6", 7);
+		// Fraction.minus()
+		do fraction.minus(other, answer);
+		let results[8] = Test.expectS(answer.toString(), "13/6", 8);
+		// Fraction.times()
+		do fraction.times(other, answer);
+		let results[9] = Test.expectS(answer.toString(), "-5/6", 9);
+		// Fraction.dividedBy()
+		do fraction.dividedBy(other, answer);
+		let results[10] = Test.expectS(answer.toString(), "-3/10", 10);
+		// Fraction.toFraction()
+		let fraction = Fraction.toFraction("10");
+		let results[11] = Test.expectS(fraction.toString(), "10", 11);
+		let fraction = Fraction.toFraction("-10");
+		let results[12] = Test.expectS(fraction.toString(), "-10", 12);
+		let fraction = Fraction.toFraction("10/4");
+		let results[13] = Test.expectS(fraction.toString(), "5/2", 13);
+		let fraction = Fraction.toFraction("-10/3");
+		let results[14] = Test.expectS(fraction.toString(), "-10/3", 14);
+		let fraction = Fraction.toFraction("10/-7");
+		let results[15] = Test.expectS(fraction.toString(), "-10/7", 15);
+		let fraction = Fraction.toFraction("-10/-20");
+		let results[16] = Test.expectS(fraction.toString(), "1/2", 16);
+		// Fraction.toInt()
+		let results[17] = Test.expectI(fraction.toInt(), 0, 17);
+		let fraction = Const.f0();
+		let results[18] = Test.expectI(fraction.toInt(), 0, 18);
+		do fraction.set(Const.i2(), Const.i1());
+		let results[19] = Test.expectI(fraction.toInt(), 2, 19);
+		// Fraction.toDecimal()
+		let results[20] = Test.expectS(fraction.toDecimal(2), "2.00", 20);
+		do fraction.set(Int.new(true, 29), Int.new(true, 6));
+		let results[21] = Test.expectS(fraction.toDecimal(5), "4.83333", 21);
+		do fraction.setPos(false);
+		let results[22] = Test.expectS(fraction.toDecimal(3), "-4.833", 22);
+		// Fraction.isGreaterThan()
+		do fraction.set(Int.new(true, 5), Int.new(true, 4));
+		do other.set(Const.i1(), Int.new(true, 3));
+		let results[23] = Test.expectB(fraction.isGreaterThan(other), true, 23);
+		do fraction.set(Const.i2(), Int.new(true, 6));
+		let results[24] = Test.expectB(fraction.isGreaterThan(other), false, 24);
+		do other.setPos(false);
+		let results[25] = Test.expectB(fraction.isGreaterThan(other), true, 25);
+		do fraction.set(Int.new(false, 2), Int.new(true, 3));
+		let results[26] = Test.expectB(fraction.isGreaterThan(other), false, 26);
+		// Fraction.isLessThan()
+		do fraction.set(Int.new(true, 5), Int.new(true, 4));
+		do other.set(Const.i1(), Int.new(true, 3));
+		let results[27] = Test.expectB(fraction.isLessThan(other), false, 27);
+		do fraction.set(Int.new(true, 2), Int.new(true, 6));
+		let results[28] = Test.expectB(fraction.isLessThan(other), false, 28);
+		do other.setPos(false);
+		let results[29] = Test.expectB(fraction.isLessThan(other), false, 29);
+		do fraction.set(Int.new(false, 2), Int.new(true, 3));
+		let results[30] = Test.expectB(fraction.isLessThan(other), true, 30);
+		// Fraction.equals()
+		do other.set(Int.new(false, 2), Int.new(true, 3));
+		let results[31] = Test.expectB(fraction.equals(other), true, 31);
+		do other.setPos(true);
+		let results[32] = Test.expectB(fraction.equals(other), false, 32);
+		do fraction.set(Int.new(true, 4), Int.new(true, 6));
+		let results[33] = Test.expectB(fraction.equals(other), true, 33);
+		// Fraction.gcd()
+		let gcd = Fraction.gcd(7, 21);
+		let results[34] = Test.expectI(gcd, 7, 34);
+		let gcd = Fraction.gcd(240, 150);
+		let results[35] = Test.expectI(gcd, 30, 35);
+		// Fraction.set() --> 0
+		do fraction.set(Int.new(true, 0), Int.new(false, 4));
+		let results[36] = Test.expectS(fraction.toString(), "0", 36);
+		do other.set(Int.new(false, 200), Int.new(true, 1));
+		let results[37] = Test.expectB(other.isLessThan(fraction), true, 37);
+
+		do Test.printResults("Fraction", results, 38);
+
+		return;
+	}
+
+	function void testEquationWriter(){
+		var Array results;
+		var Fraction x, y, m;
+		var String stringX;
+		var Equation e, eP, eS, eI;
+
+		let results = Array.new(28);
+
+		// EquationWriter.simplifyMX()
+		let m = Fraction.new(Const.i1(), Const.i1());
+		let stringX = "x";
+		let results[0] = Test.expectS(EquationWriter.simplifyMX(m, stringX), "x", 0);
+		do m.setPos(false);
+		let results[1] = Test.expectS(EquationWriter.simplifyMX(m, stringX), "-x", 1);
+		do m.set(Const.i0(), Const.i1());
+		let results[2] = Test.expectS(EquationWriter.simplifyMX(m, stringX), "", 2);
+		let stringX = "(x - 2)";
+		let results[3] = Test.expectS(EquationWriter.simplifyMX(m, stringX), "0", 3);
+		do m.set(Const.i1(), Int.new(true, 6));
+		let results[4] = Test.expectS(EquationWriter.simplifyMX(m, stringX), "(x - 2)/6", 4);
+		do m.setPos(false);
+		let results[5] = Test.expectS(EquationWriter.simplifyMX(m, stringX), "-(x - 2)/6", 5);
+		do m.set(Int.new(true, 5), Int.new(true, 6));
+		let results[6] = Test.expectS(EquationWriter.simplifyMX(m, stringX), "5(x - 2)/6", 6);
+		do m.setPos(false);
+		let results[7] = Test.expectS(EquationWriter.simplifyMX(m, stringX), "-5(x - 2)/6", 7);
+		do m.set(Int.new(true, 5), Int.new(true, 1));
+		let stringX = "y";
+		let results[8] = Test.expectS(EquationWriter.simplifyMX(m, stringX), "5y", 8);
+		do m.setPos(false);
+		let results[9] = Test.expectS(EquationWriter.simplifyMX(m, stringX), "-5y", 9);
+		// EquationWriter.simplifySecondYTerm()
+		let x = Fraction.new(Int.new(true, 0), Int.new(true, 1));
+		let y = Fraction.new(Int.new(true, 0), Int.new(true, 1));
+		let results[10] = Test.expectS(EquationWriter.simplifySecondYTerm(x, y), "", 10);
+		do y.set(Int.new(true, 3), Int.new(true, 2));
+		let results[11] = Test.expectS(EquationWriter.simplifySecondYTerm(x, y), "3y/2", 11);
+		do y.setPos(false);
+		let results[12] = Test.expectS(EquationWriter.simplifySecondYTerm(x, y), "-3y/2", 12);
+		do x.set(Int.new(true, 1), Int.new(true, 1));
+		let results[13] = Test.expectS(EquationWriter.simplifySecondYTerm(x, y), " - 3y/2", 13);
+		do y.setPos(true);
+		let results[14] = Test.expectS(EquationWriter.simplifySecondYTerm(x, y), " + 3y/2", 14);
+		// EquationWriter.simplifySecondTerm()
+		let results[15] = Test.expectS(EquationWriter.simplifySecondTerm(y), " + 3/2", 15);
+		do y.setPos(false);
+		let results[16] = Test.expectS(EquationWriter.simplifySecondTerm(y), " - 3/2", 16);
+		do y.set(Const.i0(), Const.i1());
+		let results[17] = Test.expectS(EquationWriter.simplifySecondTerm(y), "", 17);
+		// EquationWriter.getStandardString()
+		let eS = Equation.new("S");
+		do eS.setX(Fraction.new(Int.new(true, 3), Int.new(true, 1)));
+		do eS.setY(Fraction.new(Int.new(true, 2), Int.new(false, 3)));
+		do eS.setB(Fraction.new(Int.new(true, 1), Int.new(true, 1)));
+		let results[18] = Test.expectS(EquationWriter.getStandardString(eS), "3x - 2y/3 = 1", 18);
+		do eS.setIsVertical(true);
+		let results[19] = Test.expectS(EquationWriter.getStandardString(eS), "x = 1", 19);
+		// EquationWriter.getPointSlopeString()
+		let eP = Equation.new("P");
+		do eP.setX(Fraction.new(Int.new(true, 3), Int.new(true, 1)));
+		do eP.setY(Fraction.new(Int.new(true, 2), Int.new(false, 3)));
+		do eP.setSlope(Fraction.new(Int.new(true, 2), Int.new(true, 1)));
+		let results[20] = Test.expectS(EquationWriter.getPointSlopeString(eP), "y + 2/3 = 2(x - 3)", 20);
+		// EquationWriter.getSlopeInterceptString()
+		let eI = Equation.new("I");
+		do eI.setSlope(Fraction.new(Int.new(true, 2), Int.new(true, 1)));
+		do eI.setB(Fraction.new(Int.new(true, 1), Int.new(true, 1)));
+		let results[21] = Test.expectS(EquationWriter.getSlopeInterceptString(eI), "y = 2x + 1", 21);
+		do eI.setIsVertical(true);
+		let results[22] = Test.expectS(EquationWriter.getSlopeInterceptString(eI), "x = 1", 22);
+		do eI.setIsVertical(false);
+		do eI.setIsHorizontal(true);
+		let results[23] = Test.expectS(EquationWriter.getSlopeInterceptString(eI), "y = 1", 23);
+		do eI.setIsHorizontal(false);
+		do eI.setSlope(Const.f0());
+		let results[24] = Test.expectS(EquationWriter.getSlopeInterceptString(eI), "y = 1", 24);
+		// EquationWriter.toString()
+		let results[25] = Test.expectS(EquationWriter.toString(eS), "x = 1", 25);
+		let results[26] = Test.expectS(EquationWriter.toString(eP), "y + 2/3 = 2(x - 3)", 26);
+		let results[27] = Test.expectS(EquationWriter.toString(eI), "y = 1", 27);
+
+		do Test.printResults("EquationWriter", results, 28);
+
+		return;
+	}
+
+	function void testEquation(){
+		var Array results;
+		var Equation equation, equationP, equationI, equationS;
+		var Fraction temp, x, y;
+
+		let results = Array.new(99);
+		let equationP = Equation.new("P");
+		let equationI = Equation.new("I");
+		let equationS = Equation.new("S");
+
+		// Equation setters
+		do equationP.setX(Fraction.new(Int.new(true, 0), Const.i1()));
+		do equationP.setY(Const.f1());
+		do equationP.setB(Const.f127());
+		do equationP.setSlope(Const.f128());
+		do equationP.setScale(Const.f255());
+		do equationP.setIsVertical(true);
+		do equationP.setIsHorizontal(true);
+		do equationP.setIsXAxis(true);
+		do equationP.setIsYAxis(true);
+		// Equation getters
+		let results[0] = true;
+		let temp = equationP.x();
+		let results[1] = Test.expectS(temp.toString(), "0", 1);
+		let temp = equationP.y();
+		let results[2] = Test.expectS(temp.toString(), "1", 2);
+		let temp = equationP.b();
+		let results[3] = Test.expectS(temp.toString(), "127", 3);
+		let temp = equationP.slope();
+		let results[4] = Test.expectS(temp.toString(), "128", 4);
+		let temp = equationP.scale();
+		let results[5] = Test.expectS(temp.toString(), "255", 5);
+		let results[6] = Test.expectB(equationP.isPerpendicular(), true, 6);
+		let results[7] = Test.expectB(equationP.isVertical(), true, 7);
+		let results[8] = Test.expectB(equationP.isHorizontal(), true, 8);
+		let results[9] = Test.expectB(equationP.isXAxis(), true, 9);
+		let results[10] = Test.expectB(equationP.isYAxis(), true, 10);
+		let results[11] = Test.expectS(equationP.format(), "P", 11);
+		do Test.testDetermineSlopeInterceptDirection(results);
+		do Test.testConvertFromStandardToSlopeIntercept(results);
+		do Test.testConvertFromPointSlopeToSlopeIntercept(results);
+		// Equation.solveForX/Y() and convertToSlopeIntercept()
+		//    horizontal line
+		let equation = Equation.new("I");
+		do equation.setSlope(Const.f0());
+		do equation.setB(Const.fNeg1());
+		do Equation.convertToSlopeIntercept(equation);
+		let temp = equation.solveForY(Fraction.new(Int.new(false, 255), Int.new(true, 1)));
+		let results[89] = Test.expectS(temp.toString(), "-1", 89);
+		//    slope-intercept convert/solveFor
+		do equation.setSlope(Const.f1());
+		do Equation.convertToSlopeIntercept(equation);
+		let temp = equation.solveForY(Const.f0());
+		let results[90] = Test.expectS(temp.toString(), "-1", 90);
+		let temp = equation.solveForX(Const.f127());
+		let results[91] = Test.expectS(temp.toString(), "128", 91);
+		//    point-slope convert/solveFor
+		let equation = Equation.new("P");
+		do equation.setSlope(Const.f1());
+		do equation.setX(Const.f128());
+		do equation.setY(Const.f1());
+		let temp = equation.solveForY(Const.fNeg1());
+		let results[92] = Test.expectS(temp.toString(), "-128", 92);
+		let temp = equation.solveForX(Const.fNeg1());
+		let results[93] = Test.expectS(temp.toString(), "126", 93);
+		do Equation.convertToSlopeIntercept(equation);
+		let temp = equation.solveForY(Const.fNeg1());
+		let results[94] = Test.expectS(temp.toString(), "-128", 94);
+		//    standard convert/solveFor
+		let equation = Equation.new("S");
+		do equation.setB(Const.f1());
+		do equation.setX(Const.f127());
+		do equation.setY(Const.f1());
+		let temp = equation.solveForY(Const.fNeg1());
+		let results[95] = Test.expectS(temp.toString(), "128", 95);
+		let temp = equation.solveForX(Const.fNeg1());
+		let results[96] = Test.expectS(temp.toString(), "2/127", 96);
+		do Equation.convertToSlopeIntercept(equation);
+		let temp = equation.solveForX(Const.fNeg1());
+		let results[97] = Test.expectS(temp.toString(), "2/127", 97);
+		//    vertical line
+		do equation.setIsVertical(true);
+		let temp = equation.solveForX(Const.fNeg1());
+		let results[98] = Test.expectS(temp.toString(), "1", 98);
+
+		do Test.printResults("Equation", results, 99);
+
+		return;
+	}
+
+	function Array testDetermineSlopeInterceptDirection(Array results){
+		var Equation equationI, equation;
+
+		let equationI = Equation.new("I");
+
+		// slope is not 0
+		do equationI.setSlope(Fraction.new(Const.i2(), Const.i1()));
+		do equationI.setB(Fraction.new(Const.i1(), Const.i1()));
+		let equation = Equation.determineSlopeInterceptDirection(equationI);
+		let results[12] = Test.expectS(EquationWriter.toString(equation), "y = 2x + 1", 12);
+		let results[13] = Test.expectB(equation.isHorizontal(), false, 13);
+		let results[14] = Test.expectB(equation.isXAxis(), false, 14);
+		// slope is 0
+		do equationI.setSlope(Const.f0());
+		let equation = Equation.determineSlopeInterceptDirection(equationI);
+		let results[15] = Test.expectB(equation.isHorizontal(), true, 15);
+		let results[16] = Test.expectB(equation.isXAxis(), false, 16);
+		// both slope and b are 0
+		do equationI.setB(Const.f0());
+		let equation = Equation.determineSlopeInterceptDirection(equationI);
+		let results[17] = Test.expectB(equation.isHorizontal(), true, 17);
+		let results[18] = Test.expectB(equation.isXAxis(), true, 18);
+		return results;
+	}
+
+	function Array testConvertFromStandardToSlopeIntercept(Array results){
+		var Equation equationS, equation;
+
+		let equationS = Equation.new("S");
+
+		// none of x, y, or b are 0
+		do equationS.setX(Fraction.new(Int.new(true, 3), Const.i1()));
+		do equationS.setY(Fraction.new(Const.i1(), Const.i2()));
+		do equationS.setB(Fraction.new(Int.new(true, 5), Const.i2()));
+		let equation = Equation.convertFromStandardToSlopeIntercept(equationS);
+		let results[19] = Test.expectS(EquationWriter.toString(equation), "y = -6x + 5", 19);
+		let results[20] = Test.expectB(equation.isHorizontal(), false, 20);
+		let results[21] = Test.expectB(equation.isVertical(), false, 21);
+		let results[22] = Test.expectB(equation.isXAxis(), false, 22);
+		let results[23] = Test.expectB(equation.isYAxis(), false, 23);
+		// b is 0
+		do equationS.setB(Const.f0());
+		let equation = Equation.convertFromStandardToSlopeIntercept(equationS);
+		let results[24] = Test.expectS(EquationWriter.toString(equation), "y = -6x", 24);
+		let results[25] = Test.expectB(equation.isHorizontal(), false, 25);
+		let results[26] = Test.expectB(equation.isVertical(), false, 26);
+		let results[27] = Test.expectB(equation.isXAxis(), false, 27);
+		let results[28] = Test.expectB(equation.isYAxis(), false, 28);
+		// x is 0
+		do equationS.setB(Fraction.new(Int.new(true, 4), Int.new(true, 1)));
+		do equationS.setX(Const.f0());
+		let equation = Equation.convertFromStandardToSlopeIntercept(equationS);
+		let results[29] = Test.expectS(EquationWriter.toString(equation), "y = 8", 29);
+		let results[30] = Test.expectB(equation.isHorizontal(), true, 30);
+		let results[31] = Test.expectB(equation.isVertical(), false, 31);
+		let results[32] = Test.expectB(equation.isXAxis(), false, 32);
+		let results[33] = Test.expectB(equation.isYAxis(), false, 33);
+		// y is 0
+		do equationS.setX(Fraction.new(Int.new(false, 7), Int.new(true, 3)));
+		do equationS.setY(Const.f0());
+		let equation = Equation.convertFromStandardToSlopeIntercept(equationS);
+		let results[34] = Test.expectS(EquationWriter.toString(equation), "x = -12/7", 34);
+		let results[35] = Test.expectB(equation.isHorizontal(), false, 35);
+		let results[36] = Test.expectB(equation.isVertical(), true, 36);
+		let results[37] = Test.expectB(equation.isXAxis(), false, 37);
+		let results[38] = Test.expectB(equation.isYAxis(), false, 38);
+		// y and b are 0
+		do equationS.setB(Const.f0());
+		let equation = Equation.convertFromStandardToSlopeIntercept(equationS);
+		let results[39] = Test.expectS(EquationWriter.toString(equation), "x = 0", 39);
+		let results[40] = Test.expectB(equation.isHorizontal(), false, 40);
+		let results[41] = Test.expectB(equation.isVertical(), true, 41);
+		let results[42] = Test.expectB(equation.isXAxis(), false, 42);
+		let results[43] = Test.expectB(equation.isYAxis(), true, 43);
+		// x and b are 0
+		do equationS.setY(Fraction.new(Const.i1(), Const.i1()));
+		do equationS.setX(Const.f0());
+		let equation = Equation.convertFromStandardToSlopeIntercept(equationS);
+		let results[44] = Test.expectS(EquationWriter.toString(equation), "y = 0", 44);
+		let results[45] = Test.expectB(equation.isHorizontal(), true, 45);
+		let results[46] = Test.expectB(equation.isVertical(), false, 46);
+		let results[47] = Test.expectB(equation.isXAxis(), true, 47);
+		let results[48] = Test.expectB(equation.isYAxis(), false, 48);
+
+		return results;
+	}
+
+	function Array testConvertFromPointSlopeToSlopeIntercept(Array results){
+		var Equation equationP, equation;
+
+		let equationP = Equation.new("P");
+
+		// none of x, y, or m are 0
+		do equationP.setX(Fraction.new(Int.new(true, 3), Const.i1()));
+		do equationP.setY(Fraction.new(Const.i1(), Const.i2()));
+		do equationP.setSlope(Fraction.new(Int.new(true, 5), Const.i2()));
+		let equation = Equation.convertFromPointSlopeToSlopeIntercept(equationP);
+		let results[49] = Test.expectS(EquationWriter.toString(equation), "y = 5x/2 - 7", 49);
+		let results[50] = Test.expectB(equation.isHorizontal(), false, 50);
+		let results[51] = Test.expectB(equation.isVertical(), false, 51);
+		let results[52] = Test.expectB(equation.isXAxis(), false, 52);
+		let results[53] = Test.expectB(equation.isYAxis(), false, 53);
+		// m is 0
+		do equationP.setSlope(Const.f0());
+		let equation = Equation.convertFromPointSlopeToSlopeIntercept(equationP);
+		let results[54] = Test.expectS(EquationWriter.toString(equation), "y = 1/2", 54);
+		let results[55] = Test.expectB(equation.isHorizontal(), true, 55);
+		let results[56] = Test.expectB(equation.isVertical(), false, 56);
+		let results[57] = Test.expectB(equation.isXAxis(), false, 57);
+		let results[58] = Test.expectB(equation.isYAxis(), false, 58);
+		// x is 0
+		do equationP.setSlope(Fraction.new(Int.new(true, 4), Const.i1()));
+		do equationP.setX(Const.f0());
+		let equation = Equation.convertFromPointSlopeToSlopeIntercept(equationP);
+		let results[59] = Test.expectS(EquationWriter.toString(equation), "y = 4x + 1/2", 59);
+		let results[60] = Test.expectB(equation.isHorizontal(), false, 60);
+		let results[61] = Test.expectB(equation.isVertical(), false, 61);
+		let results[62] = Test.expectB(equation.isXAxis(), false, 62);
+		let results[63] = Test.expectB(equation.isYAxis(), false, 63);
+		// y is 0
+		do equationP.setX(Fraction.new(Int.new(false, 7), Int.new(true, 3)));
+		do equationP.setY(Const.f0());
+		let equation = Equation.convertFromPointSlopeToSlopeIntercept(equationP);
+		let results[64] = Test.expectS(EquationWriter.toString(equation), "y = 4x + 28/3", 64);
+		let results[65] = Test.expectB(equation.isHorizontal(), false, 65);
+		let results[66] = Test.expectB(equation.isVertical(), false, 66);
+		let results[67] = Test.expectB(equation.isXAxis(), false, 67);
+		let results[68] = Test.expectB(equation.isYAxis(), false, 68);
+		// y and m are 0
+		do equationP.setSlope(Const.f0());
+		let equation = Equation.convertFromPointSlopeToSlopeIntercept(equationP);
+		let results[69] = Test.expectS(EquationWriter.toString(equation), "y = 0", 69);
+		let results[70] = Test.expectB(equation.isHorizontal(), true, 70);
+		let results[71] = Test.expectB(equation.isVertical(), false, 71);
+		let results[72] = Test.expectB(equation.isXAxis(), true, 72);
+		let results[73] = Test.expectB(equation.isYAxis(), false, 73);
+		// x and m are 0
+		do equationP.setY(Fraction.new(Const.i1(), Const.i1()));
+		do equationP.setX(Const.f0());
+		let equation = Equation.convertFromPointSlopeToSlopeIntercept(equationP);
+		let results[74] = Test.expectS(EquationWriter.toString(equation), "y = 1", 74);
+		let results[75] = Test.expectB(equation.isHorizontal(), true, 75);
+		let results[76] = Test.expectB(equation.isVertical(), false, 76);
+		let results[77] = Test.expectB(equation.isXAxis(), false, 77);
+		let results[78] = Test.expectB(equation.isYAxis(), false, 78);
+		// x and y are 0
+		do equationP.setSlope(Const.f1());
+		do equationP.setY(Const.f0());
+		let equation = Equation.convertFromPointSlopeToSlopeIntercept(equationP);
+		let results[79] = Test.expectS(EquationWriter.toString(equation), "y = x", 79);
+		let results[80] = Test.expectB(equation.isHorizontal(), false, 80);
+		let results[81] = Test.expectB(equation.isVertical(), false, 81);
+		let results[82] = Test.expectB(equation.isXAxis(), false, 82);
+		let results[83] = Test.expectB(equation.isYAxis(), false, 83);
+		// x, y and m are all 0
+		do equationP.setSlope(Const.f0());
+		let equation = Equation.convertFromPointSlopeToSlopeIntercept(equationP);
+		let results[84] = Test.expectS(EquationWriter.toString(equation), "y = 0", 84);
+		let results[85] = Test.expectB(equation.isHorizontal(), true, 85);
+		let results[86] = Test.expectB(equation.isVertical(), false, 86);
+		let results[87] = Test.expectB(equation.isXAxis(), true, 87);
+		let results[88] = Test.expectB(equation.isYAxis(), false, 88);
+
+		return results;
+	}
+
+	function void testGraph(){
+		var Array results, tickPoints;
+		var Equation equation, scaledEquation;
+		var String string;
+		var Fraction scale, tick;
+		var int i;
+
+		let results = Array.new(11);
+
+		// Graph.getScaledLine()
+		let equation = Equation.new(Const.sI());
+		do equation.setSlope(Const.f0());
+		do equation.setB(Const.f0());
+		let testString = EquationWriter.toString(Graph.getScaledLine(equation));
+		let results[0] = Test.expectS(testString, "y = 0", 0);
+
+		let equation = Equation.new(Const.sS());
+		do equation.setX(Const.f1());
+		do equation.setY(Const.f0());
+		do equation.setB(Const.f0());
+		let testString = EquationWriter.toString(Graph.getScaledLine(equation));
+		let results[1] = Test.expectS(testString, "x = 0", 1);
+
+		let equation = Equation.new(Const.sI());
+		do equation.setSlope(Const.fNeg1());
+		do equation.setB(Const.f0());
+		let testString = EquationWriter.toString(Graph.getScaledLine(equation));
+		let results[2] = Test.expectS(testString, "y = -x", 2);
+
+		let equation = Equation.new(Const.sI());
+		do equation.setSlope(Fraction.new(Const.i2(), Const.i1()));
+		do equation.setB(Const.f0());
+		let testString = EquationWriter.toString(Graph.getScaledLine(equation));
+		let results[3] = Test.expectS(testString, "y = 2x", 3);
+
+		let equation = Equation.new(Const.sI());
+		do equation.setSlope(Fraction.new(Const.i1(), Const.i2()));
+		do equation.setB(Fraction.new(Int.new(false, 4), Const.i1()));
+		let testString = EquationWriter.toString(Graph.getScaledLine(equation));
+		let results[4] = Test.expectS(testString, "y = x/2 - 256/3", 4);
+
+		let equation = Equation.new(Const.sI());
+		do equation.setSlope(Const.f0());
+		do equation.setB(Fraction.new(Int.new(false, 29), Int.new(true, 50)));
+		let testString = EquationWriter.toString(Graph.getScaledLine(equation));
+		let results[5] = Test.expectS(testString, "y = 12458/2175", 5);
+
+		let equation = Equation.new(Const.sS());
+		do equation.setX(Const.f1());
+		do equation.setY(Const.f0());
+		do equation.setB(Fraction.new(Int.new(true, 24), Const.i1()));
+		let testString = EquationWriter.toString(Graph.getScaledLine(equation));
+		let results[6] = Test.expectS(testString, "x = 512/3", 6);
+
+		let equation = Equation.new(Const.sP());
+		do equation.setX(Const.f1());
+		do equation.setY(Const.f0());
+		do equation.setSlope(Fraction.new(Int.new(true, 5), Const.iNeg1()));
+		let testString = EquationWriter.toString(Graph.getScaledLine(equation));
+		let results[7] = Test.expectS(testString, "y = -5x + 254/3", 7);
+
+		// Graph.getTickLabelValues()
+		let tickPoints = Array.new(20);
+		let scale = Fraction.new(Const.i1(), Const.i1());
+		let tickPoints = Graph.getTickLabelValues(scale);
+		let results[8] = Test.testTicks(tickPoints, scale, "-224", "-192", "-160", "-128", "-96", "-64", "-32", "32", "64", "96", "128", "160", "192", "224", "-96", "-64", "-32", "32", "64", "96");
+		let scale = Fraction.new(Const.i2(), Int.new(true, 3));
+		let tickPoints = Graph.getTickLabelValues(scale);
+		let results[9] = Test.testTicks(tickPoints, scale, "-336", "-288", "-240", "-192", "-144", "-96", "-48", "48", "96", "144", "192", "240", "288", "336", "-144", "-96", "-48", "48", "96", "144");
+		let scale = Fraction.new(Int.new(true, 15), Const.i1());
+		let tickPoints = Graph.getTickLabelValues(scale);
+		let results[10] = Test.testTicks(tickPoints, scale, "-224/15", "-64/5", "-32/3", "-128/15", "-32/5", "-64/15", "-32/15", "32/15", "64/15", "32/5", "128/15", "32/3", "64/5", "224/15", "-32/5", "-64/15", "-32/15", "32/15", "64/15", "32/5");
+
+		do Test.printResults("Graph", results, 11);
+
+		return;
+	}
+
+	function boolean testTicks(Array tickPoints, Fraction scale, String tick0, String tick1, String tick2, String tick3, String tick4,
+		String tick5, String tick6, String tick7, String tick8, String tick9, String tick10, String tick11, String tick12,
+		String tick13, String tick14, String tick15, String tick16, String tick17, String tick18, String tick19){
+		var Array results;
+		var Fraction tick;
+		var boolean passes;
+		var int i;
+
+		let results = Array.new(20);
+		let i = 0;
+
+		while(i < 20){
+			let tick = tickPoints[i];
+			let tickPoints[i] = tick.toString();
+			let i = i + 1;
+		}
+
+		let results[0] = Test.expectS(tickPoints[0], tick0, 0);
+		let results[1] = Test.expectS(tickPoints[1], tick1, 1);
+		let results[2] = Test.expectS(tickPoints[2], tick2, 2);
+		let results[3] = Test.expectS(tickPoints[3], tick3, 3);
+		let results[4] = Test.expectS(tickPoints[4], tick4, 4);
+		let results[5] = Test.expectS(tickPoints[5], tick5, 5);
+		let results[6] = Test.expectS(tickPoints[6], tick6, 6);
+		let results[7] = Test.expectS(tickPoints[7], tick7, 7);
+		let results[8] = Test.expectS(tickPoints[8], tick8, 8);
+		let results[9] = Test.expectS(tickPoints[9], tick9, 9);
+		let results[10] = Test.expectS(tickPoints[10], tick10, 10);
+		let results[11] = Test.expectS(tickPoints[11], tick11, 11);
+		let results[12] = Test.expectS(tickPoints[12], tick12, 12);
+		let results[13] = Test.expectS(tickPoints[13], tick13, 13);
+		let results[14] = Test.expectS(tickPoints[14], tick14, 14);
+		let results[15] = Test.expectS(tickPoints[15], tick15, 15);
+		let results[16] = Test.expectS(tickPoints[16], tick16, 16);
+		let results[17] = Test.expectS(tickPoints[17], tick17, 17);
+		let results[18] = Test.expectS(tickPoints[18], tick18, 18);
+		let results[19] = Test.expectS(tickPoints[19], tick19, 19);
+
+		if (~results[0] | ~results[1] | ~results[2] | ~results[3] | ~results[4] | ~results[5] | ~results[6] | ~results[7] |
+			~results[8] | ~results[9] | ~results[10] | ~results[11] | ~results[12] | ~results[13] | ~results[14] |
+			~results[15] | ~results[16] | ~results[17] | ~results[18] | ~results[19]){
+			do Out.s(" when scale = ");
+			do Out.ln(scale.toString());
+			let passes = false;
+		} else {
+			let passes = true;
+		}
+
+		do Memory.deAlloc(tickPoints);
+		do Memory.deAlloc(results);
+		do Memory.deAlloc(tickPoints);
+		do Memory.deAlloc(results);
+		do Memory.deAlloc(tick0);
+		do Memory.deAlloc(tick1);
+		do Memory.deAlloc(tick2);
+		do Memory.deAlloc(tick3);
+		do Memory.deAlloc(tick4);
+		do Memory.deAlloc(tick5);
+		do Memory.deAlloc(tick6);
+		do Memory.deAlloc(tick7);
+		do Memory.deAlloc(tick8);
+		do Memory.deAlloc(tick9);
+		do Memory.deAlloc(tick10);
+		do Memory.deAlloc(tick11);
+		do Memory.deAlloc(tick12);
+		do Memory.deAlloc(tick13);
+		do Memory.deAlloc(tick14);
+		do Memory.deAlloc(tick15);
+		do Memory.deAlloc(tick16);
+		do Memory.deAlloc(tick17);
+		do Memory.deAlloc(tick18);
+		do Memory.deAlloc(tick19);
+
+		return passes;
+	}
+}

@@ -1,0 +1,126 @@
+class UI {
+	/** Begins the calculator by requesting equation values from the user */
+	function void start(){
+		var Equation equation;
+		var String format, type;
+
+		do UI.showHeader();
+
+		let type = UI.getType();
+
+		if(S.equals(type, "")) {
+			return;
+		}
+
+		let equation = Equation.new(type);
+
+		do Out.cls();
+		do UI.getValues(equation);
+		do Out.cls();
+		do Graph.drawGraph(equation);
+
+		return;
+	}
+
+	function void showHeader() {
+		do Out.ln("                    -----------------------");
+		do Out.ln("                    | Graphing Calculator |");
+		do Out.ln("                    -----------------------");
+		do Out.ln("");
+
+		return;
+	}
+
+	function String getType() {
+		var String type;
+
+		do Out.ln("      What linear equation format would you like to graph:");
+		do Out.ln("");
+
+		let type = Keyboard.readLine("       [P]oint-Slope, Slope-[I]ntercept, or [S]tandard? ");
+
+		while(~(S.equals(type, "S") | S.equals(type, "I") | S.equals(type, "P"))){
+			if (S.equals(type, Const.sQ())){
+				return "";
+			}
+
+			if (S.equals(type, "T")){
+				do Out.cls();
+				do Test.runTests();
+
+				return "";
+			}
+
+			let type = Keyboard.readLine("                 Please type P, I, or S.");
+		}
+
+		return type;
+	}
+
+	/** Stores the appropriate values from the user based on the chosen equation format */
+	function void getValues(Equation e){
+		var Fraction eX, eY;
+
+		do Out.ln("          Fill in a number for each of the following");
+		do Out.ln("         (Fractions and negative numbers are allowed)");
+		do Out.ln("");
+
+		if (S.equals(e.format(), Const.sP())){
+			do UI.inputVar(Const.sY(), e);
+			do UI.inputVar(Const.sM(), e);
+			do UI.inputVar(Const.sX(), e);
+
+			return;
+		}
+
+		if (S.equals(e.format(), Const.sI())){
+			do UI.inputVar(Const.sM(), e);
+			do UI.inputVar(Const.sB(), e);
+
+			return;
+		}
+
+		if (S.equals(e.format(), Const.sS())){
+			do UI.inputVar(Const.sX(), e);
+			do UI.inputVar(Const.sY(), e);
+
+			let eX = e.x();
+			let eY = e.y();
+			while (eX.equals(Const.f0()) & eY.equals(Const.f0())){
+				do Out.ln("x and y cannot both be 0. Please choose another number.");
+				do UI.inputVar(Const.sY(), e);
+			}
+
+			do UI.inputVar(Const.sB(), e);
+		}
+
+		return;
+	}
+
+	/** Retrieves a single value from the user */
+	function void inputVar(String v, Equation e){
+		var String xString, yString, bString, mString;
+
+		if (S.equals(v, Const.sX())){
+			let xString = Keyboard.readLine("          Enter an x:");
+			do e.setX(Fraction.toFraction(xString));
+		}
+
+		if (S.equals(v, Const.sY())){
+			let yString = Keyboard.readLine("          Enter a y:");
+			do e.setY(Fraction.toFraction(yString));
+		}
+
+		if (S.equals(v, Const.sB())){
+			let bString = Keyboard.readLine("          Enter an intercept:");
+			do e.setB(Fraction.toFraction(bString));
+		}
+
+		if (S.equals(v, Const.sM())){
+			let mString = Keyboard.readLine("          Enter a slope:");
+			do e.setSlope(Fraction.toFraction(mString));
+		}
+
+		return;
+	}
+}

@@ -1,0 +1,385 @@
+class Equation {
+	field boolean xIsScreenCutoff, isPerpendicular, isVertical, isHorizontal, isXAxis, isYAxis;
+	field String format;
+	field Fraction xF, yF, bF, mF, scale;
+	static Fraction xCalc, yCalc, bCalc, newSlope, newB, mx, tempCalc1, tempCalc2, tempCalc3, tempCalc4, tempCalc5;
+
+	/** Constructs a new equation for graphing */
+	constructor Equation new(String form) {
+		let isVertical = false;
+		let isHorizontal = false;
+		let isXAxis = false;
+		let isYAxis = false;
+		let xF = Fraction.new(Const.i1(), Const.i1());
+		let yF = Fraction.new(Const.i1(), Const.i1());
+		let mF = Fraction.new(Const.i1(), Const.i1());
+		let bF = Fraction.new(Const.i1(), Const.i1());
+		let scale = Fraction.new(Const.i1(), Const.i1());
+		let format = form;
+
+		return this;
+	}
+
+	/** Initializes static variables */
+	function void init() {
+		let xCalc = Fraction.new(Const.i1(), Const.i1());
+		let yCalc = Fraction.new(Const.i1(), Const.i1());
+		let bCalc = Fraction.new(Const.i1(), Const.i1());
+		let newSlope = Fraction.new(Const.i1(), Const.i1());
+		let newB = Fraction.new(Const.i1(), Const.i1());
+		let mx = Fraction.new(Const.i1(), Const.i1());
+		let tempCalc1 = Fraction.new(Const.i1(), Const.i1());
+		let tempCalc2 = Fraction.new(Const.i1(), Const.i1());
+		let tempCalc3 = Fraction.new(Const.i1(), Const.i1());
+		let tempCalc4 = Fraction.new(Const.i1(), Const.i1());
+		let tempCalc5 = Fraction.new(Const.i1(), Const.i1());
+
+		return;
+	}
+
+	/** Disposes static variables */
+	function void deInit() {
+		do xCalc.dispose();
+		do yCalc.dispose();
+		do bCalc.dispose();
+		do newSlope.dispose();
+		do newB.dispose();
+		do mx.dispose();
+		do tempCalc1.dispose();
+		do tempCalc2.dispose();
+		do tempCalc3.dispose();
+		do tempCalc4.dispose();
+		do tempCalc5.dispose();
+
+		return;
+	}
+
+	/** Accessors */
+	method Fraction x(){ return xF; }
+	method Fraction y(){ return yF; }
+	method Fraction b(){ return bF; }
+	method Fraction slope(){ return mF; }
+	method Fraction scale(){ return scale; }
+	method boolean xIsScreenCutoff(){ return xIsScreenCutoff; }
+	method boolean isPerpendicular(){
+		if(isVertical | isHorizontal){
+			return true;
+		}
+
+		return false;
+	}
+	method boolean isVertical(){ return isVertical; }
+	method boolean isHorizontal(){ return isHorizontal; }
+	method boolean isXAxis(){ return isXAxis; }
+	method boolean isYAxis(){ return isYAxis; }
+	method String format(){ return format; }
+	method void setFormat(String formSet){
+		let format = formSet;
+
+		return;
+	}
+	method void setX(Fraction xSet){
+		do xF.set(Int.new(xSet.pos(), xSet.numerator()), Int.new(true, xSet.denominator()));
+
+		return;
+	}
+	method void setY(Fraction ySet){
+		do yF.set(Int.new(ySet.pos(), ySet.numerator()), Int.new(true, ySet.denominator()));
+
+		return;
+	}
+	method void setB(Fraction bSet){
+		do bF.set(Int.new(bSet.pos(), bSet.numerator()), Int.new(true, bSet.denominator()));
+
+		return;
+	}
+	method void setSlope(Fraction mSet){
+		do mF.set(Int.new(mSet.pos(), mSet.numerator()), Int.new(true, mSet.denominator()));
+
+		return;
+	}
+	method void setScale(Fraction sSet){
+		let scale = sSet;
+
+		do scale.set(Int.new(sSet.pos(), sSet.numerator()), Int.new(true, sSet.denominator()));
+
+		return;
+	}
+	method void setXIsScreenCutoff(boolean isX){
+		let xIsScreenCutoff = isX;
+
+		return;
+	}
+	method void setIsVertical(boolean setVert){
+		let isVertical = setVert;
+
+		return;
+	}
+	method void setIsHorizontal(boolean setHor){
+		let isHorizontal = setHor;
+
+		return;
+	}
+	method void setIsXAxis(boolean setXAxis){
+		let isXAxis = setXAxis;
+
+		return;
+	}
+	method void setIsYAxis(boolean setYAxis){
+		let isYAxis = setYAxis;
+
+		return;
+	}
+
+	/** Turns an equation in the standard or point-slope format into one using the slope-intercept format */
+	function Equation convertToSlopeIntercept(Equation e){
+		var String f;
+
+		let f = e.format();
+
+		if (S.equals(f, Const.sI())){
+			return Equation.determineSlopeInterceptDirection(e);
+		}
+
+		if (S.equals(f, Const.sP())){
+			return Equation.convertFromPointSlopeToSlopeIntercept(e);
+		}
+
+		if (S.equals(f, Const.sS())){
+			return Equation.convertFromStandardToSlopeIntercept(e);
+		}
+
+		return e;
+	}
+
+	/** Determines values for vertical and horizontal lines*/
+	function Equation determineSlopeInterceptDirection(Equation e){
+		var Fraction slope, b;
+
+		let slope = e.slope();
+		let b = e.b();
+
+		if (slope.equals(Const.f0())){
+			do e.setIsHorizontal(true);
+
+			if (b.equals(Const.f0())){
+				do e.setIsXAxis(true);
+			} else {
+				do e.setIsXAxis(false);
+			}
+		} else {
+			do e.setIsHorizontal(false);
+			do e.setIsXAxis(false);
+		}
+
+		return e;
+	}
+
+	/** Turns a point-slope equation into a slope-intercept equation */
+	function Equation convertFromPointSlopeToSlopeIntercept(Equation oldE){
+		var Equation newE;
+		var Fraction O;
+
+		let xCalc = oldE.x();
+		let yCalc = oldE.y();
+		let newE = Equation.new(Const.sI());
+		let newSlope = oldE.slope();
+		let O = Const.f0();
+
+		// slope remains the same
+		do newE.setSlope(newSlope);
+
+		// none of x, y, or m are 0; y = mx + y1 - mx1
+		if (~(newSlope.equals(O) | xCalc.equals(O) | yCalc.equals(O))){
+			do newSlope.times(xCalc, mx);
+			do yCalc.minus(mx, tempCalc1);
+			do newE.setB(tempCalc1);
+			do newE.setIsHorizontal(false);
+			do newE.setIsVertical(false);
+			do newE.setIsXAxis(false);
+			do newE.setIsYAxis(false);
+
+			return newE;
+		}
+
+		// x and/or m is 0; y = mx + y1
+		if (xCalc.equals(O) | newSlope.equals(O)){
+			do newE.setB(yCalc);
+
+			if (newSlope.equals(O)){ // m is 0; y = y1
+				do newE.setIsHorizontal(true);
+
+				if (yCalc.equals(O)){ // m and y are 0; y = 0
+					do newE.setIsXAxis(true);
+				} else {
+					do newE.setIsXAxis(false);
+				}
+			} else {
+				do newE.setIsHorizontal(false);
+				do newE.setIsXAxis(false);
+			}
+
+			return newE;
+		}
+
+		// just y is 0; y = mx - mx1
+		do newSlope.times(xCalc, mx);
+		do mx.setPos(~(mx.pos()));
+		do newE.setB(mx);
+
+		return newE;
+	}
+
+	/** Turns a standard equation into a slope-intercept equation */
+	function Equation convertFromStandardToSlopeIntercept(Equation oldE){
+		var Equation newE;
+		var Fraction O, newB;
+
+		let xCalc = oldE.x();
+		let yCalc = oldE.y();
+		let bCalc = oldE.b();
+		let newB = Fraction.new(Const.i1(), Const.i1());
+		let newE = Equation.new(Const.sI());
+		let O = Const.f0();
+
+		if (xCalc.equals(O) & yCalc.equals(O)){ // throw an error if both x and y are 0
+			do Out.ln("x and y cannot both be 0");
+			do Sys.error(3);
+		}
+
+		if (bCalc.equals(O)) { // if b is 0, it remains 0
+			do newE.setB(O);
+		}
+
+		if ((xCalc.equals(O) | yCalc.equals(O)) & ~(xCalc.equals(yCalc))){ // x=0 XOR y=0; m becomes 0
+			do newE.setSlope(O);
+		}
+
+		if (yCalc.equals(O)) { // y is 0
+			do newE.setIsVertical(true);
+
+			if (bCalc.equals(O)) { // both y and b are 0
+				do newE.setIsYAxis(true);
+			} else { // just y is 0
+				do newE.setIsYAxis(false);
+				do bCalc.dividedBy(xCalc, newB);
+				do newE.setB(newB);
+			}
+		} else { // y is not 0
+			do newE.setIsVertical(false);
+			do newE.setIsYAxis(false);
+
+			if (~(bCalc.equals(O))){ // both y and b are not 0; b becomes b/y1
+				do bCalc.dividedBy(yCalc, newB);
+				do newE.setB(newB);
+			}
+
+			if (~(xCalc.equals(O))){ // both y and x are not 0;
+				do xCalc.dividedBy(yCalc, tempCalc1);
+				do tempCalc1.setPos(~(tempCalc1.pos()));
+				do newE.setSlope(tempCalc1);
+			} else { // y is not 0 but x is 0;
+				do newE.setIsHorizontal(true);
+
+				if (bCalc.equals(O)) { // y is not 0 but both x and b are 0;
+					do newE.setIsXAxis(true);
+				} else {
+					do newE.setIsXAxis(false);
+				}
+			}
+		}
+
+		return newE;
+	}
+
+	/** Uses the value of x to solve for y */ // includes horizontal
+	method Fraction solveForY(Fraction xPoint){
+		if (isHorizontal){
+			return bF;
+		}
+
+		if (S.equals(format, Const.sI())){
+			do mF.times(xPoint, tempCalc1);
+			do tempCalc1.plus(bF, tempCalc2);
+
+			return tempCalc2;
+		}
+
+		if (S.equals(format, Const.sP())){
+			do xF.minus(xPoint, tempCalc1);
+			do mF.times(tempCalc1, tempCalc2);
+			do yF.minus(tempCalc2, tempCalc3);
+
+			return tempCalc3;
+		}
+
+		if (S.equals(format, Const.sS())){
+			do xF.times(xPoint, tempCalc1);
+			do bF.minus(tempCalc1, tempCalc2);
+			do tempCalc2.dividedBy(yF, tempCalc3);
+
+			return tempCalc3;
+		}
+
+		do Sys.halt();
+
+		return Const.f1();
+	}
+
+	/** Uses the value of y to solve for x */
+	method Fraction solveForX(Fraction yPoint){ // includes vertical
+		if (isVertical){
+			return bF;
+		}
+
+		if (S.equals(format, Const.sI())){
+			do yPoint.minus(bF, tempCalc1);
+			do tempCalc1.dividedBy(mF, tempCalc2);
+
+			return tempCalc2;
+		}
+
+		if (S.equals(format, Const.sP())){
+			do yF.minus(yPoint, tempCalc1);
+			do tempCalc1.dividedBy(mF, tempCalc2);
+			do xF.minus(tempCalc2, tempCalc3);
+
+			return tempCalc3;
+		}
+
+		if (S.equals(format, Const.sS())){
+			do yF.times(yPoint, tempCalc1);
+			do bF.minus(tempCalc1, tempCalc2);
+			do tempCalc2.dividedBy(xF, tempCalc3);
+
+			return tempCalc3;
+		}
+
+		return Fraction.new(Const.i1(), Const.i1());
+	}
+
+	/** Determines the y-intercept */
+	method Fraction getYIntercept(){
+		do tempCalc1.set(Const.i0(), Const.i1());
+
+		let tempCalc2 = solveForY(tempCalc1);
+
+		return tempCalc2;
+	}
+
+	/** Determines the x-intercept */
+	method Fraction getXIntercept(){
+		do tempCalc1.set(Const.i0(), Const.i1());
+
+		let tempCalc2 = solveForX(tempCalc1);
+
+		return tempCalc2;
+	}
+
+	/** Destroys the Equation */
+	method void dispose() {
+		do Memory.deAlloc(this);
+
+		return;
+	}
+}
