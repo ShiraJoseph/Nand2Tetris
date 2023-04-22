@@ -2,57 +2,7 @@ const fs = require('fs');
 let currIndent;
 
 /**
- * Helper class
- */
-class Util {
-  i;
-  typedTokens;
-  xmlElements;
-
-  get curr () {
-    return this.typedTokens[this.i].value;
-  }
-
-  get next () {
-    return this.typedTokens[this.i + 1].value;
-  }
-
-  /** Whether the current line of code is the given value */
-  is = (val) => this.curr === val;
-
-  /** Whether the type of the current line of code is the given type */
-  isType = (type) => this.typedTokens[this.i].type === type
-
-  /** Add token for start tag */
-  open = (type) => this.xmlElements.push(new Token(START_TAG, type))
-
-  /** Add token for end tag */
-  close = (type) => this.xmlElements.push(new Token(END_TAG, type))
-
-  /** Add token for line of code */
-  add = () => this.xmlElements.push(this.typedTokens[this.i])
-
-  /** Add token and advance */
-  addPlus = () => {
-    this.add();
-    this.i++;
-  }
-
-  /** Add two tokens and advance */
-  addTwice = () => {
-    this.addPlus();
-    this.addPlus();
-  }
-
-  /** Add three tokens and advance */
-  addThrice = () => {
-    this.addTwice()
-    this.addPlus();
-  }
-}
-
-/**
- * Element class with value and type
+ * Code element class with value and type
  */
 class Token {
   value;
@@ -106,10 +56,10 @@ class Token {
       this.indents = String(currIndent);
     }
 
-    return ' '.repeat(this.indents);
+    return '  '.repeat(this.indents);
   }
 
-  wrap = (text, label) => `${this.startWrap(label)} ${text} ${this.endWrap(label)}`
+  wrap = (text, label) => `${this.startWrap(label)} ${text} ${this.endWrap(label)}`;
 
   startWrap = label => `<${label}>`;
 
@@ -119,12 +69,12 @@ class Token {
    * Returns whether the current token is a keyword, symbol, integerConst, stringConst, or identifier
    * @returns {string}
    */
-  getType () {
-    if (keywords.find(keyword => this.value === keyword)) {
+  getType() {
+    if (keywords?.find(keyword => this.value === keyword)) {
       return KEYWORD;
     }
 
-    if (symbols.find(symbol => this.value === symbol)) {
+    if (symbols?.find(symbol => this.value === symbol)) {
       return SYMBOL;
     }
 
@@ -164,9 +114,57 @@ class Token {
 /**
  * Main Analyzer class
  */
-class JackAnalyzer extends Util {
+class JackAnalyzer {
+  i;
+  typedTokens;
+  xmlElements;
+
+  // region Helpers
+
+  get curr () {
+    return this.typedTokens?.[this.i]?.value;
+  }
+
+  get next () {
+    return this.typedTokens?.[this.i + 1]?.value;
+  }
+
+  /** Whether the current line of code is the given value */
+  is = (val) => this.curr === val;
+
+  /** Whether the type of the current line of code is the given type */
+  isType = (type) => this.typedTokens?.[this.i]?.type === type
+
+  /** Add token for start tag */
+  open = (type) => this.xmlElements?.push(new Token(START_TAG, type))
+
+  /** Add token for end tag */
+  close = (type) => this.xmlElements?.push(new Token(END_TAG, type))
+
+  /** Add token for line of code */
+  add = () => this.xmlElements?.push(this.typedTokens?.[this.i])
+
+  /** Add token and advance */
+  addPlus = () => {
+    this.add();
+    this.i++;
+  }
+
+  /** Add two tokens and advance */
+  addTwice = () => {
+    this.addPlus();
+    this.addPlus();
+  }
+
+  /** Add three tokens and advance */
+  addThrice = () => {
+    this.addTwice()
+    this.addPlus();
+  }
+
+  // endregion
+
   constructor () {
-    super();
     this.init();
   }
 
@@ -181,7 +179,7 @@ class JackAnalyzer extends Util {
       stats.isDirectory() && fs.readdir(inputPath, (err, files) => {
         files.forEach((filename) => {
           filename.endsWith('.jack') && (() => {
-            const inputFilePath = inputPath + filename;
+            const inputFilePath = inputPath +'/'+ filename;
             this.createXML(inputFilePath);
           })();
         });
@@ -198,7 +196,7 @@ class JackAnalyzer extends Util {
    * @param inputFilePath
    */
   createXML (inputFilePath) {
-    const outputFilePath = inputFilePath.replace(/\.jack$/, '.xml');
+    const outputFilePath = inputFilePath.replace('jack', 'xml');
     fs.readFile(inputFilePath, 'utf8', (err, data) => {
       fs.writeFile(outputFilePath, this.compile(data), (err) => {
       });
@@ -214,10 +212,10 @@ class JackAnalyzer extends Util {
     this.i = 0;
     this.xmlElements = [];
     this.typedTokens = this.tokenize(data);
-
+    
     this.compileClass();
 
-    return this.xmlElements?.map(token => token.wrapped).join('\n');
+    return this.xmlElements?.map(token => token?.wrapped)?.join('\n');
   }
 
   /**
@@ -240,11 +238,11 @@ class JackAnalyzer extends Util {
     this.open(CLASS);
 
     this.addThrice(); // 'class' identifier '{'
-    while ([STATIC, FIELD].includes(this.curr)) {
+    while ([STATIC, FIELD]?.includes(this.curr)) {
       this.compileClassVarDec();
       this.i++;
     }
-    while ([CONSTRUCTOR, FUNCTION, METHOD].includes(this.curr)) {
+    while ([CONSTRUCTOR, FUNCTION, METHOD]?.includes(this.curr)) {
       this.compileSubroutineDec();
     }
     this.add() // '}'
@@ -446,7 +444,7 @@ class JackAnalyzer extends Util {
 
     this.compileTerm();
     this.i++;
-    while (ops.includes(this.curr)) {
+    while (ops?.includes(this.curr)) {
       this.addPlus(); // op
       this.compileTerm();
       this.i++;
@@ -461,7 +459,7 @@ class JackAnalyzer extends Util {
   compileTerm = () => {
     this.open(TERM);
 
-    if (this.isType(INT_CONST) || this.isType(STRING_CONST) || [TRUE, FALSE, NULL, THIS].includes(this.curr)) {
+    if (this.isType(INT_CONST) || this.isType(STRING_CONST) || [TRUE, FALSE, NULL, THIS]?.includes(this.curr)) {
       this.add(); // integerConstant | stringConstant | 'true' | 'false' | 'null' | 'this'
     } else if (this.isType(IDENTIFIER)) {
       if (this.next === OPEN_BRACKET) {
@@ -472,7 +470,7 @@ class JackAnalyzer extends Util {
         this.compileExpressionList();
       } else if (this.next === PERIOD) {
         this.addThrice(); // identifier '.' identifier
-        this.addPlus(); // (
+        this.addPlus(); // '('
         this.compileExpressionList();
       }
       this.add(); // identifier | ')' | ']'
@@ -490,6 +488,7 @@ class JackAnalyzer extends Util {
 }
 
 // region Consts
+
 const CLASS = 'class';
 const CONSTRUCTOR = 'constructor';
 const FUNCTION = 'function';
