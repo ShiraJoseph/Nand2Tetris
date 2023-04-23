@@ -1,0 +1,419 @@
+class Graph {
+	static Equation equation, scaledEquation;
+	static Point currPoint;
+	static Fraction currX, currY;
+	static Int iX, iY, iIndex, deltaI;
+	static Coord coord;
+
+	/** Constructs a new graph */
+	constructor Graph new() {
+		return this;
+	}
+
+	/** Initializes static variables */
+	function void init() {
+		let currX = Fraction.new(Const.i1(), Const.i1());
+		let currY = Fraction.new(Const.i1(), Const.i1());
+		let iX = Int.new(true, 1);
+		let iY = Int.new(true, 1);
+		let iIndex = Int.new(true, 1);
+		let deltaI = Int.new(true, 1);
+		let currPoint = Point.new(iX, iY);
+		let coord = currPoint.toCoord();
+
+		return;
+	}
+
+	/** Disposes static variables */
+	function void deInit() {
+		do equation.dispose();
+		do currPoint.dispose();
+		do currX.dispose();
+		do currY.dispose();
+		do iX.dispose();
+		do iY.dispose();
+		do iIndex.dispose();
+		do deltaI.dispose();
+		do coord.dispose();
+
+		return;
+	}
+
+	/** Graphs the given equation */
+	function void drawGraph(Equation e){
+		var Equation newE;
+		var Fraction scale;
+
+		do Out.ln(EquationWriter.toString(e));
+
+		let newE = Graph.getScaledLine(e);
+		let scale = newE.scale();
+
+		do Graph.drawAxes(scale);
+		do Graph.drawScaledLine(newE);
+		do Sys.wait(2000);
+
+		return;
+	}
+
+	/** Draws x- and y-axes with arrows */
+	function void drawAxes(Fraction scale) {
+		// x-axis
+		do Screen.drawLine(255, 0, 255, 255);
+
+		// y-axis
+		do Screen.drawLine(0, 127, 511, 127);
+
+		// left arrow
+		do Screen.drawLine(4, 124, 0, 127);
+		do Screen.drawLine(4, 130, 0, 127);
+
+		// right arrow
+		do Screen.drawLine(507, 124, 511, 127);
+		do Screen.drawLine(507, 130, 511, 127);
+
+		// top arrow
+		do Screen.drawLine(252, 4, 255, 0);
+		do Screen.drawLine(258, 4, 255, 0);
+
+		// bottom arrow
+		do Screen.drawLine(252, 251, 255, 255);
+		do Screen.drawLine(258, 251, 255, 255);
+
+		do Graph.drawTicks();
+		do Graph.drawTickLabels(scale);
+
+		return;
+	}
+
+	/** Puts tick marks on the axes */
+	function void drawTicks() {
+		do Screen.drawLine(31, 126, 31, 128);
+		do Screen.drawLine(63, 124, 63, 130);
+		do Screen.drawLine(95, 126, 95, 128);
+		do Screen.drawLine(127, 124, 127, 130);
+		do Screen.drawLine(159, 126, 159, 128);
+		do Screen.drawLine(191, 124, 191, 130);
+		do Screen.drawLine(223, 126, 223, 128);
+
+		do Screen.drawLine(287, 126, 287, 128);
+		do Screen.drawLine(319, 124, 319, 130);
+		do Screen.drawLine(351, 126, 351, 128);
+		do Screen.drawLine(383, 124, 383, 130);
+		do Screen.drawLine(415, 126, 415, 128);
+		do Screen.drawLine(447, 124, 447, 130);
+		do Screen.drawLine(479, 126, 479, 128);
+
+		do Screen.drawLine(254, 223, 256, 223);
+		do Screen.drawLine(252, 191, 258, 191);
+		do Screen.drawLine(254, 159, 256, 159);
+		do Screen.drawLine(254, 95, 256, 95);
+		do Screen.drawLine(252, 63, 258, 63);
+		do Screen.drawLine(254, 31, 256, 31);
+
+		return;
+	}
+
+	/** Returns an equation comparable to the given equation but scaled to fit within (-255, -127) and (255, 127) */
+	function Equation getScaledLine(Equation e) {
+		var Fraction CUTOFF, ONESEVENTY, yIncpt, xIncpt, scale, b, m, cutoffTotal, newB, calc127,
+			oldB, XYLimit, negXYLimit, calc256;
+		var boolean xIsGreater, between1;
+		var int n, d;
+
+		let CUTOFF = Fraction.new(Int.new(true, 3), Const.i2());
+		let ONESEVENTY = Fraction.new(Int.new(true, 170), Const.i1());
+		let newB = Fraction.new(Const.i1(), Const.i1());
+		let cutoffTotal = Fraction.new(Const.i1(), Const.i1());
+		let XYLimit = Fraction.new(Int.new(true, 1), Int.new(true, 1));
+		let negXYLimit = Fraction.new(Int.new(false, 1), Int.new(true, 1));
+		let scale = Fraction.new(Const.i1(), Const.i1());
+		let calc127 = Fraction.new(Const.i127(), Const.i1());
+		let calc256 = Fraction.new(Const.i256(), Const.i1());
+
+		let yIncpt = e.getYIntercept();
+		let xIncpt = e.getXIntercept();
+		let scaledEquation = Equation.convertToSlopeIntercept(e);
+		let m = scaledEquation.slope();
+		let oldB = scaledEquation.b();
+
+		// if the equation is y = 0 or x = 0, keep the scale at 1:1
+		if(scaledEquation.isXAxis() | scaledEquation.isYAxis()){
+			do scaledEquation.setScale(Const.f1());
+
+			return scaledEquation;
+		}
+
+		// if m is in between -1 and 1, draw the equation from left to right
+		if (((m.pos() & m.isLessThan(XYLimit)) | (~(m.pos()) & m.isGreaterThan(negXYLimit))) & ~(scaledEquation.isVertical())){
+			let xIsGreater = true;
+
+			if (m.equals(Const.f0())){
+				do oldB.times(CUTOFF, cutoffTotal);
+				do calc127.dividedBy(cutoffTotal, scale);
+			} else {
+				if (xIncpt.equals(Const.f0())){
+					do cutoffTotal.set(Int.new(true, m.denominator() * CUTOFF.numerator()), Int.new(true, CUTOFF.denominator()));
+				} else {
+					do xIncpt.times(CUTOFF, cutoffTotal);
+				}
+
+				do calc256.dividedBy(cutoffTotal, scale);
+			}
+		} else { // if m <= -1 or m >= 1, draw from the bottom to the top
+			let xIsGreater = false;
+
+			if (scaledEquation.isVertical()){
+				do xIncpt.times(CUTOFF, cutoffTotal);
+				do calc256.dividedBy(cutoffTotal, scale);
+			} else {
+				if (oldB.equals(Const.f0())){
+					do cutoffTotal.set(Int.new(true, m.numerator() * CUTOFF.numerator()), Int.new(true, CUTOFF.denominator()));
+				} else {
+					do CUTOFF.times(oldB, cutoffTotal);
+				}
+
+				do calc127.dividedBy(cutoffTotal, scale);
+			}
+		}
+
+		do scale.setPos(true);
+		do scaledEquation.setScale(scale);
+		do oldB.times(scale, newB);
+		do scaledEquation.setB(newB);
+		do scaledEquation.setXIsScreenCutoff(xIsGreater);
+
+		return scaledEquation;
+	}
+
+	/** Draws a line using an equation scaled to fit within (-255, -127) to (255, 127) */
+	function void drawScaledLine(Equation e) {
+		let equation = e;
+
+		if (equation.isXAxis()){
+			do Graph.drawXAxisLine();
+
+			return;
+		}
+
+		if (equation.isYAxis()){
+			do Graph.drawYAxisLine();
+
+			return;
+		}
+
+		if (equation.xIsScreenCutoff()) {
+			do Graph.drawLineHorizontally(0, 511);
+		} else {
+			do Graph.drawLineVertically(0, 255);
+		}
+
+		return;
+	}
+
+	/** draws y = 0 by drawing it a pixel above x-axis to make it look bolded */
+	function void drawXAxisLine() {
+		var int i;
+
+		let i = 0;
+
+		while(i < 512){
+			do iIndex.set(true, i);
+
+			let deltaI = iIndex.minus(Const.i255());
+
+			do currX.set(deltaI, Const.i1());
+			do currY.set(Const.i1(), Const.i1());
+			do Graph.drawValidScaledPoint();
+
+			let i = i + 1;
+
+			do Sys.wait(1);
+		}
+
+		return;
+	}
+
+	/** draws x = 0 by drawing it a pixel to the right of the y-axis to make it look bolded */
+	function void drawYAxisLine() {
+		var int i;
+
+		let i = 0;
+
+		while(i < 256){
+			do iIndex.set(true, i);
+
+			let deltaI = iIndex.minus(Const.i127());
+
+			do currY.set(deltaI, Const.i1());
+			do currX.set(Const.i1(), Const.i1());
+			do Graph.drawValidScaledPoint();
+
+			let i = i + 1;
+
+			do Sys.wait(1);
+		}
+
+		return;
+	}
+
+	/** draws a line from the bottom of the screen to the top (includes perfectly vertical lines x = b) */
+	function void drawLineVertically(int i, int j) {
+		while(i < j){
+			do iIndex.set(true, i);
+
+			let deltaI = iIndex.minus(Const.i127());
+
+			do currY.set(deltaI, Const.i1());
+
+			let currX = equation.solveForX(currY);
+
+			do Graph.drawValidScaledPoint();
+
+			let i = i + 1;
+		}
+
+		return;
+	}
+
+	/** draws a line from the left of the screen to the right (includes perfectly horizontal lines y = b) */
+	function void drawLineHorizontally(int i, int j) {
+		while(i < j){
+			do iIndex.set(true, i);
+
+			let deltaI = iIndex.minus(Const.i255());
+
+			do currX.set(deltaI, Const.i1());
+
+			let currY = equation.solveForY(currX);
+
+			do Graph.drawValidScaledPoint();
+
+			let i = i + 1;
+		}
+
+		return;
+	}
+
+	/** Checks for validity before drawing a single point of the scaled equation */
+	function void drawValidScaledPoint() {
+		do iX.set(currX.pos(), currX.toInt());
+		do iY.set(currY.pos(), currY.toInt());
+		do currPoint.setX(iX);
+		do currPoint.setY(iY);
+
+		if (currPoint.isValidPoint()){
+			do Graph.drawPoint();
+		}
+
+		return;
+	}
+
+	/** Converts a point to a coord on the screen */
+	function void drawPoint() {
+		let coord = currPoint.toCoord();
+
+		do Graph.drawPixel();
+
+		return;
+	}
+
+	/** Turns a pixel at the given coords black */
+	function void drawPixel() {
+		if (coord.isValidCoord()) {
+			do Screen.drawPixel(coord.x(), coord.y());
+		}
+
+		return;
+	}
+
+	/** Adds value labels to each tick mark */
+	function void drawTickLabels(Fraction scale) {
+		var Fraction val, comp;
+		var Int valInt;
+		var Array fLabels, ticks;
+		var int i, x, y, length;
+		var String label;
+
+		let ticks = Const.ticks();
+		let val = Fraction.new(Const.i1(), Const.i1());
+		let fLabels = Graph.getTickLabelValues(scale);
+		let i = 0;
+
+		while(i < 20){
+			let val = fLabels[i];
+			let label = val.toDecimal(1);
+			let length = label.length();
+
+			// width of each numeral is 6px and the width of a decimal is 2px
+			if (S.includes(label, ".") = true){
+				let length = ((length - 1) * 6) + 2;
+			} else {
+				let length = length * 6;
+			}
+
+			// determines where to start the label based on its length
+			if (i < 14) { // x-axis ticks
+				let x = ticks[i] - (length/2);
+				let y = 132;
+			} else { // y-axis ticks
+				let x = 253 - length;
+				let y = ticks[i] - 3;
+			}
+
+			do Out.drawWord(label, x, y);
+
+			let i = i + 1;
+		}
+
+		return;
+	}
+
+	/** Determines the position and value of each tick label */
+	function Array getTickLabelValues(Fraction scale) {
+		var Fraction label, tick;
+		var Array tickPoints, ticks;
+		var int i, mult;
+		var boolean isPos;
+
+		let tickPoints = Array.new(20);
+		let i = 0;
+
+		while (i < 20){
+			if ((i < 7) | ((i > 13) & (i < 17))){
+				let isPos = false;
+
+				if (i < 7) {
+					let mult = 7 - i;
+				} else {
+					let mult = 17 - i;
+				}
+			} else {
+				let isPos = true;
+
+				if (i < 14) {
+					let mult = i - 6;
+				} else {
+					let mult = i - 16;
+				}
+			}
+
+			let label = Fraction.new(Int.new(isPos, mult * 32), Const.i1());
+			let tick = Fraction.new(Const.i1(), Const.i1());
+
+			do label.dividedBy(scale, tick);
+
+			let tickPoints[i] = tick;
+			let i = i + 1;
+		}
+
+		return tickPoints;
+	}
+
+	/** Destroys the Graph */
+	method void dispose() {
+		do Memory.deAlloc(this);
+
+		return;
+	}
+}
