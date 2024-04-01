@@ -72,7 +72,6 @@ export class JackCompiler {
     className;
     labelCount = 0;
 
-
     // region Helpers
 
     constructor() {
@@ -92,35 +91,6 @@ export class JackCompiler {
 
     /** Whether the type of the current line of code is the given type */
     isType = (type) => this.typedTokens?.[this.i]?.type === type
-
-    /** Add token for start tag */
-    open = (type) => this.xmlElements?.push(new Token(START_TAG, type))
-
-    /** Add token for end tag */
-    close = (type) => this.xmlElements?.push(new Token(END_TAG, type))
-
-    /** Add token for line of code */
-    add = () => {
-        this.xmlElements?.push(this.typedTokens?.[this.i])
-        return this.typedTokens?.[this.i].value
-    }
-
-    /** Add token and advance */
-    addPlus = () => {
-        const next = this.add();
-        this.i++;
-        return next;
-    }
-
-    /** Add two tokens and advance */
-    addTwice = () => {
-        return ([this.addPlus(), this.addPlus()])
-    }
-
-    /** Add three tokens and advance */
-    addThrice = () => {
-        return [...this.addTwice(), this.addPlus()];
-    }
 
     // endregion
 
@@ -160,17 +130,17 @@ export class JackCompiler {
             fs.writeFile(outputFilePath, result, (err) => {
 
 
-            const testFilePath = inputFilePath.replace('.jack', '.correct.vm');
-            fs.readFile(testFilePath, 'utf8', (err, data1) => {
-                console.log('TEST', testFilePath, 'against', outputFilePath)
-                const testRows = data1.split('\n').filter(row => !row.includes('goto') && !row.includes('label'));
-                const actualRows = result.split('\n').filter((row, i) => !(row.includes('not') && result.split('\n')[i+1].includes('if-goto')) && !row.includes('goto') && !row.includes('label'));
-                for (let testIndex = 0, resultIndex = 0; (resultIndex < actualRows.length) && (testIndex < testRows.length);) {
-                    console.assert(testRows[testIndex] === actualRows[resultIndex], 'Expected:', testRows[testIndex]+'. Actual:', actualRows[resultIndex], '-- LINE', resultIndex);
-                    testIndex++;
-                    resultIndex++;
-                }
-            });
+                const testFilePath = inputFilePath.replace('.jack', '.correct.vm');
+                fs.readFile(testFilePath, 'utf8', (err, data1) => {
+                    console.log('TEST', testFilePath, 'against', outputFilePath)
+                    const testRows = data1.split('\n').filter(row => !row.includes('goto') && !row.includes('label'));
+                    const actualRows = result.split('\n').filter((row, i) => !(row.includes('not') && result.split('\n')[i + 1].includes('if-goto')) && !row.includes('goto') && !row.includes('label'));
+                    for (let testIndex = 0, resultIndex = 0; (resultIndex < actualRows.length) && (testIndex < testRows.length);) {
+                        console.assert(testRows[testIndex] === actualRows[resultIndex], 'Expected:', testRows[testIndex] + '. Actual:', actualRows[resultIndex], '-- LINE', resultIndex);
+                        testIndex++;
+                        resultIndex++;
+                    }
+                });
             });
         });
     }
@@ -188,7 +158,6 @@ export class JackCompiler {
 
         this.compileClass();
 
-        // return this.xmlElements?.map(token => token?.wrapped)?.join('\n');
         return this.vmInstructions?.join('\n');
     }
 
@@ -211,11 +180,12 @@ export class JackCompiler {
     compileClass = () => {
         this.vmInstructions = [];
 
-        this.open(CLASS);
-
         this.symbolTable.resetClassVars();
-        const classCall = this.addThrice(); // 'class' identifier '{'
-        this.className = classCall[1];
+        // 'class'
+        this.i++;
+        this.className = this.curr; // identifier
+        this.i++; // '{'
+        this.i++;
 
         while ([STATIC, FIELD]?.includes(this.curr)) {
             this.compileClassVarDec();
@@ -224,290 +194,290 @@ export class JackCompiler {
         while ([CONSTRUCTOR, FUNCTION, METHOD]?.includes(this.curr)) {
             this.compileSubroutineDec();
         }
-        this.add() // '}'
-
-        this.close(CLASS)
+        // '}'
     }
 
     // ('static' | 'field') type identifier (',' identifier)* ';'
     compileClassVarDec = () => {
-        this.open(CLASS_VAR_DEC);
+        const varFormat = this.curr; // ('static' | 'field')
+        this.i++;
+        const varType = this.curr; // type
+        this.i++;
+        const identifier = this.curr; // identifier
+        this.i++;
+        this.symbolTable.addVar(varFormat, varType, identifier)
 
-        const firstVar = this.addThrice(); // ('static' | 'field') type identifier
-        this.symbolTable.addVar(...firstVar)
-
-        while (this.is(COMMA)) {
-            const nextVar = this.addTwice(); // ',' identifier
-            this.symbolTable.addVar(firstVar[0], firstVar[1], nextVar[1])
-
+        while (this.curr === COMMA) { // ','
+            this.i++; // identifier
+            this.symbolTable.addVar(varFormat, varType, this.curr)
+            this.i++; // ';' or ','
         }
-        this.add(); // ';'
-
-        this.close(CLASS_VAR_DEC);
     }
 
     // ('constructor' | 'function' | 'method') type identifier '(' parameterList ')' subroutineBody
     compileSubroutineDec = () => {
-        this.open(SUBROUTINE_DEC);
-
-        const subroutine = this.addTwice(); // ('constructor' | 'function' | 'method') type
-        const subroutineName = this.addTwice(); // identifier '('
+        const subroutineFormat = this.curr; // ('constructor' | 'function' | 'method')
+        this.i++; // type
+        const subroutineType = this.curr;
+        this.i++; // identifier
+        const identifier = this.curr;
+        this.i++; // '('
+        this.i++;
 
         this.symbolTable.resetRoutineVars();
-        if (subroutine[0] === CONSTRUCTOR) {
+        if (subroutineFormat === CONSTRUCTOR) {
             this.vmInstructions.push('function ' + this.className + '.new 0');
             this.vmInstructions.push('push constant ' + Number(this.symbolTable.fieldCount || 0));
             this.vmInstructions.push('call Memory.alloc 1');
             this.vmInstructions.push('pop pointer 0');
             this.compileParameterList();
-        } else if (subroutine[0] === METHOD) {
-            this.symbolTable.setContext(subroutine[1], subroutineName[0])
+            this.i++; // ')'
+            this.compileSubroutineBody();
+            this.i++;
+        } else if (subroutineFormat === METHOD) {
+            // this.symbolTable.setContext(subroutine[1], subroutineName[0])
 
             this.compileParameterList();
-            this.vmInstructions.push('function ' + this.className + '.' + subroutineName[0] + ' ' + Number(this.symbolTable.argCount || 0));
+
+            this.i++; // ')'
+            this.i++; // '{'
+            while (this.curr === VAR) {
+                this.compileVarDec();
+                this.i++;
+            }
+            this.vmInstructions.push('function ' + this.className + '.' + identifier + ' ' + Number(this.symbolTable.argCount + this.symbolTable.localCount));
             this.vmInstructions.push('push argument 0');
             this.vmInstructions.push('pop pointer 0');
-        } else {
-            this.compileParameterList();
-            this.vmInstructions.push('function ' + this.className + '.' + subroutineName[0] + ' ' + Number(this.symbolTable.argCount || 0));
-        }
-        this.addPlus(); // ')'
-        this.compileSubroutineBody();
-        this.i++;
+            this.compileStatements();
+            // '}'
+            this.i++;
+        } else if (subroutineFormat === FUNCTION) {
+            this.symbolTable.setContext(subroutineType, identifier)
 
-        this.close(SUBROUTINE_DEC);
+            this.compileParameterList();
+            this.vmInstructions.push('function ' + this.className + '.' + identifier + ' ' + Number(this.symbolTable.argCount || 0));
+            this.i++; // ')'
+            this.compileSubroutineBody();
+            this.i++;
+        }
     }
 
     // (type identifier (',' type identifier)*)?
     compileParameterList = () => {
-        this.open(PARAM_LIST);
+        if (this.curr !== CLOSE_PAREN) {
+            const paramType = this.curr; // type
+            this.i++; // identifier
+            this.symbolTable.addVar(ARGUMENT, paramType, this.curr)
+            this.i++;
 
-        if (!this.is(CLOSE_PAREN)) {
-            const firstParam = this.addTwice(); // type identifier
-            this.symbolTable.addVar(ARGUMENT, ...firstParam)
-
-            while (this.is(COMMA)) {
-                const nextParam = this.addThrice(); // ',' type identifier
-                this.symbolTable.addVar(ARGUMENT, nextParam[1], nextParam[2])
+            while (this.curr === COMMA) { // ','
+                this.i++;
+                const nextParamType = this.curr; // type
+                this.i++;
+                const identifier = this.curr; // identifier
+                this.i++;
+                this.symbolTable.addVar(ARGUMENT, nextParamType, identifier)
             }
         }
-
-        this.close(PARAM_LIST);
     }
 
     // '{' varDec* statements '}'
     compileSubroutineBody = () => {
-        this.open(SUBROUTINE_BODY);
-
-        this.addPlus(); // '{'
-        while (this.is(VAR)) {
+        this.i++; // '{'
+        while (this.curr === VAR) {
             this.compileVarDec();
             this.i++;
         }
         this.compileStatements();
-        this.add(); // '}'
-
-        this.close(SUBROUTINE_BODY);
+        // '}'
     }
 
     // 'var' type identifier (',' identifier)* ';'
     compileVarDec = () => {
-        this.open(VAR_DEC);
+        this.i++; // 'var'
+        const varType = this.curr; // type
+        this.i++;
+        const identifier = this.curr; // identifier
+        this.i++;
+        this.symbolTable.addVar(LOCAL, varType, identifier)
 
-        const firstVar = this.addThrice(); // 'var' type identifier
-        this.symbolTable.addVar(LOCAL, firstVar[1], firstVar[2])
-
-        while (this.is(COMMA)) {
-            const nextVar = this.addTwice(); // ',' identifier
-            this.symbolTable.addVar(LOCAL, firstVar[1], nextVar[2])
+        while (this.curr === COMMA) { // ','
+            this.i++; // identifier
+            this.symbolTable.addVar(LOCAL, varType, this.curr)
+            this.i++; // ',' or ';'
         }
-        this.add(); // ';'
-        this.close(VAR_DEC);
     }
 
     // (letStatement | ifStatement | whileStatement | doStatement | returnStatement)*
     compileStatements = () => {
-        this.open(STATEMENTS);
-
         while ([IF, LET, WHILE, DO, RETURN].includes(this.curr)) {
-            if (this.is(LET)) {
+            if (this.curr === LET) {
                 this.compileLetStatement();
-            } else if (this.is(IF)) {
+                if(this.typedTokens[this.i-1].value === SEMICOLON) {
+                    this.i--;
+                }
+            } else if (this.curr === IF) {
                 this.compileIfStatement();
-            } else if (this.is(WHILE)) {
+            } else if (this.curr === WHILE) {
                 this.compileWhileStatement();
-            } else if (this.is(DO)) {
+            } else if (this.curr === DO) {
                 this.compileDoStatement();
             } else {
                 this.compileReturnStatement();
             }
             this.i++;
         }
-
-        this.close(STATEMENTS)
     }
 
     // 'let' identifier ('[' expression ']')? '=' expression ';'
     compileLetStatement = () => {
-        this.open(LET_STATEMENT);
-
-        const assignee = this.addTwice(); // 'let' identifier
-        if (this.is(OPEN_BRACKET)) {
-            this.vmInstructions.push('push ' + assignee[1].address) // we get the address for the start of the array's block in memory
-            this.addPlus(); // '['
+        this.i++; // 'let'
+        const assignee = this.curr; // identifier
+        this.i++;
+        if (this.curr === OPEN_BRACKET) { // an array
+            this.vmInstructions.push('push ' + assignee.address) // we get the address for the start of the array's block in memory
+            this.i++; // '['
             this.compileExpression(); // takes care of pushing the element index
-            this.addPlus() // ']'
+            this.i++; // ']'
             this.vmInstructions.push('add'); // add the index to the address and leave the address on the stack for later.
-            this.addPlus(); // '='
+            this.i++; // '='
             this.compileExpression();
             this.vmInstructions.push('pop temp 0'); // puts the result of the expression compilation in a temporary place
             this.vmInstructions.push('pop pointer 1'); // what's left on the stack points to the exact address of the current array element, so now we use the address to set THAT(pointer 1 === THAT)
             this.vmInstructions.push('push temp 0'); // gets the expression result back
             this.vmInstructions.push('pop that 0'); // Now we can store the expression in that 0, because the THAT segment starts exactly at the address of the element in the array we want to update
+            // ';'
         } else {
-            this.addPlus(); // '='
+            this.i++; // '='
             this.compileExpression();
-            this.vmInstructions.push('pop ' + this.symbolTable.getVar(assignee[1]).address)
+            this.vmInstructions.push('pop ' + this.symbolTable.getVar(assignee).address)
         }
-        this.add(); // ';'
-
-        this.close(LET_STATEMENT);
     }
 
     // 'if' '(' expression ')' '{' statements '}' ('else' '{' statements '}')?
     compileIfStatement = () => {
-        this.open(IF_STATEMENT);
-
-        this.addTwice(); // 'if' '('
+        this.i++; // 'if'
+        this.i++; // '('
         this.compileExpression();
         this.vmInstructions.push('not');
         this.vmInstructions.push('if-goto IF_FALSE_' + this.labelCount);
-        this.addTwice(); // ')' '{'
+        this.i++; // ')'
+        this.i++; // '{'
         this.compileStatements();
         this.vmInstructions.push('goto IF_END_' + this.labelCount)
-        this.add(); // '}'
+        // '}'
         this.vmInstructions.push('label IF_FALSE_' + this.labelCount);
         if (this.next === ELSE) {
+            this.i++; // 'else'
+            this.i++; // '{'
             this.i++;
-            this.addTwice(); // 'else' '{'
             this.compileStatements();
-            this.add(); // '}'
+            // '}'
         }
         this.vmInstructions.push('label IF_END_' + this.labelCount)
         this.labelCount++;
-        this.close(IF_STATEMENT);
     }
 
     // 'while' '(' expression ')' '{' statements '}'
-    compileWhileStatement = () => {
-        this.open(WHILE_STATEMENT);
-
-        this.addTwice(); // 'while' '('
+    compileWhileStatement = () => { // 'while'
+        this.i++; // '('
+        this.i++;
         this.vmInstructions.push('label WHILE_' + this.labelCount)
         this.compileExpression();
-        this.addTwice(); // ')' '{'
+        // ')'
+        this.i++; // '{'
+        this.i++;
         this.vmInstructions.push('not');
         this.vmInstructions.push('if-goto WHILE_END_' + this.labelCount);
         this.compileStatements();
-        this.add(); // '}'
+        // '}'
         this.vmInstructions.push('goto WHILE_' + this.labelCount);
         this.vmInstructions.push('label WHILE_END_' + this.labelCount);
         this.labelCount++;
-
-        this.close(WHILE_STATEMENT);
     }
 
     // 'do' (identifier '.')? identifier '(' expressionList ')'
     compileDoStatement = () => {
-        this.open(DO_STATEMENT);
-
-        this.addPlus(); // 'do'
+        this.i++; // 'do'
 
         this.compileSubroutineCall();
         this.vmInstructions.push('pop temp 0') // since do statements are always void
-        this.add(); // ';'
-        this.close(DO_STATEMENT)
+        // ';'
     }
 
     // 'return' expression? ';'
     compileReturnStatement = () => {
-        this.open(RETURN_STATEMENT);
-
-        this.addPlus(); // 'return'
-        if (!this.is(SEMICOLON)) {
+        this.i++; // 'return'
+        if (this.curr !== SEMICOLON) {
             this.compileExpression();
         } else {
             this.vmInstructions.push('push constant 0');
         }
-        this.add(); // ';'
+        // ';'
         this.vmInstructions.push('return')
-        this.close(RETURN_STATEMENT)
     }
 
     // foo.bar(any number of args), Foo.bar(any number of args), bar(any number of args)
     compileSubroutineCall = () => {
-        let argumentCount, functionCall;
         if (this.next === PERIOD) {
-            functionCall = this.addThrice(); // identifier '.' identifier
-            this.addPlus(); // '('
-            const foundVar = this.symbolTable.getVar(functionCall[0]);
+            const memberName = this.curr; // identifier
+            this.i++; // '.'
+            this.i++;
+            const functionName = this.curr; // identifier
+            this.i++; // '('
+            this.i++;
+            const foundVar = this.symbolTable.getVar(memberName);
             if (foundVar) { // foo.bar()
                 this.vmInstructions.push('push ' + foundVar.address)
-                argumentCount = this.compileExpressionList(); // this should take care of pushing the arguments and returning how many there are
-                this.add(); // ')'
-                this.i++;
-                this.vmInstructions.push('call ' + foundVar.type + functionCall[2] + ' ' + argumentCount);
+                const argumentCount = this.compileExpressionList() + 1; // this should take care of pushing the arguments and returning how many there are
+                this.vmInstructions.push('call ' + foundVar.type + '.' + functionName + ' ' + argumentCount);
+                this.i++; // ')'
             } else { // Foo.bar()
-                argumentCount = this.compileExpressionList(); // this should take care of pushing the arguments and returning how many there are
-                this.add(); // ')'
-                // if(argumentCount > 0) { // TODO: somehow adding ++ here messes up some scenarios, but removing it messes up other scenarios
-                this.i++; // TODO: with this on: Square works. SquareGame fails after line 28. Main has wrong 0 instead of 1 for function main arg count and calls to SquareGame after SquareGame.new, and missing period for SquareGame function calls after SquareGame.new
-                // }
-                this.vmInstructions.push('call ' + functionCall.join('') + ' ' + argumentCount);
+                const argumentCount = this.compileExpressionList(); // this should take care of pushing the arguments and returning how many there are
+                this.vmInstructions.push('call ' + [memberName, '.', functionName].join('') + ' ' + argumentCount);
+                this.i++; // ')'
             }
         } else { // bar()
-            functionCall = this.addTwice(); // identifier '('
+            const identifier = this.curr; // identifier
+            this.i++; // '('
             this.vmInstructions.push('push pointer 0');
-            argumentCount = this.compileExpressionList(); // takes care of pushing arguments
+            this.i++;
+            const argumentCount = this.compileExpressionList(); // takes care of pushing arguments
 
-            this.addPlus(); // ')'
-            this.vmInstructions.push('call ' + this.className + '.' + functionCall[0] + ' ' + Number(argumentCount + 1));
+            this.vmInstructions.push('call ' + this.className + '.' + identifier + ' ' + Number(argumentCount + 1));
+            this.i++; // ')'
         }
     }
 
     // (expression (',' expression)*)?
     compileExpressionList = () => {
-        this.open(EXPRESSION_LIST);
         let count = 0;
 
-        if (!this.is(CLOSE_PAREN)) {
+        if (this.curr !== CLOSE_PAREN) {
             this.compileExpression();
             count++;
-            while (this.is(COMMA)) {
-                this.addPlus(); // ','
+            while (this.curr === COMMA) {
+                this.i++; // ','
                 this.compileExpression()
                 count++;
             }
         }
 
-        this.close(EXPRESSION_LIST);
         return count;
     }
 
     // term (op term)*
     compileExpression = () => {
-        this.open(EXPRESSION);
-
         this.compileTerm();
         this.i++;
+
         while (ops?.includes(this.curr)) {
-            const op = this.addPlus(); // op
+            const op = this.curr;
+            this.i++;
             this.compileTerm();
             this.compileOp(op)
             this.i++;
         }
-
-        this.close(EXPRESSION);
     }
 
     // op
@@ -547,57 +517,52 @@ export class JackCompiler {
     // | identifier '(' expressionList ')' | identifier '.' identifier '(' expressionList ')'
     // | '(' expression ')' | ('-' | '~') term
     compileTerm = () => {
-        this.open(TERM);
-
         if (this.isType(INT_CONST)) {
-            const number = this.add();
+            const number = this.curr;
             this.vmInstructions.push('push constant ' + Math.abs(number));
             if (number < 0) {
                 this.vmInstructions.push('neg');
             }
         } else if (this.isType(STRING_CONST)) { // stringConstant
-            const string = this.add();
+            const string = this.curr;
             this.compileString(string);
         } else if (this.curr === TRUE) { // 'true'
-            this.add()
             this.vmInstructions.push('push constant 0');
             this.vmInstructions.push('not');
         } else if ([FALSE, NULL]?.includes(this.curr)) { // 'false' | 'null'
-            this.add();
             this.vmInstructions.push('push constant 0')
         } else if (this.curr === THIS) { // 'this'
             this.vmInstructions.push('push pointer 0')
-            this.add()
         } else if (this.isType(IDENTIFIER)) {
             if (this.next === OPEN_BRACKET) {
-                const arrayVar = this.addTwice(); // identifier '['
-                this.vmInstructions.push('push ' + this.symbolTable.getVar(arrayVar[0]).address)
+                const arrayVar = this.curr; // identifier
+                this.i++; // '['
+                this.i++;
+                this.vmInstructions.push('push ' + this.symbolTable.getVar(arrayVar).address)
                 this.compileExpression(); // takes care of pushing the array index
                 this.vmInstructions.push('add')
                 this.vmInstructions.push('pop pointer 1');
                 this.vmInstructions.push('push that 0');
-                this.add(); // ']'
+                // ']'
             } else if ([OPEN_PAREN, PERIOD].includes(this.next)) { // identifier '(' expressionList ')' | identifier '.' identifier '(' expressionList ')'
                 this.compileSubroutineCall();
             } else { // identifier
-                const identifier = this.add();
+                const identifier = this.curr;
                 this.vmInstructions.push('push ' + this.symbolTable.getVar(identifier).address)
             }
-        } else if (this.is(OPEN_PAREN)) {
-            this.addPlus(); // '('
+        } else if (this.curr === OPEN_PAREN) {
+            this.i++; // '('
             this.compileExpression();
-            this.add(); // ')'
+            // ')'
         } else if (this.curr === MINUS) { // '-'
-            this.addPlus();
+            this.i++;
             this.compileTerm();
             this.vmInstructions.push('neg')
         } else if (this.curr === TILDE) { // '~'
-            this.addPlus();
+            this.i++;
             this.compileTerm();
             this.vmInstructions.push('not')
         }
-
-        this.close(TERM);
     }
 
     // stringConstant
