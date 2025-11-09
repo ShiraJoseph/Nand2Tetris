@@ -331,7 +331,7 @@ export class JackCompiler {
         const assignee = this.curr; // identifier
         this.i++;
         if (this.curr === OPEN_BRACKET) { // an array
-            this.vmInstructions.push('push ' + assignee.address) // we get the address for the start of the array's block in memory
+            this.vmInstructions.push('push ' + this.symbolTable.getVar(assignee).address) // we get the address for the start of the array's block in memory
             this.i++; // '['
             this.compileExpression(); // takes care of pushing the element index
             this.i++; // ']'
