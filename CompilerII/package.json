@@ -1,0 +1,12 @@
+{
+  "name": "compilerii",
+  "version": "1.0.0",
+  "description": "Jack Compiler",
+  "main": "JackCompiler.js",
+  "scripts": {
+    "test": "test"
+  },
+  "type": "module",
+  "author": "Shira Joseph",
+  "license": "ISC"
+}

@@ -12,7 +12,6 @@ export class Variable {
   }
 
   get address () {
-    // console.log(this.name + ' is at ' + `${this.segment} ${this.index}`)
     return `${this.segment} ${this.index}`;
   }
 }

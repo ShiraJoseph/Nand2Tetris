@@ -59,6 +59,12 @@ import {
 } from "./constants.js";
 import {SymbolTable} from "./SymbolTable.js";
 
+// This is a full Jack Compiler of .jack files into .vm files. Use it by calling node JackCompiler.js <path to Jack Files> <optional -t>
+// Add " -t" at the end if you wish to compare the resulting vm files with files of the same name that have .correct in them;
+// e.g. if your Square folder is adjacent to the folder with this compiler in it, and the Square folder has a Square.jack
+// file in it as well as a Square.correct.vm file with what you know is the correctly compiled vm code,
+// calling `node JackCompiler.ts ../Square -t` will both generate a Square.vm file in the Square folder AND run assertions
+// that all lines are equal between vm and correct.vm (label/goto names are excluded)
 
 /**
  * Main Compiler class
@@ -100,20 +106,20 @@ export class JackCompiler {
     init() {
         const args = process.argv.slice(2);
         const inputPath = args[0];
+        const withTest = args[1]?.includes('-t');
 
         fs.stat(inputPath, (err, stats) => {
             stats?.isDirectory() && fs.readdir(inputPath, (err, files) => {
                 files.forEach((filename) => {
                     filename.endsWith('.jack') && (() => {
                         const inputFilePath = inputPath + '/' + filename;
-                        this.createFile(inputFilePath);
-
+                        this.createFile(inputFilePath, withTest);
                     })();
                 });
             });
 
             stats?.isFile() && inputPath.endsWith('.jack') && (() => {
-                this.createFile(inputPath);
+                this.createFile(inputPath, withTest);
             })();
         });
     }
@@ -121,14 +127,17 @@ export class JackCompiler {
     /**
      * Reads a single jack file and writes the compilation result in a vm file
      * @param inputFilePath
+     * @param withTest - whether to compare the resulting .vm file with a corresponding .correct.vm file
      */
-    createFile(inputFilePath) {
+    createFile(inputFilePath, withTest) {
         const correctFile = inputFilePath
         const outputFilePath = inputFilePath.replace('jack', 'vm');
         fs.readFile(inputFilePath, 'utf8', (err, data) => {
             const result = this.compile(data);
             fs.writeFile(outputFilePath, result, (err) => {
-
+                if(!withTest){
+                    return;
+                }
 
                 const testFilePath = inputFilePath.replace('.jack', '.correct.vm');
                 fs.readFile(testFilePath, 'utf8', (err, data1) => {
@@ -220,46 +229,33 @@ export class JackCompiler {
         this.i++; // type
         const subroutineType = this.curr;
         this.i++; // identifier
-        const identifier = this.curr;
+        let identifier = this.curr;
         this.i++; // '('
         this.i++;
 
         this.symbolTable.resetRoutineVars();
+
+        if (subroutineFormat === METHOD || subroutineFormat === FUNCTION){
+            this.symbolTable.setContext(subroutineType, identifier)
+        } else if (subroutineFormat === CONSTRUCTOR) {
+            identifier = 'new'; // 'new' is used as the "function name" for constructors
+        }
+
+        this.compileParameterList(); // collect all passed in parameters and local variables
+
+        this.vmInstructions.push('function ' + this.className + '.' + identifier + ' ' + Number(this.symbolTable.localCount));
+
         if (subroutineFormat === CONSTRUCTOR) {
-            this.vmInstructions.push('function ' + this.className + '.new 0');
             this.vmInstructions.push('push constant ' + Number(this.symbolTable.fieldCount || 0));
             this.vmInstructions.push('call Memory.alloc 1');
             this.vmInstructions.push('pop pointer 0');
-            this.compileParameterList();
-            this.i++; // ')'
-            this.compileSubroutineBody();
-            this.i++;
         } else if (subroutineFormat === METHOD) {
-            // this.symbolTable.setContext(subroutine[1], subroutineName[0])
-
-            this.compileParameterList();
-
-            this.i++; // ')'
-            this.i++; // '{'
-            while (this.curr === VAR) {
-                this.compileVarDec();
-                this.i++;
-            }
-            this.vmInstructions.push('function ' + this.className + '.' + identifier + ' ' + Number(this.symbolTable.argCount + this.symbolTable.localCount));
             this.vmInstructions.push('push argument 0');
             this.vmInstructions.push('pop pointer 0');
-            this.compileStatements();
-            // '}'
-            this.i++;
-        } else if (subroutineFormat === FUNCTION) {
-            this.symbolTable.setContext(subroutineType, identifier)
-
-            this.compileParameterList();
-            this.vmInstructions.push('function ' + this.className + '.' + identifier + ' ' + Number(this.symbolTable.argCount || 0));
-            this.i++; // ')'
-            this.compileSubroutineBody();
-            this.i++;
         }
+
+        this.compileStatements();
+        this.i++; // '}'
     }
 
     // (type identifier (',' type identifier)*)?
@@ -279,17 +275,17 @@ export class JackCompiler {
                 this.symbolTable.addVar(ARGUMENT, nextParamType, identifier)
             }
         }
+        this.i++; // ')'
+        this.compileVarList();
     }
 
-    // '{' varDec* statements '}'
-    compileSubroutineBody = () => {
+    // '{' varDec*
+    compileVarList = () => {
         this.i++; // '{'
         while (this.curr === VAR) {
             this.compileVarDec();
             this.i++;
         }
-        this.compileStatements();
-        // '}'
     }
 
     // 'var' type identifier (',' identifier)* ';'
@@ -360,13 +356,15 @@ export class JackCompiler {
         this.i++; // '('
         this.compileExpression();
         this.vmInstructions.push('not');
-        this.vmInstructions.push('if-goto IF_FALSE_' + this.labelCount);
+        const labelCount = this.labelCount;
+        this.labelCount++;
+        this.vmInstructions.push('if-goto IF_FALSE_' + labelCount);
         this.i++; // ')'
         this.i++; // '{'
         this.compileStatements();
-        this.vmInstructions.push('goto IF_END_' + this.labelCount)
+        this.vmInstructions.push('goto IF_END_' + labelCount)
         // '}'
-        this.vmInstructions.push('label IF_FALSE_' + this.labelCount);
+        this.vmInstructions.push('label IF_FALSE_' + labelCount);
         if (this.next === ELSE) {
             this.i++; // 'else'
             this.i++; // '{'
@@ -374,26 +372,26 @@ export class JackCompiler {
             this.compileStatements();
             // '}'
         }
-        this.vmInstructions.push('label IF_END_' + this.labelCount)
-        this.labelCount++;
+        this.vmInstructions.push('label IF_END_' + labelCount)
     }
 
     // 'while' '(' expression ')' '{' statements '}'
     compileWhileStatement = () => { // 'while'
         this.i++; // '('
         this.i++;
-        this.vmInstructions.push('label WHILE_' + this.labelCount)
+        const labelCount = this.labelCount;
+        this.labelCount++;
+        this.vmInstructions.push('label WHILE_' + labelCount)
         this.compileExpression();
         // ')'
         this.i++; // '{'
         this.i++;
         this.vmInstructions.push('not');
-        this.vmInstructions.push('if-goto WHILE_END_' + this.labelCount);
+        this.vmInstructions.push('if-goto WHILE_END_' + labelCount);
         this.compileStatements();
         // '}'
-        this.vmInstructions.push('goto WHILE_' + this.labelCount);
-        this.vmInstructions.push('label WHILE_END_' + this.labelCount);
-        this.labelCount++;
+        this.vmInstructions.push('goto WHILE_' + labelCount);
+        this.vmInstructions.push('label WHILE_END_' + labelCount);
     }
 
     // 'do' (identifier '.')? identifier '(' expressionList ')'
@@ -570,7 +568,7 @@ export class JackCompiler {
         this.vmInstructions.push('push constant ' + str.length)
         this.vmInstructions.push('call String.new 1')
         for (let i = 0; i < str.length; i++) {
-            this.vmInstructions.push('push constant ' + str.toUpperCase().charCodeAt(i))
+            this.vmInstructions.push('push constant ' + str.charCodeAt(i))
             this.vmInstructions.push('call String.appendChar 2')
         }
     }
