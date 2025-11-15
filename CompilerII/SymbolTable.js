@@ -17,7 +17,6 @@ export class SymbolTable {
     this.classVars = [];
     this.staticCount = 0;
     this.fieldCount = 0;
-    // this.resetRoutineVars();
   }
 
   /**

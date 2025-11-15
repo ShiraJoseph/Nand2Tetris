@@ -235,7 +235,7 @@ export class JackCompiler {
 
         this.symbolTable.resetRoutineVars();
 
-        if (subroutineFormat === METHOD || subroutineFormat === FUNCTION){
+        if (subroutineFormat === METHOD){
             this.symbolTable.setContext(subroutineType, identifier)
         } else if (subroutineFormat === CONSTRUCTOR) {
             identifier = 'new'; // 'new' is used as the "function name" for constructors
