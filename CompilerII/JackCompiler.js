@@ -1,0 +1,578 @@
+import Token from "./Token.js";
+import fs from 'fs';
+import {
+    AMPERSAND,
+    ARGUMENT,
+    ASTERISK,
+    CLASS,
+    CLASS_VAR_DEC,
+    CLOSE_PAREN,
+    COMMA,
+    CONSTRUCTOR,
+    DO,
+    DO_STATEMENT,
+    ELSE,
+    END_TAG,
+    EQUALS,
+    EXPRESSION,
+    EXPRESSION_LIST,
+    FALSE,
+    FIELD,
+    FUNCTION,
+    GREATER_THAN,
+    IDENTIFIER,
+    IF,
+    IF_STATEMENT,
+    INT_CONST,
+    LESS_THAN,
+    LET,
+    LET_STATEMENT,
+    LOCAL,
+    METHOD,
+    MINUS,
+    NULL,
+    OPEN_BRACKET,
+    OPEN_PAREN,
+    ops,
+    PARAM_LIST,
+    PERIOD,
+    PIPE,
+    PLUS,
+    RETURN,
+    RETURN_STATEMENT,
+    SEMICOLON,
+    SLASH,
+    START_TAG,
+    STATEMENTS,
+    STATIC,
+    STRING_CONST,
+    SUBROUTINE_BODY,
+    SUBROUTINE_DEC,
+    TERM,
+    THIS,
+    TILDE,
+    TRUE,
+    VAR,
+    VAR_DEC,
+    WHILE,
+    WHILE_STATEMENT
+} from "./constants.js";
+import {SymbolTable} from "./SymbolTable.js";
+
+// This is a full Jack Compiler of .jack files into .vm files. Use it by calling node JackCompiler.js <path to Jack Files> <optional -t>
+// Add " -t" at the end if you wish to compare the resulting vm files with files of the same name that have .correct in them;
+// e.g. if your Square folder is adjacent to the folder with this compiler in it, and the Square folder has a Square.jack
+// file in it as well as a Square.correct.vm file with what you know is the correctly compiled vm code,
+// calling `node JackCompiler.ts ../Square -t` will both generate a Square.vm file in the Square folder AND run assertions
+// that all lines are equal between vm and correct.vm (label/goto names are excluded)
+
+/**
+ * Main Compiler class
+ */
+export class JackCompiler {
+    i;
+    typedTokens;
+    xmlElements;
+    symbolTable = new SymbolTable();
+    vmInstructions;
+    className;
+    labelCount = 0;
+
+    // region Helpers
+
+    constructor() {
+        this.init();
+    }
+
+    get curr() {
+        return this.typedTokens?.[this.i]?.value;
+    }
+
+    get next() {
+        return this.typedTokens?.[this.i + 1]?.value;
+    }
+
+    /** Whether the current line of code is the given value */
+    is = (val) => this.curr === val;
+
+    /** Whether the type of the current line of code is the given type */
+    isType = (type) => this.typedTokens?.[this.i]?.type === type
+
+    // endregion
+
+    /**
+     * Initializes the file(s) for analysis
+     */
+    init() {
+        const args = process.argv.slice(2);
+        const inputPath = args[0];
+        const withTest = args[1]?.includes('-t');
+
+        fs.stat(inputPath, (err, stats) => {
+            stats?.isDirectory() && fs.readdir(inputPath, (err, files) => {
+                files.forEach((filename) => {
+                    filename.endsWith('.jack') && (() => {
+                        const inputFilePath = inputPath + '/' + filename;
+                        this.createFile(inputFilePath, withTest);
+                    })();
+                });
+            });
+
+            stats?.isFile() && inputPath.endsWith('.jack') && (() => {
+                this.createFile(inputPath, withTest);
+            })();
+        });
+    }
+
+    /**
+     * Reads a single jack file and writes the compilation result in a vm file
+     * @param inputFilePath
+     * @param withTest - whether to compare the resulting .vm file with a corresponding .correct.vm file
+     */
+    createFile(inputFilePath, withTest) {
+        const correctFile = inputFilePath
+        const outputFilePath = inputFilePath.replace('jack', 'vm');
+        fs.readFile(inputFilePath, 'utf8', (err, data) => {
+            const result = this.compile(data);
+            fs.writeFile(outputFilePath, result, (err) => {
+                if(!withTest){
+                    return;
+                }
+
+                const testFilePath = inputFilePath.replace('.jack', '.correct.vm');
+                fs.readFile(testFilePath, 'utf8', (err, data1) => {
+                    console.log('TEST', testFilePath, 'against', outputFilePath)
+                    const testRows = data1.split('\n').filter(row => !row.includes('goto') && !row.includes('label'));
+                    const actualRows = result.split('\n').filter((row, i) => !(row.includes('not') && result.split('\n')[i + 1].includes('if-goto')) && !row.includes('goto') && !row.includes('label'));
+                    for (let testIndex = 0, resultIndex = 0; (resultIndex < actualRows.length) && (testIndex < testRows.length);) {
+                        console.assert(testRows[testIndex] === actualRows[resultIndex], 'Expected:', testRows[testIndex] + '. Actual:', actualRows[resultIndex], '-- LINE', resultIndex);
+                        testIndex++;
+                        resultIndex++;
+                    }
+                });
+            });
+        });
+    }
+
+    /**
+     * Compiles the lines of jack code into lines of vm code
+     * @param data
+     * @returns {string}
+     */
+    compile(data) {
+        this.i = 0;
+        this.xmlElements = [];
+        this.typedTokens = this.tokenize(data);
+        this.labelCount = 0;
+
+        this.compileClass();
+
+        return this.vmInstructions?.join('\n');
+    }
+
+    /**
+     * Splits up the jack file content by line into Tokens, each with a value and a (generated by Token constructor) type
+     */
+    tokenize(data) {
+        return data
+            .split('\n')
+            .map(row => row
+                .replace(/((\/\/)|(\/\*)|(\/\*\*)).+/, '')
+                .trimStart())
+            .filter(row => !row.startsWith('*'))
+            .join('\n')
+            .match(/(\d+|\w+|["'](.*?)["'])|[^\w\s]/g)
+            .map(token => new Token(token, null));
+    }
+
+    // 'class' identifier '{' classVarDec* subroutineDec* '}'
+    compileClass = () => {
+        this.vmInstructions = [];
+
+        this.symbolTable.resetClassVars();
+        // 'class'
+        this.i++;
+        this.className = this.curr; // identifier
+        this.i++; // '{'
+        this.i++;
+
+        while ([STATIC, FIELD]?.includes(this.curr)) {
+            this.compileClassVarDec();
+            this.i++;
+        }
+        while ([CONSTRUCTOR, FUNCTION, METHOD]?.includes(this.curr)) {
+            this.compileSubroutineDec();
+        }
+        // '}'
+    }
+
+    // ('static' | 'field') type identifier (',' identifier)* ';'
+    compileClassVarDec = () => {
+        const varFormat = this.curr; // ('static' | 'field')
+        this.i++;
+        const varType = this.curr; // type
+        this.i++;
+        const identifier = this.curr; // identifier
+        this.i++;
+        this.symbolTable.addVar(varFormat, varType, identifier)
+
+        while (this.curr === COMMA) { // ','
+            this.i++; // identifier
+            this.symbolTable.addVar(varFormat, varType, this.curr)
+            this.i++; // ';' or ','
+        }
+    }
+
+    // ('constructor' | 'function' | 'method') type identifier '(' parameterList ')' subroutineBody
+    compileSubroutineDec = () => {
+        const subroutineFormat = this.curr; // ('constructor' | 'function' | 'method')
+        this.i++; // type
+        const subroutineType = this.curr;
+        this.i++; // identifier
+        let identifier = this.curr;
+        this.i++; // '('
+        this.i++;
+
+        this.symbolTable.resetRoutineVars();
+
+        if (subroutineFormat === METHOD){
+            this.symbolTable.setContext(subroutineType, identifier)
+        } else if (subroutineFormat === CONSTRUCTOR) {
+            identifier = 'new'; // 'new' is used as the "function name" for constructors
+        }
+
+        this.compileParameterList(); // collect all passed in parameters and local variables
+
+        this.vmInstructions.push('function ' + this.className + '.' + identifier + ' ' + Number(this.symbolTable.localCount));
+
+        if (subroutineFormat === CONSTRUCTOR) {
+            this.vmInstructions.push('push constant ' + Number(this.symbolTable.fieldCount || 0));
+            this.vmInstructions.push('call Memory.alloc 1');
+            this.vmInstructions.push('pop pointer 0');
+        } else if (subroutineFormat === METHOD) {
+            this.vmInstructions.push('push argument 0');
+            this.vmInstructions.push('pop pointer 0');
+        }
+
+        this.compileStatements();
+        this.i++; // '}'
+    }
+
+    // (type identifier (',' type identifier)*)?
+    compileParameterList = () => {
+        if (this.curr !== CLOSE_PAREN) {
+            const paramType = this.curr; // type
+            this.i++; // identifier
+            this.symbolTable.addVar(ARGUMENT, paramType, this.curr)
+            this.i++;
+
+            while (this.curr === COMMA) { // ','
+                this.i++;
+                const nextParamType = this.curr; // type
+                this.i++;
+                const identifier = this.curr; // identifier
+                this.i++;
+                this.symbolTable.addVar(ARGUMENT, nextParamType, identifier)
+            }
+        }
+        this.i++; // ')'
+        this.compileVarList();
+    }
+
+    // '{' varDec*
+    compileVarList = () => {
+        this.i++; // '{'
+        while (this.curr === VAR) {
+            this.compileVarDec();
+            this.i++;
+        }
+    }
+
+    // 'var' type identifier (',' identifier)* ';'
+    compileVarDec = () => {
+        this.i++; // 'var'
+        const varType = this.curr; // type
+        this.i++;
+        const identifier = this.curr; // identifier
+        this.i++;
+        this.symbolTable.addVar(LOCAL, varType, identifier)
+
+        while (this.curr === COMMA) { // ','
+            this.i++; // identifier
+            this.symbolTable.addVar(LOCAL, varType, this.curr)
+            this.i++; // ',' or ';'
+        }
+    }
+
+    // (letStatement | ifStatement | whileStatement | doStatement | returnStatement)*
+    compileStatements = () => {
+        while ([IF, LET, WHILE, DO, RETURN].includes(this.curr)) {
+            if (this.curr === LET) {
+                this.compileLetStatement();
+                if(this.typedTokens[this.i-1].value === SEMICOLON) {
+                    this.i--;
+                }
+            } else if (this.curr === IF) {
+                this.compileIfStatement();
+            } else if (this.curr === WHILE) {
+                this.compileWhileStatement();
+            } else if (this.curr === DO) {
+                this.compileDoStatement();
+            } else {
+                this.compileReturnStatement();
+            }
+            this.i++;
+        }
+    }
+
+    // 'let' identifier ('[' expression ']')? '=' expression ';'
+    compileLetStatement = () => {
+        this.i++; // 'let'
+        const assignee = this.curr; // identifier
+        this.i++;
+        if (this.curr === OPEN_BRACKET) { // an array
+            this.vmInstructions.push('push ' + this.symbolTable.getVar(assignee).address) // we get the address for the start of the array's block in memory
+            this.i++; // '['
+            this.compileExpression(); // takes care of pushing the element index
+            this.i++; // ']'
+            this.vmInstructions.push('add'); // add the index to the address and leave the address on the stack for later.
+            this.i++; // '='
+            this.compileExpression();
+            this.vmInstructions.push('pop temp 0'); // puts the result of the expression compilation in a temporary place
+            this.vmInstructions.push('pop pointer 1'); // what's left on the stack points to the exact address of the current array element, so now we use the address to set THAT(pointer 1 === THAT)
+            this.vmInstructions.push('push temp 0'); // gets the expression result back
+            this.vmInstructions.push('pop that 0'); // Now we can store the expression in that 0, because the THAT segment starts exactly at the address of the element in the array we want to update
+            // ';'
+        } else {
+            this.i++; // '='
+            this.compileExpression();
+            this.vmInstructions.push('pop ' + this.symbolTable.getVar(assignee).address)
+        }
+    }
+
+    // 'if' '(' expression ')' '{' statements '}' ('else' '{' statements '}')?
+    compileIfStatement = () => {
+        this.i++; // 'if'
+        this.i++; // '('
+        this.compileExpression();
+        this.vmInstructions.push('not');
+        const labelCount = this.labelCount;
+        this.labelCount++;
+        this.vmInstructions.push('if-goto IF_FALSE_' + labelCount);
+        this.i++; // ')'
+        this.i++; // '{'
+        this.compileStatements();
+        this.vmInstructions.push('goto IF_END_' + labelCount)
+        // '}'
+        this.vmInstructions.push('label IF_FALSE_' + labelCount);
+        if (this.next === ELSE) {
+            this.i++; // 'else'
+            this.i++; // '{'
+            this.i++;
+            this.compileStatements();
+            // '}'
+        }
+        this.vmInstructions.push('label IF_END_' + labelCount)
+    }
+
+    // 'while' '(' expression ')' '{' statements '}'
+    compileWhileStatement = () => { // 'while'
+        this.i++; // '('
+        this.i++;
+        const labelCount = this.labelCount;
+        this.labelCount++;
+        this.vmInstructions.push('label WHILE_' + labelCount)
+        this.compileExpression();
+        // ')'
+        this.i++; // '{'
+        this.i++;
+        this.vmInstructions.push('not');
+        this.vmInstructions.push('if-goto WHILE_END_' + labelCount);
+        this.compileStatements();
+        // '}'
+        this.vmInstructions.push('goto WHILE_' + labelCount);
+        this.vmInstructions.push('label WHILE_END_' + labelCount);
+    }
+
+    // 'do' (identifier '.')? identifier '(' expressionList ')'
+    compileDoStatement = () => {
+        this.i++; // 'do'
+
+        this.compileSubroutineCall();
+        this.vmInstructions.push('pop temp 0') // since do statements are always void
+        // ';'
+    }
+
+    // 'return' expression? ';'
+    compileReturnStatement = () => {
+        this.i++; // 'return'
+        if (this.curr !== SEMICOLON) {
+            this.compileExpression();
+        } else {
+            this.vmInstructions.push('push constant 0');
+        }
+        // ';'
+        this.vmInstructions.push('return')
+    }
+
+    // foo.bar(any number of args), Foo.bar(any number of args), bar(any number of args)
+    compileSubroutineCall = () => {
+        if (this.next === PERIOD) {
+            const memberName = this.curr; // identifier
+            this.i++; // '.'
+            this.i++;
+            const functionName = this.curr; // identifier
+            this.i++; // '('
+            this.i++;
+            const foundVar = this.symbolTable.getVar(memberName);
+            if (foundVar) { // foo.bar()
+                this.vmInstructions.push('push ' + foundVar.address)
+                const argumentCount = this.compileExpressionList() + 1; // this should take care of pushing the arguments and returning how many there are
+                this.vmInstructions.push('call ' + foundVar.type + '.' + functionName + ' ' + argumentCount);
+                this.i++; // ')'
+            } else { // Foo.bar()
+                const argumentCount = this.compileExpressionList(); // this should take care of pushing the arguments and returning how many there are
+                this.vmInstructions.push('call ' + [memberName, '.', functionName].join('') + ' ' + argumentCount);
+                this.i++; // ')'
+            }
+        } else { // bar()
+            const identifier = this.curr; // identifier
+            this.i++; // '('
+            this.vmInstructions.push('push pointer 0');
+            this.i++;
+            const argumentCount = this.compileExpressionList(); // takes care of pushing arguments
+
+            this.vmInstructions.push('call ' + this.className + '.' + identifier + ' ' + Number(argumentCount + 1));
+            this.i++; // ')'
+        }
+    }
+
+    // (expression (',' expression)*)?
+    compileExpressionList = () => {
+        let count = 0;
+
+        if (this.curr !== CLOSE_PAREN) {
+            this.compileExpression();
+            count++;
+            while (this.curr === COMMA) {
+                this.i++; // ','
+                this.compileExpression()
+                count++;
+            }
+        }
+
+        return count;
+    }
+
+    // term (op term)*
+    compileExpression = () => {
+        this.compileTerm();
+        this.i++;
+
+        while (ops?.includes(this.curr)) {
+            const op = this.curr;
+            this.i++;
+            this.compileTerm();
+            this.compileOp(op)
+            this.i++;
+        }
+    }
+
+    // op
+    compileOp = (op) => {
+        switch (op) {
+            case PLUS:
+                this.vmInstructions.push('add');
+                break;
+            case MINUS:
+                this.vmInstructions.push('sub');
+                break;
+            case ASTERISK:
+                this.vmInstructions.push('call Math.multiply 2')
+                break;
+            case SLASH:
+                this.vmInstructions.push('call Math.divide 2')
+                break;
+            case AMPERSAND:
+                this.vmInstructions.push('and');
+                break;
+            case PIPE:
+                this.vmInstructions.push('or');
+                break;
+            case LESS_THAN:
+                this.vmInstructions.push('lt');
+                break;
+            case GREATER_THAN:
+                this.vmInstructions.push('gt');
+                break;
+            case EQUALS:
+                this.vmInstructions.push('eq');
+                break;
+        }
+    }
+
+    // integerConstant | stringConstant | keyword | identifier | identifier '['expression ']'
+    // | identifier '(' expressionList ')' | identifier '.' identifier '(' expressionList ')'
+    // | '(' expression ')' | ('-' | '~') term
+    compileTerm = () => {
+        if (this.isType(INT_CONST)) {
+            const number = this.curr;
+            this.vmInstructions.push('push constant ' + Math.abs(number));
+            if (number < 0) {
+                this.vmInstructions.push('neg');
+            }
+        } else if (this.isType(STRING_CONST)) { // stringConstant
+            const string = this.curr;
+            this.compileString(string);
+        } else if (this.curr === TRUE) { // 'true'
+            this.vmInstructions.push('push constant 0');
+            this.vmInstructions.push('not');
+        } else if ([FALSE, NULL]?.includes(this.curr)) { // 'false' | 'null'
+            this.vmInstructions.push('push constant 0')
+        } else if (this.curr === THIS) { // 'this'
+            this.vmInstructions.push('push pointer 0')
+        } else if (this.isType(IDENTIFIER)) {
+            if (this.next === OPEN_BRACKET) {
+                const arrayVar = this.curr; // identifier
+                this.i++; // '['
+                this.i++;
+                this.vmInstructions.push('push ' + this.symbolTable.getVar(arrayVar).address)
+                this.compileExpression(); // takes care of pushing the array index
+                this.vmInstructions.push('add')
+                this.vmInstructions.push('pop pointer 1');
+                this.vmInstructions.push('push that 0');
+                // ']'
+            } else if ([OPEN_PAREN, PERIOD].includes(this.next)) { // identifier '(' expressionList ')' | identifier '.' identifier '(' expressionList ')'
+                this.compileSubroutineCall();
+            } else { // identifier
+                const identifier = this.curr;
+                this.vmInstructions.push('push ' + this.symbolTable.getVar(identifier).address)
+            }
+        } else if (this.curr === OPEN_PAREN) {
+            this.i++; // '('
+            this.compileExpression();
+            // ')'
+        } else if (this.curr === MINUS) { // '-'
+            this.i++;
+            this.compileTerm();
+            this.vmInstructions.push('neg')
+        } else if (this.curr === TILDE) { // '~'
+            this.i++;
+            this.compileTerm();
+            this.vmInstructions.push('not')
+        }
+    }
+
+    // stringConstant
+    compileString(str) {
+        this.vmInstructions.push('push constant ' + str.length)
+        this.vmInstructions.push('call String.new 1')
+        for (let i = 0; i < str.length; i++) {
+            this.vmInstructions.push('push constant ' + str.charCodeAt(i))
+            this.vmInstructions.push('call String.appendChar 2')
+        }
+    }
+}
+
+new JackCompiler();
+
