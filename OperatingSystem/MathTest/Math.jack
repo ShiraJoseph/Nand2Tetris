@@ -64,15 +64,47 @@ class Math {
      *  the Jack expressions x/y and divide(x,y) return the same value.
      */
     function int divide(int x, int y) {
+        var int absX, absY, q;
+        var boolean isPositive;
+
+        let isPositive = true;
+        let absX = x;
+        let absY = y;
+
+        if(y < 0) {
+            let absY = Math.abs(y);
+            let isPositive = ~isPositive;
+        }
+
+        if(x < 0) {
+            let absX = Math.abs(x);
+            let isPositive = ~isPositive;
+        }
+
+        if(absY > absX) {
+            return 0;
+        }
+
+        let q = Math.divideAbs(absX, absY);
+
+        if(~isPositive) {
+            return -q;
+        }
+
+        return q;
+    }
+
+    /** Private recursive function to divide absolute values */
+    function int divideAbs(int x, int y){
         var int q;
 
         if(y > x | y < 0) {
             return 0;
         }
 
-        let q = Math.divide(x, y + y);
+        let q = Math.divideAbs(x, y + y);
 
-        if((x - 2 * q * y) < y) {
+        if((x - (2 * q * y)) < y) {
             return q + q;
         } else {
             return q + q + 1;
@@ -82,14 +114,18 @@ class Math {
     /** Returns the integer part of the square root of x. */
     function int sqrt(int x) {
         var int y, j, square, powerMove;
+
         let y = 0;
         let j = 7;
+
         while(j > -1) {
             let powerMove = y + powersOfTwo[j];
             let square = powerMove * powerMove;
-            if(~(square > x)) {
+
+            if(~(square > x) & square > 0) {
                 let y = powerMove;
             }
+
             let j = j - 1;
         }
 
