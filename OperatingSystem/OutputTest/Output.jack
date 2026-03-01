@@ -6,17 +6,17 @@
 /**
  * A library of functions for writing text on the screen.
  * The Hack physical screen consists of 512 rows of 256 pixels each.
- * The library uses a fixed font, in which each character is displayed 
- * within a frame which is 11 pixels high (including 1 pixel for inter-line 
+ * The library uses a fixed font, in which each character is displayed
+ * within a frame which is 11 pixels high (including 1 pixel for inter-line
  * spacing) and 8 pixels wide (including 2 pixels for inter-character spacing).
  * The resulting grid accommodates 23 rows (indexed 0..22, top to bottom)
- * of 64 characters each (indexed 0..63, left to right). The top left 
+ * of 64 characters each (indexed 0..63, left to right). The top left
  * character position on the screen is indexed (0,0). A cursor, implemented
  * as a small filled square, indicates where the next character will be displayed.
  */
 class Output {
-    static int cursorI;
-    static int cursorJ;
+    static int rowCursor;
+    static int colCursor;
     static Array digPlaces;
 
 
@@ -32,6 +32,7 @@ class Output {
         let digPlaces[1] = 1000;
         let digPlaces[2] = 100;
         let digPlaces[3] = 10;
+        let digPlaces[4] = 1;
 
 
         return;
@@ -85,7 +86,7 @@ class Output {
         do Output.create(64, 30, 51, 51, 59, 59, 59, 27, 3, 30, 0, 0);  // @
         do Output.create(63, 30, 51, 51, 24, 12, 12, 0, 12, 12, 0, 0);  // ?
 
-        do Output.create(65, 12, 18, 33, 33, 33, 33, 63, 33, 33, 33, 33); // A ** FILLED **
+        do Output.create(65, 12, 30, 51, 51, 51, 63, 51, 51, 51, 0, 0); // A ** FILLED **
         do Output.create(66, 31, 51, 51, 51, 31, 51, 51, 51, 31, 0, 0); // B
         do Output.create(67, 28, 54, 35, 3, 3, 3, 35, 54, 28, 0, 0);    // C
         do Output.create(68, 15, 27, 51, 51, 51, 51, 51, 27, 15, 0, 0); // D
@@ -191,8 +192,16 @@ class Output {
     /** Moves the cursor to the j-th column of the i-th row,
      *  and erases the character displayed there. */
     function void moveCursor(int i, int j) {
-        let cursorI = i;
-        let cursorJ = j;
+        let rowCursor = i;
+        let colCursor = j;
+        if(colCursor > 63){
+            let colCursor = 0;
+            let rowCursor = rowCursor + 1;
+        }
+        if(rowCursor > 22){
+            let colCursor = 0;
+            let rowCursor = 0;
+        }
 
         do Output.printCharRows(32);
 
@@ -203,7 +212,7 @@ class Output {
      *  and advances the cursor one column forward. */
     function void printChar(char c) {
         do Output.printCharRows(c);
-        do Output.moveCursor(cursorI, cursorJ + 1);
+        do Output.moveCursor(rowCursor, colCursor + 1);
 
         return;
     }
@@ -231,6 +240,10 @@ class Output {
         if(i > 16383) {
             do Sys.error(6);
         }
+        if(i < 0){
+            do Output.printChar(45);
+            let i = Math.abs(i);
+        }
 
         let digPlace = Output.getSignificantDigit(i);
         let remaining = i;
@@ -246,14 +259,16 @@ class Output {
 
     /** Advances the cursor to the beginning of the next line. */
     function void println() {
-        do Output.moveCursor(cursorI + 1, 0);
+        do Output.moveCursor(rowCursor + 1, 0);
 
         return;
     }
 
     /** Moves the cursor one column back. */
     function void backSpace() {
-        do Output.moveCursor(cursorI, cursorJ - 1);
+        var int tempRow, tempCol;
+
+        do Output.moveCursor(rowCursor, (colCursor - 1));
 
         return;
     }
@@ -272,9 +287,9 @@ class Output {
         var int address, rowNumber, row, word;
         var Array charMap;
         let charMap = Output.getMap(c);
-        let address = Output.toAddress(cursorI, cursorJ);
+        let address = Output.toAddress(rowCursor, colCursor);
         let isFirstHalf = false;
-        if(((address / 2) * 2) = address) {
+        if(((colCursor / 2) * 2) = colCursor) {
             let isFirstHalf = true;
         }
         let rowNumber = 0;
@@ -289,7 +304,7 @@ class Output {
 
             do Memory.poke(address, word);
 
-            let address = address + 16;
+            let address = address + 32;
             let rowNumber = rowNumber + 1;
         }
 
@@ -299,7 +314,7 @@ class Output {
     function int getSignificantDigit(int number){
         var int i;
         let i = 0;
-        while(number < digPlaces[i]) {
+        while((i < 6) & (number < digPlaces[i])) {
             let i = i + 1;
         }
 
