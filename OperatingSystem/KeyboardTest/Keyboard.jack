@@ -13,6 +13,8 @@ class Keyboard {
     /** Initializes the keyboard. */
     function void init() {
         let KEYBOARD = 24576;
+
+        return;
     }
 
     /**
@@ -58,7 +60,6 @@ class Keyboard {
 
         while(c = 0) {
             let c = Keyboard.keyPressed();
-
         }
 
         let cUp = c;
@@ -81,40 +82,21 @@ class Keyboard {
         var String str, tempStr;
         var char c;
         var int len, i;
-        let str = String.new();
+        let str = String.new(64);
         let len = 0;
-
+        do Output.printString(message);
         while(true) {
             let c = Keyboard.readChar();
             if(c = String.newLine()) {
-                do Output.println();
                 return str;
             }
             if(c = String.backSpace()) {
-                let tempStr = String.new(len);
-                let i = 0;
-                while(i < len){
-                    let tempStr[i] = str[i];
-                }
-                let str = tempStr;
+                do str.eraseLastChar();
             } else {
-                let len = len + 1;
-                let str = str.append(c);
+                do str.appendChar(c);
             }
 
         }
-
-        // repeat
-        //      c = readChar()
-        //      if c = newline
-        //          display newline
-        //          return str
-        //      else if c = backspace
-        //          remove the last character from str
-        //          do Output.backspace()
-        //      else
-        //          str = str.append(c)
-        // return str
 
         return "";
     }
@@ -126,6 +108,8 @@ class Keyboard {
      * entered text is detected). Also handles user backspaces. 
      */
     function int readInt(String message) {
-        return 0;
+        var String input;
+        let input = Keyboard.readLine(message);
+        return String.intValue(input);
     }
 }
