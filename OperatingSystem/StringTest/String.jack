@@ -17,6 +17,9 @@ class String {
     /** constructs a new empty string with a maximum length of maxLength
      *  and initial length of 0. */
     constructor String new(int maxLength) {
+        if(maxLength < 0) {
+            do Sys.error(6);
+        }
         let str = Array.new(maxLength);
         let length = 0;
 
@@ -49,47 +52,74 @@ class String {
 
     /** Appends c to this string's end and returns this string. */
     method String appendChar(char c) {
-        return str;
+        do setCharAt(length, c);
+        let length = length + 1;
+
+        return this;
     }
 
     /** Erases the last character from this string. */
     method void eraseLastChar() {
+        do setCharAt(length - 1, 0);
+        let length = length - 1;
         return;
     }
 
     /** Returns the integer value of this string, 
      *  until a non-digit character is detected. */
     method int intValue() {
-        var int val, i, digit;
-        var char digChar;
+        var int val, i, digit, digChar;
+        var boolean sign;
         let val = 0;
         let i = 0;
-        while(i < str.length()){
+        let sign = true;
+        while(i < length) {
             let digChar = str[i];
-            if((digChar > 57)|(digChar < 48)){
-                return val;
+            if(digChar = 45) {
+                let sign = false;
+            } else {
+                if((digChar > 57) | (digChar < 48)) {
+                    return val;
+                }
+                let digit = digChar - 48;
+                let val = (val * 10) + digit;
             }
-            let digit = digChar - 48;
-            let val = (val*10)+digit;
             let i = i + 1;
         }
-
-    return val;
-//         val = 0
-//         for =0..str length
-//             d = integer value of str[i]
-//             val = val*10+d
-//         return val
+        if(~sign) {
+            let val = val * -1;
+        }
+        return val;
+    //         val = 0
+    //         for =0..str length
+    //             d = integer value of str[i]
+    //             val = val*10+d
+    //         return val
     }
 
     /** Sets this string to hold a representation of the given value. */
     method void setInt(int val) {
         var String acc;
+        var int i;
+        var boolean sign;
         let acc = String.new(64);
-        let str = getIntString(acc, val);
+        let str = Array.new(64);
+        if(val < 0){
+            let str[0]=45;
+            let length = 1;
+        } else {
+            let length = 0;
+        }
+        let acc = getIntString(acc, val);
+        let i = length;
+        let length = length + acc.length();
+
+        while(i < length) {
+            do setCharAt(i, acc[i]);
+        }
 
         return;
-          }
+    }
 
     /** Returns the new line character. */
     function char newLine() {
@@ -106,22 +136,25 @@ class String {
         return 34;
     }
 
-    method String getIntString(String acc, int val){
-        // TODO: not sure where I'm going with this.... I should think through it better. What threw me off was how the api says it is void but the algorithm provided returns a value;
+    method String getIntString(String acc, int val){ // 576 // 57 //
         var int lastDigit;
-        var char lastDigitChar;
-        let lastDigit = val - ((val/10)*10);
-        let lastDigitChar = lastDigit + 48;
-        if(val < 10){
-            do acc.appendChar(lastDigitChar);
+        var int c;
+        let lastDigit = val - ((val / 10) * 10); // 6 // 7 // 5
+        let c = lastDigit + 48; //54 // 55 // 53
+        if(val < 10) { // (576 !<10) // (57!<10) // 5 < 10
+            let acc = acc.appendChar(c); // "5"
             return acc;
         }
-        // last digit =  val % 10
-        // c = character representing last digit
-        // if val < 10
-            // return c (as a string)
-        // else
-            // return setInt(val/10).appendChar(c);
+
+        let acc = getIntString(acc, val / 10); // getIntString("", 57) = 57 // getIntString("", 5) = "5"
+        let acc = acc.appendChar(c); // 57 // 576
+        return acc;
+    // last digit =  val % 10
+    // c = character representing last digit
+    // if val < 10
+    // return c (as a string)
+    // else
+    // return setInt(val/10).appendChar(c);
 
     }
 }
