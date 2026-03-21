@@ -20,7 +20,7 @@ class Memory {
         let ram[2048] = 0; // pointer to the next available free segment
         let ram[2049] = 14335; // the size of the free segment
 
-        return;
+        return ;
     }
 
     /** Returns the RAM value at the given address. */
@@ -32,7 +32,7 @@ class Memory {
     function void poke(int address, int value) {
         let ram[address] = value;
 
-        return;
+        return ;
     }
 
     /** Finds an available RAM block of the given size and returns
@@ -47,7 +47,7 @@ class Memory {
             let nextSegmentAddr = ram[currSegmentAddr];
             let currSegmentSize = ram[currSegmentAddr + 1];
             // First check if the segment is big enough to contain the new object's size.
-            if((currSegmentSize = size) | (currSegmentSize > size)) {
+            if(currSegmentSize > (size + 1)) {
 
             // If the segment size is bigger than size + 2, we need to split the slice.
             // So we need to copy the current segment's pointer to the location at size + 2,
@@ -85,6 +85,6 @@ class Memory {
     function void deAlloc(Array o) {
         let ram[o - 2] = firstFreeSegmentAddr;
         let firstFreeSegmentAddr = o - 2;
-        return;
+        return ;
     }
 }
