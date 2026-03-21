@@ -17,10 +17,12 @@ class String {
     /** constructs a new empty string with a maximum length of maxLength
      *  and initial length of 0. */
     constructor String new(int maxLength) {
-        if(maxLength < 0) {
-            do Sys.error(6);
+        var int len;
+        let len = maxLength;
+        if(maxLength < 1) {
+            let len = 1;
         }
-        let str = Array.new(maxLength);
+        let str = Array.new(len);
         let length = 0;
 
         return this;
@@ -100,22 +102,26 @@ class String {
     /** Sets this string to hold a representation of the given value. */
     method void setInt(int val) {
         var String acc;
-        var int i;
+        var int i, len, absVal;
         var boolean sign;
         let acc = String.new(64);
         let str = Array.new(64);
+        let absVal = Math.abs(val);
         if(val < 0){
-            let str[0]=45;
             let length = 1;
+            do setCharAt(0, 45);
+            let len = 1;
         } else {
             let length = 0;
+            let len = 0;
         }
-        let acc = getIntString(acc, val);
-        let i = length;
+        let acc = getIntString(acc, absVal);
+        let i = len;
         let length = length + acc.length();
 
         while(i < length) {
-            do setCharAt(i, acc[i]);
+            do setCharAt(i, acc.charAt(i-len));
+            let i = i + 1;
         }
 
         return;
