@@ -22,3 +22,5 @@ Project 9: [High Level Language](https://github.com/ShiraJoseph/Nand2Tetris/tree
 Project 10: [Compiler, part I](https://github.com/ShiraJoseph/Nand2Tetris/tree/master/CompilerI)
 
 Project 11: [Compiler, part II](https://github.com/ShiraJoseph/Nand2Tetris/tree/master/CompilerII)
+
+Project 12: [Operating System](https://github.com/ShiraJoseph/Nand2Tetris/tree/master/OperatingSystem)
