@@ -10,7 +10,9 @@ class Keyboard {
     static int KEYBOARD;
     static int currKey;
 
-    /** Initializes the keyboard. */
+    /**
+     * Initializes the Keyboard.
+     */
     function void init() {
         let KEYBOARD = 24576;
 
@@ -55,8 +57,6 @@ class Keyboard {
         var char c, cUp;
 
         let c = 0;
-
-        // display the cursor (?)
 
         while(c = 0) {
             let c = Keyboard.keyPressed();
@@ -110,6 +110,7 @@ class Keyboard {
     function int readInt(String message) {
         var String input;
         let input = Keyboard.readLine(message);
+
         return String.intValue(input);
     }
 }

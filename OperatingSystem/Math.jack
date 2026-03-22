@@ -10,9 +10,12 @@
 class Math {
     static Array powersOfTwo; // powersOfTwo[i] = 2^i, for i=0..15
 
-    /** Initializes the library. */
+    /**
+     * Initializes the Math library.
+     */
     function void init() {
         var int i;
+
         let powersOfTwo = Array.new(16);
         let i = 1;
         let powersOfTwo[0] = 1;
@@ -22,10 +25,12 @@ class Math {
             let i = i + 1;
         }
 
-        return ;
+        return;
     }
 
-    /** Returns the absolute value of x. */
+    /**
+     * Returns the absolute value of x.
+     */
     function int abs(int x) {
         if(x > -1) {
             return x;
@@ -34,10 +39,11 @@ class Math {
         return -x;
     }
 
-    /** Returns the product of x and y.
-     *  When a Jack compiler detects the multiplication operator '*' in the
-     *  program's code, it handles it by invoking this method. In other words,
-     *  the Jack expressions x*y and multiply(x,y) return the same value.
+    /**
+     * Returns the product of x and y.
+     * When a Jack compiler detects the multiplication operator '*' in the
+     * program's code, it handles it by invoking this method. In other words,
+     * the Jack expressions x*y and multiply(x,y) return the same value.
      */
     function int multiply(int x, int y) {
         var int sum, shiftedX, i;
@@ -58,10 +64,11 @@ class Math {
         return sum;
     }
 
-    /** Returns the integer part of x/y.
-     *  When a Jack compiler detects the multiplication operator '/' in the
-     *  program's code, it handles it by invoking this method. In other words,
-     *  the Jack expressions x/y and divide(x,y) return the same value.
+    /**
+     * Returns the integer part of x/y.
+     * When a Jack compiler detects the multiplication operator '/' in the
+     * program's code, it handles it by invoking this method. In other words,
+     * the Jack expressions x/y and divide(x,y) return the same value.
      */
     function int divide(int x, int y) {
         var int absX, absY, q;
@@ -94,24 +101,9 @@ class Math {
         return q;
     }
 
-    /** Private recursive function to divide absolute values */
-    function int divideAbs(int x, int y){
-        var int q;
-
-        if(y > x | y < 0) {
-            return 0;
-        }
-
-        let q = Math.divideAbs(x, y + y);
-
-        if((x - (2 * q * y)) < y) {
-            return q + q;
-        } else {
-            return q + q + 1;
-        }
-    }
-
-    /** Returns the integer part of the square root of x. */
+    /**
+     * Returns the integer part of the square root of x.
+     */
     function int sqrt(int x) {
         var int y, j, square, powerMove;
 
@@ -132,7 +124,9 @@ class Math {
         return y;
     }
 
-    /** Returns the greater number. */
+    /**
+     * Returns the greater number.
+     */
     function int max(int a, int b) {
         if(a > b) {
             return a;
@@ -141,7 +135,9 @@ class Math {
         return b;
     }
 
-    /** Returns the smaller number. */
+    /**
+     * Returns the smaller number.
+     */
     function int min(int a, int b) {
         if(a < b) {
             return a;
@@ -150,8 +146,30 @@ class Math {
         return b;
     }
 
-    /** Returns the i-th bit of the integer x */
+    /**
+     * Private helper to return the i-th bit of the integer x.
+     */
     function boolean bit(int x, int i) {
         return x & powersOfTwo[i] = powersOfTwo[i];
     }
+
+    /**
+     * Private recursive function to divide absolute values.
+     */
+    function int divideAbs(int x, int y){
+        var int q;
+
+        if(y > x | y < 0) {
+            return 0;
+        }
+
+        let q = Math.divideAbs(x, y + y);
+
+        if((x - (2 * q * y)) < y) {
+            return q + q;
+        } else {
+            return q + q + 1;
+        }
+    }
+
 }
