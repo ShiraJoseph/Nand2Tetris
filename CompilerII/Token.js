@@ -1,13 +1,15 @@
 import {
-  SYMBOL,
+  END_TAG,
   IDENTIFIER,
   INT_CONST,
   KEYWORD,
   keywords,
   START_TAG,
   STRING_CONST,
-  symbols, END_TAG
-} from "./constants.js";
+  SYMBOL,
+  symbols
+} from './constants.js';
+
 let currIndent;
 /**
  * Code element class with value and type
@@ -17,7 +19,7 @@ export default class Token {
   type;
   indents;
 
-  constructor (value, type) {
+  constructor(value, type) {
     this.value = value;
     this.type = type;
     if (!this.type) {
@@ -29,7 +31,7 @@ export default class Token {
    * returns the xml element as it should be written to the file, with start and/or end tags
    * @returns {string}
    */
-  get wrapped () {
+  get wrapped() {
     const indent = this.determineIndent();
 
     if (this.value === START_TAG) {
@@ -39,7 +41,7 @@ export default class Token {
       return indent + this.endWrap(this.type);
     }
     if (symbols.find(symbol => this.value === symbol)) {
-      this.value = this.encodeSymbol(this.value)
+      this.value = this.encodeSymbol(this.value);
     }
     return indent + this.wrap(this.value, this.type);
   }
@@ -48,7 +50,7 @@ export default class Token {
    * Assigns the number of tabs to insert at the start of the current xml line
    * @returns {string}
    */
-  determineIndent () {
+  determineIndent() {
     if (currIndent == null) {
       currIndent = 0;
     }
@@ -77,7 +79,7 @@ export default class Token {
    * Returns whether the current token is a keyword, symbol, integerConst, stringConst, or identifier
    * @returns {string}
    */
-  getType () {
+  getType() {
     if (keywords?.find(keyword => this.value === keyword)) {
       return KEYWORD;
     }
@@ -103,18 +105,18 @@ export default class Token {
    * @param symbol
    * @returns {string|*}
    */
-  encodeSymbol (symbol) {
+  encodeSymbol(symbol) {
     switch (symbol) {
       case '<':
-        return '&lt;'
+        return '&lt;';
       case '>':
-        return '&gt;'
+        return '&gt;';
       case '"':
-        return '&quot;'
+        return '&quot;';
       case '&':
-        return '&amp;'
+        return '&amp;';
       default:
-        return symbol
+        return symbol;
     }
   }
 }
