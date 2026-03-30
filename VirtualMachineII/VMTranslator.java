@@ -32,16 +32,7 @@ public class VMTranslator {
 			} else if (inputFile.isFile()) {
 				results.add(inputFile);
 			}
-//			System.out.println("inputfile is: "+ inputFile.getName());
-//			String asmFileName = inputFile.getName().substring(0, inputFile.getName().indexOf(".")>=1?inputFile.getName().indexOf("."): inputFile.getName().length());
-//			String input = inputFile.getPath();
-//			
-//			if(input.contains(inputFile.getName())){
-//				input=input.substring(0, input.indexOf(inputFile.getName()));
-//			}
-//			if (input.length()>0 && input.charAt(input.length()-1)=='/'){
-//				input=input.substring(0,input.length()-1);
-//			}
+
 			String fileName="";
 			if(inputFile.getName().contains("BasicLoop"))
 				fileName = "BasicLoop.asm";
@@ -57,10 +48,9 @@ public class VMTranslator {
 				fileName="StaticsTest/StaticsTest.asm";
 			File ASMFile = new File(
 					fileName
-//					input+"/"+asmFileName + checkFile + ".asm"
 					);
 			System.out.println(ASMFile);
-//			System.out.println(input+"/"+asmFileName + checkFile + ".asm");
+
 			FileOutputStream fos = new FileOutputStream(ASMFile);
 			OutputStreamWriter osw = new OutputStreamWriter(fos);
 			BufferedWriter bufferedWriter = new BufferedWriter(osw);
@@ -70,7 +60,6 @@ public class VMTranslator {
 				translate();
 				String tempString=append(new String[]{"@256","D=A","@0","M=D",_ASMcommand});
 				bufferedWriter.write(tempString);
-//				System.out.println(tempString);
 			}
 			_count = 0;
 			for (File VMfile : results) {
@@ -87,7 +76,6 @@ public class VMTranslator {
 
 					if (_isCode) {
 						translate();
-//						System.out.println(_ASMcommand);
 						bufferedWriter.write(_ASMcommand);
 						_count++;
 					}
@@ -95,10 +83,7 @@ public class VMTranslator {
 
 				bufferedReader.close();
 			}
-//			System.out.println("File is: " + ASMFile.getName());
 			bufferedWriter.close();
-//			System.out.println("path: "+ inputFile.getPath());
-//			System.out.println("/");
 		} catch (IOException e) {
 			System.out.println(e);
 		}
@@ -351,5 +336,4 @@ public class VMTranslator {
 	private static int _line;
 	private static boolean _isCode;
 	private static boolean _isCheckFile;
-
 }

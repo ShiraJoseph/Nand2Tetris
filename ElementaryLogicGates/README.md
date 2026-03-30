@@ -1,4 +1,4 @@
-#Project 1: Elementary Logic Gates
+# Project 1: Elementary Logic Gates
 Build all the logic gates listed below, in order, yielding a basic chip-set. The only building blocks that you can use in this project are primitive Nand gates and the composite gates that you will gradually build on top of them.
 
 [Not](https://github.com/ShiraJoseph/Nand2Tetris/blob/master/ElementaryLogicGates/Not.hdl)

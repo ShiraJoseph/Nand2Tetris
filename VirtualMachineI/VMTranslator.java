@@ -322,5 +322,4 @@ public class VMTranslator {
 	private static int _line;
 	private static boolean _isCode;
 	private static boolean _isCheckFile;
-
 }

@@ -2,18 +2,18 @@
 
 Implements the eight Jack classes that make up the Operating System on the Hack computer:
 
-Math
+[Math](./Math.jack)
 
-Memory
+[Memory]
 
-Screen
+[Screen]
 
-Output
+[Output]
 
-Keyboard
+[Keyboard]
 
-String
+[String]
 
-Array
+[Array]
 
-Sys
+[Sys]

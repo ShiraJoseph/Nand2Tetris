@@ -89,8 +89,7 @@ public class HackAssembler {
 	private static void parseInstructionsToPrintToFile() throws IOException {
 		FileWriter fout = new FileWriter("C:\\Users\\Shira\\Desktop\\Pong.hack");//open output file
 		for(Instruction instruction: instructions){	
-			//System.out.println("For instruction assemblyWord '"+instruction.getAssemblyWord()+"'");
-			for(Symbol symbol: symbolTable){ 									
+			for(Symbol symbol: symbolTable){
 				if (instruction.getAssemblyWord().equals(symbol.getName())){ 
 					instruction.setAssemblyWord("@"+Integer.toString(symbol.getValue()));
 					System.out.println("          They were equal - AssemblyWord is now '"+instruction.getAssemblyWord()+"'");
